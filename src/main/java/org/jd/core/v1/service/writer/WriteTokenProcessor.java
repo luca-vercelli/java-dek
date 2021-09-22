@@ -1,0 +1,50 @@
+/*
+ * Copyright (c) 2008-2019 Emmanuel Dupuy.
+ * This project is distributed under the GPLv3 license.
+ * This is a Copyleft license that gives the user the right to use,
+ * copy and modify the code freely for non-commercial purposes.
+ */
+
+package org.jd.core.v1.service.writer;
+
+import org.jd.core.v1.api.Printer;
+import org.jd.core.v1.api.Processor;
+import org.jd.core.v1.model.message.Message;
+import org.jd.core.v1.model.token.Token;
+import org.jd.core.v1.service.writer.visitor.PrintTokenVisitor;
+
+import java.util.List;
+
+/**
+ * Write a list of tokens to a {@link org.jd.core.v1.api.Printer}.<br>
+ * <br>
+ *
+ * Input: List<{@link org.jd.core.v1.model.token.Token}><br>
+ * Output: -<br>
+ */
+public class WriteTokenProcessor implements Processor {
+
+	@Override
+	public void process(Message message) throws Exception {
+		Printer printer = message.getPrinter();
+		List<Token> tokens = message.getTokens();
+		int maxLineNumber = message.getMaxLineNumber();
+		int majorVersion = message.getMajorVersion();
+		int minorVersion = message.getMinorVersion();
+		process(printer, tokens, maxLineNumber, majorVersion, minorVersion);
+	}
+
+	protected void process(Printer printer, List<Token> tokens, int maxLineNumber, int majorVersion, int minorVersion) {
+		PrintTokenVisitor visitor = new PrintTokenVisitor();
+
+		printer.start(maxLineNumber, majorVersion, minorVersion);
+		visitor.start(printer, tokens);
+
+		for (Token token : tokens) {
+			token.accept(visitor);
+		}
+
+		visitor.end();
+		printer.end();
+	}
+}
