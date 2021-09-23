@@ -19,6 +19,7 @@ import org.jd.core.v1.compiler.CompilerUtil;
 import org.jd.core.v1.compiler.JavaSourceFileObject;
 import org.jd.core.v1.impl.loader.ZipLoader;
 import org.jd.core.v1.regex.PatternMaker;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class JavaEnumTest {
@@ -121,5 +122,38 @@ public class JavaEnumTest {
 
 		// Recompile decompiled source code and check errors
 		assertTrue(CompilerUtil.compile("1.8", new JavaSourceFileObject(internalClassName, source)));
+	}
+	
+	static enum EnumWithStaticMethod {
+		
+		ONE, TWO, THREE;
+		
+		public static EnumWithStaticMethod valueOf(int i) {
+			switch(i) {
+				case 1: return ONE;
+				case 2: return TWO;
+				case 3: return THREE;
+				default: return null;
+			}
+		}
+	}
+	
+
+
+	@Test
+	@Ignore
+	// https://github.com/java-decompiler/jd-core/issues/36 // FIXME
+	public void testJavaEnumWithStaticMethod() throws Exception {
+
+		String internalClassName = EnumWithStaticMethod.class.getName().replace('.', '/');
+		String source = decompiler.decompile(internalClassName);
+
+		// Check decompiled source code
+		//assertTrue(source.matches(PatternMaker.make(": 29 */", "Integer intObj = 10;")));
+		//assertTrue(source.matches(PatternMaker.make(": 30 */", "int i = intObj;")));
+
+		// Recompile decompiled source code and check errors
+		assertTrue(CompilerUtil.compile("1.8", new JavaSourceFileObject(internalClassName, source)));
+		
 	}
 }

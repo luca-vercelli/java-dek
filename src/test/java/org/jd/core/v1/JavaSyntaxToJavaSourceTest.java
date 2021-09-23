@@ -291,10 +291,10 @@ public class JavaSyntaxToJavaSourceTest  {
 
     @Test
     public void testEnumPlanetDeclaration() throws Exception {
-        Type cloneableType = new ObjectType("java/lang/Cloneable", "java.lang.Cloneable", "Cloneable");
+        //Type cloneableType = new ObjectType("java/lang/Cloneable", "java.lang.Cloneable", "Cloneable");
         Type stringType = ObjectType.TYPE_STRING;
         Type arrayOfStringType = stringType.createType(1);
-        Type listType = new ObjectType("java/util/List", "java.util.List", "List", stringType);
+        //Type listType = new ObjectType("java/util/List", "java.util.List", "List", stringType);
         Type printStreamType = new ObjectType("java/io/PrintStream", "java.io.PrintStream", "PrintStream");
         Type planetType = new ObjectType("org/jd/core/v1/service/test/Planet", "org.jd.core.v1.service.test.Planet", "Planet");
         ThisExpression thisExpression = new ThisExpression(new ObjectType("org/jd/core/v1/service/test/Planet", "org.jd.core.v1.service.test.Planet", "Planet"));

@@ -25,19 +25,44 @@ public class JavaAutoboxingTest {
 		@SuppressWarnings("unused")
 		class AutoboxingAndUnboxing {
 			void test() {
+				// You don't need autoboxing here
 				Integer intObj = 10;
 				int i = intObj;
 			}
+
+			void use(int i) {
+			}
+
+			void use(Integer i) {
+			}
+
+			Integer getInt() {
+				return null;
+			}
+
+			void test2() {
+				// Needed to call correct overloaded method
+				use((Integer) 1);
+				// Needed for null check
+				getInt().intValue();
+			}
+			
+			// FIXME https://github.com/java-decompiler/jd-core/issues/60
+			/*int test3() {
+				return Double.valueOf(0.0).intValue();
+			}*/
 		}
 
 		String internalClassName = AutoboxingAndUnboxing.class.getName().replace('.', '/');
 		String source = decompiler.decompile(internalClassName);
 
 		// Check decompiled source code
-		assertTrue(source.matches(PatternMaker.make(": 28 */", "Integer intObj = 10;")));
-		assertTrue(source.matches(PatternMaker.make(": 29 */", "int i = intObj;")));
+		assertTrue(source.matches(PatternMaker.make(": 29 */", "Integer intObj = 10;")));
+		assertTrue(source.matches(PatternMaker.make(": 30 */", "int i = intObj;")));
 
 		// Recompile decompiled source code and check errors
 		assertTrue(CompilerUtil.compile("1.8", new JavaSourceFileObject(internalClassName, source)));
+		
+		// FIXME https://github.com/java-decompiler/jd-core/issues/14
 	}
 }
