@@ -16,26 +16,33 @@ import org.jd.core.v1.service.fragmenter.javasyntaxtojavafragment.visitor.Compil
 import org.jd.core.v1.service.fragmenter.javasyntaxtojavafragment.visitor.SearchImportsVisitor;
 
 /**
- * Convert a Java syntax model to a list of fragments.<br><br>
+ * Convert a Java syntax model to a list of fragments.<br>
+ * <br>
  *
- * Input:  {@link org.jd.core.v1.model.javasyntax.CompilationUnit}<br>
+ * Input: {@link org.jd.core.v1.model.javasyntax.CompilationUnit}<br>
  * Output: List<{@link org.jd.core.v1.model.fragment.Fragment}><br>
  */
 public class JavaSyntaxToJavaFragmentProcessor implements Processor {
 
-    public void process(Message message) throws Exception {
-        Loader loader = message.getLoader();
-        String mainInternalTypeName = message.getMainInternalTypeName();
-        int majorVersion = message.getMajorVersion();
-        CompilationUnit compilationUnit = message.getCompilationUnit();
+	/**
+	 * Given a CompilationUnit, generate Fragments (or JavaFragment's ???)
+	 */
+	@Override
+	public void process(Message message) throws Exception {
+		Loader loader = message.getLoader();
+		String mainInternalTypeName = message.getMainInternalTypeName();
+		int majorVersion = message.getMajorVersion();
+		CompilationUnit compilationUnit = message.getCompilationUnit();
 
-        SearchImportsVisitor importsVisitor = new SearchImportsVisitor(loader, mainInternalTypeName);
-        importsVisitor.visit(compilationUnit);
-        ImportsFragment importsFragment = importsVisitor.getImportsFragment();
-        message.setMaxLineNumber(importsVisitor.getMaxLineNumber());
+		SearchImportsVisitor importsVisitor = new SearchImportsVisitor(loader, mainInternalTypeName);
+		importsVisitor.visit(compilationUnit);
+		ImportsFragment importsFragment = importsVisitor.getImportsFragment();
 
-        CompilationUnitVisitor visitor = new CompilationUnitVisitor(loader, mainInternalTypeName, majorVersion, importsFragment);
-        visitor.visit(compilationUnit);
-        message.setFragments(visitor.getFragments());
-    }
+		CompilationUnitVisitor visitor = new CompilationUnitVisitor(loader, mainInternalTypeName, majorVersion,
+				importsFragment);
+		visitor.visit(compilationUnit);
+
+		message.setMaxLineNumber(importsVisitor.getMaxLineNumber());
+		message.setFragments(visitor.getFragments());
+	}
 }

@@ -30,7 +30,6 @@ import org.junit.Test;
 public class AnnotationConverterTest  {
 
     @Test
-    @SuppressWarnings("unchecked")
     public void test() throws Exception {
         InputStream is = this.getClass().getResourceAsStream("/zip/data-java-jdk-1.7.0.zip");
         ZipLoader loader = new ZipLoader(is);
@@ -56,7 +55,7 @@ public class AnnotationConverterTest  {
         assertNotNull(annotationReferences);
         assertTrue(annotationReferences instanceof AnnotationReferences);
 
-        AnnotationReferences<AnnotationReference> annotationReferenceList = (AnnotationReferences<AnnotationReference>)annotationReferences;
+        AnnotationReferences annotationReferenceList = (AnnotationReferences)annotationReferences;
 
         assertEquals(2, annotationReferenceList.size());
 

@@ -11,28 +11,36 @@ import org.jd.core.v1.util.DefaultList;
 
 import java.util.Collection;
 
+/**
+ * A list of Type that is itself a BaseType
+ */
 public class Types extends DefaultList<Type> implements BaseType {
-    public Types() {}
 
-    public Types(int capacity) {
-        super(capacity);
-    }
+	private static final long serialVersionUID = 1777952094308317187L;
 
-    public Types(Collection<Type> collection) {
-        super(collection);
-    }
+	public Types() {
+	}
 
-    @SuppressWarnings("unchecked")
-    public Types(Type type, Type... types) {
-        super(type, types);
-        assert (types != null) && (types.length > 0) : "Uses 'Type' implementation instead";
-    }
+	public Types(int capacity) {
+		super(capacity);
+	}
 
-    @Override
-    public boolean isTypes() { return true; }
+	public Types(Collection<Type> collection) {
+		super(collection);
+	}
 
-    @Override
-    public void accept(TypeVisitor visitor) {
-        visitor.visit(this);
-    }
+	public Types(Type type, Type... types) {
+		super(type, types);
+		assert (types != null) && (types.length > 0) : "Uses 'Type' implementation instead";
+	}
+
+	@Override
+	public boolean isTypes() {
+		return true;
+	}
+
+	@Override
+	public void accept(TypeVisitor visitor) {
+		visitor.visit(this);
+	}
 }

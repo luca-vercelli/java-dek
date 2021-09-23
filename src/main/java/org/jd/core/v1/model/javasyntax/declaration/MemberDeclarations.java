@@ -11,26 +11,31 @@ import org.jd.core.v1.util.DefaultList;
 
 import java.util.Collection;
 
+/**
+ * A list of MemberDeclaration that is itself a BaseMemberDeclaration
+ */
 public class MemberDeclarations extends DefaultList<MemberDeclaration> implements BaseMemberDeclaration {
-    public MemberDeclarations() {}
+	private static final long serialVersionUID = -3167598917193171860L;
 
-    public MemberDeclarations(int capacity) {
-        super(capacity);
-    }
+	public MemberDeclarations() {
+	}
 
-    public MemberDeclarations(Collection<MemberDeclaration> collection) {
-        super(collection);
-        assert (collection != null) && (collection.size() > 1) : "Uses 'MemberDeclaration' implementation instead";
-    }
+	public MemberDeclarations(int capacity) {
+		super(capacity);
+	}
 
-    @SuppressWarnings("unchecked")
-    public MemberDeclarations(MemberDeclaration declaration, MemberDeclaration... declarations) {
-        super(declaration, declarations);
-        assert (declarations != null) && (declarations.length > 0) : "Uses 'MemberDeclaration' implementation instead";
-    }
+	public MemberDeclarations(Collection<MemberDeclaration> collection) {
+		super(collection);
+		assert (collection != null) && (collection.size() > 1) : "Uses 'MemberDeclaration' implementation instead";
+	}
 
-    @Override
-    public void accept(DeclarationVisitor visitor) {
-        visitor.visit(this);
-    }
+	public MemberDeclarations(MemberDeclaration declaration, MemberDeclaration... declarations) {
+		super(declaration, declarations);
+		assert (declarations != null) && (declarations.length > 0) : "Uses 'MemberDeclaration' implementation instead";
+	}
+
+	@Override
+	public void accept(DeclarationVisitor visitor) {
+		visitor.visit(this);
+	}
 }

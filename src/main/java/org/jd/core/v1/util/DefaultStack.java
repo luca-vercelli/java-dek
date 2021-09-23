@@ -35,7 +35,7 @@ public class DefaultStack<E> {
 	}
 
 	@SuppressWarnings("unchecked")
-	public void copy(DefaultStack other) {
+	public void copy(DefaultStack<E> other) {
 		if (elements.length < other.head) {
 			elements = (E[]) new Object[other.head];
 		}

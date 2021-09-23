@@ -7,32 +7,48 @@
 
 package org.jd.core.v1.service.tokenizer.javafragmenttotoken;
 
-import org.jd.core.v1.api.Processor;
-import org.jd.core.v1.model.fragment.Fragment;
-import org.jd.core.v1.model.javafragment.JavaFragment;
-import org.jd.core.v1.model.message.Message;
-import org.jd.core.v1.service.tokenizer.javafragmenttotoken.visitor.TokenizeJavaFragmentVisitor;
-
 import java.util.List;
 
+import org.jd.core.v1.api.Processor;
+import org.jd.core.v1.model.javafragment.JavaFragment;
+import org.jd.core.v1.model.message.Message;
+import org.jd.core.v1.model.token.Token;
+import org.jd.core.v1.service.tokenizer.javafragmenttotoken.visitor.TokenizeJavaFragmentVisitor;
+import org.jd.core.v1.util.DefaultList;
+
 /**
- * Convert a list of fragments to a list of tokens.<br><br>
+ * Convert a list of fragments to a list of tokens.<br>
+ * <br>
  *
- * Input:  List<{@link org.jd.core.v1.model.fragment.Fragment}><br>
+ * Input: List<{@link org.jd.core.v1.model.fragment.Fragment}><br>
  * Output: List<{@link org.jd.core.v1.model.token.Token}><br>
  */
 public class JavaFragmentToTokenProcessor implements Processor {
 
-    @Override
-    public void process(Message message) throws Exception {
-        List<Fragment> fragments = message.getFragments(); // warning expects a List of JavaFragment !
-        TokenizeJavaFragmentVisitor visitor = new TokenizeJavaFragmentVisitor(fragments.size() * 3);
+	/**
+	 * Convert a list of JavaFragment's to a list of tokens
+	 */
+	@Override
+	public void process(Message message) throws Exception {
+		@SuppressWarnings("unchecked")
+		List<JavaFragment> fragments = (List<JavaFragment>) (List<?>) message.getFragments(); // warning expects a List
+																								// of JavaFragment !
+		List<Token> list = process(fragments);
+		message.setTokens(list);
+	}
 
-        // Create tokens
-        for (Fragment fragment : fragments) {
-            ((JavaFragment)fragment).accept(visitor);
-        }
+	/**
+	 * Convert a list of JavaFragment's to a list of tokens
+	 */
+	public List<Token> process(List<JavaFragment> fragments) {
+		TokenizeJavaFragmentVisitor visitor = new TokenizeJavaFragmentVisitor(fragments.size() * 3);
 
-        message.setTokens(visitor.getTokens());
-    }
+		// Create tokens
+		for (JavaFragment fragment : fragments) {
+			fragment.accept(visitor);
+		}
+
+		DefaultList<Token> list = visitor.getTokens();
+		return list;
+	}
 }

@@ -165,7 +165,6 @@ public class ExpressionVisitor extends TypeVisitor {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public void visit(Expressions list) {
         if (list != null) {
             int size = list.size();
@@ -420,7 +419,6 @@ public class ExpressionVisitor extends TypeVisitor {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public void visit(NewArray expression) {
         tokens.addLineNumberToken(expression);
         tokens.add(NEW);
@@ -688,7 +686,9 @@ public class ExpressionVisitor extends TypeVisitor {
     }
 
     protected static class Fragments extends DefaultList<Fragment> {
-        public void addTokensFragment(Tokens tokens) {
+		private static final long serialVersionUID = 1322744031089900996L;
+
+		public void addTokensFragment(Tokens tokens) {
             if (! tokens.isEmpty()) {
                 if (tokens.getCurrentLineNumber() == UNKNOWN_LINE_NUMBER) {
                     super.add(new TokensFragment(tokens));

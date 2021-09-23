@@ -15,7 +15,10 @@ import java.util.HashSet;
 public class ControlFlowGraph {
     protected Method method;
     protected DefaultList<BasicBlock> list = new DefaultList<BasicBlock>() {
-        public BasicBlock remove(int index) {
+
+		private static final long serialVersionUID = -6085305152533533391L;
+
+		public BasicBlock remove(int index) {
             throw new RuntimeException("Unexpected call");
         }
     };

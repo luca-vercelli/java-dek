@@ -20,12 +20,27 @@ import org.jd.core.v1.model.message.Message;
  */
 public class DeserializeClassFileProcessor extends ClassFileDeserializer implements Processor {
 
+	/**
+	 * Create a ClassFile model from a loader and a internal type name
+	 */
     @Override
     public void process(Message message) throws Exception {
         Loader loader = message.getLoader();
         String internalTypeName = message.getMainInternalTypeName();
-		ClassFile classFile = loadClassFile(loader, internalTypeName);
+		ClassFile classFile = process(loader, internalTypeName);
 
         message.setClassFile(classFile);
     }
+
+    /**
+     * Create a ClassFile model from a loader and a internal type name
+     * @param loader
+     * @param internalTypeName
+     * @return
+     * @throws Exception
+     */
+	public ClassFile process(Loader loader, String internalTypeName) throws Exception {
+		ClassFile classFile = loadClassFile(loader, internalTypeName);
+		return classFile;
+	}
 }

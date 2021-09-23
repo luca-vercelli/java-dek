@@ -11,14 +11,21 @@ import org.jd.core.v1.util.DefaultList;
 
 import java.util.Collection;
 
+/**
+ * A list of MemberDeclaration (sure? FIXME) that is itself a
+ * BaseTypeDeclaration
+ */
 public class TypeDeclarations extends DefaultList<MemberDeclaration> implements BaseTypeDeclaration {
-    public TypeDeclarations(Collection<MemberDeclaration> collection) {
-        super(collection);
-        assert (collection != null) && (collection.size() > 1) : "Uses 'TypeDeclaration' or sub class instead";
-    }
 
-    @Override
-    public void accept(DeclarationVisitor visitor) {
-        visitor.visit(this);
-    }
+	private static final long serialVersionUID = -2290938091904810647L;
+
+	public TypeDeclarations(Collection<MemberDeclaration> collection) {
+		super(collection);
+		assert (collection != null) && (collection.size() > 1) : "Uses 'TypeDeclaration' or sub class instead";
+	}
+
+	@Override
+	public void accept(DeclarationVisitor visitor) {
+		visitor.visit(this);
+	}
 }

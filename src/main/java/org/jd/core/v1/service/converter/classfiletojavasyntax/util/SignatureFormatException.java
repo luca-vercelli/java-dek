@@ -8,11 +8,14 @@
 package org.jd.core.v1.service.converter.classfiletojavasyntax.util;
 
 public class SignatureFormatException extends RuntimeException {
-    public SignatureFormatException() {
-        super();
-    }
 
-    public SignatureFormatException(String s) {
-        super(s);
-    }
+	private static final long serialVersionUID = 402349392944534762L;
+
+	public SignatureFormatException() {
+		super();
+	}
+
+	public SignatureFormatException(String s) {
+		super(s);
+	}
 }

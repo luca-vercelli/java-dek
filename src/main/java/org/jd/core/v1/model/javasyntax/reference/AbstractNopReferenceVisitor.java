@@ -13,7 +13,7 @@ public abstract class AbstractNopReferenceVisitor implements ReferenceVisitor {
 	}
 
 	@Override
-	public void visit(AnnotationReferences<?> references) {
+	public void visit(AnnotationReferences references) {
 	}
 
 	@Override

@@ -10,8 +10,12 @@ package org.jd.core.v1.model.javasyntax.declaration;
 import org.jd.core.v1.model.javasyntax.type.Type;
 import org.jd.core.v1.util.DefaultList;
 
+/**
+ * A list of VariableInitializer that is itself a VariableInitializer
+ */
 public class ArrayVariableInitializer extends DefaultList<VariableInitializer> implements VariableInitializer {
-    protected Type type;
+	private static final long serialVersionUID = -1523085302512613624L;
+	protected Type type;
 
     public ArrayVariableInitializer(Type type) {
         this.type = type;

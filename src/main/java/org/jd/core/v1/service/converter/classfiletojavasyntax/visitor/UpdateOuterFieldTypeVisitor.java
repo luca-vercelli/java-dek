@@ -7,137 +7,157 @@
 
 package org.jd.core.v1.service.converter.classfiletojavasyntax.visitor;
 
-import org.jd.core.v1.model.classfile.ClassFile;
 import org.jd.core.v1.model.classfile.ConstantPool;
 import org.jd.core.v1.model.classfile.Method;
 import org.jd.core.v1.model.classfile.attribute.AttributeCode;
 import org.jd.core.v1.model.classfile.constant.ConstantMemberRef;
 import org.jd.core.v1.model.classfile.constant.ConstantNameAndType;
 import org.jd.core.v1.model.javasyntax.AbstractJavaSyntaxVisitor;
-import org.jd.core.v1.model.javasyntax.declaration.*;
-import org.jd.core.v1.model.javasyntax.type.*;
+import org.jd.core.v1.model.javasyntax.declaration.AnnotationDeclaration;
+import org.jd.core.v1.model.javasyntax.declaration.BodyDeclaration;
+import org.jd.core.v1.model.javasyntax.declaration.ClassDeclaration;
+import org.jd.core.v1.model.javasyntax.declaration.ConstructorDeclaration;
+import org.jd.core.v1.model.javasyntax.declaration.EnumDeclaration;
+import org.jd.core.v1.model.javasyntax.declaration.FieldDeclarator;
+import org.jd.core.v1.model.javasyntax.declaration.InterfaceDeclaration;
+import org.jd.core.v1.model.javasyntax.declaration.MethodDeclaration;
+import org.jd.core.v1.model.javasyntax.declaration.StaticInitializerDeclaration;
+import org.jd.core.v1.model.javasyntax.type.BaseTypeArgument;
+import org.jd.core.v1.model.javasyntax.type.GenericType;
+import org.jd.core.v1.model.javasyntax.type.TypeArguments;
+import org.jd.core.v1.model.javasyntax.type.TypeParameter;
 import org.jd.core.v1.service.converter.classfiletojavasyntax.model.javasyntax.declaration.ClassFileBodyDeclaration;
 import org.jd.core.v1.service.converter.classfiletojavasyntax.model.javasyntax.declaration.ClassFileConstructorDeclaration;
 import org.jd.core.v1.service.converter.classfiletojavasyntax.model.javasyntax.declaration.ClassFileFieldDeclaration;
 import org.jd.core.v1.service.converter.classfiletojavasyntax.util.TypeMaker;
 
-import static org.jd.core.v1.model.classfile.AccessFlagConstants.ACC_STATIC;
-
 public class UpdateOuterFieldTypeVisitor extends AbstractJavaSyntaxVisitor {
-    protected TypeMaker typeMaker;
-    protected SearchFieldVisitor searchFieldVisitor = new SearchFieldVisitor();
+	protected TypeMaker typeMaker;
+	protected SearchFieldVisitor searchFieldVisitor = new SearchFieldVisitor();
 
-    public UpdateOuterFieldTypeVisitor(TypeMaker typeMaker) {
-        this.typeMaker = typeMaker;
-    }
+	public UpdateOuterFieldTypeVisitor(TypeMaker typeMaker) {
+		this.typeMaker = typeMaker;
+	}
 
-    @Override
-    public void visit(BodyDeclaration declaration) {
-        ClassFileBodyDeclaration bodyDeclaration = (ClassFileBodyDeclaration)declaration;
+	@Override
+	public void visit(BodyDeclaration declaration) {
+		ClassFileBodyDeclaration bodyDeclaration = (ClassFileBodyDeclaration) declaration;
 
-        if (!bodyDeclaration.getClassFile().isStatic()) {
-            safeAcceptListDeclaration(bodyDeclaration.getMethodDeclarations());
-        }
+		if (!bodyDeclaration.getClassFile().isStatic()) {
+			safeAcceptListDeclaration(bodyDeclaration.getMethodDeclarations());
+		}
 
-        safeAcceptListDeclaration(bodyDeclaration.getInnerTypeDeclarations());
-    }
+		safeAcceptListDeclaration(bodyDeclaration.getInnerTypeDeclarations());
+	}
 
-    @Override
-    public void visit(ConstructorDeclaration declaration) {
-        if (!declaration.isStatic()) {
-            ClassFileConstructorDeclaration cfcd = (ClassFileConstructorDeclaration) declaration;
+	@Override
+	public void visit(ConstructorDeclaration declaration) {
+		if (!declaration.isStatic()) {
+			ClassFileConstructorDeclaration cfcd = (ClassFileConstructorDeclaration) declaration;
 
-            if ((cfcd.getClassFile().getOuterClassFile() != null) && !declaration.isStatic()) {
-                Method method = cfcd.getMethod();
-                byte[] code = method.<AttributeCode>getAttribute("Code").getCode();
-                int offset = 0;
-                int opcode = code[offset] & 255;
+			if ((cfcd.getClassFile().getOuterClassFile() != null) && !declaration.isStatic()) {
+				Method method = cfcd.getMethod();
+				byte[] code = method.<AttributeCode>getAttribute("Code").getCode();
+				int offset = 0;
+				int opcode = code[offset] & 255;
 
-                if (opcode != 42) { // ALOAD_0
-                    return;
-                }
+				if (opcode != 42) { // ALOAD_0
+					return;
+				}
 
-                opcode = code[++offset] & 255;
+				opcode = code[++offset] & 255;
 
-                if (opcode != 43) { // ALOAD_1
-                    return;
-                }
+				if (opcode != 43) { // ALOAD_1
+					return;
+				}
 
-                opcode = code[++offset] & 255;
+				opcode = code[++offset] & 255;
 
-                if (opcode != 181) { // PUTFIELD
-                    return;
-                }
+				if (opcode != 181) { // PUTFIELD
+					return;
+				}
 
-                int index = ((code[++offset] & 255) << 8) | (code[++offset] & 255);
-                ConstantPool constants = method.getConstants();
-                ConstantMemberRef constantMemberRef = constants.getConstant(index);
-                String typeName = constants.getConstantTypeName(constantMemberRef.getClassIndex());
-                ConstantNameAndType constantNameAndType = constants.getConstant(constantMemberRef.getNameAndTypeIndex());
-                String descriptor = constants.getConstantUtf8(constantNameAndType.getDescriptorIndex());
-                TypeMaker.TypeTypes typeTypes = typeMaker.makeTypeTypes(descriptor.substring(1, descriptor.length() - 1));
+				int index = ((code[++offset] & 255) << 8) | (code[++offset] & 255);
+				ConstantPool constants = method.getConstants();
+				ConstantMemberRef constantMemberRef = constants.getConstant(index);
+				String typeName = constants.getConstantTypeName(constantMemberRef.getClassIndex());
+				ConstantNameAndType constantNameAndType = constants
+						.getConstant(constantMemberRef.getNameAndTypeIndex());
+				String descriptor = constants.getConstantUtf8(constantNameAndType.getDescriptorIndex());
+				TypeMaker.TypeTypes typeTypes = typeMaker
+						.makeTypeTypes(descriptor.substring(1, descriptor.length() - 1));
 
-                if ((typeTypes != null) && (typeTypes.typeParameters != null)) {
-                    String name = constants.getConstantUtf8(constantNameAndType.getNameIndex());
-                    searchFieldVisitor.init(name);
+				if ((typeTypes != null) && (typeTypes.typeParameters != null)) {
+					String name = constants.getConstantUtf8(constantNameAndType.getNameIndex());
+					searchFieldVisitor.init(name);
 
-                    for (ClassFileFieldDeclaration field : cfcd.getBodyDeclaration().getFieldDeclarations()) {
-                        field.getFieldDeclarators().accept(searchFieldVisitor);
-                        if (searchFieldVisitor.found()) {
-                            BaseTypeArgument typeArguments;
+					for (ClassFileFieldDeclaration field : cfcd.getBodyDeclaration().getFieldDeclarations()) {
+						field.getFieldDeclarators().accept(searchFieldVisitor);
+						if (searchFieldVisitor.found()) {
+							BaseTypeArgument typeArguments;
 
-                            if (typeTypes.typeParameters.isList()) {
-                                TypeArguments tas = new TypeArguments(typeTypes.typeParameters.size());
-                                for (TypeParameter typeParameter : typeTypes.typeParameters) {
-                                    tas.add(new GenericType(typeParameter.getIdentifier()));
-                                }
-                                typeArguments = tas;
-                            } else {
-                                typeArguments = new GenericType(typeTypes.typeParameters.getFirst().getIdentifier());
-                            }
+							if (typeTypes.typeParameters.isList()) {
+								TypeArguments tas = new TypeArguments(typeTypes.typeParameters.size());
+								for (TypeParameter typeParameter : typeTypes.typeParameters) {
+									tas.add(new GenericType(typeParameter.getIdentifier()));
+								}
+								typeArguments = tas;
+							} else {
+								typeArguments = new GenericType(typeTypes.typeParameters.getFirst().getIdentifier());
+							}
 
-                            // Update generic type of outer field reference
-                            typeMaker.setFieldType(typeName, name, typeTypes.thisType.createType(typeArguments));
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-    }
+							// Update generic type of outer field reference
+							typeMaker.setFieldType(typeName, name, typeTypes.thisType.createType(typeArguments));
+							break;
+						}
+					}
+				}
+			}
+		}
+	}
 
-    @Override public void visit(MethodDeclaration declaration) {}
-    @Override public void visit(StaticInitializerDeclaration declaration) {}
+	@Override
+	public void visit(MethodDeclaration declaration) {
+	}
 
-    @Override
-    public void visit(ClassDeclaration declaration) {
-        safeAccept(declaration.getBodyDeclaration());
-    }
+	@Override
+	public void visit(StaticInitializerDeclaration declaration) {
+	}
 
-    @Override
-    public void visit(InterfaceDeclaration declaration) {
-        safeAccept(declaration.getBodyDeclaration());
-    }
+	@Override
+	public void visit(ClassDeclaration declaration) {
+		safeAccept(declaration.getBodyDeclaration());
+	}
 
-    @Override public void visit(AnnotationDeclaration declaration) {}
-    @Override public void visit(EnumDeclaration declaration) {}
+	@Override
+	public void visit(InterfaceDeclaration declaration) {
+		safeAccept(declaration.getBodyDeclaration());
+	}
 
-    protected static class SearchFieldVisitor extends AbstractJavaSyntaxVisitor {
-        protected String name;
-        protected boolean found;
+	@Override
+	public void visit(AnnotationDeclaration declaration) {
+	}
 
-        public void init(String name) {
-            this.name = name;
-            this.found = false;
-        }
+	@Override
+	public void visit(EnumDeclaration declaration) {
+	}
 
-        public boolean found() {
-            return found;
-        }
+	protected static class SearchFieldVisitor extends AbstractJavaSyntaxVisitor {
+		protected String name;
+		protected boolean found;
 
-        @Override
-        public void visit(FieldDeclarator declaration) {
-            found |= declaration.getName().equals(name);
-        }
-    }
+		public void init(String name) {
+			this.name = name;
+			this.found = false;
+		}
+
+		public boolean found() {
+			return found;
+		}
+
+		@Override
+		public void visit(FieldDeclarator declaration) {
+			found |= declaration.getName().equals(name);
+		}
+	}
 }

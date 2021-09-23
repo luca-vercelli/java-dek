@@ -11,8 +11,14 @@ import org.jd.core.v1.util.DefaultList;
 
 import java.util.*;
 
+/**
+ * A list of TypeArgument that is itself a BaseTypeArgument
+ */
 public class TypeArguments extends DefaultList<TypeArgument> implements BaseTypeArgument {
-    public TypeArguments() {}
+
+	private static final long serialVersionUID = 7544950064634620297L;
+
+	public TypeArguments() {}
 
     public TypeArguments(int capacity) {
         super(capacity);

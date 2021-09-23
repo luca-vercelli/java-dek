@@ -11,8 +11,13 @@ import org.jd.core.v1.util.DefaultList;
 
 import java.util.Collection;
 
+/**
+ * A list of FieldDeclarator that is itself a BaseFieldDeclarator
+ */
 public class FieldDeclarators extends DefaultList<FieldDeclarator> implements BaseFieldDeclarator {
-    public FieldDeclarators() {}
+	private static final long serialVersionUID = 1346930696951834080L;
+
+	public FieldDeclarators() {}
 
     public FieldDeclarators(int capacity) {
         super(capacity);
@@ -23,7 +28,6 @@ public class FieldDeclarators extends DefaultList<FieldDeclarator> implements Ba
         assert (collection != null) && (collection.size() > 1) : "Uses 'FieldDeclarator' instead";
     }
 
-    @SuppressWarnings("unchecked")
     public FieldDeclarators(FieldDeclarator declarator, FieldDeclarator... declarators) {
         super(declarator, declarators);
         assert (declarators != null) && (declarators.length > 0) : "Uses 'FieldDeclarator' instead";

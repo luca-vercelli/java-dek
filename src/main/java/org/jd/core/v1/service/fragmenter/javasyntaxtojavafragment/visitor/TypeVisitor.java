@@ -173,7 +173,6 @@ public class TypeVisitor extends AbstractJavaSyntaxVisitor {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public void visit(Types types) {
         buildTokensForList(types, TextToken.COMMA_SPACE);
     }
@@ -202,7 +201,6 @@ public class TypeVisitor extends AbstractJavaSyntaxVisitor {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public void visit(TypeParameters parameters) {
         int size = parameters.size();
 
@@ -303,7 +301,8 @@ public class TypeVisitor extends AbstractJavaSyntaxVisitor {
     }
 
     public class Tokens extends DefaultList<Token> {
-        protected int currentLineNumber = UNKNOWN_LINE_NUMBER;
+		private static final long serialVersionUID = 568732215340192571L;
+		protected int currentLineNumber = UNKNOWN_LINE_NUMBER;
 
         public int getCurrentLineNumber() {
             return currentLineNumber;

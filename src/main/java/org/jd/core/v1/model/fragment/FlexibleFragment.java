@@ -84,9 +84,7 @@ public abstract class FlexibleFragment implements Fragment {
 
 	@Override
 	public String toString() {
-		return "FlexibleFragment {minimal-line-count=" + getMinimalLineCount() + ", maximal-line-count="
-				+ getMaximalLineCount() + ", initial-line-count=" + getInitialLineCount() + ", line-count="
-				+ getLineCount() + ", weight=" + getWeight() + (getLabel() != null ? ", label='" + label + "'}" : "}");
+		return "FlexibleFragment " + (getLabel() != null ? " label='" + label + "'" : "");
 	}
 
 	@Override

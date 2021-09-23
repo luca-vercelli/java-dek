@@ -33,7 +33,7 @@ public interface Base<T> extends Iterable<T> {
     }
 
     default Iterator<T> iterator() {
-        return new Iterator() {
+        return new Iterator<T>() {
             private boolean hasNext = true;
             public boolean hasNext() {
                 return hasNext;

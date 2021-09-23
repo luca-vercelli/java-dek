@@ -11,15 +11,19 @@ import org.jd.core.v1.util.DefaultList;
 
 import java.util.Collection;
 
+/**
+ * A list of FormalParameter that is itself a BaseFormalParameter
+ */
 public class FormalParameters extends DefaultList<FormalParameter> implements BaseFormalParameter {
-    public FormalParameters() {}
+	private static final long serialVersionUID = 2265946916653830173L;
+
+	public FormalParameters() {}
 
     public FormalParameters(Collection<FormalParameter> collection) {
         super(collection);
         assert (collection != null) && (collection.size() > 1) : "Uses 'FormalParameter' instead";
     }
 
-    @SuppressWarnings("unchecked")
     public FormalParameters(FormalParameter parameter, FormalParameter... parameters) {
         super(parameter, parameters);
         assert (parameters != null) && (parameters.length > 0) : "Uses 'FormalParameter' instead";

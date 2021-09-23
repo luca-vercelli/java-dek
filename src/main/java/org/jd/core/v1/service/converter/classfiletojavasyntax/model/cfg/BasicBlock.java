@@ -502,7 +502,9 @@ public class BasicBlock {
             super(
                 null, -1, type, 0, 0, true,
                 new HashSet<BasicBlock>() {
-                    public boolean add(BasicBlock e) { return false; }
+					private static final long serialVersionUID = -5189133379656007611L;
+
+					public boolean add(BasicBlock e) { return false; }
                 }
             );
         }

@@ -16,20 +16,25 @@ import org.jd.core.v1.service.converter.classfiletojavasyntax.visitor.UpdateJava
 import org.jd.core.v1.service.converter.classfiletojavasyntax.visitor.UpdateJavaSyntaxTreeStep2Visitor;
 
 /**
- * Create statements, init fields, merge declarations.<br><br>
+ * Create statements, init fields, merge declarations.<br>
+ * <br>
  *
- * Input:  {@link CompilationUnit}<br>
+ * Input: {@link CompilationUnit}<br>
  * Output: {@link CompilationUnit}<br>
  */
 public class UpdateJavaSyntaxTreeProcessor implements Processor {
 
-    @Override
-    public void process(Message message) throws Exception {
-        TypeMaker typeMaker = message.getTypeMaker();
-        CompilationUnit compilationUnit = message.getCompilationUnit();
+	/**
+	 * Update compilationUnit in place, by means of UpdateJavaSyntaxTreeStep
+	 * visitors
+	 */
+	@Override
+	public void process(Message message) throws Exception {
+		TypeMaker typeMaker = message.getTypeMaker();
+		CompilationUnit compilationUnit = message.getCompilationUnit();
 
-        new UpdateJavaSyntaxTreeStep0Visitor(typeMaker).visit(compilationUnit);
-        new UpdateJavaSyntaxTreeStep1Visitor(typeMaker).visit(compilationUnit);
-        new UpdateJavaSyntaxTreeStep2Visitor(typeMaker).visit(compilationUnit);
-    }
+		new UpdateJavaSyntaxTreeStep0Visitor(typeMaker).visit(compilationUnit);
+		new UpdateJavaSyntaxTreeStep1Visitor(typeMaker).visit(compilationUnit);
+		new UpdateJavaSyntaxTreeStep2Visitor(typeMaker).visit(compilationUnit);
+	}
 }

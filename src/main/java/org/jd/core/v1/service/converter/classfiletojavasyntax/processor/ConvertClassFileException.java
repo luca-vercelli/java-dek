@@ -8,11 +8,14 @@
 package org.jd.core.v1.service.converter.classfiletojavasyntax.processor;
 
 public class ConvertClassFileException extends RuntimeException {
-    public ConvertClassFileException() {
-        super();
-    }
 
-    public ConvertClassFileException(String s) {
-        super(s);
-    }
+	private static final long serialVersionUID = -4238199040703885410L;
+
+	public ConvertClassFileException() {
+		super();
+	}
+
+	public ConvertClassFileException(String s) {
+		super(s);
+	}
 }

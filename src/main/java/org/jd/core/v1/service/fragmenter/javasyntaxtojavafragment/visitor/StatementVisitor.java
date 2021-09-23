@@ -410,7 +410,6 @@ public class StatementVisitor extends ExpressionVisitor {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public void visit(Statements list) {
         int size = list.size();
 

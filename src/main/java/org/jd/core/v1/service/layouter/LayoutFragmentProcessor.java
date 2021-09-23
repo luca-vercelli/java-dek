@@ -31,6 +31,10 @@ import java.util.Map;
  */
 public class LayoutFragmentProcessor implements Processor {
 
+	/**
+	 * Layout (compact, expend, move) a list of fragments.
+	 * Update fragments in place
+	 */
 	@Override
 	public void process(Message message) throws Exception {
 		int maxLineNumber = message.getMaxLineNumber(UNKNOWN_LINE_NUMBER);

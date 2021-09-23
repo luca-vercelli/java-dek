@@ -328,7 +328,6 @@ public class AddCastExpressionVisitor extends AbstractJavaSyntaxVisitor {
         expression.setFalseExpression(updateExpression(expressionType, expression.getFalseExpression(), false, true));
     }
 
-    @SuppressWarnings("unchecked")
     protected BaseExpression updateParameters(BaseType types, BaseExpression expressions, boolean forceCast, boolean unique) {
         if (expressions != null) {
             if (expressions.isList()) {

@@ -193,7 +193,7 @@ public class ByteCodeWriter {
 
                     int npairs = ((code[i++] & 255) << 24) | ((code[i++] & 255) << 16) | ((code[i++] & 255) << 8) | (code[i++] & 255);
 
-                    for (int j = 0, k = 0; k < npairs; k++) {
+                    for (int k = 0; k < npairs; k++) {
                         sb.append(", ").append(((code[i++] & 255) << 24) | ((code[i++] & 255) << 16) | ((code[i++] & 255) << 8) | (code[i++] & 255));
                         sb.append(" -> ").append(offset + (((code[i++] & 255) << 24) | ((code[i++] & 255) << 16) | ((code[i++] & 255) << 8) | (code[i++] & 255)));
                     }

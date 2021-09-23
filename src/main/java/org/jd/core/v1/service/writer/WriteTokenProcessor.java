@@ -24,6 +24,9 @@ import java.util.List;
  */
 public class WriteTokenProcessor implements Processor {
 
+	/**
+	 * Write a list of tokens to a Printer
+	 */
 	@Override
 	public void process(Message message) throws Exception {
 		Printer printer = message.getPrinter();
@@ -34,7 +37,10 @@ public class WriteTokenProcessor implements Processor {
 		process(printer, tokens, maxLineNumber, majorVersion, minorVersion);
 	}
 
-	protected void process(Printer printer, List<Token> tokens, int maxLineNumber, int majorVersion, int minorVersion) {
+	/**
+	 * Write a list of tokens to a Printer
+	 */
+	public void process(Printer printer, List<Token> tokens, int maxLineNumber, int majorVersion, int minorVersion) {
 		PrintTokenVisitor visitor = new PrintTokenVisitor();
 
 		printer.start(maxLineNumber, majorVersion, minorVersion);

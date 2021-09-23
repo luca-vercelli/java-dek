@@ -12,7 +12,7 @@ public interface ReferenceVisitor {
 
 	void visit(AnnotationReference reference);
 
-	void visit(AnnotationReferences<?> references);
+	void visit(AnnotationReferences references);
 
 	void visit(ElementValueArrayInitializerElementValue reference);
 
