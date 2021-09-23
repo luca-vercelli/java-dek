@@ -46,258 +46,267 @@ public class ObjectType implements Type {
         @Override public String toString() { return "UndefinedObjectType"; }
     };
 
-    protected String internalName;
-    protected String qualifiedName;
-    protected String name;
+    protected String internalName; // e.g. com/foo/Foo or com/foo/Foo$Bar
+    protected String qualifiedName; // e.g. com.foo.Foo or com.foo.Foo.Bar
+    protected String name; // eg. Foo or Bar
 
     protected BaseTypeArgument typeArguments;
     protected int dimension;
     protected String descriptor;
 
-    public ObjectType(String internalName, String qualifiedName, String name) {
-        this(internalName, qualifiedName, name, null, 0);
-    }
+	public ObjectType(String internalName, String qualifiedName, String name) {
+		this(internalName, qualifiedName, name, null, 0);
+	}
 
-    public ObjectType(String internalName, String qualifiedName, String name, int dimension) {
-        this(internalName, qualifiedName, name, null, dimension);
-    }
+	public ObjectType(String internalName, String qualifiedName, String name, int dimension) {
+		this(internalName, qualifiedName, name, null, dimension);
+	}
 
-    public ObjectType(String internalName, String qualifiedName, String name, BaseTypeArgument typeArguments) {
-        this(internalName, qualifiedName, name, typeArguments, 0);
-    }
+	public ObjectType(String internalName, String qualifiedName, String name, BaseTypeArgument typeArguments) {
+		this(internalName, qualifiedName, name, typeArguments, 0);
+	}
 
-    public ObjectType(String internalName, String qualifiedName, String name, BaseTypeArgument typeArguments, int dimension) {
-        this.internalName = internalName;
-        this.qualifiedName = qualifiedName;
-        this.name = name;
-        this.typeArguments = typeArguments;
-        this.dimension = dimension;
-        this.descriptor = createDescriptor("L" + internalName + ';', dimension);
+	public ObjectType(String internalName, String qualifiedName, String name, BaseTypeArgument typeArguments,
+			int dimension) {
+		this.internalName = internalName;
+		this.qualifiedName = qualifiedName;
+		this.name = name;
+		this.typeArguments = typeArguments;
+		this.dimension = dimension;
+		this.descriptor = createDescriptor("L" + internalName + ';', dimension);
 
-        assert (internalName != null) && !internalName.endsWith(";");
-    }
+		assert (internalName != null) && !internalName.endsWith(";");
+	}
 
-    public ObjectType(String primitiveDescriptor) {
-        this(primitiveDescriptor, 0);
-    }
+	public ObjectType(String primitiveDescriptor) {
+		this(primitiveDescriptor, 0);
+	}
 
-    public ObjectType(String primitiveDescriptor, int dimension) {
-        this.internalName = primitiveDescriptor;
-        this.qualifiedName = this.name = PrimitiveType.getPrimitiveType(primitiveDescriptor.charAt(0)).getName();
-        this.dimension = dimension;
-        this.descriptor = createDescriptor(primitiveDescriptor, dimension);
-    }
+	public ObjectType(String primitiveDescriptor, int dimension) {
+		this.internalName = primitiveDescriptor;
+		this.qualifiedName = this.name = PrimitiveType.getPrimitiveType(primitiveDescriptor.charAt(0)).getName();
+		this.dimension = dimension;
+		this.descriptor = createDescriptor(primitiveDescriptor, dimension);
+	}
 
-    protected static String createDescriptor(String descriptor, int dimension) {
-        switch (dimension) {
-            case 0:
-                return descriptor;
-            case 1:
-                return "[" + descriptor;
-            case 2:
-                return "[[" + descriptor;
-            default:
-                return new String(new char[dimension]).replaceAll("\0", "[") + descriptor;
-        }
-    }
+	protected static String createDescriptor(String descriptor, int dimension) {
+		switch (dimension) {
+		case 0:
+			return descriptor;
+		case 1:
+			return "[" + descriptor;
+		case 2:
+			return "[[" + descriptor;
+		default:
+			return new String(new char[dimension]).replaceAll("\0", "[") + descriptor;
+		}
+	}
 
-    public ObjectType(ObjectType ot) {
-        this.internalName = ot.getInternalName();
-        this.qualifiedName = ot.getQualifiedName();
-        this.name = ot.getName();
-        this.typeArguments = ot.getTypeArguments();
-        this.dimension = ot.getDimension();
-        this.descriptor = ot.getDescriptor();
-    }
+	public ObjectType(ObjectType ot) {
+		this.internalName = ot.getInternalName();
+		this.qualifiedName = ot.getQualifiedName();
+		this.name = ot.getName();
+		this.typeArguments = ot.getTypeArguments();
+		this.dimension = ot.getDimension();
+		this.descriptor = ot.getDescriptor();
+	}
 
-    @Override
-    public String getInternalName() {
-        return internalName;
-    }
+	@Override
+	public String getInternalName() {
+		return internalName;
+	}
 
-    public String getQualifiedName() {
-        return qualifiedName;
-    }
+	public String getQualifiedName() {
+		return qualifiedName;
+	}
 
-    @Override
-    public String getName() {
-        return name;
-    }
+	@Override
+	public String getName() {
+		return name;
+	}
 
-    public BaseTypeArgument getTypeArguments() {
-        return typeArguments;
-    }
+	public BaseTypeArgument getTypeArguments() {
+		return typeArguments;
+	}
 
-    @Override
-    public String getDescriptor() {
-        return descriptor;
-    }
+	@Override
+	public String getDescriptor() {
+		return descriptor;
+	}
 
-    @Override
-    public int getDimension() {
-        return dimension;
-    }
+	@Override
+	public int getDimension() {
+		return dimension;
+	}
 
-    @Override
-    public Type createType(int dimension) {
-        assert dimension >= 0 : "ObjectType.createType(dim) : create type with negative dimension";
+	@Override
+	public Type createType(int dimension) {
+		assert dimension >= 0 : "ObjectType.createType(dim) : create type with negative dimension";
 
-        if (this.dimension == dimension) {
-            return this;
-        } else if (descriptor.charAt(descriptor.length()-1) != ';') {
-            // Array of primitive types
-            if (dimension == 0) {
-                return PrimitiveType.getPrimitiveType(descriptor.charAt(this.dimension));
-            } else {
-                return new ObjectType(internalName, dimension);
-            }
-        } else {
-            // Object type or array of object types
-            return new ObjectType(internalName, qualifiedName, name, typeArguments, dimension);
-        }
-    }
+		if (this.dimension == dimension) {
+			return this;
+		} else if (descriptor.charAt(descriptor.length() - 1) != ';') {
+			// Array of primitive types
+			if (dimension == 0) {
+				return PrimitiveType.getPrimitiveType(descriptor.charAt(this.dimension));
+			} else {
+				return new ObjectType(internalName, dimension);
+			}
+		} else {
+			// Object type or array of object types
+			return new ObjectType(internalName, qualifiedName, name, typeArguments, dimension);
+		}
+	}
 
-    public ObjectType createType(BaseTypeArgument typeArguments) {
-        if (this.typeArguments == typeArguments) {
-            return this;
-        } else {
-            return new ObjectType(internalName, qualifiedName, name, typeArguments, dimension);
-        }
-    }
+	public ObjectType createType(BaseTypeArgument typeArguments) {
+		if (this.typeArguments == typeArguments) {
+			return this;
+		} else {
+			return new ObjectType(internalName, qualifiedName, name, typeArguments, dimension);
+		}
+	}
 
-    public boolean rawEquals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+	public boolean rawEquals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
 
-        ObjectType that = (ObjectType) o;
+		ObjectType that = (ObjectType) o;
 
-        if (dimension != that.dimension) return false;
+		if (dimension != that.dimension)
+			return false;
 
-        return internalName.equals(that.internalName);
-    }
+		return internalName.equals(that.internalName);
+	}
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
 
-        ObjectType that = (ObjectType) o;
+		ObjectType that = (ObjectType) o;
 
-        if (dimension != that.dimension) return false;
-        if (!internalName.equals(that.internalName)) return false;
+		if (dimension != that.dimension)
+			return false;
+		if (!internalName.equals(that.internalName))
+			return false;
 
-        if ("java/lang/Class".equals(internalName)) {
-            boolean wildcard1 = (typeArguments == null) || (typeArguments.getClass() == WildcardTypeArgument.class);
-            boolean wildcard2 = (that.typeArguments == null) || (that.typeArguments.getClass() == WildcardTypeArgument.class);
+		if ("java/lang/Class".equals(internalName)) {
+			boolean wildcard1 = (typeArguments == null) || (typeArguments.getClass() == WildcardTypeArgument.class);
+			boolean wildcard2 = (that.typeArguments == null)
+					|| (that.typeArguments.getClass() == WildcardTypeArgument.class);
 
-            if (wildcard1 && wildcard2) {
-                return true;
-            }
-        }
+			if (wildcard1 && wildcard2) {
+				return true;
+			}
+		}
 
-        return typeArguments != null ? typeArguments.equals(that.typeArguments) : that.typeArguments == null;
-    }
+		return typeArguments != null ? typeArguments.equals(that.typeArguments) : that.typeArguments == null;
+	}
 
-    @Override
-    public int hashCode() {
-        int result = 735485092 + internalName.hashCode();
-        result = 31 * result + (typeArguments != null ? typeArguments.hashCode() : 0);
-        result = 31 * result + dimension;
-        return result;
-    }
+	@Override
+	public int hashCode() {
+		int result = 735485092 + internalName.hashCode();
+		result = 31 * result + (typeArguments != null ? typeArguments.hashCode() : 0);
+		result = 31 * result + dimension;
+		return result;
+	}
 
-    @Override
-    public void accept(TypeVisitor visitor) {
-        visitor.visit(this);
-    }
+	@Override
+	public void accept(TypeVisitor visitor) {
+		visitor.visit(this);
+	}
 
-    @Override
-    public void accept(TypeArgumentVisitor visitor) {
-        visitor.visit(this);
-    }
+	@Override
+	public void accept(TypeArgumentVisitor visitor) {
+		visitor.visit(this);
+	}
 
-    @Override
-    public boolean isTypeArgumentAssignableFrom(Map<String, BaseType> typeBounds, BaseTypeArgument typeArgument) {
-        Class typeArgumentClass = typeArgument.getClass();
+	@Override
+	public boolean isTypeArgumentAssignableFrom(Map<String, BaseType> typeBounds, BaseTypeArgument typeArgument) {
+		Class<?> typeArgumentClass = typeArgument.getClass();
 
-        if ((typeArgumentClass == ObjectType.class) || (typeArgumentClass == InnerObjectType.class)) {
-            ObjectType ot = (ObjectType)typeArgument;
+		if ((typeArgumentClass == ObjectType.class) || (typeArgumentClass == InnerObjectType.class)) {
+			ObjectType ot = (ObjectType) typeArgument;
 
-            if ((dimension != ot.getDimension()) || !internalName.equals(ot.getInternalName())) {
-                return false;
-            }
+			if ((dimension != ot.getDimension()) || !internalName.equals(ot.getInternalName())) {
+				return false;
+			}
 
-            if (ot.getTypeArguments() == null) {
-                return (typeArguments == null);
-            } else if (typeArguments == null) {
-                return false;
-            } else {
-                return typeArguments.isTypeArgumentAssignableFrom(typeBounds, ot.getTypeArguments());
-            }
-        }
+			if (ot.getTypeArguments() == null) {
+				return (typeArguments == null);
+			} else if (typeArguments == null) {
+				return false;
+			} else {
+				return typeArguments.isTypeArgumentAssignableFrom(typeBounds, ot.getTypeArguments());
+			}
+		}
 
-        if (typeArgumentClass == GenericType.class) {
-            GenericType gt = (GenericType)typeArgument;
-            BaseType bt = typeBounds.get(gt.getName());
+		if (typeArgumentClass == GenericType.class) {
+			GenericType gt = (GenericType) typeArgument;
+			BaseType bt = typeBounds.get(gt.getName());
 
-            if (bt != null) {
-                for (Type type : bt) {
-                    if (dimension == type.getDimension()) {
-                        Class typeClass = type.getClass();
+			if (bt != null) {
+				for (Type type : bt) {
+					if (dimension == type.getDimension()) {
+						Class<?> typeClass = type.getClass();
 
-                        if ((typeClass == ObjectType.class) || (typeClass == InnerObjectType.class)) {
-                            ObjectType ot = (ObjectType) type;
+						if ((typeClass == ObjectType.class) || (typeClass == InnerObjectType.class)) {
+							ObjectType ot = (ObjectType) type;
 
-                            if (internalName.equals(ot.getInternalName())) {
-                                return true;
-                            }
-                        }
-                    }
-                }
-            }
-        }
+							if (internalName.equals(ot.getInternalName())) {
+								return true;
+							}
+						}
+					}
+				}
+			}
+		}
 
-        return false;
-    }
+		return false;
+	}
 
-    protected boolean isTypeArgumentAssignableFrom(Map<String, BaseType> typeBounds, ObjectType objectType) {
-        if ((dimension != objectType.getDimension()) || !internalName.equals(objectType.getInternalName())) {
-            return false;
-        }
+	protected boolean isTypeArgumentAssignableFrom(Map<String, BaseType> typeBounds, ObjectType objectType) {
+		if ((dimension != objectType.getDimension()) || !internalName.equals(objectType.getInternalName())) {
+			return false;
+		}
 
-        if (objectType.getTypeArguments() == null) {
-            return (typeArguments == null);
-        } else if (typeArguments == null) {
-            return false;
-        } else {
-            return typeArguments.isTypeArgumentAssignableFrom(typeBounds, objectType.getTypeArguments());
-        }
-    }
+		if (objectType.getTypeArguments() == null) {
+			return (typeArguments == null);
+		} else if (typeArguments == null) {
+			return false;
+		} else {
+			return typeArguments.isTypeArgumentAssignableFrom(typeBounds, objectType.getTypeArguments());
+		}
+	}
 
-    @Override
-    public boolean isObjectType() {
-        return true;
-    }
+	@Override
+	public boolean isObjectType() {
+		return true;
+	}
 
-    @Override
-    public boolean isObjectTypeArgument() {
-        return true;
-    }
+	@Override
+	public boolean isObjectTypeArgument() {
+		return true;
+	}
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder("ObjectType{");
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder("ObjectType{");
 
-        sb.append(internalName);
+		sb.append(internalName);
 
-        if (typeArguments != null) {
-            sb.append('<').append(typeArguments).append('>');
-        }
+		if (typeArguments != null) {
+			sb.append('<').append(typeArguments).append('>');
+		}
 
-        if (dimension > 0) {
-            sb.append(", dimension=").append(dimension);
-        }
+		if (dimension > 0) {
+			sb.append(", dimension=").append(dimension);
+		}
 
-        return sb.append('}').toString();
-    }
+		return sb.append('}').toString();
+	}
 }

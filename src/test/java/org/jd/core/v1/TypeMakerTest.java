@@ -30,7 +30,7 @@ import org.jd.core.v1.model.javasyntax.type.WildcardSuperTypeArgument;
 import org.jd.core.v1.service.converter.classfiletojavasyntax.util.TypeMaker;
 import org.junit.Test;
 
-public class TypeMakerTest  {
+public class TypeMakerTest {
 	protected TypeMaker typeMaker = new TypeMaker(new ClassPathLoader());
 
 	protected ObjectType otAbstractUntypedIteratorDecorator = makeObjectType(AbstractUntypedIteratorDecorator.class);
@@ -206,8 +206,6 @@ public class TypeMakerTest  {
 
 	@Test
 	public void testListAssignment() throws Exception {
-		List list1 = null;
-		List list2 = null;
 
 		ObjectType ot1 = otList;
 		ObjectType ot2 = otList;
@@ -221,8 +219,6 @@ public class TypeMakerTest  {
 
 	@Test
 	public void testListAndArrayListAssignment() throws Exception {
-		List list1 = null;
-		ArrayList list2 = null;
 
 		ObjectType ot1 = otList;
 		ObjectType ot2 = otArrayList;
@@ -236,8 +232,6 @@ public class TypeMakerTest  {
 
 	@Test
 	public void testListNumberAndArrayListNumberAssignment() throws Exception {
-		List<Number> list1 = null;
-		ArrayList<Number> list2 = null;
 
 		ObjectType ot1 = otList.createType(otNumber);
 		ObjectType ot2 = otArrayList.createType(otNumber);
@@ -251,8 +245,6 @@ public class TypeMakerTest  {
 
 	@Test
 	public void testListNumberAndListIntegerAssignment() throws Exception {
-		List<Number> list1 = null;
-		List<Integer> list2 = null;
 
 		ObjectType ot1 = otList.createType(otNumber);
 		ObjectType ot2 = otList.createType(otInteger);
@@ -266,8 +258,6 @@ public class TypeMakerTest  {
 
 	@Test
 	public void testListNumberAndListExtendsNumberAssignment() throws Exception {
-		List<Number> list1 = null;
-		List<? extends Number> list2 = null;
 
 		ObjectType ot1 = otList.createType(otNumber);
 		ObjectType ot2 = otList.createType(new WildcardExtendsTypeArgument(otNumber));
@@ -281,8 +271,6 @@ public class TypeMakerTest  {
 
 	@Test
 	public void testListNumberAndListSuperNumberAssignment() throws Exception {
-		List<Number> list1 = null;
-		List<? super Number> list2 = null;
 
 		ObjectType ot1 = otList.createType(otNumber);
 		ObjectType ot2 = otList.createType(new WildcardSuperTypeArgument(otNumber));
@@ -296,8 +284,6 @@ public class TypeMakerTest  {
 
 	@Test
 	public void testListNumberAndArrayListIntegerAssignment() throws Exception {
-		List<Number> list1 = null;
-		ArrayList<Integer> list2 = null;
 
 		ObjectType ot1 = otList.createType(otNumber);
 		ObjectType ot2 = otArrayList.createType(otInteger);
@@ -311,8 +297,6 @@ public class TypeMakerTest  {
 
 	@Test
 	public void testIteratorNumberAndPrimitiveIteratorNumberAssignment() throws Exception {
-		Iterator<Number> iterator1 = null;
-		PrimitiveIterator<Number, List> iterator2 = null;
 
 		TypeArguments tas = new TypeArguments();
 		tas.add(otNumber);
@@ -327,8 +311,6 @@ public class TypeMakerTest  {
 
 	@Test
 	public void testIteratorNumberAndAbstractUntypedIteratorDecoratorNumberAssignment() throws Exception {
-		Iterator<Number> iterator1 = null;
-		AbstractUntypedIteratorDecorator<List, Number> iterator2 = null;
 
 		TypeArguments tas = new TypeArguments();
 		tas.add(otList);
