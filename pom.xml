@@ -7,6 +7,13 @@
 	<artifactId>jd-cli</artifactId>
 	<version>1.0-SNAPSHOT</version>
 
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+	</properties>
+
 	<!-- All dependencies are test-scoped only -->
 	<dependencies>
 		<dependency>
@@ -118,10 +125,90 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<maven.compiler.target>1.8</maven.compiler.target>
-	</properties>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-report-plugin</artifactId>
+				<version>2.16</version>
+				<configuration>
+					<outputDirectory>${project.build.directory}/reports/junit</outputDirectory>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.7.6.201602180812</version>
+				<configuration>
+					<destFile>${project.build.directory}/reports/jacoco/jacoco.exec</destFile>
+					<dataFile>${project.build.directory}/reports/jacoco/jacoco.exec</dataFile>
+					<outputDirectory>${project.build.directory}/reports/jacoco</outputDirectory>
+				</configuration>
+				<executions>
+					<execution>
+						<id>jacoco-prepare-agent</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>jacoco-report</id>
+						<phase>package</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>org.jd.core.v1.cli.CliMain</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.0.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.1.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <doctitle>JavaDecompiler jd-cli</doctitle>
+                    <title>JavaDecompiler jd-cli</title>
+                    <!-- NB: We don't use -html5, as it requires j9+, which not everyone has -->
+                    <additionalOptions>-quiet</additionalOptions>
+                    <subpackages>
+                        org/jd/core/v1
+                    </subpackages>
+                    <doclint>none</doclint>
+                </configuration>
+            </plugin>
+		</plugins>
+	</build>
 </project>
