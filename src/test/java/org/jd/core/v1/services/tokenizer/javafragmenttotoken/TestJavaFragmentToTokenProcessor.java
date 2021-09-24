@@ -17,9 +17,6 @@ import org.jd.core.v1.services.tokenizer.javafragmenttotoken.visitor.TokenizeJav
 
 /**
  * A modified JavaFragmentToTokenProcessor with debug info
- * 
- * @author lvercelli
- *
  */
 public class TestJavaFragmentToTokenProcessor implements Processor {
 

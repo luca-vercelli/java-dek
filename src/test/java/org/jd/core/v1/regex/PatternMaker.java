@@ -7,6 +7,9 @@
 
 package org.jd.core.v1.regex;
 
+/**
+ * Utility used during tests to create regex patterns matching source code
+ */
 public class PatternMaker {
 
 	/**
