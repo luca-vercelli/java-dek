@@ -18,7 +18,7 @@ import org.jd.core.v1.services.tokenizer.javafragmenttotoken.visitor.TokenizeJav
 public class TestTokenizeJavaFragmentProcessor implements Processor {
 
 	@Override
-	public void process(Message message) throws Exception {
+	public void process(Message message) {
 		List<Fragment> fragments = message.getFragments(); // JavaFragment's expected
 		TokenizeJavaFragmentTestVisitor visitor = new TokenizeJavaFragmentTestVisitor(fragments.size() * 3);
 

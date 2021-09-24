@@ -28,7 +28,7 @@ public class WriteTokenProcessor implements Processor {
 	 * Write a list of tokens to a Printer
 	 */
 	@Override
-	public void process(Message message) throws Exception {
+	public void process(Message message) {
 		Printer printer = message.getPrinter();
 		List<Token> tokens = message.getTokens();
 		int maxLineNumber = message.getMaxLineNumber();

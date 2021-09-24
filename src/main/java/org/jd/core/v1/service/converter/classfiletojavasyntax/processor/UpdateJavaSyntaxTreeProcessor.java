@@ -29,7 +29,7 @@ public class UpdateJavaSyntaxTreeProcessor implements Processor {
 	 * visitors
 	 */
 	@Override
-	public void process(Message message) throws Exception {
+	public void process(Message message) {
 		TypeMaker typeMaker = message.getTypeMaker();
 		CompilationUnit compilationUnit = message.getCompilationUnit();
 

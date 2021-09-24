@@ -7,8 +7,10 @@
 
 package org.jd.core.v1.api;
 
+import java.io.IOException;
+
 import org.jd.core.v1.model.message.Message;
 
 public interface Processor {
-    void process(Message message) throws Exception;
+	void process(Message message) throws IOException;
 }

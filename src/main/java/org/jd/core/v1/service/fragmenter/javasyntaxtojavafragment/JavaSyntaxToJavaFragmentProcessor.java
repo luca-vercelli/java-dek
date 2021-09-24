@@ -28,7 +28,7 @@ public class JavaSyntaxToJavaFragmentProcessor implements Processor {
 	 * Given a CompilationUnit, generate Fragments (or JavaFragment's ???)
 	 */
 	@Override
-	public void process(Message message) throws Exception {
+	public void process(Message message) {
 		Loader loader = message.getLoader();
 		String mainInternalTypeName = message.getMainInternalTypeName();
 		int majorVersion = message.getMajorVersion();

@@ -33,7 +33,7 @@ public class ClassFileToJavaSyntaxProcessor implements Processor {
 	 * Given a ClassFile, create TypeMaker and CompilationUnit
 	 */
 	@Override
-	public void process(Message message) throws Exception {
+	public void process(Message message) {
 		Loader loader = message.getLoader();
 		Map<String, Object> configuration = message.getConfiguration();
 

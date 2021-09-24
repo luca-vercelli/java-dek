@@ -29,7 +29,7 @@ public class JavaFragmentToTokenProcessor implements Processor {
 	 * Convert a list of JavaFragment's to a list of tokens
 	 */
 	@Override
-	public void process(Message message) throws Exception {
+	public void process(Message message) {
 		@SuppressWarnings("unchecked")
 		List<JavaFragment> fragments = (List<JavaFragment>) (List<?>) message.getFragments(); // warning expects a List
 																								// of JavaFragment !

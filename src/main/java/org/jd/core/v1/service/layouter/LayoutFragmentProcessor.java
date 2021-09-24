@@ -36,7 +36,7 @@ public class LayoutFragmentProcessor implements Processor {
 	 * Update fragments in place
 	 */
 	@Override
-	public void process(Message message) throws Exception {
+	public void process(Message message) {
 		int maxLineNumber = message.getMaxLineNumber(UNKNOWN_LINE_NUMBER);
 		boolean containsByteCode = message.getContainsByteCode(Boolean.FALSE);
 		boolean showBridgeAndSynthetic = message.getShowBridgeAndSynthetic(Boolean.FALSE);

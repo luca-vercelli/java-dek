@@ -2,6 +2,7 @@ package org.jd.core.v1;
 
 import static org.junit.Assert.assertTrue;
 
+import java.io.IOException;
 import java.util.Map;
 
 import org.jd.core.v1.api.Decompiler;
@@ -59,7 +60,7 @@ public class TestDecompiler implements Decompiler {
 
 	}
 
-	protected void decompile(Message message) throws Exception {
+	protected void decompile(Message message) throws IOException {
 		this.deserializer.process(message);
 		this.converter.process(message);
 		this.fragmenter.process(message);
