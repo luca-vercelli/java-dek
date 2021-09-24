@@ -41,7 +41,7 @@ import org.jd.core.v1.regex.PatternMaker;
 import org.jd.core.v1.service.fragmenter.javasyntaxtojavafragment.util.JavaFragmentFactory;
 import org.jd.core.v1.service.layouter.LayoutFragmentProcessor;
 import org.jd.core.v1.service.writer.WriteTokenProcessor;
-import org.jd.core.v1.services.tokenizer.javafragmenttotoken.TestTokenizeJavaFragmentProcessor;
+import org.jd.core.v1.services.tokenizer.javafragmenttotoken.TestJavaFragmentToTokenProcessor;
 import org.jd.core.v1.util.DefaultList;
 import org.junit.Test;
 
@@ -66,7 +66,7 @@ public class JavaFragmentToTokenTest {
 	public static final KeywordToken VOID = new KeywordToken("void");
 
 	protected LayoutFragmentProcessor layouter = new LayoutFragmentProcessor();
-	protected TestTokenizeJavaFragmentProcessor tokenizer = new TestTokenizeJavaFragmentProcessor();
+	protected TestJavaFragmentToTokenProcessor tokenizer = new TestJavaFragmentToTokenProcessor();
 	protected WriteTokenProcessor writer = new WriteTokenProcessor();
 
 	@Test

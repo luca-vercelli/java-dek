@@ -12,6 +12,9 @@ import org.jd.core.v1.model.javafragment.*;
 import org.jd.core.v1.model.token.TextToken;
 import org.jd.core.v1.service.tokenizer.javafragmenttotoken.visitor.TokenizeJavaFragmentVisitor;
 
+/**
+ * A modified TokenizeJavaFragmentVisitor with debug info
+ */
 public class TokenizeJavaFragmentTestVisitor extends TokenizeJavaFragmentVisitor {
     protected static final TextToken SUFFIX = new TextToken("-->");
 

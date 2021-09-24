@@ -14,7 +14,6 @@ import org.jd.core.v1.model.javafragment.JavaFragment;
 import org.jd.core.v1.model.message.Message;
 import org.jd.core.v1.model.token.Token;
 import org.jd.core.v1.service.tokenizer.javafragmenttotoken.visitor.TokenizeJavaFragmentVisitor;
-import org.jd.core.v1.util.DefaultList;
 
 /**
  * Convert a list of fragments to a list of tokens.<br>
@@ -48,7 +47,6 @@ public class JavaFragmentToTokenProcessor implements Processor {
 			fragment.accept(visitor);
 		}
 
-		DefaultList<Token> list = visitor.getTokens();
-		return list;
+		return visitor.getTokens();
 	}
 }

@@ -21,7 +21,7 @@ import org.jd.core.v1.service.fragmenter.javasyntaxtojavafragment.JavaSyntaxToJa
 import org.jd.core.v1.service.layouter.LayoutFragmentProcessor;
 import org.jd.core.v1.service.tokenizer.javafragmenttotoken.JavaFragmentToTokenProcessor;
 import org.jd.core.v1.service.writer.WriteTokenProcessor;
-import org.jd.core.v1.services.tokenizer.javafragmenttotoken.TestTokenizeJavaFragmentProcessor;
+import org.jd.core.v1.services.tokenizer.javafragmenttotoken.TestJavaFragmentToTokenProcessor;
 import org.junit.Test;
 
 import junit.framework.TestCase;
@@ -184,7 +184,7 @@ public class LayoutFragmentProcessorTest extends TestCase {
         //PlainTextMetaPrinter printer = new PlainTextMetaPrinter();
         PlainTextPrinter printer = new PlainTextPrinter();
 
-        TestTokenizeJavaFragmentProcessor tokenizer = new TestTokenizeJavaFragmentProcessor();
+        TestJavaFragmentToTokenProcessor tokenizer = new TestJavaFragmentToTokenProcessor();
 
         Message message = new Message();
         message.setLoader(loader);
@@ -214,7 +214,7 @@ public class LayoutFragmentProcessorTest extends TestCase {
         PlainTextPrinter printer = new PlainTextPrinter();
         Map<String, Object> configuration = Collections.singletonMap("realignLineNumbers", Boolean.TRUE);
 
-        TestTokenizeJavaFragmentProcessor tokenizer = new TestTokenizeJavaFragmentProcessor();
+        TestJavaFragmentToTokenProcessor tokenizer = new TestJavaFragmentToTokenProcessor();
 
         Message message = new Message();
         message.setLoader(loader);
@@ -244,7 +244,7 @@ public class LayoutFragmentProcessorTest extends TestCase {
         PlainTextPrinter printer = new PlainTextPrinter();
         Map<String, Object> configuration = Collections.singletonMap("realignLineNumbers", Boolean.TRUE);
 
-        TestTokenizeJavaFragmentProcessor tokenizer = new TestTokenizeJavaFragmentProcessor();
+        TestJavaFragmentToTokenProcessor tokenizer = new TestJavaFragmentToTokenProcessor();
 
         Message message = new Message();
         message.setMainInternalTypeName("org/jd/core/test/Array");

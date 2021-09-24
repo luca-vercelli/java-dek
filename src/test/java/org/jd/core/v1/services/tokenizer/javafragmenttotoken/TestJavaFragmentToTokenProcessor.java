@@ -15,7 +15,13 @@ import org.jd.core.v1.model.javafragment.JavaFragment;
 import org.jd.core.v1.model.message.Message;
 import org.jd.core.v1.services.tokenizer.javafragmenttotoken.visitor.TokenizeJavaFragmentTestVisitor;
 
-public class TestTokenizeJavaFragmentProcessor implements Processor {
+/**
+ * A modified JavaFragmentToTokenProcessor with debug info
+ * 
+ * @author lvercelli
+ *
+ */
+public class TestJavaFragmentToTokenProcessor implements Processor {
 
 	@Override
 	public void process(Message message) {
