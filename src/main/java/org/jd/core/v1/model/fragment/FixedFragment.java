@@ -31,7 +31,7 @@ public abstract class FixedFragment implements Fragment, JavaFragment {
 
 	@Override
 	public String toString() {
-		return getClass().getName() + " [lines:" + firstLineNumber + "-" + lastLineNumber + "]";
+		return getClass().getSimpleName() + " [lines:" + firstLineNumber + "-" + lastLineNumber + "]";
 	}
 
 	@Override

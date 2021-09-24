@@ -86,7 +86,7 @@ public abstract class FlexibleFragment implements Fragment, JavaFragment {
 
 	@Override
 	public String toString() {
-		return getClass().getName() + " [lines:" + minimalLineCount + "-" + maximalLineCount + "]";
+		return getClass().getSimpleName() + " [lines:" + minimalLineCount + "-" + maximalLineCount + "]";
 	}
 
 	@Override

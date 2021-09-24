@@ -21,4 +21,9 @@ public class Couple<A, B> {
 		this.b = b;
 	}
 
+	@Override
+	public String toString() {
+		return "(" + (a == null ? "null" : a.toString()) + "," + (b == null ? "null" : b.toString()) + ")";
+	}
+
 }
