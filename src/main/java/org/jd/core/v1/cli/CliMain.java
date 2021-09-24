@@ -19,9 +19,23 @@ import org.jd.core.v1.impl.StandardDecompiler;
 import org.jd.core.v1.impl.loader.DirectoryLoader;
 import org.jd.core.v1.impl.printer.PlainTextPrinter;
 
-public class CliMain {
+public class CliMain implements Runnable {
 
 	public final static String VERSION = "1.0 2021";
+
+	private File srcFolder;
+	private File destFolder;
+	private boolean override;
+	private boolean escapeUnicode;
+	private boolean printLineNumbers;
+
+	public CliMain(File srcFolder, File destFolder, boolean override, boolean escapeUnicode, boolean printLineNumbers) {
+		this.srcFolder = srcFolder;
+		this.destFolder = destFolder;
+		this.override = override;
+		this.escapeUnicode = escapeUnicode;
+		this.printLineNumbers = printLineNumbers;
+	}
 
 	public static void usage() {
 		System.out.println("Usage:");
@@ -96,11 +110,12 @@ public class CliMain {
 			destFolder = srcFolder;
 		}
 
-		main(srcFolder, destFolder, override, escapeUnicode, printLineNumbers);
+		Runnable application = new CliMain(srcFolder, destFolder, override, escapeUnicode, printLineNumbers);
+		application.run();
 	}
 
-	public static void main(File srcFolder, File destFolder, boolean override, boolean escapeUnicode,
-			boolean printLineNumbers) {
+	@Override
+	public void run() {
 		prepareFolders(srcFolder, destFolder);
 
 		// adding whole folder to classpath should give better decompilation, doesn't
@@ -120,6 +135,7 @@ public class CliMain {
 			}
 			try {
 				writeFile(printer.toString(), destFolder, internalName, override);
+				System.out.println(internalName);
 			} catch (IOException e) {
 				System.err.println("Exception while writing " + destFolder.getPath() + File.separator + internalName
 						+ " : " + e.getMessage());
@@ -127,7 +143,7 @@ public class CliMain {
 		}
 	}
 
-	public static void prepareFolders(File srcFolder, File destFolder) {
+	public void prepareFolders(File srcFolder, File destFolder) {
 		if (!srcFolder.exists()) {
 			System.err.println("Classes folder does not exists.");
 			System.exit(2);
@@ -158,7 +174,7 @@ public class CliMain {
 	 * @see https://stackoverflow.com/a/7884406/5116356
 	 */
 	@SuppressWarnings("deprecation")
-	public static void addToClassPath(File folder) {
+	public void addToClassPath(File folder) {
 		URL u;
 		try {
 			u = folder.toURL();
@@ -177,7 +193,7 @@ public class CliMain {
 		}
 	}
 
-	public static List<String> listClasses(File srcFolder) {
+	public List<String> listClasses(File srcFolder) {
 		List<File> list = new ArrayList<>();
 		listClasses(srcFolder.listFiles(), list);
 		List<String> ls = list.stream() //
@@ -186,9 +202,15 @@ public class CliMain {
 		return ls;
 	}
 
-	public static String getClassName(File srcFolder, File classFile) {
+	/**
+	 * 
+	 * @param srcFolder C:\some\path
+	 * @param classFile C:\some\path\package\to\File.class
+	 * @return
+	 */
+	public String getClassName(File srcFolder, File classFile) {
 		String s = classFile.getPath();
-		final int beginIndex = srcFolder.getPath().length();
+		final int beginIndex = srcFolder.getPath().length() + 1;
 		final int difflen = ".class".length();
 		s = s.substring(beginIndex, s.length() - difflen);
 		if (s.startsWith("/")) {
@@ -197,7 +219,7 @@ public class CliMain {
 		return s;
 	}
 
-	private static void listClasses(File[] files, List<File> result) {
+	private void listClasses(File[] files, List<File> result) {
 		for (File file : files) {
 			if (file.isDirectory()) {
 				listClasses(file.listFiles(), result);
@@ -207,8 +229,7 @@ public class CliMain {
 		}
 	}
 
-	public static void writeFile(String source, File destFolder, String internalName, boolean override)
-			throws IOException {
+	public void writeFile(String source, File destFolder, String internalName, boolean override) throws IOException {
 		File f = new File(destFolder, internalName + ".java");
 		if (f.exists() && !override) {
 			System.err.println("Skipping existing file " + f.getPath());
