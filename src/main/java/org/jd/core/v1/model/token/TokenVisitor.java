@@ -8,7 +8,7 @@
 package org.jd.core.v1.model.token;
 
 /**
- * Traverse a tree of Token's.
+ * Traverse a list (or tree) of Token's.
  * 
  * There should be one visit() method for every possible Token subclass.
  */

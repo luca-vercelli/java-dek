@@ -27,6 +27,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import static org.jd.core.v1.model.javasyntax.type.PrimitiveType.FLAG_BOOLEAN;
 import static org.jd.core.v1.model.javasyntax.type.PrimitiveType.FLAG_CHAR;
@@ -47,7 +48,7 @@ public class ExpressionVisitor extends TypeVisitor {
     protected Fragments fragments = new Fragments();
     protected boolean diamondOperatorSupported;
     protected boolean inExpressionFlag = false;
-    protected HashSet<String> currentMethodParamNames = new HashSet<>();
+    protected Set<String> currentMethodParamNames = new HashSet<>();
     protected String currentTypeName;
     protected HexaExpressionVisitor hexaExpressionVisitor = new HexaExpressionVisitor();
 
@@ -676,15 +677,18 @@ public class ExpressionVisitor extends TypeVisitor {
     protected static class Context {
         public final String currentInternalTypeName;
         public final String currentTypeName;
-        public final HashSet<String> currentMethodParamNames;
+        public final Set<String> currentMethodParamNames;
 
-        public Context(String currentInternalTypeName, String currentTypeName, HashSet<String> currentMethodParamNames) {
+        public Context(String currentInternalTypeName, String currentTypeName, Set<String> currentMethodParamNames) {
             this.currentInternalTypeName = currentInternalTypeName;
             this.currentTypeName = currentTypeName;
             this.currentMethodParamNames = new HashSet<>(currentMethodParamNames);
         }
     }
 
+    /**
+     * A List of Fragment's
+     */
     protected static class Fragments extends DefaultList<Fragment> {
 		private static final long serialVersionUID = 1322744031089900996L;
 

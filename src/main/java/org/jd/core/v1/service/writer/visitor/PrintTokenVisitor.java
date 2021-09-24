@@ -8,10 +8,14 @@
 package org.jd.core.v1.service.writer.visitor;
 
 import org.jd.core.v1.api.Printer;
+import org.jd.core.v1.model.javafragment.LineNumberTokensFragment.SearchLineNumberVisitor;
 import org.jd.core.v1.model.token.*;
 
 import java.util.List;
 
+/**
+ * Print a list of tokens to a Printer.
+ */
 public class PrintTokenVisitor implements TokenVisitor {
 	public static int UNKNOWN_LINE_NUMBER = Printer.UNKNOWN_LINE_NUMBER;
 
@@ -22,6 +26,12 @@ public class PrintTokenVisitor implements TokenVisitor {
 	protected int index;
 	protected int newLineCount;
 
+	/**
+	 * Print a list of tokens to a Printer.
+	 * 
+	 * @param printer
+	 * @param tokens
+	 */
 	public void start(Printer printer, List<Token> tokens) {
 		this.printer = printer;
 		this.tokens = tokens;
@@ -185,25 +195,5 @@ public class PrintTokenVisitor implements TokenVisitor {
 		}
 
 		return UNKNOWN_LINE_NUMBER;
-	}
-
-	protected static class SearchLineNumberVisitor extends AbstractNopTokenVisitor {
-		public int lineNumber;
-		public int newLineCounter;
-
-		public void reset() {
-			this.lineNumber = UNKNOWN_LINE_NUMBER;
-			this.newLineCounter = 0;
-		}
-
-		@Override
-		public void visit(LineNumberToken token) {
-			lineNumber = token.getLineNumber();
-		}
-
-		@Override
-		public void visit(NewLineToken token) {
-			newLineCounter++;
-		}
 	}
 }

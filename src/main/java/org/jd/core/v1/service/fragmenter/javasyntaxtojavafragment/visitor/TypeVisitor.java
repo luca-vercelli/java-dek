@@ -300,6 +300,9 @@ public class TypeVisitor extends AbstractJavaSyntaxVisitor {
         return textToken;
     }
 
+    /**
+     * A List of Token's
+     */
     public class Tokens extends DefaultList<Token> {
 		private static final long serialVersionUID = 568732215340192571L;
 		protected int currentLineNumber = UNKNOWN_LINE_NUMBER;

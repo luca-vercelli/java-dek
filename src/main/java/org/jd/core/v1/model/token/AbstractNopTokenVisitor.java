@@ -7,6 +7,9 @@
 
 package org.jd.core.v1.model.token;
 
+/**
+ * No-op implementation of TokenVisitor interface.
+ */
 public abstract class AbstractNopTokenVisitor implements TokenVisitor {
 	@Override
 	public void visit(BooleanConstantToken token) {
