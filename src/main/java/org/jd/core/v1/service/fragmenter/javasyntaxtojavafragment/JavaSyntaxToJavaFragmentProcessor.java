@@ -17,6 +17,7 @@ import org.jd.core.v1.model.javasyntax.CompilationUnit;
 import org.jd.core.v1.model.message.Message;
 import org.jd.core.v1.service.fragmenter.javasyntaxtojavafragment.visitor.CompilationUnitVisitor;
 import org.jd.core.v1.service.fragmenter.javasyntaxtojavafragment.visitor.SearchImportsVisitor;
+import org.jd.core.v1.util.Couple;
 
 /**
  * Convert a Java syntax model to a list of fragments.<br>
@@ -28,7 +29,7 @@ import org.jd.core.v1.service.fragmenter.javasyntaxtojavafragment.visitor.Search
 public class JavaSyntaxToJavaFragmentProcessor implements Processor {
 
 	/**
-	 * Given a CompilationUnit, generate Fragments (or JavaFragment's ???)
+	 * Given a CompilationUnit, generate JavaFragments
 	 */
 	@Override
 	public void process(Message message) {
@@ -37,17 +38,32 @@ public class JavaSyntaxToJavaFragmentProcessor implements Processor {
 		int majorVersion = message.getMajorVersion();
 		CompilationUnit compilationUnit = message.getCompilationUnit();
 
+		Couple<ImportsFragment, Integer> couple = getImportsFragment(loader, mainInternalTypeName, compilationUnit);
+
+		List<JavaFragment> fragments = generateFragments(loader, mainInternalTypeName, majorVersion, compilationUnit,
+				couple.a);
+
+		message.setMaxLineNumber(couple.b);
+		message.setFragments(fragments);
+	}
+
+	/**
+	 * Given a compilation unit, build its ImportsFragment
+	 * 
+	 * @param loader
+	 * @param mainInternalTypeName
+	 * @param compilationUnit
+	 * @return a couple: the ImportsFragment and the max line number
+	 */
+	protected Couple<ImportsFragment, Integer> getImportsFragment(Loader loader, String mainInternalTypeName,
+			CompilationUnit compilationUnit) {
 		SearchImportsVisitor importsVisitor = new SearchImportsVisitor(loader, mainInternalTypeName);
 		importsVisitor.visit(compilationUnit);
 		ImportsFragment importsFragment = importsVisitor.getImportsFragment();
 		int maxLineNumber = importsVisitor.getMaxLineNumber();
-		
-		
-		List<JavaFragment> fragments = generateFragments(loader, mainInternalTypeName, majorVersion, compilationUnit,
-				importsFragment);
-		
-		message.setMaxLineNumber(maxLineNumber);
-		message.setFragments(fragments);
+
+		Couple<ImportsFragment, Integer> couple = new Couple<>(importsFragment, maxLineNumber);
+		return couple;
 	}
 
 	/**
@@ -55,7 +71,7 @@ public class JavaSyntaxToJavaFragmentProcessor implements Processor {
 	 */
 	protected List<JavaFragment> generateFragments(Loader loader, String mainInternalTypeName, int majorVersion,
 			CompilationUnit compilationUnit, ImportsFragment importsFragment) {
-		
+
 		CompilationUnitVisitor visitor = new CompilationUnitVisitor(loader, mainInternalTypeName, majorVersion,
 				importsFragment);
 		visitor.visit(compilationUnit);

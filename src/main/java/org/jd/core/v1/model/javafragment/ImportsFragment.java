@@ -16,6 +16,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Fragment of import statements
+ */
 public class ImportsFragment extends FlexibleFragment {
 	protected static final ImportCountComparator COUNT_COMPARATOR = new ImportCountComparator();
 
