@@ -7,12 +7,12 @@
 
 package org.jd.core.v1.impl.loader;
 
-import org.jd.core.v1.api.Loader;
-import org.jd.core.v1.api.loader.LoaderException;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
+
+import org.jd.core.v1.api.Loader;
 
 /**
  * A loader that loads classes from a given filesystem folder.
@@ -25,7 +25,7 @@ public class DirectoryLoader implements Loader {
 	}
 
 	@Override
-	public byte[] load(String internalName) throws LoaderException {
+	public byte[] load(String internalName) throws IOException {
 		File file = newFile(internalName);
 
 		if (file.exists()) {
@@ -40,8 +40,6 @@ public class DirectoryLoader implements Loader {
 				}
 
 				return out.toByteArray();
-			} catch (Exception e) {
-				throw new LoaderException(e);
 			}
 		} else {
 			return null;

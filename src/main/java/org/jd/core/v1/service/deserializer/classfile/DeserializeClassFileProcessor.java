@@ -7,39 +7,45 @@
 
 package org.jd.core.v1.service.deserializer.classfile;
 
+import java.io.IOException;
+
 import org.jd.core.v1.api.Loader;
 import org.jd.core.v1.api.Processor;
 import org.jd.core.v1.model.classfile.ClassFile;
 import org.jd.core.v1.model.message.Message;
 
 /**
- * Create a ClassFile model from a loader and a internal type name.<br><br>
+ * Create a ClassFile model from a loader and a internal type name.<br>
+ * <br>
  *
- * Input:  -<br>
+ * Input: -<br>
  * Output: {@link org.jd.core.v1.model.classfile.ClassFile}<br>
  */
 public class DeserializeClassFileProcessor extends ClassFileDeserializer implements Processor {
 
 	/**
 	 * Create a ClassFile model from a loader and a internal type name
+	 * 
+	 * @throws IOException
 	 */
-    @Override
-    public void process(Message message) throws Exception {
-        Loader loader = message.getLoader();
-        String internalTypeName = message.getMainInternalTypeName();
+	@Override
+	public void process(Message message) throws IOException {
+		Loader loader = message.getLoader();
+		String internalTypeName = message.getMainInternalTypeName();
 		ClassFile classFile = process(loader, internalTypeName);
 
-        message.setClassFile(classFile);
-    }
+		message.setClassFile(classFile);
+	}
 
-    /**
-     * Create a ClassFile model from a loader and a internal type name
-     * @param loader
-     * @param internalTypeName
-     * @return
-     * @throws Exception
-     */
-	public ClassFile process(Loader loader, String internalTypeName) throws Exception {
+	/**
+	 * Create a ClassFile model from a loader and a internal type name
+	 * 
+	 * @param loader
+	 * @param internalTypeName
+	 * @return
+	 * @throws IOException
+	 */
+	public ClassFile process(Loader loader, String internalTypeName) throws IOException {
 		ClassFile classFile = loadClassFile(loader, internalTypeName);
 		return classFile;
 	}

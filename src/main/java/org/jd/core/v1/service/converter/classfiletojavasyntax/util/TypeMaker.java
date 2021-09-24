@@ -7,26 +7,47 @@
 
 package org.jd.core.v1.service.converter.classfiletojavasyntax.util;
 
-import org.jd.core.v1.api.Loader;
-import org.jd.core.v1.api.loader.LoaderException;
-import org.jd.core.v1.model.classfile.ClassFile;
-import org.jd.core.v1.model.classfile.Field;
-import org.jd.core.v1.model.classfile.Method;
-import org.jd.core.v1.model.classfile.attribute.*;
-import org.jd.core.v1.model.javasyntax.expression.BaseExpression;
-import org.jd.core.v1.model.javasyntax.expression.Expression;
-import org.jd.core.v1.model.javasyntax.type.*;
-import org.jd.core.v1.service.converter.classfiletojavasyntax.visitor.BindTypesToTypesVisitor;
-import org.jd.core.v1.service.deserializer.classfile.ClassFileFormatException;
-import org.jd.core.v1.service.deserializer.classfile.ClassFileReader;
+import static org.jd.core.v1.model.javasyntax.type.ObjectType.TYPE_OBJECT;
+import static org.jd.core.v1.model.javasyntax.type.ObjectType.TYPE_UNDEFINED_OBJECT;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
-import static org.jd.core.v1.model.javasyntax.type.ObjectType.TYPE_OBJECT;
-import static org.jd.core.v1.model.javasyntax.type.ObjectType.TYPE_UNDEFINED_OBJECT;
+import org.jd.core.v1.api.Loader;
+import org.jd.core.v1.model.classfile.ClassFile;
+import org.jd.core.v1.model.classfile.Field;
+import org.jd.core.v1.model.classfile.Method;
+import org.jd.core.v1.model.classfile.attribute.AttributeExceptions;
+import org.jd.core.v1.model.classfile.attribute.AttributeSignature;
+import org.jd.core.v1.model.javasyntax.expression.BaseExpression;
+import org.jd.core.v1.model.javasyntax.expression.Expression;
+import org.jd.core.v1.model.javasyntax.type.BaseType;
+import org.jd.core.v1.model.javasyntax.type.BaseTypeArgument;
+import org.jd.core.v1.model.javasyntax.type.BaseTypeParameter;
+import org.jd.core.v1.model.javasyntax.type.GenericType;
+import org.jd.core.v1.model.javasyntax.type.InnerObjectType;
+import org.jd.core.v1.model.javasyntax.type.ObjectType;
+import org.jd.core.v1.model.javasyntax.type.PrimitiveType;
+import org.jd.core.v1.model.javasyntax.type.Type;
+import org.jd.core.v1.model.javasyntax.type.TypeArgument;
+import org.jd.core.v1.model.javasyntax.type.TypeArguments;
+import org.jd.core.v1.model.javasyntax.type.TypeParameter;
+import org.jd.core.v1.model.javasyntax.type.TypeParameterWithTypeBounds;
+import org.jd.core.v1.model.javasyntax.type.TypeParameters;
+import org.jd.core.v1.model.javasyntax.type.UnmodifiableTypes;
+import org.jd.core.v1.model.javasyntax.type.WildcardExtendsTypeArgument;
+import org.jd.core.v1.model.javasyntax.type.WildcardSuperTypeArgument;
+import org.jd.core.v1.model.javasyntax.type.WildcardTypeArgument;
+import org.jd.core.v1.service.converter.classfiletojavasyntax.visitor.BindTypesToTypesVisitor;
+import org.jd.core.v1.service.deserializer.classfile.ClassFileFormatException;
+import org.jd.core.v1.service.deserializer.classfile.ClassFileReader;
 
 /*
  * https://jcp.org/aboutJava/communityprocess/maintenance/jsr924/JVMS-SE5.0-Ch4-ClassFile.pdf
@@ -1736,7 +1757,7 @@ public class TypeMaker {
 		protected byte[] buffer = new byte[1024 * 5];
 
 		@Override
-		public byte[] load(String internalName) throws LoaderException {
+		public byte[] load(String internalName) throws IOException {
 			InputStream is = this.getClass().getResourceAsStream("/" + internalName + ".class");
 
 			if (is == null) {
@@ -1751,8 +1772,6 @@ public class TypeMaker {
 					}
 
 					return out.toByteArray();
-				} catch (IOException e) {
-					throw new LoaderException(e);
 				}
 			}
 		}

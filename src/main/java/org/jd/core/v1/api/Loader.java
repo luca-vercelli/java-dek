@@ -7,7 +7,7 @@
 
 package org.jd.core.v1.api;
 
-import org.jd.core.v1.api.loader.LoaderException;
+import java.io.IOException;
 
 /**
  * An object that loads classes into memory as byte arrays
@@ -21,8 +21,7 @@ public interface Loader {
 
 	/**
 	 * Load given class bytecode into a byte array
-	 * 
-	 * @throws LoaderException
+	 * @throws IOException 
 	 */
-	byte[] load(String internalName) throws LoaderException;
+	byte[] load(String internalName) throws IOException;
 }

@@ -14,7 +14,6 @@ import static org.junit.Assert.fail;
 import java.io.InputStream;
 
 import org.jd.core.v1.api.Loader;
-import org.jd.core.v1.api.loader.LoaderException;
 import org.jd.core.v1.impl.loader.ZipLoader;
 import org.jd.core.v1.model.classfile.ClassFile;
 import org.jd.core.v1.model.classfile.Field;
@@ -38,7 +37,7 @@ public class ClassFileDeserializerTest {
 			}
 
 			@Override
-			public byte[] load(String internalName) throws LoaderException {
+			public byte[] load(String internalName) {
 				fail("Loader cannot load anything");
 				return null;
 			}

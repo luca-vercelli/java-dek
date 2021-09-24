@@ -59,7 +59,7 @@ public class ConvertClassFileProcessor implements Processor {
 	 * Given a TypeMaker and a ClassFile, create a CompilationUnit
 	 */
 	@Override
-	public void process(Message message) throws Exception {
+	public void process(Message message) {
 		TypeMaker typeMaker = message.getTypeMaker();
 		ClassFile classFile = message.getClassFile();
 

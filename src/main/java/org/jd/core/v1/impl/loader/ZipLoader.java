@@ -7,15 +7,14 @@
 
 package org.jd.core.v1.impl.loader;
 
-import org.jd.core.v1.api.Loader;
-import org.jd.core.v1.api.loader.LoaderException;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
+
+import org.jd.core.v1.api.Loader;
 
 /**
  * A loader that loads classes from within ZIP archive (e.g. JAR). All classes
@@ -24,7 +23,7 @@ import java.util.zip.ZipInputStream;
 public class ZipLoader implements Loader {
 	protected HashMap<String, byte[]> map = new HashMap<>();
 
-	public ZipLoader(InputStream is) throws LoaderException {
+	public ZipLoader(InputStream is) throws IOException {
 		byte[] buffer = new byte[1024 * 2];
 
 		try (ZipInputStream zis = new ZipInputStream(is)) {
@@ -47,8 +46,6 @@ public class ZipLoader implements Loader {
 			}
 
 			zis.closeEntry();
-		} catch (IOException e) {
-			throw new LoaderException(e);
 		}
 	}
 
@@ -57,7 +54,7 @@ public class ZipLoader implements Loader {
 	}
 
 	@Override
-	public byte[] load(String internalName) throws LoaderException {
+	public byte[] load(String internalName) {
 		return map.get(internalName + ".class");
 	}
 

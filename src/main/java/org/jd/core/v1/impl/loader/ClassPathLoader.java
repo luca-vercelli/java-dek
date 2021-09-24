@@ -7,19 +7,18 @@
 
 package org.jd.core.v1.impl.loader;
 
-import org.jd.core.v1.api.Loader;
-import org.jd.core.v1.api.loader.LoaderException;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+
+import org.jd.core.v1.api.Loader;
 
 /**
  * A Loader that loads classes from classpath.
  */
 public class ClassPathLoader implements Loader {
 	@Override
-	public byte[] load(String internalName) throws LoaderException {
+	public byte[] load(String internalName) throws IOException {
 		InputStream is = this.getClass().getResourceAsStream("/" + internalName + ".class");
 
 		if (is == null) {
@@ -35,8 +34,6 @@ public class ClassPathLoader implements Loader {
 				}
 
 				return out.toByteArray();
-			} catch (IOException e) {
-				throw new LoaderException(e);
 			}
 		}
 	}
