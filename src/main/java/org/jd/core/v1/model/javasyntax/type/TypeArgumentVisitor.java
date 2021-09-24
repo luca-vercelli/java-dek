@@ -7,14 +7,27 @@
 
 package org.jd.core.v1.model.javasyntax.type;
 
+/**
+ * Traverse a tree of TypeArgument's.
+ * 
+ * There shall be one visit() method for every TypeArgument subclass.
+ */
 public interface TypeArgumentVisitor {
-    void visit(TypeArguments arguments);
-    void visit(DiamondTypeArgument argument);
-    void visit(WildcardExtendsTypeArgument argument);
-    void visit(WildcardSuperTypeArgument argument);
-    void visit(WildcardTypeArgument argument);
-    void visit(PrimitiveType type);
-    void visit(ObjectType type);
-    void visit(InnerObjectType type);
-    void visit(GenericType type);
+	void visit(TypeArguments arguments);
+
+	void visit(DiamondTypeArgument argument);
+
+	void visit(WildcardExtendsTypeArgument argument);
+
+	void visit(WildcardSuperTypeArgument argument);
+
+	void visit(WildcardTypeArgument argument);
+
+	void visit(PrimitiveType type);
+
+	void visit(ObjectType type);
+
+	void visit(InnerObjectType type);
+
+	void visit(GenericType type);
 }

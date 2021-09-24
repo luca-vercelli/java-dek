@@ -17,7 +17,7 @@ import java.util.List;
  * Print a list of tokens to a Printer.
  */
 public class PrintTokenVisitor implements TokenVisitor {
-	public static int UNKNOWN_LINE_NUMBER = Printer.UNKNOWN_LINE_NUMBER;
+	public final static int UNKNOWN_LINE_NUMBER = Printer.UNKNOWN_LINE_NUMBER;
 
 	protected SearchLineNumberVisitor searchLineNumberVisitor = new SearchLineNumberVisitor();
 

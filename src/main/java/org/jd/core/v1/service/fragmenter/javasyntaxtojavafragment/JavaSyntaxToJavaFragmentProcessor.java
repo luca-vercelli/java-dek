@@ -7,8 +7,11 @@
 
 package org.jd.core.v1.service.fragmenter.javasyntaxtojavafragment;
 
+import java.util.List;
+
 import org.jd.core.v1.api.Loader;
 import org.jd.core.v1.api.Processor;
+import org.jd.core.v1.model.fragment.Fragment;
 import org.jd.core.v1.model.javafragment.ImportsFragment;
 import org.jd.core.v1.model.javasyntax.CompilationUnit;
 import org.jd.core.v1.model.message.Message;
@@ -37,13 +40,27 @@ public class JavaSyntaxToJavaFragmentProcessor implements Processor {
 		SearchImportsVisitor importsVisitor = new SearchImportsVisitor(loader, mainInternalTypeName);
 		importsVisitor.visit(compilationUnit);
 		ImportsFragment importsFragment = importsVisitor.getImportsFragment();
+		int maxLineNumber = importsVisitor.getMaxLineNumber();
+		
+		
+		List<Fragment> fragments = generateFragments(loader, mainInternalTypeName, majorVersion, compilationUnit,
+				importsFragment);
+		
+		message.setMaxLineNumber(maxLineNumber);
+		message.setFragments(fragments);
+	}
 
+	/**
+	 * Generate fragments
+	 */
+	protected List<Fragment> generateFragments(Loader loader, String mainInternalTypeName, int majorVersion,
+			CompilationUnit compilationUnit, ImportsFragment importsFragment) {
+		
 		CompilationUnitVisitor visitor = new CompilationUnitVisitor(loader, mainInternalTypeName, majorVersion,
 				importsFragment);
 		visitor.visit(compilationUnit);
-
-		message.setMaxLineNumber(importsVisitor.getMaxLineNumber());
-		message.setFragments(visitor.getFragments());
+		List<Fragment> fragments = visitor.getFragments();
+		return fragments;
 	}
 
 	private static JavaSyntaxToJavaFragmentProcessor instance = null;

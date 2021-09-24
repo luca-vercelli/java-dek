@@ -22,6 +22,9 @@ import org.jd.core.v1.service.fragmenter.javasyntaxtojavafragment.util.JavaFragm
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Search for all required import statements
+ */
 public class SearchImportsVisitor extends AbstractJavaSyntaxVisitor {
 	protected Loader loader;
 	protected String internalPackagePrefix;

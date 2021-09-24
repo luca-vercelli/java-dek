@@ -7,7 +7,7 @@
 
 package org.jd.core.v1.model.fragment;
 
-public class StartMovableBlockFragment extends FlexibleFragment {
+public abstract class StartMovableBlockFragment extends FlexibleFragment {
     protected int type;
 
     public StartMovableBlockFragment(int type) {

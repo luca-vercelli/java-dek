@@ -57,7 +57,7 @@ public class ExpressionVisitor extends TypeVisitor {
         this.diamondOperatorSupported = (majorVersion >= 51); // (majorVersion >= Java 7)
     }
 
-    public DefaultList<Fragment> getFragments() {
+    public List<Fragment> getFragments() {
         return fragments;
     }
 

@@ -520,14 +520,20 @@ public class TokenizeJavaFragmentVisitor implements JavaFragmentVisitor {
 		}
 	}
 
-	protected static class ImportNameComparator implements Comparator<ImportsFragment.Import> {
+	/**
+	 * Import statements are ordered alphabetically by qualified name
+	 */
+	public static class ImportNameComparator implements Comparator<ImportsFragment.Import> {
 		@Override
 		public int compare(ImportsFragment.Import tr1, ImportsFragment.Import tr2) {
 			return tr1.getQualifiedName().compareTo(tr2.getQualifiedName());
 		}
 	}
 
-	protected class KnownLineNumberTokenVisitor extends AbstractNopTokenVisitor {
+	/**
+	 * A visitor that adds to super.tokens all visited tokens
+	 */
+	public class KnownLineNumberTokenVisitor extends AbstractNopTokenVisitor {
 		public int currentLineNumber;
 
 		public void reset(int firstLineNumber) {
@@ -625,7 +631,10 @@ public class TokenizeJavaFragmentVisitor implements JavaFragmentVisitor {
 		}
 	}
 
-	protected class UnknownLineNumberTokenVisitor implements TokenVisitor {
+	/**
+	 * A visitor that adds to super.tokens all visited tokens
+	 */
+	public class UnknownLineNumberTokenVisitor implements TokenVisitor {
 		@Override
 		public void visit(EndBlockToken token) {
 			assert token != EndBlockToken.END_BLOCK
