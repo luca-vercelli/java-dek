@@ -7,6 +7,7 @@
 
 package org.jd.core.v1.api;
 
+import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -16,8 +17,8 @@ import java.util.Map;
  */
 public interface Decompiler {
 
-	Printer decompile(Loader loader, Printer printer, String internalName) throws Exception;
+	Printer decompile(Loader loader, Printer printer, String internalName) throws IOException;
 
 	Printer decompile(Loader loader, Printer printer, String internalName, Map<String, Object> configuration)
-			throws Exception;
+			throws IOException;
 }

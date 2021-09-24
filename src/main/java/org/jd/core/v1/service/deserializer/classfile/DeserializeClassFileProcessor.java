@@ -49,4 +49,16 @@ public class DeserializeClassFileProcessor extends ClassFileDeserializer impleme
 		ClassFile classFile = loadClassFile(loader, internalTypeName);
 		return classFile;
 	}
+
+	private static DeserializeClassFileProcessor instance = null;
+
+	/**
+	 * Get Singleton instance
+	 */
+	public static DeserializeClassFileProcessor getInstance() {
+		if (instance == null) {
+			instance = new DeserializeClassFileProcessor();
+		}
+		return instance;
+	}
 }

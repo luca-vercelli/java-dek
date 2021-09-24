@@ -7,6 +7,11 @@
 
 package org.jd.core.v1.service.layouter;
 
+import static org.jd.core.v1.api.Printer.UNKNOWN_LINE_NUMBER;
+
+import java.util.List;
+import java.util.Map;
+
 import org.jd.core.v1.api.Processor;
 import org.jd.core.v1.model.fragment.FixedFragment;
 import org.jd.core.v1.model.fragment.FlexibleFragment;
@@ -16,11 +21,6 @@ import org.jd.core.v1.service.layouter.model.Section;
 import org.jd.core.v1.service.layouter.util.VisitorsHolder;
 import org.jd.core.v1.service.layouter.visitor.BuildSectionsVisitor;
 import org.jd.core.v1.service.layouter.visitor.UpdateSpacerBetweenMovableBlocksVisitor;
-
-import static org.jd.core.v1.api.Printer.UNKNOWN_LINE_NUMBER;
-
-import java.util.List;
-import java.util.Map;
 
 /**
  * Layout (compact, expend, move) a list of fragments.<br>
@@ -32,8 +32,7 @@ import java.util.Map;
 public class LayoutFragmentProcessor implements Processor {
 
 	/**
-	 * Layout (compact, expend, move) a list of fragments.
-	 * Update fragments in place
+	 * Layout (compact, expend, move) a list of fragments. Update fragments in place
 	 */
 	@Override
 	public void process(Message message) {
@@ -146,5 +145,17 @@ public class LayoutFragmentProcessor implements Processor {
 				}
 			}
 		}
+	}
+
+	private static LayoutFragmentProcessor instance = null;
+
+	/**
+	 * Get Singleton instance
+	 */
+	public static LayoutFragmentProcessor getInstance() {
+		if (instance == null) {
+			instance = new LayoutFragmentProcessor();
+		}
+		return instance;
 	}
 }

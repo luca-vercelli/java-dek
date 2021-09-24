@@ -7,13 +7,13 @@
 
 package org.jd.core.v1.service.writer;
 
+import java.util.List;
+
 import org.jd.core.v1.api.Printer;
 import org.jd.core.v1.api.Processor;
 import org.jd.core.v1.model.message.Message;
 import org.jd.core.v1.model.token.Token;
 import org.jd.core.v1.service.writer.visitor.PrintTokenVisitor;
-
-import java.util.List;
 
 /**
  * Write a list of tokens to a {@link org.jd.core.v1.api.Printer}.<br>
@@ -52,5 +52,17 @@ public class WriteTokenProcessor implements Processor {
 
 		visitor.end();
 		printer.end();
+	}
+
+	private static WriteTokenProcessor instance = null;
+
+	/**
+	 * Get Singleton instance
+	 */
+	public static WriteTokenProcessor getInstance() {
+		if (instance == null) {
+			instance = new WriteTokenProcessor();
+		}
+		return instance;
 	}
 }

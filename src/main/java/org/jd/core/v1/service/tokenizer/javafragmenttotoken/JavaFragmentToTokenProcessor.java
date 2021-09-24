@@ -49,4 +49,16 @@ public class JavaFragmentToTokenProcessor implements Processor {
 
 		return visitor.getTokens();
 	}
+
+	private static JavaFragmentToTokenProcessor instance = null;
+
+	/**
+	 * Get Singleton instance
+	 */
+	public static JavaFragmentToTokenProcessor getInstance() {
+		if (instance == null) {
+			instance = new JavaFragmentToTokenProcessor();
+		}
+		return instance;
+	}
 }

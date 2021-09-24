@@ -45,4 +45,16 @@ public class JavaSyntaxToJavaFragmentProcessor implements Processor {
 		message.setMaxLineNumber(importsVisitor.getMaxLineNumber());
 		message.setFragments(visitor.getFragments());
 	}
+
+	private static JavaSyntaxToJavaFragmentProcessor instance = null;
+
+	/**
+	 * Get Singleton instance
+	 */
+	public static JavaSyntaxToJavaFragmentProcessor getInstance() {
+		if (instance == null) {
+			instance = new JavaSyntaxToJavaFragmentProcessor();
+		}
+		return instance;
+	}
 }

@@ -7,14 +7,14 @@
 
 package org.jd.core.v1.service.converter.classfiletojavasyntax;
 
+import java.util.Map;
+
 import org.jd.core.v1.api.Loader;
 import org.jd.core.v1.api.Processor;
 import org.jd.core.v1.model.message.Message;
 import org.jd.core.v1.service.converter.classfiletojavasyntax.processor.ConvertClassFileProcessor;
 import org.jd.core.v1.service.converter.classfiletojavasyntax.processor.UpdateJavaSyntaxTreeProcessor;
 import org.jd.core.v1.service.converter.classfiletojavasyntax.util.TypeMaker;
-
-import java.util.Map;
 
 /**
  * Convert ClassFile model to Java syntax model.<br>
@@ -26,8 +26,6 @@ import java.util.Map;
  * @see ConvertClassFileProcessor
  */
 public class ClassFileToJavaSyntaxProcessor implements Processor {
-	protected static final ConvertClassFileProcessor CONVERT_CLASS_FILE_PROCESSOR = new ConvertClassFileProcessor();
-	protected static final UpdateJavaSyntaxTreeProcessor UPDATE_JAVA_SYNTAX_TREE_PROCESSOR = new UpdateJavaSyntaxTreeProcessor();
 
 	/**
 	 * Given a ClassFile, create TypeMaker and CompilationUnit
@@ -40,8 +38,8 @@ public class ClassFileToJavaSyntaxProcessor implements Processor {
 		TypeMaker typeMaker = createTypeMaker(loader, configuration);
 
 		message.setTypeMaker(typeMaker);
-		CONVERT_CLASS_FILE_PROCESSOR.process(message);
-		UPDATE_JAVA_SYNTAX_TREE_PROCESSOR.process(message);
+		ConvertClassFileProcessor.getInstance().process(message);
+		UpdateJavaSyntaxTreeProcessor.getInstance().process(message);
 	}
 
 	private TypeMaker createTypeMaker(Loader loader, Map<String, Object> configuration) {
@@ -66,5 +64,17 @@ public class ClassFileToJavaSyntaxProcessor implements Processor {
 
 		}
 		return typeMaker;
+	}
+
+	private static ClassFileToJavaSyntaxProcessor instance = null;
+
+	/**
+	 * Get Singleton instance
+	 */
+	public static ClassFileToJavaSyntaxProcessor getInstance() {
+		if (instance == null) {
+			instance = new ClassFileToJavaSyntaxProcessor();
+		}
+		return instance;
 	}
 }

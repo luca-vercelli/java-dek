@@ -18,21 +18,22 @@ import org.jd.core.v1.service.layouter.LayoutFragmentProcessor;
 import org.jd.core.v1.service.tokenizer.javafragmenttotoken.JavaFragmentToTokenProcessor;
 import org.jd.core.v1.service.writer.WriteTokenProcessor;
 
+import java.io.IOException;
 import java.util.Map;
 
 /**
  * This is the main Decompiler implementation
  */
 public class StandardDecompiler implements Decompiler {
-	protected DeserializeClassFileProcessor deserializer = new DeserializeClassFileProcessor();
-	protected ClassFileToJavaSyntaxProcessor converter = new ClassFileToJavaSyntaxProcessor();
-	protected JavaSyntaxToJavaFragmentProcessor fragmenter = new JavaSyntaxToJavaFragmentProcessor();
-	protected LayoutFragmentProcessor layouter = new LayoutFragmentProcessor();
-	protected JavaFragmentToTokenProcessor tokenizer = new JavaFragmentToTokenProcessor();
-	protected WriteTokenProcessor writer = new WriteTokenProcessor();
+	protected DeserializeClassFileProcessor deserializer = DeserializeClassFileProcessor.getInstance();
+	protected ClassFileToJavaSyntaxProcessor converter = ClassFileToJavaSyntaxProcessor.getInstance();
+	protected JavaSyntaxToJavaFragmentProcessor fragmenter = JavaSyntaxToJavaFragmentProcessor.getInstance();
+	protected LayoutFragmentProcessor layouter = LayoutFragmentProcessor.getInstance();
+	protected JavaFragmentToTokenProcessor tokenizer = JavaFragmentToTokenProcessor.getInstance();
+	protected WriteTokenProcessor writer = WriteTokenProcessor.getInstance();
 
 	@Override
-	public Printer decompile(Loader loader, Printer printer, String internalName) throws Exception {
+	public Printer decompile(Loader loader, Printer printer, String internalName) throws IOException {
 		Message message = new Message();
 
 		message.setMainInternalTypeName(internalName);
@@ -46,7 +47,7 @@ public class StandardDecompiler implements Decompiler {
 
 	@Override
 	public Printer decompile(Loader loader, Printer printer, String internalName, Map<String, Object> configuration)
-			throws Exception {
+			throws IOException {
 		Message message = new Message();
 
 		message.setMainInternalTypeName(internalName);
@@ -58,7 +59,7 @@ public class StandardDecompiler implements Decompiler {
 		return printer;
 	}
 
-	protected void decompile(Message message) throws Exception {
+	protected void decompile(Message message) throws IOException {
 		this.deserializer.process(message);
 		this.converter.process(message);
 		this.fragmenter.process(message);

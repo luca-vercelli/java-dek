@@ -37,4 +37,16 @@ public class UpdateJavaSyntaxTreeProcessor implements Processor {
 		new UpdateJavaSyntaxTreeStep1Visitor(typeMaker).visit(compilationUnit);
 		new UpdateJavaSyntaxTreeStep2Visitor(typeMaker).visit(compilationUnit);
 	}
+
+	private static UpdateJavaSyntaxTreeProcessor instance = null;
+
+	/**
+	 * Get Singleton instance
+	 */
+	public static UpdateJavaSyntaxTreeProcessor getInstance() {
+		if (instance == null) {
+			instance = new UpdateJavaSyntaxTreeProcessor();
+		}
+		return instance;
+	}
 }
