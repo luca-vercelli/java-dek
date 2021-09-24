@@ -17,7 +17,7 @@ import org.jd.core.v1.model.token.Token;
 import java.util.Arrays;
 import java.util.List;
 
-public class LineNumberTokensFragment extends FixedFragment implements JavaFragment {
+public class LineNumberTokensFragment extends FixedFragment {
 	protected List<Token> tokens;
 
 	public LineNumberTokensFragment(Token... tokens) {

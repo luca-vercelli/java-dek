@@ -16,9 +16,9 @@ import java.util.Map;
 
 import org.jd.core.v1.impl.printer.PlainTextMetaPrinter;
 import org.jd.core.v1.impl.printer.PlainTextPrinter;
-import org.jd.core.v1.model.fragment.Fragment;
 import org.jd.core.v1.model.javafragment.EndMovableJavaBlockFragment;
 import org.jd.core.v1.model.javafragment.ImportsFragment;
+import org.jd.core.v1.model.javafragment.JavaFragment;
 import org.jd.core.v1.model.javafragment.LineNumberTokensFragment;
 import org.jd.core.v1.model.javafragment.StartBodyFragment;
 import org.jd.core.v1.model.javafragment.StartMovableJavaBlockFragment;
@@ -908,7 +908,7 @@ public class JavaFragmentToTokenTest {
 	 * @throws Exception
 	 */
 	public Message createMessageToTestIfReturn(int lineNumber1, int lineNumber2) throws Exception {
-		DefaultList<Fragment> fragments = new DefaultList<>();
+		DefaultList<JavaFragment> fragments = new DefaultList<>();
 
 		JavaFragmentFactory.addSpacerBetweenStatements(fragments);
 
@@ -959,7 +959,7 @@ public class JavaFragmentToTokenTest {
 	 */
 	public Message createMessageToTestIfAssignation(int lineNumber1, int lineNumber2, int lineNumber3)
 			throws Exception {
-		DefaultList<Fragment> fragments = new DefaultList<>();
+		DefaultList<JavaFragment> fragments = new DefaultList<>();
 
 		JavaFragmentFactory.addSpacerBetweenStatements(fragments);
 
@@ -1004,7 +1004,7 @@ public class JavaFragmentToTokenTest {
 	}
 
 	public Message createMessageToTestClassDeclaration(int lineNumber) throws Exception {
-		DefaultList<Fragment> fragments = new DefaultList<>();
+		DefaultList<JavaFragment> fragments = new DefaultList<>();
 
 		// package org.jd.core.v1.service.writer;\n\n
 		fragments.add(new TokensFragment(PACKAGE, new TextToken(" org.jd.core.v1.service.writer;")));
@@ -1075,7 +1075,7 @@ public class JavaFragmentToTokenTest {
 	}
 
 	public Message createMessageToTestClassDeclarationWithoutImports(int lineNumber) throws Exception {
-		DefaultList<Fragment> fragments = new DefaultList<>();
+		DefaultList<JavaFragment> fragments = new DefaultList<>();
 
 		// package org.jd.core.v1.service.writer;\n\n
 		fragments.add(new TokensFragment(PACKAGE, new TextToken(" org.jd.core.v1.service.writer;")));
@@ -1143,7 +1143,7 @@ public class JavaFragmentToTokenTest {
 	 * public TokenWriterTest(int i) {<-- { 0,2,5 --> super(i); } }
 	 */
 	public Message createMessageToTestClassAndMethodDeclaration(int lineNumber) throws Exception {
-		DefaultList<Fragment> fragments = new DefaultList<>();
+		DefaultList<JavaFragment> fragments = new DefaultList<>();
 
 		// package org.jd.core.v1.service.writer;\n\n
 		fragments.add(new TokensFragment(PACKAGE, new TextToken(" org.jd.core.v1.service.writer;")));
@@ -1224,7 +1224,7 @@ public class JavaFragmentToTokenTest {
 	 * System.out.println(i);<-- } 0,2,7 --><-- } 0,2,2 -->
 	 */
 	public Message createSimpleMessage(int factor) {
-		DefaultList<Fragment> fragments = new DefaultList<>();
+		DefaultList<JavaFragment> fragments = new DefaultList<>();
 
 		// package org.jd.core.v1.service.writer;\n\n
 		fragments.add(new TokensFragment(PACKAGE, new TextToken(" org.jd.core.v1.service.writer;")));
@@ -1389,7 +1389,7 @@ public class JavaFragmentToTokenTest {
 	}
 
 	public Message createMessageToTestMoveDown() {
-		DefaultList<Fragment> fragments = new DefaultList<>();
+		DefaultList<JavaFragment> fragments = new DefaultList<>();
 
 		// package org.jd.core.v1.service.writer;\n\n
 		fragments.add(new TokensFragment(PACKAGE, new TextToken(" org.jd.core.v1.service.writer;")));
@@ -1522,7 +1522,7 @@ public class JavaFragmentToTokenTest {
 	 */
 	public Message createMessageToTestLinkedBlocks(int lineNumber1, int lineNumber2, int lineNumber3, int lineNumber4,
 			int lineNumber5) {
-		DefaultList<Fragment> fragments = new DefaultList<>();
+		DefaultList<JavaFragment> fragments = new DefaultList<>();
 
 		// package org.jd.core.v1.service.writer;\n\n
 		fragments.add(new TokensFragment(PACKAGE, new TextToken(" org.jd.core.v1.service.writer;")));

@@ -7,10 +7,21 @@
 
 package org.jd.core.v1.service.layouter.visitor;
 
-import org.jd.core.v1.model.fragment.*;
+import org.jd.core.v1.model.fragment.EndFlexibleBlockFragment;
+import org.jd.core.v1.model.fragment.EndMovableBlockFragment;
+import org.jd.core.v1.model.fragment.FixedFragment;
+import org.jd.core.v1.model.fragment.FlexibleFragment;
+import org.jd.core.v1.model.fragment.FragmentVisitor;
+import org.jd.core.v1.model.fragment.SpacerBetweenMovableBlocksFragment;
+import org.jd.core.v1.model.fragment.StartFlexibleBlockFragment;
+import org.jd.core.v1.model.fragment.StartMovableBlockFragment;
 import org.jd.core.v1.service.layouter.model.Section;
 import org.jd.core.v1.util.DefaultList;
 
+/**
+ * During visit, create a Section for each FixedFragment. Store a list of
+ * FlexibleFragments.
+ */
 public class BuildSectionsVisitor implements FragmentVisitor {
 	protected DefaultList<Section> sections = new DefaultList<>();
 	protected DefaultList<FlexibleFragment> flexibleFragments = new DefaultList<>();

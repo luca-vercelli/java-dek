@@ -7,7 +7,7 @@
 
 package org.jd.core.v1.model.fragment;
 
-public class EndMovableBlockFragment extends FlexibleFragment {
+public abstract class EndMovableBlockFragment extends FlexibleFragment {
 	public EndMovableBlockFragment() {
 		super(0, 0, 0, 0, "End movable block");
 	}

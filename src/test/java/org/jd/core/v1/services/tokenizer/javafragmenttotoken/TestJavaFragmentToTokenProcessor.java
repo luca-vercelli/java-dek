@@ -10,7 +10,6 @@ package org.jd.core.v1.services.tokenizer.javafragmenttotoken;
 import java.util.List;
 
 import org.jd.core.v1.api.Processor;
-import org.jd.core.v1.model.fragment.Fragment;
 import org.jd.core.v1.model.javafragment.JavaFragment;
 import org.jd.core.v1.model.message.Message;
 import org.jd.core.v1.services.tokenizer.javafragmenttotoken.visitor.TokenizeJavaFragmentTestVisitor;
@@ -22,12 +21,12 @@ public class TestJavaFragmentToTokenProcessor implements Processor {
 
 	@Override
 	public void process(Message message) {
-		List<Fragment> fragments = message.getFragments(); // JavaFragment's expected
+		List<JavaFragment> fragments = message.getFragments();
 		TokenizeJavaFragmentTestVisitor visitor = new TokenizeJavaFragmentTestVisitor(fragments.size() * 3);
 
 		// Create tokens
-		for (Fragment fragment : fragments) {
-			((JavaFragment) fragment).accept(visitor);
+		for (JavaFragment fragment : fragments) {
+			fragment.accept(visitor);
 		}
 
 		message.setTokens(visitor.getTokens());

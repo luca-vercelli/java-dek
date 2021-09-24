@@ -7,21 +7,8 @@
 
 package org.jd.core.v1.service.fragmenter.javasyntaxtojavafragment.visitor;
 
-import org.jd.core.v1.api.Loader;
-import org.jd.core.v1.api.Printer;
-import org.jd.core.v1.model.fragment.Fragment;
-import org.jd.core.v1.model.javafragment.*;
-import org.jd.core.v1.model.javasyntax.declaration.BaseFormalParameter;
-import org.jd.core.v1.model.javasyntax.declaration.BodyDeclaration;
-import org.jd.core.v1.model.javasyntax.declaration.FormalParameter;
-import org.jd.core.v1.model.javasyntax.expression.*;
-import org.jd.core.v1.model.javasyntax.statement.BaseStatement;
-import org.jd.core.v1.model.javasyntax.type.*;
-import org.jd.core.v1.model.token.*;
-import org.jd.core.v1.service.fragmenter.javasyntaxtojavafragment.util.CharacterUtil;
-import org.jd.core.v1.service.fragmenter.javasyntaxtojavafragment.util.JavaFragmentFactory;
-import org.jd.core.v1.service.fragmenter.javasyntaxtojavafragment.util.StringUtil;
-import org.jd.core.v1.util.DefaultList;
+import static org.jd.core.v1.model.javasyntax.type.PrimitiveType.FLAG_BOOLEAN;
+import static org.jd.core.v1.model.javasyntax.type.PrimitiveType.FLAG_CHAR;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -29,8 +16,76 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import static org.jd.core.v1.model.javasyntax.type.PrimitiveType.FLAG_BOOLEAN;
-import static org.jd.core.v1.model.javasyntax.type.PrimitiveType.FLAG_CHAR;
+import org.jd.core.v1.api.Loader;
+import org.jd.core.v1.api.Printer;
+import org.jd.core.v1.model.javafragment.ImportsFragment;
+import org.jd.core.v1.model.javafragment.JavaFragment;
+import org.jd.core.v1.model.javafragment.LineNumberTokensFragment;
+import org.jd.core.v1.model.javafragment.StartBlockFragment;
+import org.jd.core.v1.model.javafragment.StartBodyFragment;
+import org.jd.core.v1.model.javafragment.TokensFragment;
+import org.jd.core.v1.model.javasyntax.declaration.BaseFormalParameter;
+import org.jd.core.v1.model.javasyntax.declaration.BodyDeclaration;
+import org.jd.core.v1.model.javasyntax.declaration.FormalParameter;
+import org.jd.core.v1.model.javasyntax.expression.ArrayExpression;
+import org.jd.core.v1.model.javasyntax.expression.BaseExpression;
+import org.jd.core.v1.model.javasyntax.expression.BinaryOperatorExpression;
+import org.jd.core.v1.model.javasyntax.expression.BooleanExpression;
+import org.jd.core.v1.model.javasyntax.expression.CastExpression;
+import org.jd.core.v1.model.javasyntax.expression.CommentExpression;
+import org.jd.core.v1.model.javasyntax.expression.ConstructorInvocationExpression;
+import org.jd.core.v1.model.javasyntax.expression.ConstructorReferenceExpression;
+import org.jd.core.v1.model.javasyntax.expression.DoubleConstantExpression;
+import org.jd.core.v1.model.javasyntax.expression.EnumConstantReferenceExpression;
+import org.jd.core.v1.model.javasyntax.expression.Expression;
+import org.jd.core.v1.model.javasyntax.expression.Expressions;
+import org.jd.core.v1.model.javasyntax.expression.FieldReferenceExpression;
+import org.jd.core.v1.model.javasyntax.expression.FloatConstantExpression;
+import org.jd.core.v1.model.javasyntax.expression.InstanceOfExpression;
+import org.jd.core.v1.model.javasyntax.expression.IntegerConstantExpression;
+import org.jd.core.v1.model.javasyntax.expression.LambdaFormalParametersExpression;
+import org.jd.core.v1.model.javasyntax.expression.LambdaIdentifiersExpression;
+import org.jd.core.v1.model.javasyntax.expression.LengthExpression;
+import org.jd.core.v1.model.javasyntax.expression.LocalVariableReferenceExpression;
+import org.jd.core.v1.model.javasyntax.expression.LongConstantExpression;
+import org.jd.core.v1.model.javasyntax.expression.MethodInvocationExpression;
+import org.jd.core.v1.model.javasyntax.expression.MethodReferenceExpression;
+import org.jd.core.v1.model.javasyntax.expression.NewArray;
+import org.jd.core.v1.model.javasyntax.expression.NewExpression;
+import org.jd.core.v1.model.javasyntax.expression.NewInitializedArray;
+import org.jd.core.v1.model.javasyntax.expression.NoExpression;
+import org.jd.core.v1.model.javasyntax.expression.NullExpression;
+import org.jd.core.v1.model.javasyntax.expression.ObjectTypeReferenceExpression;
+import org.jd.core.v1.model.javasyntax.expression.ParenthesesExpression;
+import org.jd.core.v1.model.javasyntax.expression.PostOperatorExpression;
+import org.jd.core.v1.model.javasyntax.expression.PreOperatorExpression;
+import org.jd.core.v1.model.javasyntax.expression.StringConstantExpression;
+import org.jd.core.v1.model.javasyntax.expression.SuperConstructorInvocationExpression;
+import org.jd.core.v1.model.javasyntax.expression.SuperExpression;
+import org.jd.core.v1.model.javasyntax.expression.TernaryOperatorExpression;
+import org.jd.core.v1.model.javasyntax.expression.ThisExpression;
+import org.jd.core.v1.model.javasyntax.expression.TypeReferenceDotClassExpression;
+import org.jd.core.v1.model.javasyntax.statement.BaseStatement;
+import org.jd.core.v1.model.javasyntax.type.BaseType;
+import org.jd.core.v1.model.javasyntax.type.BaseTypeArgument;
+import org.jd.core.v1.model.javasyntax.type.DiamondTypeArgument;
+import org.jd.core.v1.model.javasyntax.type.ObjectType;
+import org.jd.core.v1.model.javasyntax.type.PrimitiveType;
+import org.jd.core.v1.model.token.BooleanConstantToken;
+import org.jd.core.v1.model.token.CharacterConstantToken;
+import org.jd.core.v1.model.token.EndBlockToken;
+import org.jd.core.v1.model.token.EndMarkerToken;
+import org.jd.core.v1.model.token.KeywordToken;
+import org.jd.core.v1.model.token.NumericConstantToken;
+import org.jd.core.v1.model.token.ReferenceToken;
+import org.jd.core.v1.model.token.StartBlockToken;
+import org.jd.core.v1.model.token.StartMarkerToken;
+import org.jd.core.v1.model.token.StringConstantToken;
+import org.jd.core.v1.model.token.TextToken;
+import org.jd.core.v1.service.fragmenter.javasyntaxtojavafragment.util.CharacterUtil;
+import org.jd.core.v1.service.fragmenter.javasyntaxtojavafragment.util.JavaFragmentFactory;
+import org.jd.core.v1.service.fragmenter.javasyntaxtojavafragment.util.StringUtil;
+import org.jd.core.v1.util.DefaultList;
 
 public class ExpressionVisitor extends TypeVisitor {
     public static final KeywordToken CLASS = new KeywordToken("class");
@@ -57,7 +112,7 @@ public class ExpressionVisitor extends TypeVisitor {
         this.diamondOperatorSupported = (majorVersion >= 51); // (majorVersion >= Java 7)
     }
 
-    public List<Fragment> getFragments() {
+    public List<JavaFragment> getFragments() {
         return fragments;
     }
 
@@ -689,7 +744,7 @@ public class ExpressionVisitor extends TypeVisitor {
     /**
      * A List of Fragment's
      */
-    protected static class Fragments extends DefaultList<Fragment> {
+    protected static class Fragments extends DefaultList<JavaFragment> {
 		private static final long serialVersionUID = 1322744031089900996L;
 
 		public void addTokensFragment(Tokens tokens) {

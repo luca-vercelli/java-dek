@@ -14,11 +14,12 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class ImportsFragment extends FlexibleFragment implements JavaFragment {
+public class ImportsFragment extends FlexibleFragment {
 	protected static final ImportCountComparator COUNT_COMPARATOR = new ImportCountComparator();
 
-	protected final HashMap<String, ImportsFragment.Import> importMap = new HashMap<>();
+	protected final Map<String, ImportsFragment.Import> importMap = new HashMap<>();
 
 	public ImportsFragment(int weight) {
 		super(0, -1, -1, weight, "Imports");
@@ -120,6 +121,9 @@ public class ImportsFragment extends FlexibleFragment implements JavaFragment {
 		visitor.visit(this);
 	}
 
+	/**
+	 * Order Import's by their counter
+	 */
 	protected static class ImportCountComparator implements Comparator<Import> {
 		@Override
 		public int compare(Import tr1, Import tr2) {

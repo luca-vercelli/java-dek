@@ -16,7 +16,8 @@ import java.util.List;
 
 import static org.jd.core.v1.service.fragmenter.javasyntaxtojavafragment.visitor.StatementVisitor.RETURN;
 
-public class TokensFragment extends FlexibleFragment implements JavaFragment {
+public class TokensFragment extends FlexibleFragment {
+
 	public static final TokensFragment COMMA = new TokensFragment(TextToken.COMMA);
 	public static final TokensFragment SEMICOLON = new TokensFragment(TextToken.SEMICOLON);
 	public static final TokensFragment START_DECLARATION_OR_STATEMENT_BLOCK = new TokensFragment(

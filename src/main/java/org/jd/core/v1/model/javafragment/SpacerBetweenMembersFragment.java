@@ -9,14 +9,15 @@ package org.jd.core.v1.model.javafragment;
 
 import org.jd.core.v1.model.fragment.SpacerBetweenMovableBlocksFragment;
 
-public class SpacerBetweenMembersFragment extends SpacerBetweenMovableBlocksFragment implements JavaFragment {
+public class SpacerBetweenMembersFragment extends SpacerBetweenMovableBlocksFragment {
 
-    public SpacerBetweenMembersFragment(int minimalLineCount, int lineCount, int maximalLineCount, int weight, String label) {
-        super(minimalLineCount, lineCount, maximalLineCount, weight, label);
-    }
+	public SpacerBetweenMembersFragment(int minimalLineCount, int lineCount, int maximalLineCount, int weight,
+			String label) {
+		super(minimalLineCount, lineCount, maximalLineCount, weight, label);
+	}
 
-    @Override
-    public void accept(JavaFragmentVisitor visitor) {
-        visitor.visit(this);
-    }
+	@Override
+	public void accept(JavaFragmentVisitor visitor) {
+		visitor.visit(this);
+	}
 }

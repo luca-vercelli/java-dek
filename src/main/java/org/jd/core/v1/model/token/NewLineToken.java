@@ -8,6 +8,8 @@
 package org.jd.core.v1.model.token;
 
 /**
+ * Represent one or more new line characters.
+ * 
  * Must be create outside of blocks [StartStatementToken ... EndStatementToken]
  */
 public class NewLineToken implements Token {

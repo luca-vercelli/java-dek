@@ -9,7 +9,7 @@ package org.jd.core.v1.model.javafragment;
 
 import org.jd.core.v1.model.fragment.EndFlexibleBlockFragment;
 
-public class EndBlockFragment extends EndFlexibleBlockFragment implements JavaFragment {
+public class EndBlockFragment extends EndFlexibleBlockFragment {
     protected StartBlockFragment start;
 
     public EndBlockFragment(int minimalLineCount, int lineCount, int maximalLineCount, int weight, String label, StartBlockFragment start) {

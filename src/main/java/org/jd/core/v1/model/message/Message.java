@@ -13,7 +13,7 @@ import java.util.Map;
 import org.jd.core.v1.api.Loader;
 import org.jd.core.v1.api.Printer;
 import org.jd.core.v1.model.classfile.ClassFile;
-import org.jd.core.v1.model.fragment.Fragment;
+import org.jd.core.v1.model.javafragment.JavaFragment;
 import org.jd.core.v1.model.javasyntax.CompilationUnit;
 import org.jd.core.v1.model.token.Token;
 import org.jd.core.v1.service.converter.classfiletojavasyntax.util.TypeMaker;
@@ -32,7 +32,7 @@ public class Message {
 	private TypeMaker typeMaker;
 	private ClassFile classFile;
 	private CompilationUnit compilationUnit;
-	private List<Fragment> fragments;
+	private List<JavaFragment> fragments;
 	private List<Token> tokens;
 
 	public Map<String, Object> getConfiguration() {
@@ -127,11 +127,11 @@ public class Message {
 		this.showBridgeAndSynthetic = showBridgeAndSynthetic;
 	}
 
-	public List<Fragment> getFragments() {
+	public List<JavaFragment> getFragments() {
 		return fragments;
 	}
 
-	public void setFragments(List<Fragment> fragments) {
+	public void setFragments(List<JavaFragment> fragments) {
 		this.fragments = fragments;
 	}
 

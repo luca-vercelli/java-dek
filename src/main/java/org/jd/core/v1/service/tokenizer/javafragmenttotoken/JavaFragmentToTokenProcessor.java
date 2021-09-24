@@ -29,9 +29,7 @@ public class JavaFragmentToTokenProcessor implements Processor {
 	 */
 	@Override
 	public void process(Message message) {
-		@SuppressWarnings("unchecked")
-		List<JavaFragment> fragments = (List<JavaFragment>) (List<?>) message.getFragments(); // warning expects a List
-																								// of JavaFragment !
+		List<JavaFragment> fragments = message.getFragments();
 		List<Token> list = process(fragments);
 		message.setTokens(list);
 	}

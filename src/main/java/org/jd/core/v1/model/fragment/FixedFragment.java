@@ -7,10 +7,12 @@
 
 package org.jd.core.v1.model.fragment;
 
+import org.jd.core.v1.model.javafragment.JavaFragment;
+
 /**
  * A Fragment that cannot be moved
  */
-public abstract class FixedFragment implements Fragment {
+public abstract class FixedFragment implements Fragment, JavaFragment {
 	protected final int firstLineNumber;
 	protected final int lastLineNumber;
 

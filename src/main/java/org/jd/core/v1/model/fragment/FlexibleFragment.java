@@ -7,10 +7,12 @@
 
 package org.jd.core.v1.model.fragment;
 
+import org.jd.core.v1.model.javafragment.JavaFragment;
+
 /**
  * A Fragment that can be moved
  */
-public abstract class FlexibleFragment implements Fragment {
+public abstract class FlexibleFragment implements Fragment, JavaFragment {
 	protected final int minimalLineCount;
 	protected int maximalLineCount;
 	protected int initialLineCount;

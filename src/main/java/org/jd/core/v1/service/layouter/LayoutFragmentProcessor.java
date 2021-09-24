@@ -16,6 +16,7 @@ import org.jd.core.v1.api.Processor;
 import org.jd.core.v1.model.fragment.FixedFragment;
 import org.jd.core.v1.model.fragment.FlexibleFragment;
 import org.jd.core.v1.model.fragment.Fragment;
+import org.jd.core.v1.model.javafragment.JavaFragment;
 import org.jd.core.v1.model.message.Message;
 import org.jd.core.v1.service.layouter.model.Section;
 import org.jd.core.v1.service.layouter.util.VisitorsHolder;
@@ -45,7 +46,7 @@ public class LayoutFragmentProcessor implements Processor {
 		boolean realignLineNumbers = (realignLineNumbersConfiguration == null) ? false
 				: "true".equals(realignLineNumbersConfiguration.toString());
 
-		List<Fragment> fragments = message.getFragments();
+		List<JavaFragment> fragments = message.getFragments();
 
 		if ((maxLineNumber != UNKNOWN_LINE_NUMBER) && !containsByteCode && !showBridgeAndSynthetic
 				&& realignLineNumbers) {

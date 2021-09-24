@@ -9,7 +9,7 @@ package org.jd.core.v1.model.javafragment;
 
 import org.jd.core.v1.model.fragment.StartMovableBlockFragment;
 
-public class StartMovableJavaBlockFragment extends StartMovableBlockFragment implements JavaFragment {
+public class StartMovableJavaBlockFragment extends StartMovableBlockFragment {
 	public static final StartMovableJavaBlockFragment START_MOVABLE_TYPE_BLOCK = new StartMovableJavaBlockFragment(1);
 	public static final StartMovableJavaBlockFragment START_MOVABLE_FIELD_BLOCK = new StartMovableJavaBlockFragment(2);
 	public static final StartMovableJavaBlockFragment START_MOVABLE_METHOD_BLOCK = new StartMovableJavaBlockFragment(3);

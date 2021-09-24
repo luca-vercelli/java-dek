@@ -17,6 +17,9 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 
+/**
+ * Visit a list of Fragments, and generate for each a list of tokens.
+ */
 public class TokenizeJavaFragmentVisitor implements JavaFragmentVisitor {
 	protected static final ImportNameComparator NAME_COMPARATOR = new ImportNameComparator();
 
@@ -45,6 +48,9 @@ public class TokenizeJavaFragmentVisitor implements JavaFragmentVisitor {
 		return tokens;
 	}
 
+	/**
+	 * If the fragment is an EndBlockFragment, 
+	 */
 	@Override
 	public void visit(EndBlockFragment fragment) {
 		switch (fragment.getLineCount()) {

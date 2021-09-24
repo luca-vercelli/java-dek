@@ -7,6 +7,10 @@
 
 package org.jd.core.v1.model.token;
 
+/**
+ * Represent a end of "block": a code block, an array, a list of parameters, a
+ * statement, ...
+ */
 public class EndBlockToken implements Token {
 
 	public static final EndBlockToken END_BLOCK = new EndBlockToken("}");

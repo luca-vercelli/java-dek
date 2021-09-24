@@ -9,6 +9,10 @@ package org.jd.core.v1.service.layouter.visitor;
 
 import org.jd.core.v1.model.fragment.*;
 
+/**
+ * During visit, count movable fragments. Store the number in a public
+ * attribute.
+ */
 public abstract class AbstractSearchMovableBlockFragmentVisitor implements FragmentVisitor {
 	protected int depth;
 	protected int index;
