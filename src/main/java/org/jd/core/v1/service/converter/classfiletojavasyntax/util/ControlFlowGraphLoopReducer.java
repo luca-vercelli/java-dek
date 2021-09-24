@@ -394,7 +394,7 @@ public class ControlFlowGraphLoopReducer {
                     lastBB = bb;
                 }
             }
-            if (previousBB != null) {
+            if (previousBB != null) { // FIXME
                 offset = checkSynchronizedBlockOffset(previousBB);
                 if (maxOffset < offset) {
                     maxOffset = offset;
