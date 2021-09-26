@@ -1,9 +1,17 @@
-# jd-cli
+# java-dek
 Java Decompiler CLI based on jd-gui
 
-Our goal is to decompile class files up to Java 8.
+Our goal is to improve and fix issues of [jd-core](https://github.com/java-decompiler/jd-core). That project was last updated on 2019.
 
-This project is based on https://github.com/java-decompiler/jd-core, which appears to be last updated on 2019
+Moreover we provide a very very simple CLI utility that allow to decompile a whole folder of Java clases.
+
+## Features
+
+* Maven build system
+* Clean code
+* Javadoc
+
+## Compile and run
 
 Compile with
 
@@ -11,5 +19,5 @@ Compile with
 
 Run with
 
-    java -jar jd-cli.jar [-d <destination root folder>] <classes root folder>
+    java -jar java-dek.jar [-d <destination root folder>] <classes root folder>
 
