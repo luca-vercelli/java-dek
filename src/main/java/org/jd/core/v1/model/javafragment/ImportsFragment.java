@@ -94,7 +94,7 @@ public class ImportsFragment extends FlexibleFragment {
 	public static class Import {
 		protected String internalName;
 		protected String qualifiedName;
-		protected int counter;
+		protected int counter; // how many times is this import used
 
 		public Import(String internalName, String qualifiedName) {
 			this.internalName = internalName;

@@ -342,6 +342,9 @@ public class SearchImportsVisitor extends AbstractJavaSyntaxVisitor {
 		}
 	}
 
+	/**
+	 * During visit, create a Set of main type names found.
+	 */
 	protected static class TypeVisitor extends AbstractJavaSyntaxVisitor {
 		Set<String> mainTypeNames;
 

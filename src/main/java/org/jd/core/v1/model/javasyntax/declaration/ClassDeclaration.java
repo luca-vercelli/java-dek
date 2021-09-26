@@ -12,32 +12,40 @@ import org.jd.core.v1.model.javasyntax.type.BaseType;
 import org.jd.core.v1.model.javasyntax.type.BaseTypeParameter;
 import org.jd.core.v1.model.javasyntax.type.ObjectType;
 
+/**
+ * A Class declaration is made up of Type parameters, Interfaces, Annotations,
+ * and a Body
+ */
 public class ClassDeclaration extends InterfaceDeclaration {
-    protected ObjectType superType;
+	protected ObjectType superType;
 
-    public ClassDeclaration(int flags, String internalName, String name, BodyDeclaration bodyDeclaration) {
-        super(null, flags, internalName, name, null, null, bodyDeclaration);
-    }
+	public ClassDeclaration(int flags, String internalName, String name, BodyDeclaration bodyDeclaration) {
+		super(null, flags, internalName, name, null, null, bodyDeclaration);
+	}
 
-    public ClassDeclaration(BaseAnnotationReference annotationReferences, int flags, String internalName, String name, BaseTypeParameter typeParameters, ObjectType superType, BaseType interfaces, BodyDeclaration bodyDeclaration) {
-        super(annotationReferences, flags, internalName, name, typeParameters, interfaces, bodyDeclaration);
-        this.superType = superType;
-    }
+	public ClassDeclaration(BaseAnnotationReference annotationReferences, int flags, String internalName, String name,
+			BaseTypeParameter typeParameters, ObjectType superType, BaseType interfaces,
+			BodyDeclaration bodyDeclaration) {
+		super(annotationReferences, flags, internalName, name, typeParameters, interfaces, bodyDeclaration);
+		this.superType = superType;
+	}
 
-    public ObjectType getSuperType() {
-        return superType;
-    }
+	public ObjectType getSuperType() {
+		return superType;
+	}
 
-    @Override
-    public boolean isClassDeclaration() { return true; }
+	@Override
+	public boolean isClassDeclaration() {
+		return true;
+	}
 
-    @Override
-    public void accept(DeclarationVisitor visitor) {
-        visitor.visit(this);
-    }
+	@Override
+	public void accept(DeclarationVisitor visitor) {
+		visitor.visit(this);
+	}
 
-    @Override
-    public String toString() {
-        return "ClassDeclaration{" + internalTypeName + "}";
-    }
+	@Override
+	public String toString() {
+		return "ClassDeclaration{" + internalTypeName + "}";
+	}
 }
