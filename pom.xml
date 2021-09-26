@@ -3,8 +3,8 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>jd-cli</groupId>
-	<artifactId>jd-cli</artifactId>
+	<groupId>java-dek</groupId>
+	<artifactId>java-dek</artifactId>
 	<version>1.0-SNAPSHOT</version>
 
 	<properties>
@@ -143,18 +143,15 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-report-plugin</artifactId>
 				<version>3.0.0-M5</version>
-				<configuration>
-					<outputDirectory>${project.build.directory}/reports/junit</outputDirectory>
-				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<version>0.8.7</version>
 				<configuration>
-					<destFile>${project.build.directory}/reports/jacoco/jacoco.exec</destFile>
-					<dataFile>${project.build.directory}/reports/jacoco/jacoco.exec</dataFile>
-					<outputDirectory>${project.build.directory}/reports/jacoco</outputDirectory>
+					<destFile>${project.build.directory}/jacoco/jacoco.exec</destFile>
+					<dataFile>${project.build.directory}/jacoco/jacoco.exec</dataFile>
+					<outputDirectory>${project.build.directory}/jacoco</outputDirectory>
 				</configuration>
 				<executions>
 					<execution>
@@ -197,8 +194,8 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <doctitle>JavaDecompiler jd-cli</doctitle>
-                    <title>JavaDecompiler jd-cli</title>
+                    <doctitle>Java Decompiler java-dek</doctitle>
+                    <title>Java Decompiler java-dek</title>
                     <!-- NB: We don't use -html5, as it requires j9+, which not everyone has -->
                     <additionalOptions>-quiet</additionalOptions>
                     <subpackages>
