@@ -312,6 +312,7 @@ public class ClassFileDeserializer {
 
 			Constant constant = constants.getConstant(attributeNameIndex);
 
+			int offsetBefore = reader.offset;
 			if (constant.getTag() == Constant.CONSTANT_Utf8) {
 				String name = ((ConstantUtf8) constant).getValue();
 
@@ -327,13 +328,11 @@ public class ClassFileDeserializer {
 							loadCode(reader), loadCodeExceptions(reader), loadAttributes(reader, constants)));
 					break;
 				case "ConstantValue":
-					if (attributeLength != 2)
+					if (attributeLength < 2)
 						throw new ClassFileFormatException("Invalid attribute length");
 					attributes.put(name, new AttributeConstantValue(loadConstantValue(reader, constants)));
 					break;
 				case "Deprecated":
-					if (attributeLength != 0)
-						throw new ClassFileFormatException("Invalid attribute length");
 					attributes.put(name, new AttributeDeprecated());
 					break;
 				case "Exceptions":
@@ -384,19 +383,17 @@ public class ClassFileDeserializer {
 							new AttributeParameterAnnotations(loadParameterAnnotations(reader, constants)));
 					break;
 				case "Signature":
-					if (attributeLength != 2)
+					if (attributeLength < 2)
 						throw new ClassFileFormatException("Invalid attribute length");
 					attributes.put(name, new AttributeSignature(constants.getConstantUtf8(reader.readUnsignedShort())));
 					break;
 				case "SourceFile":
-					if (attributeLength != 2)
+					if (attributeLength < 2)
 						throw new ClassFileFormatException("Invalid attribute length");
 					attributes.put(name,
 							new AttributeSourceFile(constants.getConstantUtf8(reader.readUnsignedShort())));
 					break;
 				case "Synthetic":
-					if (attributeLength != 0)
-						throw new ClassFileFormatException("Invalid attribute length");
 					attributes.put(name, new AttributeSynthetic());
 					break;
 				default:
@@ -405,6 +402,11 @@ public class ClassFileDeserializer {
 				}
 			} else {
 				throw new ClassFileFormatException("Invalid attributes");
+			}
+			int diffOffset = reader.offset - offsetBefore;
+			if (diffOffset > attributeLength) {
+				System.err.println("Warning: hidden bytes within attribute");
+				reader.skip(attributeLength - diffOffset);
 			}
 		}
 
