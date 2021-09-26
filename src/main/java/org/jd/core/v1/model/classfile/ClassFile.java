@@ -15,7 +15,8 @@ import java.util.Map;
 import static org.jd.core.v1.model.classfile.AccessFlagConstants.*;
 
 /**
- * Store basic informations (not bytecode) about a class.
+ * Logical representation of a Class. The internal model follows the internal
+ * structure of the class. Bytecode is stored inside "code attributes".
  */
 public class ClassFile {
 	protected int majorVersion;

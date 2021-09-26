@@ -72,6 +72,11 @@ import org.jd.core.v1.model.classfile.constant.ConstantUtf8;
 import org.jd.core.v1.model.classfile.constant.ConstantValue;
 import org.jd.core.v1.util.DefaultList;
 
+/**
+ * Read a class file into a ClassFile object.
+ * 
+ * Lower level methods are in ClassFileReader.
+ */
 public class ClassFileDeserializer {
 	protected static final int[] EMPTY_INT_ARRAY = new int[0];
 
