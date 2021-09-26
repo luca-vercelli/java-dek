@@ -12,6 +12,7 @@ import static org.jd.core.v1.model.classfile.AccessFlagConstants.ACC_SYNTHETIC;
 import java.io.IOException;
 import java.io.UTFDataFormatException;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.jd.core.v1.api.Loader;
 import org.jd.core.v1.model.classfile.ClassFile;
@@ -173,7 +174,7 @@ public class ClassFileDeserializer {
 		String[] interfaceTypeNames = loadInterfaces(reader, constants);
 		Field[] fields = loadFields(reader, constants);
 		Method[] methods = loadMethods(reader, constants);
-		HashMap<String, Attribute> attributes = loadAttributes(reader, constants);
+		Map<String, Attribute> attributes = loadAttributes(reader, constants);
 
 		return new ClassFile(majorVersion, minorVersion, accessFlags, internalTypeName, superTypeName,
 				interfaceTypeNames, fields, methods, attributes);
@@ -264,7 +265,7 @@ public class ClassFileDeserializer {
 			int accessFlags = reader.readUnsignedShort();
 			int nameIndex = reader.readUnsignedShort();
 			int descriptorIndex = reader.readUnsignedShort();
-			HashMap<String, Attribute> attributes = loadAttributes(reader, constants);
+			Map<String, Attribute> attributes = loadAttributes(reader, constants);
 
 			String name = constants.getConstantUtf8(nameIndex);
 			String descriptor = constants.getConstantUtf8(descriptorIndex);
@@ -286,7 +287,7 @@ public class ClassFileDeserializer {
 			int accessFlags = reader.readUnsignedShort();
 			int nameIndex = reader.readUnsignedShort();
 			int descriptorIndex = reader.readUnsignedShort();
-			HashMap<String, Attribute> attributes = loadAttributes(reader, constants);
+			Map<String, Attribute> attributes = loadAttributes(reader, constants);
 
 			String name = constants.getConstantUtf8(nameIndex);
 			String descriptor = constants.getConstantUtf8(descriptorIndex);
@@ -297,7 +298,8 @@ public class ClassFileDeserializer {
 		return methods;
 	}
 
-	protected HashMap<String, Attribute> loadAttributes(ClassFileReader reader, ConstantPool constants) {
+	// Warning: we are assuming 1 attribute only of each type
+	protected Map<String, Attribute> loadAttributes(ClassFileReader reader, ConstantPool constants) {
 		int count = reader.readUnsignedShort();
 		if (count == 0)
 			return null;
