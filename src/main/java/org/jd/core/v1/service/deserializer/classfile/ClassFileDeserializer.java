@@ -40,6 +40,7 @@ import org.jd.core.v1.model.classfile.attribute.AttributeParameterAnnotations;
 import org.jd.core.v1.model.classfile.attribute.AttributeSignature;
 import org.jd.core.v1.model.classfile.attribute.AttributeSourceFile;
 import org.jd.core.v1.model.classfile.attribute.AttributeSynthetic;
+import org.jd.core.v1.model.classfile.attribute.AttributeType;
 import org.jd.core.v1.model.classfile.attribute.BootstrapMethod;
 import org.jd.core.v1.model.classfile.attribute.CodeException;
 import org.jd.core.v1.model.classfile.attribute.InnerClass;
@@ -316,48 +317,49 @@ public class ClassFileDeserializer {
 			int offsetBefore = reader.offset;
 			if (constant.getTag() == ConstantPoolTag.CONSTANT_Utf8) {
 				String name = ((ConstantUtf8) constant).getValue();
+				AttributeType type = AttributeType.valueOf(name);
 
-				switch (name) {
-				case "AnnotationDefault":
+				switch (type) {
+				case AnnotationDefault:
 					attributes.put(name, new AttributeAnnotationDefault(loadElementValue(reader, constants)));
 					break;
-				case "BootstrapMethods":
+				case BootstrapMethods:
 					attributes.put(name, new AttributeBootstrapMethods(loadBootstrapMethods(reader)));
 					break;
-				case "Code":
+				case Code:
 					attributes.put(name, new AttributeCode(reader.readUnsignedShort(), reader.readUnsignedShort(),
 							loadCode(reader), loadCodeExceptions(reader), loadAttributes(reader, constants)));
 					break;
-				case "ConstantValue":
+				case ConstantValue:
 					if (attributeLength < 2)
 						throw new ClassFileFormatException("Invalid attribute length");
 					attributes.put(name, new AttributeConstantValue(loadConstantValue(reader, constants)));
 					break;
-				case "Deprecated":
+				case Deprecated:
 					attributes.put(name, new AttributeDeprecated());
 					break;
-				case "Exceptions":
+				case Exceptions:
 					attributes.put(name, new AttributeExceptions(loadExceptionTypeNames(reader, constants)));
 					break;
-				case "InnerClasses":
+				case InnerClasses:
 					attributes.put(name, new AttributeInnerClasses(loadInnerClasses(reader, constants)));
 					break;
-				case "LocalVariableTable":
+				case LocalVariableTable:
 					LocalVariable[] localVariables = loadLocalVariables(reader, constants);
 					if (localVariables != null)
 						attributes.put(name, new AttributeLocalVariableTable(localVariables));
 					break;
-				case "LocalVariableTypeTable":
+				case LocalVariableTypeTable:
 					attributes.put(name,
 							new AttributeLocalVariableTypeTable(loadLocalVariableTypes(reader, constants)));
 					break;
-				case "LineNumberTable":
+				case LineNumberTable:
 					attributes.put(name, new AttributeLineNumberTable(loadLineNumbers(reader)));
 					break;
-				case "MethodParameters":
+				case MethodParameters:
 					attributes.put(name, new AttributeMethodParameters(loadParameters(reader, constants)));
 					break;
-				case "Module":
+				case Module:
 					attributes.put(name,
 							new AttributeModule(constants.getConstantTypeName(reader.readUnsignedShort()),
 									reader.readUnsignedShort(), constants.getConstantUtf8(reader.readUnsignedShort()),
@@ -365,36 +367,36 @@ public class ClassFileDeserializer {
 									loadPackageInfos(reader, constants), loadConstantClassNames(reader, constants),
 									loadServiceInfos(reader, constants)));
 					break;
-				case "ModulePackages":
+				case ModulePackages:
 					attributes.put(name, new AttributeModulePackages(loadConstantClassNames(reader, constants)));
 					break;
-				case "ModuleMainClass":
+				case ModuleMainClass:
 					attributes.put(name,
 							new AttributeModuleMainClass(constants.getConstant(reader.readUnsignedShort())));
 					break;
-				case "RuntimeInvisibleAnnotations":
-				case "RuntimeVisibleAnnotations":
+				case RuntimeInvisibleAnnotations:
+				case RuntimeVisibleAnnotations:
 					Annotation[] annotations = loadAnnotations(reader, constants);
 					if (annotations != null)
 						attributes.put(name, new Annotations(annotations));
 					break;
-				case "RuntimeInvisibleParameterAnnotations":
-				case "RuntimeVisibleParameterAnnotations":
+				case RuntimeInvisibleParameterAnnotations:
+				case RuntimeVisibleParameterAnnotations:
 					attributes.put(name,
 							new AttributeParameterAnnotations(loadParameterAnnotations(reader, constants)));
 					break;
-				case "Signature":
+				case Signature:
 					if (attributeLength < 2)
 						throw new ClassFileFormatException("Invalid attribute length");
 					attributes.put(name, new AttributeSignature(constants.getConstantUtf8(reader.readUnsignedShort())));
 					break;
-				case "SourceFile":
+				case SourceFile:
 					if (attributeLength < 2)
 						throw new ClassFileFormatException("Invalid attribute length");
 					attributes.put(name,
 							new AttributeSourceFile(constants.getConstantUtf8(reader.readUnsignedShort())));
 					break;
-				case "Synthetic":
+				case Synthetic:
 					attributes.put(name, new AttributeSynthetic());
 					break;
 				default:
