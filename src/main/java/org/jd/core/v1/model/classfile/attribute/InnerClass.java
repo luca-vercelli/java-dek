@@ -7,6 +7,9 @@
 
 package org.jd.core.v1.model.classfile.attribute;
 
+/**
+ * Information stored in InnerClass attributes
+ */
 public class InnerClass {
     protected String innerTypeName;
     protected String outerTypeName;

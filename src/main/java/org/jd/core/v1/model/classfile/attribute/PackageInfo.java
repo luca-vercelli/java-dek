@@ -7,6 +7,9 @@
 
 package org.jd.core.v1.model.classfile.attribute;
 
+/**
+ * Information stored in Module attributes
+ */
 public class PackageInfo {
 	protected String internalName;
 	protected int flags;

@@ -7,6 +7,9 @@
 
 package org.jd.core.v1.model.classfile.attribute;
 
+/**
+ * Information stored in MethodParameter attributes
+ */
 public class MethodParameter {
 	protected String name;
 	protected int access;

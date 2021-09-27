@@ -7,6 +7,8 @@
 
 package org.jd.core.v1.model.classfile.attribute;
 
+import org.jd.core.v1.model.classfile.attribute.elementValue.ElementValuePair;
+
 public class Annotation {
     protected String descriptor;
     protected ElementValuePair[] elementValuePairs;

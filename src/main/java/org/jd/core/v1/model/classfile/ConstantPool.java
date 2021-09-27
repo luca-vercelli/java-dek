@@ -9,6 +9,10 @@ package org.jd.core.v1.model.classfile;
 
 import org.jd.core.v1.model.classfile.constant.*;
 
+/**
+ * Store constant value. This table is stored at the beginning of the class
+ * file.
+ */
 public class ConstantPool {
 	protected Constant[] constants;
 

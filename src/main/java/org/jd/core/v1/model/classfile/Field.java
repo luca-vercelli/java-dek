@@ -12,7 +12,7 @@ import org.jd.core.v1.model.classfile.attribute.Attribute;
 import java.util.Map;
 
 /**
- * Store basic informations about a class field.
+ * Represents a class field.
  */
 public class Field {
 	protected int accessFlags;

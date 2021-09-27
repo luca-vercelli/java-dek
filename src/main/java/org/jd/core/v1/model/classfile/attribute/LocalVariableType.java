@@ -7,6 +7,9 @@
 
 package org.jd.core.v1.model.classfile.attribute;
 
+/**
+ * Information stored in LocalVariableTypeTable attributes
+ */
 public class LocalVariableType {
     protected int startPc;
     protected int length;

@@ -19,6 +19,12 @@ import org.jd.core.v1.impl.StandardDecompiler;
 import org.jd.core.v1.impl.loader.DirectoryLoader;
 import org.jd.core.v1.impl.printer.PlainTextPrinter;
 
+/**
+ * CLI application
+ * 
+ * @author luca vercelli 2021
+ *
+ */
 public class CliMain implements Runnable {
 
 	public final static String VERSION = "1.0 2021";

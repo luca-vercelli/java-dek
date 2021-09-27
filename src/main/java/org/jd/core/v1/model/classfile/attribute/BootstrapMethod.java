@@ -7,6 +7,9 @@
 
 package org.jd.core.v1.model.classfile.attribute;
 
+/**
+ * Information stored in BootstrapMethods attributes
+ */
 public class BootstrapMethod {
 	protected int bootstrapMethodRef;
 	protected int bootstrapArguments[];

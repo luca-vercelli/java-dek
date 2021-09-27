@@ -12,7 +12,7 @@ import org.jd.core.v1.model.classfile.attribute.Attribute;
 import java.util.Map;
 
 /**
- * Store basic informations (not bytecode) about a class method.
+ * Represents a class method.
  */
 public class Method {
 	protected int accessFlags;

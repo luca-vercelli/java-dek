@@ -8,7 +8,9 @@
 package org.jd.core.v1.model.classfile.attribute;
 
 /**
- * A couple (startPc, lineNumber)
+ * A couple (startPc, lineNumber).
+ * 
+ * Information stored in LineNumberTable attributes
  */
 public class LineNumber {
 	protected int startPc;

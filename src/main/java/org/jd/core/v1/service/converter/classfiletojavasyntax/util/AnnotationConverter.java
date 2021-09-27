@@ -8,8 +8,14 @@
 package org.jd.core.v1.service.converter.classfiletojavasyntax.util;
 
 import org.jd.core.v1.model.classfile.attribute.*;
-import org.jd.core.v1.model.classfile.attribute.ElementValue;
-import org.jd.core.v1.model.classfile.attribute.ElementValuePair;
+import org.jd.core.v1.model.classfile.attribute.elementValue.ElementValue;
+import org.jd.core.v1.model.classfile.attribute.elementValue.ElementValueAnnotationValue;
+import org.jd.core.v1.model.classfile.attribute.elementValue.ElementValueArrayValue;
+import org.jd.core.v1.model.classfile.attribute.elementValue.ElementValueClassInfo;
+import org.jd.core.v1.model.classfile.attribute.elementValue.ElementValueEnumConstValue;
+import org.jd.core.v1.model.classfile.attribute.elementValue.ElementValuePair;
+import org.jd.core.v1.model.classfile.attribute.elementValue.ElementValuePrimitiveType;
+import org.jd.core.v1.model.classfile.attribute.elementValue.ElementValueVisitor;
 import org.jd.core.v1.model.classfile.constant.*;
 import org.jd.core.v1.model.javasyntax.expression.*;
 import org.jd.core.v1.model.javasyntax.reference.*;
