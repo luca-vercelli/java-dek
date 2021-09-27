@@ -130,7 +130,7 @@ public class CliMain implements Runnable {
 
 		Loader loader = new DirectoryLoader(srcFolder);
 		Printer printer = new PlainTextPrinter(escapeUnicode, printLineNumbers);
-		Decompiler decompiler = new StandardDecompiler();
+		Decompiler decompiler = StandardDecompiler.getInstance();
 		List<String> internalNames = listClasses(srcFolder);
 		for (String internalName : internalNames) {
 			try {

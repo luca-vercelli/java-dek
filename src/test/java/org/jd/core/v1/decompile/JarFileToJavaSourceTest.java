@@ -26,7 +26,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 public class JarFileToJavaSourceTest {
-	protected Decompiler decompiler = new StandardDecompiler(); // not TestDecompiler
+	protected Decompiler decompiler = StandardDecompiler.getInstance(); // not TestDecompiler
 
 	@Test
 	public void testCommonsCodec() throws Exception {

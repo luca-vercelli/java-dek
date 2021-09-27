@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.jd.core.v1.api.Loader;
 import org.jd.core.v1.api.Processor;
 import org.jd.core.v1.model.classfile.AccessFlagConstants;
 import org.jd.core.v1.model.classfile.ClassFile;
@@ -80,6 +81,7 @@ import org.jd.core.v1.util.DefaultList;
  * Output: {@link org.jd.core.v1.model.javasyntax.CompilationUnit}<br>
  */
 public class ConvertClassFileProcessor implements Processor {
+
 	protected PopulateBindingsWithTypeParameterVisitor populateBindingsWithTypeParameterVisitor = new PopulateBindingsWithTypeParameterVisitor() {
 		@Override
 		public void visit(TypeParameter parameter) {
@@ -93,15 +95,27 @@ public class ConvertClassFileProcessor implements Processor {
 		}
 	};
 
+	protected ConvertClassFileProcessor() {
+	}
+
+	{
+	}
+
 	/**
-	 * Given a TypeMaker and a ClassFile, create a CompilationUnit
+	 * Given a ClassFile, create a TypeMaker and a CompilationUnit.
+	 * 
+	 * TypeMaker may be taken from Configuration.
 	 */
 	@Override
 	public void process(Message message) {
-		TypeMaker typeMaker = message.getTypeMaker();
 		ClassFile classFile = message.getClassFile();
+		Loader loader = message.getLoader();
+		Map<String, Object> configuration = message.getConfiguration();
 
-		CompilationUnit compilationUnit = process(typeMaker, classFile);
+		TypeMaker typeMaker = createTypeMaker(loader, configuration);
+		message.setTypeMaker(typeMaker);
+
+		CompilationUnit compilationUnit = createCompilationUnit(typeMaker, classFile);
 
 		message.setMajorVersion(classFile.getMajorVersion());
 		message.setMinorVersion(classFile.getMinorVersion());
@@ -109,9 +123,36 @@ public class ConvertClassFileProcessor implements Processor {
 	}
 
 	/**
+	 * Create TypeMaker, or take it from Configuration
+	 */
+	protected TypeMaker createTypeMaker(Loader loader, Map<String, Object> configuration) {
+		TypeMaker typeMaker = null;
+
+		if (configuration == null) {
+			typeMaker = new TypeMaker(loader);
+		} else {
+
+			try {
+				typeMaker = (TypeMaker) configuration.get("typeMaker");
+
+				if (typeMaker == null) {
+					// Store the heavy weight object 'typeMaker' in 'configuration' to reuse it
+					configuration.put("typeMaker", typeMaker = new TypeMaker(loader));
+				}
+			} catch (Exception e) {
+				if (typeMaker == null) {
+					typeMaker = new TypeMaker(loader);
+				}
+			}
+
+		}
+		return typeMaker;
+	}
+
+	/**
 	 * Given a TypeMaker and a ClassFile, create a CompilationUnit
 	 */
-	public CompilationUnit process(TypeMaker typeMaker, ClassFile classFile) {
+	public CompilationUnit createCompilationUnit(TypeMaker typeMaker, ClassFile classFile) {
 		AnnotationConverter annotationConverter = new AnnotationConverter(typeMaker);
 
 		TypeDeclaration typeDeclaration;

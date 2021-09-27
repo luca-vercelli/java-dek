@@ -24,6 +24,9 @@ import org.jd.core.v1.service.writer.visitor.PrintTokenVisitor;
  */
 public class WriteTokenProcessor implements Processor {
 
+	protected WriteTokenProcessor() {
+	}
+
 	/**
 	 * Write a list of tokens to a Printer
 	 */

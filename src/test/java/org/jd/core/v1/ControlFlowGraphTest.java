@@ -88,8 +88,8 @@ import org.jd.core.v1.service.deserializer.classfile.DeserializeClassFileProcess
 import org.junit.Test;
 
 public class ControlFlowGraphTest {
-	protected DeserializeClassFileProcessor deserializer = new DeserializeClassFileProcessor();
-	protected ConvertClassFileProcessor converter = new ConvertClassFileProcessor();
+	protected DeserializeClassFileProcessor deserializer = DeserializeClassFileProcessor.getInstance();
+	protected ConvertClassFileProcessor converter = ConvertClassFileProcessor.getInstance();
 	protected ClassPathLoader loader = new ClassPathLoader();
 	protected TypeMaker typeMaker = new TypeMaker(loader);
 

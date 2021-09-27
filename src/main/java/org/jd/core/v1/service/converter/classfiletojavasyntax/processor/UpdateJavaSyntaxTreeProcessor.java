@@ -24,6 +24,9 @@ import org.jd.core.v1.service.converter.classfiletojavasyntax.visitor.UpdateJava
  */
 public class UpdateJavaSyntaxTreeProcessor implements Processor {
 
+	protected UpdateJavaSyntaxTreeProcessor() {
+	}
+
 	/**
 	 * Update compilationUnit in place, by means of UpdateJavaSyntaxTreeStep
 	 * visitors

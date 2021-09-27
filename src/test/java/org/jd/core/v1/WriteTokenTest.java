@@ -218,7 +218,7 @@ public class WriteTokenTest {
 		tokens.add(EndBlockToken.END_BLOCK);
 
 		PlainTextMetaPrinter printer = new PlainTextMetaPrinter();
-		WriteTokenProcessor writer = new WriteTokenProcessor();
+		WriteTokenProcessor writer = WriteTokenProcessor.getInstance();
 
 		Message message = new Message();
 		message.setTokens(tokens);
@@ -293,7 +293,7 @@ public class WriteTokenTest {
 		tokens.add(EndBlockToken.END_BLOCK);
 
 		PlainTextMetaPrinter printer = new PlainTextMetaPrinter();
-		WriteTokenProcessor writer = new WriteTokenProcessor();
+		WriteTokenProcessor writer = WriteTokenProcessor.getInstance();
 
 		Message message = new Message();
 		message.setTokens(tokens);

@@ -32,6 +32,9 @@ import org.jd.core.v1.service.layouter.visitor.UpdateSpacerBetweenMovableBlocksV
  */
 public class LayoutFragmentProcessor implements Processor {
 
+	protected LayoutFragmentProcessor() {
+	}
+
 	/**
 	 * Layout (compact, expend, move) a list of fragments. Update fragments in place
 	 */

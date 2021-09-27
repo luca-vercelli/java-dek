@@ -23,7 +23,7 @@ import org.junit.Test;
 import java.io.InputStream;
 
 public class SignatureParserTest extends TestCase {
-	protected DeserializeClassFileProcessor deserializer = new DeserializeClassFileProcessor();
+	protected DeserializeClassFileProcessor deserializer = DeserializeClassFileProcessor.getInstance();
 
 	@Test
 	public void testAnnotatedClass() throws Exception {

@@ -24,6 +24,9 @@ import org.jd.core.v1.service.tokenizer.javafragmenttotoken.visitor.TokenizeJava
  */
 public class JavaFragmentToTokenProcessor implements Processor {
 
+	protected JavaFragmentToTokenProcessor() {
+	}
+
 	/**
 	 * Convert a list of JavaFragment's to a list of tokens
 	 */

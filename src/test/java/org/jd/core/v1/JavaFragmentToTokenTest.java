@@ -65,9 +65,9 @@ public class JavaFragmentToTokenTest {
 	public static final KeywordToken SUPER = new KeywordToken("super");
 	public static final KeywordToken VOID = new KeywordToken("void");
 
-	protected LayoutFragmentProcessor layouter = new LayoutFragmentProcessor();
+	protected LayoutFragmentProcessor layouter = LayoutFragmentProcessor.getInstance();
 	protected TestJavaFragmentToTokenProcessor tokenizer = new TestJavaFragmentToTokenProcessor();
-	protected WriteTokenProcessor writer = new WriteTokenProcessor();
+	protected WriteTokenProcessor writer = WriteTokenProcessor.getInstance();
 
 	@Test
 	public void testIfReturn_0() throws Exception {

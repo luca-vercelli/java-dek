@@ -23,6 +23,9 @@ import org.jd.core.v1.model.message.Message;
  */
 public class DeserializeClassFileProcessor extends ClassFileDeserializer implements Processor {
 
+	protected DeserializeClassFileProcessor() {
+	}
+
 	/**
 	 * Create a ClassFile model from a loader and a internal type name
 	 * 

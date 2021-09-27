@@ -57,7 +57,7 @@ public class ClassFileDeserializerTest {
 	public void testAnnotatedClass() throws Exception {
 		InputStream is = this.getClass().getResourceAsStream("/zip/data-java-jdk-1.7.0.zip");
 		ZipLoader loader = new ZipLoader(is);
-		DeserializeClassFileProcessor deserializer = new DeserializeClassFileProcessor();
+		DeserializeClassFileProcessor deserializer = DeserializeClassFileProcessor.getInstance();
 
 		Message message = new Message();
 		message.setLoader(loader);

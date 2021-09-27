@@ -28,6 +28,9 @@ import org.jd.core.v1.util.Couple;
  */
 public class JavaSyntaxToJavaFragmentProcessor implements Processor {
 
+	protected JavaSyntaxToJavaFragmentProcessor() {
+	}
+
 	/**
 	 * Given a CompilationUnit, generate JavaFragments
 	 */
