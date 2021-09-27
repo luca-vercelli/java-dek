@@ -8,7 +8,7 @@
 package org.jd.core.v1.model.classfile.constant;
 
 public abstract class ConstantValue extends Constant {
-	protected ConstantValue(byte tag) {
+	protected ConstantValue(ConstantPoolTag tag) {
 		super(tag);
 	}
 }

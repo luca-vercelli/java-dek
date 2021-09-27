@@ -11,7 +11,7 @@ public class ConstantInteger extends ConstantValue {
 	protected int value;
 
 	public ConstantInteger(int value) {
-		super(CONSTANT_Integer);
+		super(ConstantPoolTag.CONSTANT_Integer);
 		this.value = value;
 	}
 

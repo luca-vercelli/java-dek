@@ -9,8 +9,24 @@ package org.jd.core.v1.service.converter.classfiletojavasyntax.util;
 
 import org.jd.core.v1.model.classfile.ConstantPool;
 import org.jd.core.v1.model.classfile.Method;
-import org.jd.core.v1.model.classfile.attribute.*;
-import org.jd.core.v1.model.classfile.constant.*;
+import org.jd.core.v1.model.classfile.attribute.AttributeCode;
+import org.jd.core.v1.model.classfile.attribute.AttributeLineNumberTable;
+import org.jd.core.v1.model.classfile.attribute.AttributeLocalVariableTable;
+import org.jd.core.v1.model.classfile.attribute.AttributeLocalVariableTypeTable;
+import org.jd.core.v1.model.classfile.attribute.CodeException;
+import org.jd.core.v1.model.classfile.attribute.LineNumber;
+import org.jd.core.v1.model.classfile.attribute.LocalVariable;
+import org.jd.core.v1.model.classfile.attribute.LocalVariableType;
+import org.jd.core.v1.model.classfile.constant.Constant;
+import org.jd.core.v1.model.classfile.constant.ConstantClass;
+import org.jd.core.v1.model.classfile.constant.ConstantDouble;
+import org.jd.core.v1.model.classfile.constant.ConstantFloat;
+import org.jd.core.v1.model.classfile.constant.ConstantInteger;
+import org.jd.core.v1.model.classfile.constant.ConstantLong;
+import org.jd.core.v1.model.classfile.constant.ConstantMemberRef;
+import org.jd.core.v1.model.classfile.constant.ConstantNameAndType;
+import org.jd.core.v1.model.classfile.constant.ConstantString;
+import org.jd.core.v1.model.classfile.constant.ConstantUtf8;
 
 /**
  * Example:
@@ -283,23 +299,23 @@ public class ByteCodeWriter {
 
     protected static void writeLDC(StringBuilder sb, ConstantPool constants, Constant constant) {
         switch (constant.getTag()) {
-            case Constant.CONSTANT_Integer:
+            case CONSTANT_Integer:
                 sb.append(' ').append(((ConstantInteger) constant).getValue());
                 break;
-            case Constant.CONSTANT_Float:
+            case CONSTANT_Float:
                 sb.append(' ').append(((ConstantFloat) constant).getValue());
                 break;
-            case Constant.CONSTANT_Class:
+            case CONSTANT_Class:
                 int typeNameIndex = ((ConstantClass) constant).getNameIndex();
                 sb.append(' ').append(((ConstantUtf8)constants.getConstant(typeNameIndex)).getValue());
                 break;
-            case Constant.CONSTANT_Long:
+            case CONSTANT_Long:
                 sb.append(' ').append(((ConstantLong) constant).getValue());
                 break;
-            case Constant.CONSTANT_Double:
+            case CONSTANT_Double:
                 sb.append(' ').append(((ConstantDouble) constant).getValue());
                 break;
-            case Constant.CONSTANT_String:
+            case CONSTANT_String:
                 sb.append(" '");
                 int stringIndex = ((ConstantString) constant).getStringIndex();
                 String str = constants.getConstantUtf8(stringIndex);

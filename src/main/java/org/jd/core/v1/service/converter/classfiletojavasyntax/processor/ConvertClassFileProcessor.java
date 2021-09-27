@@ -28,7 +28,6 @@ import org.jd.core.v1.model.classfile.attribute.AttributeModule;
 import org.jd.core.v1.model.classfile.attribute.ModuleInfo;
 import org.jd.core.v1.model.classfile.attribute.PackageInfo;
 import org.jd.core.v1.model.classfile.attribute.ServiceInfo;
-import org.jd.core.v1.model.classfile.constant.Constant;
 import org.jd.core.v1.model.classfile.constant.ConstantDouble;
 import org.jd.core.v1.model.classfile.constant.ConstantFloat;
 import org.jd.core.v1.model.classfile.constant.ConstantInteger;
@@ -370,19 +369,19 @@ public class ConvertClassFileProcessor implements Processor {
 			Expression expression;
 
 			switch (constantValue.getTag()) {
-			case Constant.CONSTANT_Integer:
+			case CONSTANT_Integer:
 				expression = new IntegerConstantExpression(typeField, ((ConstantInteger) constantValue).getValue());
 				break;
-			case Constant.CONSTANT_Float:
+			case CONSTANT_Float:
 				expression = new FloatConstantExpression(((ConstantFloat) constantValue).getValue());
 				break;
-			case Constant.CONSTANT_Long:
+			case CONSTANT_Long:
 				expression = new LongConstantExpression(((ConstantLong) constantValue).getValue());
 				break;
-			case Constant.CONSTANT_Double:
+			case CONSTANT_Double:
 				expression = new DoubleConstantExpression(((ConstantDouble) constantValue).getValue());
 				break;
-			case Constant.CONSTANT_Utf8:
+			case CONSTANT_Utf8:
 				expression = new StringConstantExpression(((ConstantUtf8) constantValue).getValue());
 				break;
 			default:

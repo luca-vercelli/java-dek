@@ -45,7 +45,7 @@ public class ConstantPool {
 	public ConstantValue getConstantValue(int index) {
 		Constant constant = constants[index];
 
-		if ((constant != null) && (constant.getTag() == Constant.CONSTANT_String)) {
+		if ((constant != null) && (constant.getTag() == ConstantPoolTag.CONSTANT_String)) {
 			constant = constants[((ConstantString) constant).getStringIndex()];
 		}
 

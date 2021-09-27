@@ -68,6 +68,7 @@ import org.jd.core.v1.model.classfile.constant.ConstantMemberRef;
 import org.jd.core.v1.model.classfile.constant.ConstantMethodHandle;
 import org.jd.core.v1.model.classfile.constant.ConstantMethodType;
 import org.jd.core.v1.model.classfile.constant.ConstantNameAndType;
+import org.jd.core.v1.model.classfile.constant.ConstantPoolTag;
 import org.jd.core.v1.model.classfile.constant.ConstantString;
 import org.jd.core.v1.model.classfile.constant.ConstantUtf8;
 import org.jd.core.v1.model.classfile.constant.ConstantValue;
@@ -189,50 +190,50 @@ public class ClassFileDeserializer {
 		Constant[] constants = new Constant[count];
 
 		for (int i = 1; i < count; i++) {
-			int tag = reader.readByte();
+			ConstantPoolTag tag = ConstantPoolTag.valueOf(reader.readByte());
 
 			switch (tag) {
-			case 1:
+			case CONSTANT_Utf8:
 				constants[i] = new ConstantUtf8(reader.readUTF8());
 				break;
-			case 3:
+			case CONSTANT_Integer:
 				constants[i] = new ConstantInteger(reader.readInt());
 				break;
-			case 4:
+			case CONSTANT_Float:
 				constants[i] = new ConstantFloat(reader.readFloat());
 				break;
-			case 5:
+			case CONSTANT_Long:
 				constants[i++] = new ConstantLong(reader.readLong());
 				break;
-			case 6:
+			case CONSTANT_Double:
 				constants[i++] = new ConstantDouble(reader.readDouble());
 				break;
-			case 7:
-			case 19:
-			case 20:
-				constants[i] = new ConstantClass(reader.readUnsignedShort());
+			case CONSTANT_Class:
+			case CONSTANT_Module:
+			case CONSTANT_Package:
+				constants[i] = new ConstantClass(tag, reader.readUnsignedShort());
 				break;
-			case 8:
+			case CONSTANT_String:
 				constants[i] = new ConstantString(reader.readUnsignedShort());
 				break;
-			case 9:
-			case 10:
-			case 11:
-			case 17:
-			case 18:
-				constants[i] = new ConstantMemberRef(reader.readUnsignedShort(), reader.readUnsignedShort());
+			case CONSTANT_FieldRef:
+			case CONSTANT_MethodRef:
+			case CONSTANT_InterfaceMethodRef:
+			case CONSTANT_Dynamic:
+			case CONSTANT_InvokeDynamic:
+				constants[i] = new ConstantMemberRef(tag, reader.readUnsignedShort(), reader.readUnsignedShort());
 				break;
-			case 12:
+			case CONSTANT_NameAndType:
 				constants[i] = new ConstantNameAndType(reader.readUnsignedShort(), reader.readUnsignedShort());
 				break;
-			case 15:
+			case CONSTANT_MethodHandle:
 				constants[i] = new ConstantMethodHandle(reader.readByte(), reader.readUnsignedShort());
 				break;
-			case 16:
+			case CONSTANT_MethodType:
 				constants[i] = new ConstantMethodType(reader.readUnsignedShort());
 				break;
 			default:
-				throw new ClassFileFormatException("Invalid constant pool entry");
+				throw new ClassFileFormatException("Invalid constant pool entry: " + tag);
 			}
 		}
 
@@ -313,7 +314,7 @@ public class ClassFileDeserializer {
 			Constant constant = constants.getConstant(attributeNameIndex);
 
 			int offsetBefore = reader.offset;
-			if (constant.getTag() == Constant.CONSTANT_Utf8) {
+			if (constant.getTag() == ConstantPoolTag.CONSTANT_Utf8) {
 				String name = ((ConstantUtf8) constant).getValue();
 
 				switch (name) {
@@ -417,34 +418,34 @@ public class ClassFileDeserializer {
 		int type = reader.readByte();
 
 		switch (type) {
-		case 'B':
-		case 'D':
-		case 'F':
-		case 'I':
-		case 'J':
-		case 'S':
-		case 'Z':
-		case 'C':
-		case 's':
+		case 'B': // byte
+		case 'D': // double
+		case 'F': // float
+		case 'I': // int
+		case 'J': // long
+		case 'S': // short
+		case 'Z': // boolean
+		case 'C': // char
+		case 's': // String ... well it's not primitive...
 			int constValueIndex = reader.readUnsignedShort();
 			ConstantValue constValue = (ConstantValue) constants.getConstant(constValueIndex);
 			return new ElementValuePrimitiveType(type, constValue);
-		case 'e':
+		case 'e': // enum
 			int descriptorIndex = reader.readUnsignedShort();
 			String descriptor = constants.getConstantUtf8(descriptorIndex);
 			int constNameIndex = reader.readUnsignedShort();
 			String constName = constants.getConstantUtf8(constNameIndex);
 			return new ElementValueEnumConstValue(descriptor, constName);
-		case 'c':
+		case 'c': // class
 			int classInfoIndex = reader.readUnsignedShort();
 			String classInfo = constants.getConstantUtf8(classInfoIndex);
 			return new ElementValueClassInfo(classInfo);
-		case '@':
+		case '@': // annotation
 			int typeIndex = reader.readUnsignedShort();
 			descriptor = constants.getConstantUtf8(typeIndex);
 			return new ElementValueAnnotationValue(
 					new Annotation(descriptor, loadElementValuePairs(reader, constants)));
-		case '[':
+		case '[': // array
 			return new ElementValueArrayValue(loadElementValues(reader, constants));
 		default:
 			throw new ClassFileFormatException("Invalid element value type: " + type);

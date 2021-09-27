@@ -17,7 +17,7 @@ import java.util.NoSuchElementException;
  * 
  * @param <E>
  */
-public class DefaultList<E> extends ArrayList<E> {
+public class DefaultList<E> extends ArrayList<E> implements Base<E> {
 
 	private static final long serialVersionUID = 6867881864799620874L;
 
@@ -55,10 +55,12 @@ public class DefaultList<E> extends ArrayList<E> {
 		}
 	}
 
+	@Override
 	public E getFirst() {
 		return (E) get(0);
 	}
 
+	@Override
 	public E getLast() {
 		return (E) get(size() - 1);
 	}
@@ -71,10 +73,12 @@ public class DefaultList<E> extends ArrayList<E> {
 		return (E) remove(size() - 1);
 	}
 
+	@Override
 	public boolean isList() {
 		return true;
 	}
 
+	@Override
 	public DefaultList<E> getList() {
 		return this;
 	}

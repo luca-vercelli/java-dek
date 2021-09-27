@@ -11,7 +11,7 @@ public class ConstantMethodType extends Constant {
 	protected int descriptorIndex;
 
 	public ConstantMethodType(int descriptorIndex) {
-		super(CONSTANT_MethodType);
+		super(ConstantPoolTag.CONSTANT_MethodType);
 		this.descriptorIndex = descriptorIndex;
 	}
 

@@ -43,4 +43,9 @@ public abstract class TypeDeclaration implements BaseTypeDeclaration, MemberDecl
     public BodyDeclaration getBodyDeclaration() {
         return bodyDeclaration;
     }
+    
+	@Override
+	public String toString() {
+		return this.getClass().getSimpleName();
+	}
 }

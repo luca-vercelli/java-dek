@@ -15,8 +15,8 @@ public class ConstantMemberRef extends Constant {
 	protected int classIndex;
 	protected int nameAndTypeIndex;
 
-	public ConstantMemberRef(int classIndex, int nameAndTypeIndex) {
-		super(CONSTANT_MemberRef);
+	public ConstantMemberRef(ConstantPoolTag tag, int classIndex, int nameAndTypeIndex) {
+		super(tag);
 		this.classIndex = classIndex;
 		this.nameAndTypeIndex = nameAndTypeIndex;
 	}
