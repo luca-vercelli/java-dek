@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.ListIterator;
+import java.util.Map;
 
 import org.jd.core.v1.model.javasyntax.AbstractJavaSyntaxVisitor;
 import org.jd.core.v1.model.javasyntax.declaration.AnnotationDeclaration;
@@ -41,8 +42,9 @@ import org.jd.core.v1.service.converter.classfiletojavasyntax.model.javasyntax.d
 import org.jd.core.v1.util.DefaultList;
 
 public class InitInstanceFieldVisitor extends AbstractJavaSyntaxVisitor {
+
 	protected SearchFirstLineNumberVisitor searchFirstLineNumberVisitor = new SearchFirstLineNumberVisitor();
-	protected HashMap<String, FieldDeclarator> fieldDeclarators = new HashMap<>();
+	protected Map<String, FieldDeclarator> fieldDeclarators = new HashMap<>();
 	protected DefaultList<Data> datas = new DefaultList<>();
 	protected DefaultList<Expression> putFields = new DefaultList<>();
 	protected int lineNumber = UNKNOWN_LINE_NUMBER;
@@ -68,6 +70,9 @@ public class InitInstanceFieldVisitor extends AbstractJavaSyntaxVisitor {
 		safeAccept(declaration.getBodyDeclaration());
 	}
 
+	/**
+	 * Visit fields and methods, then init values via updateFieldsAndConstructors()
+	 */
 	@Override
 	public void visit(BodyDeclaration declaration) {
 		ClassFileBodyDeclaration bodyDeclaration = (ClassFileBodyDeclaration) declaration;
@@ -237,7 +242,7 @@ public class InitInstanceFieldVisitor extends AbstractJavaSyntaxVisitor {
 				int lineNumber = ite.next().getLineNumber();
 
 				if ((firstLineNumber <= lineNumber) && (lastLineNumber <= lastLineNumber)) {
-					if (lastLineNumber == lastLineNumber) { //FIXME
+					if (lastLineNumber == lastLineNumber) { // FIXME
 						lastLineNumber++;
 					}
 					ite.remove();

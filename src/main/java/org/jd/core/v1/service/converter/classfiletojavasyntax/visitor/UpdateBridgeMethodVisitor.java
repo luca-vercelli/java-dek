@@ -11,6 +11,7 @@ import static org.jd.core.v1.model.classfile.AccessType.*;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.jd.core.v1.model.javasyntax.AbstractJavaSyntaxVisitor;
 import org.jd.core.v1.model.javasyntax.declaration.AnnotationDeclaration;
@@ -45,7 +46,7 @@ import org.jd.core.v1.util.DefaultList;
 
 public class UpdateBridgeMethodVisitor extends AbstractUpdateExpressionVisitor {
 	protected BodyDeclarationsVisitor bodyDeclarationsVisitor = new BodyDeclarationsVisitor();
-	protected HashMap<String, HashMap<String, ClassFileMethodDeclaration>> bridgeMethodDeclarations = new HashMap<>();
+	protected Map<String, Map<String, ClassFileMethodDeclaration>> bridgeMethodDeclarations = new HashMap<>();
 	protected TypeMaker typeMaker;
 
 	public UpdateBridgeMethodVisitor(TypeMaker typeMaker) {
@@ -76,7 +77,7 @@ public class UpdateBridgeMethodVisitor extends AbstractUpdateExpressionVisitor {
 		}
 
 		ClassFileMethodInvocationExpression mie1 = (ClassFileMethodInvocationExpression) expression;
-		HashMap<String, ClassFileMethodDeclaration> map = bridgeMethodDeclarations
+		Map<String, ClassFileMethodDeclaration> map = bridgeMethodDeclarations
 				.get(mie1.getExpression().getType().getDescriptor());
 
 		if (map == null) {
@@ -192,7 +193,7 @@ public class UpdateBridgeMethodVisitor extends AbstractUpdateExpressionVisitor {
 	}
 
 	protected class BodyDeclarationsVisitor extends AbstractJavaSyntaxVisitor {
-		protected HashMap<String, ClassFileMethodDeclaration> map = null;
+		protected Map<String, ClassFileMethodDeclaration> map = null;
 
 		@Override
 		public void visit(ClassDeclaration declaration) {
@@ -212,13 +213,16 @@ public class UpdateBridgeMethodVisitor extends AbstractUpdateExpressionVisitor {
 		public void visit(AnnotationDeclaration declaration) {
 		}
 
+		/**
+		 * Store bridgeMethodDeclarations during visit, if any
+		 */
 		@Override
 		public void visit(BodyDeclaration declaration) {
 			ClassFileBodyDeclaration bodyDeclaration = (ClassFileBodyDeclaration) declaration;
 			List<ClassFileConstructorOrMethodDeclaration> methodDeclarations = bodyDeclaration.getMethodDeclarations();
 
 			if ((methodDeclarations != null) && !methodDeclarations.isEmpty()) {
-				HashMap<String, ClassFileMethodDeclaration> backup = map;
+				Map<String, ClassFileMethodDeclaration> backup = map;
 
 				map = new HashMap<>();
 

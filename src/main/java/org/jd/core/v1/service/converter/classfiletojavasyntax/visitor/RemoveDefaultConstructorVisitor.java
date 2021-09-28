@@ -40,6 +40,10 @@ public class RemoveDefaultConstructorVisitor extends AbstractJavaSyntaxVisitor {
 		safeAccept(declaration.getBodyDeclaration());
 	}
 
+	/**
+	 * Visit methods, then if there is only 1 constructor and it is empty, remove
+	 * it.
+	 */
 	@Override
 	public void visit(BodyDeclaration declaration) {
 		ClassFileBodyDeclaration bodyDeclaration = (ClassFileBodyDeclaration) declaration;
@@ -59,6 +63,14 @@ public class RemoveDefaultConstructorVisitor extends AbstractJavaSyntaxVisitor {
 	public void visit(FieldDeclaration declaration) {
 	}
 
+	/**
+	 * Increment constructorCounter for every found constructor.
+	 * 
+	 * If empty constructor is given, store it.
+	 * 
+	 * Remove no-parameter super constructor call and anonymous class super
+	 * constructor call.
+	 */
 	@Override
 	public void visit(ConstructorDeclaration declaration) {
 		if ((declaration.getFlags() & ACC_ABSTRACT.getFlag()) == 0) {
