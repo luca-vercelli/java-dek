@@ -15,7 +15,6 @@ import org.jd.core.v1.api.Loader;
 import org.jd.core.v1.api.Printer;
 import org.jd.core.v1.model.message.Message;
 import org.jd.core.v1.service.converter.classfiletojavasyntax.processor.ConvertClassFileProcessor;
-import org.jd.core.v1.service.converter.classfiletojavasyntax.processor.UpdateJavaSyntaxTreeProcessor;
 import org.jd.core.v1.service.deserializer.classfile.DeserializeClassFileProcessor;
 import org.jd.core.v1.service.fragmenter.javasyntaxtojavafragment.JavaSyntaxToJavaFragmentProcessor;
 import org.jd.core.v1.service.layouter.LayoutFragmentProcessor;
@@ -28,7 +27,6 @@ import org.jd.core.v1.service.writer.WriteTokenProcessor;
 public class StandardDecompiler implements Decompiler {
 	protected DeserializeClassFileProcessor deserializer = DeserializeClassFileProcessor.getInstance();
 	protected ConvertClassFileProcessor converter = ConvertClassFileProcessor.getInstance();
-	protected UpdateJavaSyntaxTreeProcessor javaSyntaxUpdater = UpdateJavaSyntaxTreeProcessor.getInstance();
 	protected JavaSyntaxToJavaFragmentProcessor fragmenter = JavaSyntaxToJavaFragmentProcessor.getInstance();
 	protected LayoutFragmentProcessor layouter = LayoutFragmentProcessor.getInstance();
 	protected JavaFragmentToTokenProcessor tokenizer = JavaFragmentToTokenProcessor.getInstance();
@@ -59,7 +57,6 @@ public class StandardDecompiler implements Decompiler {
 	protected void decompile(Message message) throws IOException {
 		this.deserializer.process(message);
 		this.converter.process(message);
-		this.javaSyntaxUpdater.process(message);
 		this.fragmenter.process(message);
 		this.layouter.process(message);
 		this.tokenizer.process(message);

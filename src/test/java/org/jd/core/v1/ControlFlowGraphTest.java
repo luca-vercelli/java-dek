@@ -59,6 +59,7 @@ import org.jd.core.v1.api.Loader;
 import org.jd.core.v1.cfg.ControlFlowGraphPlantUMLWriter;
 import org.jd.core.v1.impl.loader.ClassPathLoader;
 import org.jd.core.v1.impl.loader.ZipLoader;
+import org.jd.core.v1.model.classfile.ClassFile;
 import org.jd.core.v1.model.classfile.Method;
 import org.jd.core.v1.model.javasyntax.CompilationUnit;
 import org.jd.core.v1.model.javasyntax.declaration.AnnotationDeclaration;
@@ -66,7 +67,6 @@ import org.jd.core.v1.model.javasyntax.declaration.BaseTypeDeclaration;
 import org.jd.core.v1.model.javasyntax.declaration.BodyDeclaration;
 import org.jd.core.v1.model.javasyntax.declaration.EnumDeclaration;
 import org.jd.core.v1.model.javasyntax.declaration.InterfaceDeclaration;
-import org.jd.core.v1.model.message.Message;
 import org.jd.core.v1.service.converter.classfiletojavasyntax.model.cfg.BasicBlock;
 import org.jd.core.v1.service.converter.classfiletojavasyntax.model.cfg.BasicBlock.ExceptionHandler;
 import org.jd.core.v1.service.converter.classfiletojavasyntax.model.cfg.BasicBlock.SwitchCase;
@@ -2956,15 +2956,10 @@ public class ControlFlowGraphTest {
 	 */
 	protected Method searchMethod(Loader loader, TypeMaker typeMaker, String internalTypeName, String methodName,
 			String methodDescriptor) throws Exception {
-		Message message = new Message();
-		message.setTypeMaker(typeMaker);
-		message.setLoader(loader);
-		message.setMainInternalTypeName(internalTypeName);
 
-		deserializer.process(message);
-		converter.process(message);
-
-		CompilationUnit compilationUnit = message.getCompilationUnit();
+		// Create decompilation unit, without UpdateJavaSyntaxTreeStepXXX
+		ClassFile classFile = deserializer.loadClassFile(loader, internalTypeName);
+		CompilationUnit compilationUnit = converter.createCompilationUnit(typeMaker, classFile);
 
 		assertNotNull(compilationUnit);
 

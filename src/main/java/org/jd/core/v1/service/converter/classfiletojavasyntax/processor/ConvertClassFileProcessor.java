@@ -69,6 +69,9 @@ import org.jd.core.v1.service.converter.classfiletojavasyntax.model.javasyntax.d
 import org.jd.core.v1.service.converter.classfiletojavasyntax.util.AnnotationConverter;
 import org.jd.core.v1.service.converter.classfiletojavasyntax.util.TypeMaker;
 import org.jd.core.v1.service.converter.classfiletojavasyntax.visitor.PopulateBindingsWithTypeParameterVisitor;
+import org.jd.core.v1.service.converter.classfiletojavasyntax.visitor.UpdateJavaSyntaxTreeStep0Visitor;
+import org.jd.core.v1.service.converter.classfiletojavasyntax.visitor.UpdateJavaSyntaxTreeStep1Visitor;
+import org.jd.core.v1.service.converter.classfiletojavasyntax.visitor.UpdateJavaSyntaxTreeStep2Visitor;
 import org.jd.core.v1.util.DefaultList;
 
 /**
@@ -96,9 +99,6 @@ public class ConvertClassFileProcessor implements Processor {
 	protected ConvertClassFileProcessor() {
 	}
 
-	{
-	}
-
 	/**
 	 * Given a ClassFile, create a TypeMaker and a CompilationUnit.
 	 * 
@@ -115,15 +115,23 @@ public class ConvertClassFileProcessor implements Processor {
 
 		CompilationUnit compilationUnit = createCompilationUnit(typeMaker, classFile);
 
+		fillCompilationUnit(typeMaker, compilationUnit);
+
 		message.setMajorVersion(classFile.getMajorVersion());
 		message.setMinorVersion(classFile.getMinorVersion());
 		message.setCompilationUnit(compilationUnit);
 	}
 
+	public void fillCompilationUnit(TypeMaker typeMaker, CompilationUnit compilationUnit) {
+		new UpdateJavaSyntaxTreeStep0Visitor(typeMaker).visit(compilationUnit);
+		new UpdateJavaSyntaxTreeStep1Visitor(typeMaker).visit(compilationUnit);
+		new UpdateJavaSyntaxTreeStep2Visitor(typeMaker).visit(compilationUnit);
+	}
+
 	/**
 	 * Create TypeMaker, or take it from Configuration
 	 */
-	protected TypeMaker createTypeMaker(Loader loader, Map<String, Object> configuration) {
+	public TypeMaker createTypeMaker(Loader loader, Map<String, Object> configuration) {
 		TypeMaker typeMaker = null;
 
 		if (configuration == null) {

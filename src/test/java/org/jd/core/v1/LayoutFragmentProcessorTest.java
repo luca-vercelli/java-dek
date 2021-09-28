@@ -16,7 +16,6 @@ import org.jd.core.v1.impl.printer.PlainTextPrinter;
 import org.jd.core.v1.model.message.Message;
 import org.jd.core.v1.regex.PatternMaker;
 import org.jd.core.v1.service.converter.classfiletojavasyntax.processor.ConvertClassFileProcessor;
-import org.jd.core.v1.service.converter.classfiletojavasyntax.processor.UpdateJavaSyntaxTreeProcessor;
 import org.jd.core.v1.service.deserializer.classfile.DeserializeClassFileProcessor;
 import org.jd.core.v1.service.fragmenter.javasyntaxtojavafragment.JavaSyntaxToJavaFragmentProcessor;
 import org.jd.core.v1.service.layouter.LayoutFragmentProcessor;
@@ -30,7 +29,6 @@ import junit.framework.TestCase;
 public class LayoutFragmentProcessorTest extends TestCase {
 	protected DeserializeClassFileProcessor deserializer = DeserializeClassFileProcessor.getInstance();
 	protected ConvertClassFileProcessor converter = ConvertClassFileProcessor.getInstance();
-	protected UpdateJavaSyntaxTreeProcessor javaSyntaxUpdater = UpdateJavaSyntaxTreeProcessor.getInstance();
 	protected JavaSyntaxToJavaFragmentProcessor fragmenter = JavaSyntaxToJavaFragmentProcessor.getInstance();
 	protected LayoutFragmentProcessor layouter = LayoutFragmentProcessor.getInstance();
 	protected JavaFragmentToTokenProcessor tokenizer = JavaFragmentToTokenProcessor.getInstance();
@@ -51,7 +49,6 @@ public class LayoutFragmentProcessorTest extends TestCase {
 
 		deserializer.process(message);
 		converter.process(message);
-		javaSyntaxUpdater.process(message);
 		fragmenter.process(message);
 		layouter.process(message);
 		tokenizer.process(message);
@@ -79,7 +76,6 @@ public class LayoutFragmentProcessorTest extends TestCase {
 
 		deserializer.process(message);
 		converter.process(message);
-		javaSyntaxUpdater.process(message);
 		fragmenter.process(message);
 		layouter.process(message);
 		tokenizer.process(message);
@@ -107,7 +103,6 @@ public class LayoutFragmentProcessorTest extends TestCase {
 
 		deserializer.process(message);
 		converter.process(message);
-		javaSyntaxUpdater.process(message);
 		fragmenter.process(message);
 		layouter.process(message);
 		tokenizer.process(message);
@@ -135,7 +130,6 @@ public class LayoutFragmentProcessorTest extends TestCase {
 
 		deserializer.process(message);
 		converter.process(message);
-		javaSyntaxUpdater.process(message);
 		fragmenter.process(message);
 		layouter.process(message);
 		tokenizer.process(message);
@@ -165,7 +159,6 @@ public class LayoutFragmentProcessorTest extends TestCase {
 
 		deserializer.process(message);
 		converter.process(message);
-		javaSyntaxUpdater.process(message);
 		fragmenter.process(message);
 		layouter.process(message);
 		tokenizer.process(message);
@@ -193,7 +186,6 @@ public class LayoutFragmentProcessorTest extends TestCase {
 
 		deserializer.process(message);
 		converter.process(message);
-		javaSyntaxUpdater.process(message);
 		fragmenter.process(message);
 		layouter.process(message);
 		tokenizer.process(message);
@@ -224,7 +216,6 @@ public class LayoutFragmentProcessorTest extends TestCase {
 
 		deserializer.process(message);
 		converter.process(message);
-		javaSyntaxUpdater.process(message);
 		fragmenter.process(message);
 		layouter.process(message);
 		tokenizer.process(message);
@@ -254,7 +245,6 @@ public class LayoutFragmentProcessorTest extends TestCase {
 
 		deserializer.process(message);
 		converter.process(message);
-		javaSyntaxUpdater.process(message);
 		fragmenter.process(message);
 		layouter.process(message);
 		tokenizer.process(message);
