@@ -317,8 +317,13 @@ public class ClassFileDeserializer {
 			int offsetBefore = reader.offset;
 			if (constant.getTag() == ConstantPoolTag.CONSTANT_Utf8) {
 				String name = ((ConstantUtf8) constant).getValue();
-				AttributeType type = AttributeType.valueOf(name);
-
+				AttributeType type;
+				try {
+					type = AttributeType.valueOf(name);
+				} catch(IllegalStateException exc) {
+					type = null;
+				}
+				
 				switch (type) {
 				case AnnotationDefault:
 					attributes.put(name, new AttributeAnnotationDefault(loadElementValue(reader, constants)));
