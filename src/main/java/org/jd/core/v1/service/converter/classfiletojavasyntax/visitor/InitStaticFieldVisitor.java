@@ -15,7 +15,6 @@ import org.jd.core.v1.model.javasyntax.declaration.AnnotationDeclaration;
 import org.jd.core.v1.model.javasyntax.declaration.BodyDeclaration;
 import org.jd.core.v1.model.javasyntax.declaration.ClassDeclaration;
 import org.jd.core.v1.model.javasyntax.declaration.ConstructorDeclaration;
-import org.jd.core.v1.model.javasyntax.declaration.Declaration;
 import org.jd.core.v1.model.javasyntax.declaration.EnumDeclaration;
 import org.jd.core.v1.model.javasyntax.declaration.ExpressionVariableInitializer;
 import org.jd.core.v1.model.javasyntax.declaration.FieldDeclaration;
@@ -35,6 +34,8 @@ import org.jd.core.v1.service.converter.classfiletojavasyntax.model.javasyntax.d
 import org.jd.core.v1.service.converter.classfiletojavasyntax.model.javasyntax.declaration.ClassFileFieldDeclaration;
 import org.jd.core.v1.service.converter.classfiletojavasyntax.model.javasyntax.declaration.ClassFileStaticInitializerDeclaration;
 import org.jd.core.v1.util.DefaultList;
+
+import static org.jd.core.v1.model.classfile.AccessType.*;
 
 public class InitStaticFieldVisitor extends AbstractJavaSyntaxVisitor {
 	protected SearchFirstLineNumberVisitor searchFirstLineNumberVisitor = new SearchFirstLineNumberVisitor();
@@ -209,7 +210,7 @@ public class InitStaticFieldVisitor extends AbstractJavaSyntaxVisitor {
 				if ((fdr != null) && (fdr.getVariableInitializer() == null)) {
 					FieldDeclaration fdn = fdr.getFieldDeclaration();
 
-					if (((fdn.getFlags() & Declaration.FLAG_STATIC) != 0)
+					if (((fdn.getFlags() & ACC_STATIC.getFlag()) != 0)
 							&& fdn.getType().getDescriptor().equals(fre.getDescriptor())) {
 						expression = expression.getRightExpression();
 

@@ -12,74 +12,80 @@ import org.jd.core.v1.model.javasyntax.statement.BaseStatement;
 import org.jd.core.v1.model.javasyntax.type.BaseType;
 import org.jd.core.v1.model.javasyntax.type.BaseTypeParameter;
 
-import static org.jd.core.v1.model.classfile.AccessFlagConstants.ACC_STATIC;
+import static org.jd.core.v1.model.classfile.AccessType.*;
 
 public class ConstructorDeclaration implements MemberDeclaration {
-    protected BaseAnnotationReference annotationReferences;
-    protected int flags;
-    protected BaseTypeParameter typeParameters;
-    protected BaseFormalParameter formalParameters;
-    protected BaseType exceptionTypes;
-    protected String descriptor;
-    protected BaseStatement statements;
+	protected BaseAnnotationReference annotationReferences;
+	protected int flags;
+	protected BaseTypeParameter typeParameters;
+	protected BaseFormalParameter formalParameters;
+	protected BaseType exceptionTypes;
+	protected String descriptor;
+	protected BaseStatement statements;
 
-    public ConstructorDeclaration(int flags, BaseFormalParameter formalParameters, String descriptor, BaseStatement statements) {
-        this.flags = flags;
-        this.formalParameters = formalParameters;
-        this.descriptor = descriptor;
-        this.statements = statements;
-    }
+	public ConstructorDeclaration(int flags, BaseFormalParameter formalParameters, String descriptor,
+			BaseStatement statements) {
+		this.flags = flags;
+		this.formalParameters = formalParameters;
+		this.descriptor = descriptor;
+		this.statements = statements;
+	}
 
-    public ConstructorDeclaration(BaseAnnotationReference annotationReferences, int flags, BaseTypeParameter typeParameters, BaseFormalParameter formalParameters, BaseType exceptionTypes, String descriptor, BaseStatement statements) {
-        this.annotationReferences = annotationReferences;
-        this.flags = flags;
-        this.typeParameters = typeParameters;
-        this.formalParameters = formalParameters;
-        this.exceptionTypes = exceptionTypes;
-        this.descriptor = descriptor;
-        this.statements = statements;
-    }
+	public ConstructorDeclaration(BaseAnnotationReference annotationReferences, int flags,
+			BaseTypeParameter typeParameters, BaseFormalParameter formalParameters, BaseType exceptionTypes,
+			String descriptor, BaseStatement statements) {
+		this.annotationReferences = annotationReferences;
+		this.flags = flags;
+		this.typeParameters = typeParameters;
+		this.formalParameters = formalParameters;
+		this.exceptionTypes = exceptionTypes;
+		this.descriptor = descriptor;
+		this.statements = statements;
+	}
 
-    public int getFlags() {
-        return flags;
-    }
-    public void setFlags(int flags) {
-        this.flags = flags;
-    }
+	public int getFlags() {
+		return flags;
+	}
 
-    public boolean isStatic() { return (flags & ACC_STATIC) != 0; }
+	public void setFlags(int flags) {
+		this.flags = flags;
+	}
 
-    public BaseAnnotationReference getAnnotationReferences() {
-        return annotationReferences;
-    }
+	public boolean isStatic() {
+		return (flags & ACC_STATIC.getFlag()) != 0;
+	}
 
-    public BaseTypeParameter getTypeParameters() {
-        return typeParameters;
-    }
+	public BaseAnnotationReference getAnnotationReferences() {
+		return annotationReferences;
+	}
 
-    public BaseFormalParameter getFormalParameters() {
-        return formalParameters;
-    }
+	public BaseTypeParameter getTypeParameters() {
+		return typeParameters;
+	}
 
-    public BaseType getExceptionTypes() {
-        return exceptionTypes;
-    }
+	public BaseFormalParameter getFormalParameters() {
+		return formalParameters;
+	}
 
-    public String getDescriptor() {
-        return descriptor;
-    }
+	public BaseType getExceptionTypes() {
+		return exceptionTypes;
+	}
 
-    public BaseStatement getStatements() {
-        return statements;
-    }
+	public String getDescriptor() {
+		return descriptor;
+	}
 
-    @Override
-    public void accept(DeclarationVisitor visitor) {
-        visitor.visit(this);
-    }
+	public BaseStatement getStatements() {
+		return statements;
+	}
 
-    @Override
-    public String toString() {
-        return "ConstructorDeclaration{" + descriptor + "}";
-    }
+	@Override
+	public void accept(DeclarationVisitor visitor) {
+		visitor.visit(this);
+	}
+
+	@Override
+	public String toString() {
+		return "ConstructorDeclaration{" + descriptor + "}";
+	}
 }

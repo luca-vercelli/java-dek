@@ -7,7 +7,7 @@
 
 package org.jd.core.v1.service.converter.classfiletojavasyntax.processor;
 
-import static org.jd.core.v1.model.classfile.AccessFlagConstants.ACC_STATIC;
+import static org.jd.core.v1.model.classfile.AccessType.*;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -16,7 +16,6 @@ import java.util.Map;
 
 import org.jd.core.v1.api.Loader;
 import org.jd.core.v1.api.Processor;
-import org.jd.core.v1.model.classfile.AccessFlagConstants;
 import org.jd.core.v1.model.classfile.ClassFile;
 import org.jd.core.v1.model.classfile.Field;
 import org.jd.core.v1.model.classfile.Method;
@@ -36,7 +35,6 @@ import org.jd.core.v1.model.classfile.constant.ConstantLong;
 import org.jd.core.v1.model.classfile.constant.ConstantUtf8;
 import org.jd.core.v1.model.classfile.constant.ConstantValue;
 import org.jd.core.v1.model.javasyntax.CompilationUnit;
-import org.jd.core.v1.model.javasyntax.declaration.Declaration;
 import org.jd.core.v1.model.javasyntax.declaration.ExpressionVariableInitializer;
 import org.jd.core.v1.model.javasyntax.declaration.FieldDeclarator;
 import org.jd.core.v1.model.javasyntax.declaration.ModuleDeclaration;
@@ -296,7 +294,7 @@ public class ConvertClassFileProcessor implements Processor {
 				Map<String, TypeArgument> bindings;
 				Map<String, BaseType> typeBounds;
 
-				if ((method.getAccessFlags() & ACC_STATIC) == 0) {
+				if ((method.getAccessFlags() & ACC_STATIC.getFlag()) == 0) {
 					bindings = bodyDeclaration.getBindings();
 					typeBounds = bodyDeclaration.getTypeBounds();
 				} else {
@@ -333,9 +331,9 @@ public class ConvertClassFileProcessor implements Processor {
 							methodTypes.returnedType, methodTypes.parameterTypes, methodTypes.exceptionTypes,
 							defaultAnnotationValue, bindings, typeBounds, firstLineNumber);
 					if (classFile.isInterface()) {
-						if (methodDeclaration.getFlags() == AccessFlagConstants.ACC_PUBLIC) {
+						if (methodDeclaration.getFlags() == ACC_PUBLIC.getFlag()) {
 							// For interfaces, add 'default' access flag on public methods
-							methodDeclaration.setFlags(Declaration.FLAG_PUBLIC | Declaration.FLAG_DEFAULT);
+							methodDeclaration.setFlags(ACC_PUBLIC.getFlag() | ACC_DEFAULT.getFlag());
 						}
 					}
 					list.add(methodDeclaration);

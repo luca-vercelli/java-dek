@@ -7,14 +7,14 @@
 
 package org.jd.core.v1.model.javasyntax.declaration;
 
+import static org.jd.core.v1.model.classfile.AccessType.ACC_STATIC;
+
 import org.jd.core.v1.model.javasyntax.reference.BaseAnnotationReference;
 import org.jd.core.v1.model.javasyntax.reference.ElementValue;
 import org.jd.core.v1.model.javasyntax.statement.BaseStatement;
 import org.jd.core.v1.model.javasyntax.type.BaseType;
 import org.jd.core.v1.model.javasyntax.type.BaseTypeParameter;
 import org.jd.core.v1.model.javasyntax.type.Type;
-
-import static org.jd.core.v1.model.classfile.AccessFlagConstants.ACC_STATIC;
 
 /**
  * A Method declaration is made up of Annotations, Formal parameters,
@@ -101,7 +101,7 @@ public class MethodDeclaration implements MemberDeclaration {
 	}
 
 	public boolean isStatic() {
-		return (flags & ACC_STATIC) != 0;
+		return (flags & ACC_STATIC.getFlag()) != 0;
 	}
 
 	public String getName() {

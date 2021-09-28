@@ -28,6 +28,8 @@ public class UpdateJavaSyntaxTreeProcessor implements Processor {
 	}
 
 	/**
+	 * Fill CompilationUnit object.
+	 * 
 	 * Update compilationUnit in place, by means of UpdateJavaSyntaxTreeStep
 	 * visitors
 	 */

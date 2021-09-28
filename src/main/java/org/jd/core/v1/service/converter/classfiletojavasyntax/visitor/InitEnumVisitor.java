@@ -7,11 +7,7 @@
 
 package org.jd.core.v1.service.converter.classfiletojavasyntax.visitor;
 
-import static org.jd.core.v1.model.javasyntax.declaration.Declaration.FLAG_ANONYMOUS;
-import static org.jd.core.v1.model.javasyntax.declaration.Declaration.FLAG_ENUM;
-import static org.jd.core.v1.model.javasyntax.declaration.Declaration.FLAG_PUBLIC;
-import static org.jd.core.v1.model.javasyntax.declaration.Declaration.FLAG_STATIC;
-import static org.jd.core.v1.model.javasyntax.declaration.Declaration.FLAG_SYNTHETIC;
+import static org.jd.core.v1.model.classfile.AccessType.*;
 
 import java.util.Comparator;
 
@@ -65,10 +61,10 @@ public class InitEnumVisitor extends AbstractJavaSyntaxVisitor {
 
 	@Override
 	public void visit(ConstructorDeclaration declaration) {
-		if ((declaration.getFlags() & FLAG_ANONYMOUS) != 0) {
-			declaration.setFlags(FLAG_SYNTHETIC);
+		if ((declaration.getFlags() & ACC_ANONYMOUS.getFlag()) != 0) {
+			declaration.setFlags(ACC_SYNTHETIC.getFlag());
 		} else if (declaration.getStatements().size() <= 1) {
-			declaration.setFlags(FLAG_SYNTHETIC);
+			declaration.setFlags(ACC_SYNTHETIC.getFlag());
 		} else {
 			FormalParameters parameters = (FormalParameters) declaration.getFormalParameters();
 			// Remove name & index parameterTypes
@@ -86,20 +82,20 @@ public class InitEnumVisitor extends AbstractJavaSyntaxVisitor {
 
 	@Override
 	public void visit(MethodDeclaration declaration) {
-		if ((declaration.getFlags() & (FLAG_STATIC | FLAG_PUBLIC)) != 0) {
+		if ((declaration.getFlags() & (ACC_STATIC.getFlag() | ACC_PUBLIC.getFlag())) != 0) {
 			if (declaration.getName().equals("values") || declaration.getName().equals("valueOf")) {
 				ClassFileMethodDeclaration cfmd = (ClassFileMethodDeclaration) declaration;
-				cfmd.setFlags(cfmd.getFlags() | FLAG_SYNTHETIC);
+				cfmd.setFlags(cfmd.getFlags() | ACC_SYNTHETIC.getFlag());
 			}
 		}
 	}
 
 	@Override
 	public void visit(FieldDeclaration declaration) {
-		if ((declaration.getFlags() & FLAG_ENUM) != 0) {
+		if ((declaration.getFlags() & ACC_ENUM.getFlag()) != 0) {
 			ClassFileFieldDeclaration cffd = (ClassFileFieldDeclaration) declaration;
 			cffd.getFieldDeclarators().accept(this);
-			cffd.setFlags(cffd.getFlags() | FLAG_SYNTHETIC);
+			cffd.setFlags(cffd.getFlags() | ACC_SYNTHETIC.getFlag());
 		}
 	}
 

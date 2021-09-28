@@ -77,7 +77,7 @@ public class DeclaredSyntheticLocalVariableVisitor extends AbstractJavaSyntaxVis
 
         localVariableReferenceExpressions.add(expression);
 
-        if (localVariableReferenceExpressions.containsAll(localVariable.getReferences())) {
+        if (localVariableReferenceExpressions.containsAll(localVariable.getReferences())) { //FIXME
             localVariable.setDeclared(true);
         }
     }

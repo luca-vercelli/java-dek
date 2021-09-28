@@ -7,7 +7,7 @@
 
 package org.jd.core.v1.service.converter.classfiletojavasyntax.visitor;
 
-import static org.jd.core.v1.model.javasyntax.declaration.Declaration.FLAG_ANONYMOUS;
+import static org.jd.core.v1.model.classfile.AccessType.*;
 
 import java.util.Iterator;
 import java.util.List;
@@ -61,7 +61,7 @@ public class RemoveDefaultConstructorVisitor extends AbstractJavaSyntaxVisitor {
 
 	@Override
 	public void visit(ConstructorDeclaration declaration) {
-		if ((declaration.getFlags() & ConstructorDeclaration.FLAG_ABSTRACT) == 0) {
+		if ((declaration.getFlags() & ACC_ABSTRACT.getFlag()) == 0) {
 			ClassFileConstructorDeclaration cfcd = (ClassFileConstructorDeclaration) declaration;
 
 			if ((cfcd.getStatements() != null) && cfcd.getStatements().isStatements()) {
@@ -75,7 +75,7 @@ public class RemoveDefaultConstructorVisitor extends AbstractJavaSyntaxVisitor {
 					Expression es = iterator.next().getExpression();
 
 					if (es.isSuperConstructorInvocationExpression()) {
-						if ((declaration.getFlags() & FLAG_ANONYMOUS) == 0) {
+						if ((declaration.getFlags() & ACC_ANONYMOUS.getFlag()) == 0) {
 							BaseExpression parameters = es.getParameters();
 
 							if ((parameters == null) || (parameters.size() == 0)) {

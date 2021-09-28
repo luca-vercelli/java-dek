@@ -7,7 +7,7 @@
 
 package org.jd.core.v1.service.converter.classfiletojavasyntax.visitor;
 
-import static org.jd.core.v1.model.javasyntax.declaration.Declaration.FLAG_STATIC;
+import static org.jd.core.v1.model.classfile.AccessType.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -244,7 +244,7 @@ public class UpdateBridgeMethodVisitor extends AbstractUpdateExpressionVisitor {
 
 		@Override
 		public void visit(MethodDeclaration declaration) {
-			if ((declaration.getFlags() & FLAG_STATIC) == 0) {
+			if ((declaration.getFlags() & ACC_STATIC.getFlag()) == 0) {
 				return;
 			}
 

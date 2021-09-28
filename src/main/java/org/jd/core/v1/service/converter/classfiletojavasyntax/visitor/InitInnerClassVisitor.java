@@ -7,7 +7,7 @@
 
 package org.jd.core.v1.service.converter.classfiletojavasyntax.visitor;
 
-import static org.jd.core.v1.model.javasyntax.declaration.Declaration.FLAG_SYNTHETIC;
+import static org.jd.core.v1.model.classfile.AccessType.*;
 
 import java.util.Comparator;
 import java.util.HashMap;
@@ -23,7 +23,6 @@ import org.jd.core.v1.model.javasyntax.declaration.BaseFormalParameter;
 import org.jd.core.v1.model.javasyntax.declaration.BodyDeclaration;
 import org.jd.core.v1.model.javasyntax.declaration.ClassDeclaration;
 import org.jd.core.v1.model.javasyntax.declaration.ConstructorDeclaration;
-import org.jd.core.v1.model.javasyntax.declaration.Declaration;
 import org.jd.core.v1.model.javasyntax.declaration.EnumDeclaration;
 import org.jd.core.v1.model.javasyntax.declaration.FieldDeclaration;
 import org.jd.core.v1.model.javasyntax.declaration.FieldDeclarator;
@@ -213,7 +212,7 @@ public class InitInnerClassVisitor extends AbstractJavaSyntaxVisitor {
 
 				if (anonymousFlag) {
 					// Mark anonymous class constructor
-					cfcd.setFlags(cfcd.getFlags() | Declaration.FLAG_ANONYMOUS);
+					cfcd.setFlags(cfcd.getFlags() | ACC_ANONYMOUS.getFlag());
 				}
 			}
 		}
@@ -244,7 +243,7 @@ public class InitInnerClassVisitor extends AbstractJavaSyntaxVisitor {
 			declaration.getFieldDeclarators().accept(this);
 
 			if (syntheticField) {
-				declaration.setFlags(declaration.getFlags() | FLAG_SYNTHETIC);
+				declaration.setFlags(declaration.getFlags() | ACC_SYNTHETIC.getFlag());
 			}
 		}
 
@@ -464,7 +463,7 @@ public class InitInnerClassVisitor extends AbstractJavaSyntaxVisitor {
 
 						if ((type.getQualifiedName() == null) && (type.getName() != null)) {
 							// Local class
-							cfcd.setFlags(cfcd.getFlags() & (~FLAG_SYNTHETIC));
+							cfcd.setFlags(cfcd.getFlags() & (~ACC_SYNTHETIC.getFlag()));
 							localClassDeclarations.add(cfcd);
 							bodyDeclaration.removeInnerType(internalName);
 							lineNumber = ne.getLineNumber();

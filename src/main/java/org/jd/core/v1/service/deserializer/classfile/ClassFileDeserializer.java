@@ -7,7 +7,7 @@
 
 package org.jd.core.v1.service.deserializer.classfile;
 
-import static org.jd.core.v1.model.classfile.AccessFlagConstants.ACC_SYNTHETIC;
+import static org.jd.core.v1.model.classfile.AccessType.*;
 
 import java.io.IOException;
 import java.io.UTFDataFormatException;
@@ -132,7 +132,7 @@ public class ClassFileDeserializer {
 						}
 
 						if (Character.isDigit(innerTypeName.charAt(length))) {
-							flags |= ACC_SYNTHETIC;
+							flags |= ACC_SYNTHETIC.getFlag();
 						}
 
 						if (innerClassFile == null) {

@@ -14,7 +14,7 @@ import java.util.NoSuchElementException;
  * Either a single object of type T or a list of objects of type T. If the
  * object is not a list, it shall be considered a 1-element long list.
  * 
- * WARNING type hierarchy is wrong: T is confused with Base<T>
+ * WARNING type hierarchy is confusing: T is used as with Base<T>
  *
  * @param <T>
  */
@@ -52,10 +52,17 @@ public interface Base<T> extends Iterable<T> {
 		throw new UnsupportedOperationException();
 	}
 
+	/**
+	 * Get list size
+	 */
 	default int size() {
 		return 1;
 	}
 
+	/**
+	 * Iterate over this List. Default implementation iterates through this element
+	 * only.
+	 */
 	@Override
 	default Iterator<T> iterator() {
 		return new Iterator<T>() {

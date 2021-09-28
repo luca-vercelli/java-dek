@@ -7,22 +7,92 @@
 
 package org.jd.core.v1.service.fragmenter.javasyntaxtojavafragment.visitor;
 
-import org.jd.core.v1.api.Loader;
-import org.jd.core.v1.model.javafragment.*;
-import org.jd.core.v1.model.javasyntax.AbstractJavaSyntaxVisitor;
-import org.jd.core.v1.model.javasyntax.CompilationUnit;
-import org.jd.core.v1.model.javasyntax.declaration.*;
-import org.jd.core.v1.model.javasyntax.expression.BaseExpression;
-import org.jd.core.v1.model.javasyntax.reference.*;
-import org.jd.core.v1.model.javasyntax.statement.BaseStatement;
-import org.jd.core.v1.model.javasyntax.type.*;
-import org.jd.core.v1.model.token.*;
-import org.jd.core.v1.service.fragmenter.javasyntaxtojavafragment.util.JavaFragmentFactory;
+import static org.jd.core.v1.model.classfile.AccessType.ACC_ABSTRACT;
+import static org.jd.core.v1.model.classfile.AccessType.ACC_ANONYMOUS;
+import static org.jd.core.v1.model.classfile.AccessType.ACC_BRIDGE;
+import static org.jd.core.v1.model.classfile.AccessType.ACC_DEFAULT;
+import static org.jd.core.v1.model.classfile.AccessType.ACC_FINAL;
+import static org.jd.core.v1.model.classfile.AccessType.ACC_NATIVE;
+import static org.jd.core.v1.model.classfile.AccessType.ACC_OPEN;
+import static org.jd.core.v1.model.classfile.AccessType.ACC_PRIVATE;
+import static org.jd.core.v1.model.classfile.AccessType.ACC_PROTECTED;
+import static org.jd.core.v1.model.classfile.AccessType.ACC_PUBLIC;
+import static org.jd.core.v1.model.classfile.AccessType.ACC_STATIC;
+import static org.jd.core.v1.model.classfile.AccessType.ACC_STRICT;
+import static org.jd.core.v1.model.classfile.AccessType.ACC_SYNCHRONIZED;
+import static org.jd.core.v1.model.classfile.AccessType.ACC_SYNTHETIC;
+import static org.jd.core.v1.model.classfile.AccessType.ACC_TRANSIENT;
+import static org.jd.core.v1.model.classfile.AccessType.ACC_TRANSITIVE;
+import static org.jd.core.v1.model.classfile.AccessType.ACC_VOLATILE;
 
 import java.util.Iterator;
 import java.util.List;
 
-import static org.jd.core.v1.model.javasyntax.declaration.Declaration.*;
+import org.jd.core.v1.api.Loader;
+import org.jd.core.v1.model.javafragment.EndMovableJavaBlockFragment;
+import org.jd.core.v1.model.javafragment.ImportsFragment;
+import org.jd.core.v1.model.javafragment.StartBlockFragment;
+import org.jd.core.v1.model.javafragment.StartBodyFragment;
+import org.jd.core.v1.model.javafragment.StartMovableJavaBlockFragment;
+import org.jd.core.v1.model.javafragment.TokensFragment;
+import org.jd.core.v1.model.javasyntax.AbstractJavaSyntaxVisitor;
+import org.jd.core.v1.model.javasyntax.CompilationUnit;
+import org.jd.core.v1.model.javasyntax.declaration.AnnotationDeclaration;
+import org.jd.core.v1.model.javasyntax.declaration.ArrayVariableInitializer;
+import org.jd.core.v1.model.javasyntax.declaration.BaseFieldDeclarator;
+import org.jd.core.v1.model.javasyntax.declaration.BaseFormalParameter;
+import org.jd.core.v1.model.javasyntax.declaration.BodyDeclaration;
+import org.jd.core.v1.model.javasyntax.declaration.ClassDeclaration;
+import org.jd.core.v1.model.javasyntax.declaration.ConstructorDeclaration;
+import org.jd.core.v1.model.javasyntax.declaration.EnumDeclaration;
+import org.jd.core.v1.model.javasyntax.declaration.FieldDeclaration;
+import org.jd.core.v1.model.javasyntax.declaration.FieldDeclarator;
+import org.jd.core.v1.model.javasyntax.declaration.FieldDeclarators;
+import org.jd.core.v1.model.javasyntax.declaration.FormalParameter;
+import org.jd.core.v1.model.javasyntax.declaration.FormalParameters;
+import org.jd.core.v1.model.javasyntax.declaration.InstanceInitializerDeclaration;
+import org.jd.core.v1.model.javasyntax.declaration.InterfaceDeclaration;
+import org.jd.core.v1.model.javasyntax.declaration.LocalVariableDeclaration;
+import org.jd.core.v1.model.javasyntax.declaration.LocalVariableDeclarator;
+import org.jd.core.v1.model.javasyntax.declaration.LocalVariableDeclarators;
+import org.jd.core.v1.model.javasyntax.declaration.MemberDeclaration;
+import org.jd.core.v1.model.javasyntax.declaration.MemberDeclarations;
+import org.jd.core.v1.model.javasyntax.declaration.MethodDeclaration;
+import org.jd.core.v1.model.javasyntax.declaration.ModuleDeclaration;
+import org.jd.core.v1.model.javasyntax.declaration.StaticInitializerDeclaration;
+import org.jd.core.v1.model.javasyntax.declaration.TypeDeclaration;
+import org.jd.core.v1.model.javasyntax.declaration.TypeDeclarations;
+import org.jd.core.v1.model.javasyntax.declaration.VariableInitializer;
+import org.jd.core.v1.model.javasyntax.expression.BaseExpression;
+import org.jd.core.v1.model.javasyntax.reference.AnnotationElementValue;
+import org.jd.core.v1.model.javasyntax.reference.AnnotationReference;
+import org.jd.core.v1.model.javasyntax.reference.AnnotationReferences;
+import org.jd.core.v1.model.javasyntax.reference.BaseAnnotationReference;
+import org.jd.core.v1.model.javasyntax.reference.BaseElementValuePair;
+import org.jd.core.v1.model.javasyntax.reference.ElementValue;
+import org.jd.core.v1.model.javasyntax.reference.ElementValueArrayInitializerElementValue;
+import org.jd.core.v1.model.javasyntax.reference.ElementValuePair;
+import org.jd.core.v1.model.javasyntax.reference.ElementValuePairs;
+import org.jd.core.v1.model.javasyntax.reference.ElementValues;
+import org.jd.core.v1.model.javasyntax.reference.ExpressionElementValue;
+import org.jd.core.v1.model.javasyntax.reference.InnerObjectReference;
+import org.jd.core.v1.model.javasyntax.reference.ObjectReference;
+import org.jd.core.v1.model.javasyntax.statement.BaseStatement;
+import org.jd.core.v1.model.javasyntax.type.BaseType;
+import org.jd.core.v1.model.javasyntax.type.BaseTypeParameter;
+import org.jd.core.v1.model.javasyntax.type.InnerObjectType;
+import org.jd.core.v1.model.javasyntax.type.ObjectType;
+import org.jd.core.v1.model.javasyntax.type.Type;
+import org.jd.core.v1.model.token.DeclarationToken;
+import org.jd.core.v1.model.token.EndBlockToken;
+import org.jd.core.v1.model.token.EndMarkerToken;
+import org.jd.core.v1.model.token.KeywordToken;
+import org.jd.core.v1.model.token.NewLineToken;
+import org.jd.core.v1.model.token.ReferenceToken;
+import org.jd.core.v1.model.token.StartBlockToken;
+import org.jd.core.v1.model.token.StartMarkerToken;
+import org.jd.core.v1.model.token.TextToken;
+import org.jd.core.v1.service.fragmenter.javasyntaxtojavafragment.util.JavaFragmentFactory;
 
 public class CompilationUnitVisitor extends StatementVisitor {
 	public static final KeywordToken ABSTRACT = new KeywordToken("abstract");
@@ -55,10 +125,10 @@ public class CompilationUnitVisitor extends StatementVisitor {
 
 	@Override
 	public void visit(AnnotationDeclaration declaration) {
-		if ((declaration.getFlags() & FLAG_SYNTHETIC) == 0) {
+		if ((declaration.getFlags() & ACC_SYNTHETIC.getFlag()) == 0) {
 			fragments.add(StartMovableJavaBlockFragment.START_MOVABLE_TYPE_BLOCK);
 
-			buildFragmentsForTypeDeclaration(declaration, declaration.getFlags() & ~FLAG_ABSTRACT, ANNOTATION);
+			buildFragmentsForTypeDeclaration(declaration, declaration.getFlags() & ~ACC_ABSTRACT.getFlag(), ANNOTATION);
 
 			fragments.addTokensFragment(tokens);
 
@@ -210,7 +280,7 @@ public class CompilationUnitVisitor extends StatementVisitor {
 
 	@Override
 	public void visit(ClassDeclaration declaration) {
-		if ((declaration.getFlags() & FLAG_SYNTHETIC) == 0) {
+		if ((declaration.getFlags() & ACC_SYNTHETIC.getFlag()) == 0) {
 			fragments.add(StartMovableJavaBlockFragment.START_MOVABLE_TYPE_BLOCK);
 
 			buildFragmentsForClassOrInterfaceDeclaration(declaration, declaration.getFlags(), CLASS);
@@ -321,10 +391,10 @@ public class CompilationUnitVisitor extends StatementVisitor {
 
 	@Override
 	public void visit(ConstructorDeclaration declaration) {
-		if ((declaration.getFlags() & (FLAG_SYNTHETIC | FLAG_BRIDGE)) == 0) {
+		if ((declaration.getFlags() & (ACC_SYNTHETIC.getFlag() | ACC_BRIDGE.getFlag())) == 0) {
 			BaseStatement statements = declaration.getStatements();
 
-			if ((declaration.getFlags() & FLAG_ANONYMOUS) == 0) {
+			if ((declaration.getFlags() & ACC_ANONYMOUS.getFlag()) == 0) {
 				fragments.add(StartMovableJavaBlockFragment.START_MOVABLE_METHOD_BLOCK);
 
 				tokens = new Tokens();
@@ -482,7 +552,7 @@ public class CompilationUnitVisitor extends StatementVisitor {
 
 	@Override
 	public void visit(EnumDeclaration declaration) {
-		if ((declaration.getFlags() & FLAG_SYNTHETIC) == 0) {
+		if ((declaration.getFlags() & ACC_SYNTHETIC.getFlag()) == 0) {
 			fragments.add(StartMovableJavaBlockFragment.START_MOVABLE_TYPE_BLOCK);
 
 			buildFragmentsForTypeDeclaration(declaration, declaration.getFlags(), ENUM);
@@ -614,7 +684,7 @@ public class CompilationUnitVisitor extends StatementVisitor {
 
 	@Override
 	public void visit(FieldDeclaration declaration) {
-		if ((declaration.getFlags() & FLAG_SYNTHETIC) == 0) {
+		if ((declaration.getFlags() & ACC_SYNTHETIC.getFlag()) == 0) {
 			fragments.add(StartMovableJavaBlockFragment.START_MOVABLE_FIELD_BLOCK);
 
 			tokens = new Tokens();
@@ -772,10 +842,10 @@ public class CompilationUnitVisitor extends StatementVisitor {
 
 	@Override
 	public void visit(InterfaceDeclaration declaration) {
-		if ((declaration.getFlags() & FLAG_SYNTHETIC) == 0) {
+		if ((declaration.getFlags() & ACC_SYNTHETIC.getFlag()) == 0) {
 			fragments.add(StartMovableJavaBlockFragment.START_MOVABLE_TYPE_BLOCK);
 
-			buildFragmentsForClassOrInterfaceDeclaration(declaration, declaration.getFlags() & ~FLAG_ABSTRACT,
+			buildFragmentsForClassOrInterfaceDeclaration(declaration, declaration.getFlags() & ~ACC_ABSTRACT.getFlag(),
 					INTERFACE);
 
 			tokens.add(StartBlockToken.START_DECLARATION_OR_STATEMENT_BLOCK);
@@ -836,7 +906,7 @@ public class CompilationUnitVisitor extends StatementVisitor {
 
 		tokens = new Tokens();
 
-		if ((declaration.getFlags() & FLAG_OPEN) != 0) {
+		if ((declaration.getFlags() & ACC_OPEN.getFlag()) != 0) {
 			tokens.add(OPEN);
 			tokens.add(TextToken.SPACE);
 		}
@@ -922,11 +992,11 @@ public class CompilationUnitVisitor extends StatementVisitor {
 	protected void visitModuleDeclaration(ModuleDeclaration.ModuleInfo moduleInfo) {
 		tokens.add(REQUIRES);
 
-		if ((moduleInfo.getFlags() & FLAG_STATIC) != 0) {
+		if ((moduleInfo.getFlags() & ACC_STATIC.getFlag()) != 0) {
 			tokens.add(TextToken.SPACE);
 			tokens.add(STATIC);
 		}
-		if ((moduleInfo.getFlags() & FLAG_TRANSITIVE) != 0) {
+		if ((moduleInfo.getFlags() & ACC_TRANSITIVE.getFlag()) != 0) {
 			tokens.add(TextToken.SPACE);
 			tokens.add(TRANSITIVE);
 		}
@@ -1096,7 +1166,7 @@ public class CompilationUnitVisitor extends StatementVisitor {
 
 	@Override
 	public void visit(MethodDeclaration declaration) {
-		if ((declaration.getFlags() & (FLAG_SYNTHETIC | FLAG_BRIDGE)) == 0) {
+		if ((declaration.getFlags() & (ACC_SYNTHETIC.getFlag() | ACC_BRIDGE.getFlag())) == 0) {
 			fragments.add(StartMovableJavaBlockFragment.START_MOVABLE_METHOD_BLOCK);
 
 			tokens = new Tokens();
@@ -1300,31 +1370,31 @@ public class CompilationUnitVisitor extends StatementVisitor {
 	}
 
 	protected void buildTokensForTypeAccessFlags(int flags) {
-		if ((flags & FLAG_PUBLIC) != 0) {
+		if ((flags & ACC_PUBLIC.getFlag()) != 0) {
 			tokens.add(PUBLIC);
 			tokens.add(TextToken.SPACE);
 		}
-		if ((flags & FLAG_PROTECTED) != 0) {
+		if ((flags & ACC_PROTECTED.getFlag()) != 0) {
 			tokens.add(PROTECTED);
 			tokens.add(TextToken.SPACE);
 		}
-		if ((flags & FLAG_PRIVATE) != 0) {
+		if ((flags & ACC_PRIVATE.getFlag()) != 0) {
 			tokens.add(PRIVATE);
 			tokens.add(TextToken.SPACE);
 		}
-		if ((flags & FLAG_STATIC) != 0) {
+		if ((flags & ACC_STATIC.getFlag()) != 0) {
 			tokens.add(STATIC);
 			tokens.add(TextToken.SPACE);
 		}
-		if ((flags & FLAG_FINAL) != 0) {
+		if ((flags & ACC_FINAL.getFlag()) != 0) {
 			tokens.add(FINAL);
 			tokens.add(TextToken.SPACE);
 		}
-		if ((flags & FLAG_ABSTRACT) != 0) {
+		if ((flags & ACC_ABSTRACT.getFlag()) != 0) {
 			tokens.add(ABSTRACT);
 			tokens.add(TextToken.SPACE);
 		}
-		if ((flags & FLAG_SYNTHETIC) != 0) {
+		if ((flags & ACC_SYNTHETIC.getFlag()) != 0) {
 			tokens.add(StartMarkerToken.COMMENT);
 			tokens.add(COMMENT_SYNTHETIC);
 			tokens.add(EndMarkerToken.COMMENT);
@@ -1333,35 +1403,35 @@ public class CompilationUnitVisitor extends StatementVisitor {
 	}
 
 	protected void buildTokensForFieldAccessFlags(int flags) {
-		if ((flags & FLAG_PUBLIC) != 0) {
+		if ((flags & ACC_PUBLIC.getFlag()) != 0) {
 			tokens.add(PUBLIC);
 			tokens.add(TextToken.SPACE);
 		}
-		if ((flags & FLAG_PROTECTED) != 0) {
+		if ((flags & ACC_PROTECTED.getFlag()) != 0) {
 			tokens.add(PROTECTED);
 			tokens.add(TextToken.SPACE);
 		}
-		if ((flags & FLAG_PRIVATE) != 0) {
+		if ((flags & ACC_PRIVATE.getFlag()) != 0) {
 			tokens.add(PRIVATE);
 			tokens.add(TextToken.SPACE);
 		}
-		if ((flags & FLAG_STATIC) != 0) {
+		if ((flags & ACC_STATIC.getFlag()) != 0) {
 			tokens.add(STATIC);
 			tokens.add(TextToken.SPACE);
 		}
-		if ((flags & FLAG_FINAL) != 0) {
+		if ((flags & ACC_FINAL.getFlag()) != 0) {
 			tokens.add(FINAL);
 			tokens.add(TextToken.SPACE);
 		}
-		if ((flags & FLAG_VOLATILE) != 0) {
+		if ((flags & ACC_VOLATILE.getFlag()) != 0) {
 			tokens.add(VOLATILE);
 			tokens.add(TextToken.SPACE);
 		}
-		if ((flags & FLAG_TRANSIENT) != 0) {
+		if ((flags & ACC_TRANSIENT.getFlag()) != 0) {
 			tokens.add(TRANSIENT);
 			tokens.add(TextToken.SPACE);
 		}
-		if ((flags & FLAG_SYNTHETIC) != 0) {
+		if ((flags & ACC_SYNTHETIC.getFlag()) != 0) {
 			tokens.add(StartMarkerToken.COMMENT);
 			tokens.add(COMMENT_SYNTHETIC);
 			tokens.add(EndMarkerToken.COMMENT);
@@ -1370,55 +1440,55 @@ public class CompilationUnitVisitor extends StatementVisitor {
 	}
 
 	protected void buildTokensForMethodAccessFlags(int flags) {
-		if ((flags & FLAG_PUBLIC) != 0) {
+		if ((flags & ACC_PUBLIC.getFlag()) != 0) {
 			tokens.add(PUBLIC);
 			tokens.add(TextToken.SPACE);
 		}
-		if ((flags & FLAG_PROTECTED) != 0) {
+		if ((flags & ACC_PROTECTED.getFlag()) != 0) {
 			tokens.add(PROTECTED);
 			tokens.add(TextToken.SPACE);
 		}
-		if ((flags & FLAG_PRIVATE) != 0) {
+		if ((flags & ACC_PRIVATE.getFlag()) != 0) {
 			tokens.add(PRIVATE);
 			tokens.add(TextToken.SPACE);
 		}
-		if ((flags & FLAG_STATIC) != 0) {
+		if ((flags & ACC_STATIC.getFlag()) != 0) {
 			tokens.add(STATIC);
 			tokens.add(TextToken.SPACE);
 		}
-		if ((flags & FLAG_FINAL) != 0) {
+		if ((flags & ACC_FINAL.getFlag()) != 0) {
 			tokens.add(FINAL);
 			tokens.add(TextToken.SPACE);
 		}
-		if ((flags & FLAG_SYNCHRONIZED) != 0) {
+		if ((flags & ACC_SYNCHRONIZED.getFlag()) != 0) {
 			tokens.add(SYNCHRONIZED);
 			tokens.add(TextToken.SPACE);
 		}
-		if ((flags & FLAG_BRIDGE) != 0) {
+		if ((flags & ACC_BRIDGE.getFlag()) != 0) {
 			tokens.add(StartMarkerToken.COMMENT);
 			tokens.add(COMMENT_BRIDGE);
 			tokens.add(EndMarkerToken.COMMENT);
 			tokens.add(TextToken.SPACE);
 		}
-		if ((flags & FLAG_NATIVE) != 0) {
+		if ((flags & ACC_NATIVE.getFlag()) != 0) {
 			tokens.add(NATIVE);
 			tokens.add(TextToken.SPACE);
 		}
-		if ((flags & FLAG_ABSTRACT) != 0) {
+		if ((flags & ACC_ABSTRACT.getFlag()) != 0) {
 			tokens.add(ABSTRACT);
 			tokens.add(TextToken.SPACE);
 		}
-		if ((flags & FLAG_STRICT) != 0) {
+		if ((flags & ACC_STRICT.getFlag()) != 0) {
 			tokens.add(STRICT);
 			tokens.add(TextToken.SPACE);
 		}
-		if ((flags & FLAG_SYNTHETIC) != 0) {
+		if ((flags & ACC_SYNTHETIC.getFlag()) != 0) {
 			tokens.add(StartMarkerToken.COMMENT);
 			tokens.add(COMMENT_SYNTHETIC);
 			tokens.add(EndMarkerToken.COMMENT);
 			tokens.add(TextToken.SPACE);
 		}
-		if ((flags & FLAG_DEFAULT) != 0) {
+		if ((flags & ACC_DEFAULT.getFlag()) != 0) {
 			tokens.add(DEFAULT);
 			tokens.add(TextToken.SPACE);
 		}

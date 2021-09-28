@@ -7,12 +7,12 @@
 
 package org.jd.core.v1.model.classfile;
 
-import org.jd.core.v1.model.classfile.attribute.Attribute;
+import static org.jd.core.v1.model.classfile.AccessType.*;
 
 import java.util.List;
 import java.util.Map;
 
-import static org.jd.core.v1.model.classfile.AccessFlagConstants.*;
+import org.jd.core.v1.model.classfile.attribute.Attribute;
 
 /**
  * Logical representation of a Class. The internal model follows the internal
@@ -62,23 +62,23 @@ public class ClassFile {
 	}
 
 	public boolean isEnum() {
-		return (accessFlags & ACC_ENUM) != 0;
+		return (accessFlags & ACC_ENUM.getFlag()) != 0;
 	}
 
 	public boolean isAnnotation() {
-		return (accessFlags & ACC_ANNOTATION) != 0;
+		return (accessFlags & ACC_ANNOTATION.getFlag()) != 0;
 	}
 
 	public boolean isInterface() {
-		return (accessFlags & ACC_INTERFACE) != 0;
+		return (accessFlags & ACC_INTERFACE.getFlag()) != 0;
 	}
 
 	public boolean isModule() {
-		return (accessFlags & ACC_MODULE) != 0;
+		return (accessFlags & ACC_MODULE.getFlag()) != 0;
 	}
 
 	public boolean isStatic() {
-		return (accessFlags & ACC_STATIC) != 0;
+		return (accessFlags & ACC_STATIC.getFlag()) != 0;
 	}
 
 	public String getInternalTypeName() {

@@ -7,9 +7,9 @@
 
 package org.jd.core.v1.service.converter.classfiletojavasyntax.util;
 
-import static org.jd.core.v1.model.javasyntax.declaration.Declaration.FLAG_PRIVATE;
-import static org.jd.core.v1.model.javasyntax.declaration.Declaration.FLAG_STATIC;
-import static org.jd.core.v1.model.javasyntax.declaration.Declaration.FLAG_SYNTHETIC;
+import static org.jd.core.v1.model.classfile.AccessType.ACC_PRIVATE;
+import static org.jd.core.v1.model.classfile.AccessType.ACC_STATIC;
+import static org.jd.core.v1.model.classfile.AccessType.ACC_SYNTHETIC;
 import static org.jd.core.v1.model.javasyntax.statement.ReturnStatement.RETURN;
 import static org.jd.core.v1.model.javasyntax.type.ObjectType.TYPE_CLASS;
 import static org.jd.core.v1.model.javasyntax.type.ObjectType.TYPE_OBJECT;
@@ -168,7 +168,7 @@ public class ByteCodeParser {
 		Method method = cfg.getMethod();
 		ConstantPool constants = method.getConstants();
 		byte[] code = method.<AttributeCode>getAttribute("Code").getCode();
-		boolean syntheticFlag = (method.getAccessFlags() & FLAG_SYNTHETIC) != 0;
+		boolean syntheticFlag = (method.getAccessFlags() & ACC_SYNTHETIC.getFlag()) != 0;
 
 		Expression indexRef, arrayRef, valueRef, expression1, expression2, expression3;
 		Type type1, type2, type3;
@@ -246,7 +246,7 @@ public class ByteCodeParser {
 			case 25: // ALOAD
 				i = code[++offset] & 255;
 				localVariable = localVariableMaker.getLocalVariable(i, offset);
-				if ((i == 0) && ((method.getAccessFlags() & FLAG_STATIC) == 0)) {
+				if ((i == 0) && ((method.getAccessFlags() & ACC_STATIC.getFlag()) == 0)) {
 					stack.push(new ThisExpression(lineNumber, localVariable.getType()));
 				} else {
 					stack.push(new ClassFileLocalVariableReferenceExpression(lineNumber, offset, localVariable));
@@ -282,7 +282,7 @@ public class ByteCodeParser {
 				break;
 			case 42: // ALOAD_0
 				localVariable = localVariableMaker.getLocalVariable(0, offset);
-				if ((method.getAccessFlags() & FLAG_STATIC) == 0) {
+				if ((method.getAccessFlags() & ACC_STATIC.getFlag()) == 0) {
 					stack.push(new ThisExpression(lineNumber, localVariable.getType()));
 				} else {
 					stack.push(new ClassFileLocalVariableReferenceExpression(lineNumber, offset, localVariable));
@@ -1614,8 +1614,10 @@ public class ByteCodeParser {
 
 		if (typeName.equals(internalTypeName)) {
 			for (ClassFileConstructorOrMethodDeclaration methodDeclaration : bodyDeclaration.getMethodDeclarations()) {
-				if (((methodDeclaration.getFlags() & (FLAG_SYNTHETIC | FLAG_PRIVATE)) == (FLAG_SYNTHETIC
-						| FLAG_PRIVATE)) && methodDeclaration.getMethod().getName().equals(name1)
+				if (((methodDeclaration.getFlags()
+						& (ACC_SYNTHETIC.getFlag() | ACC_PRIVATE.getFlag())) == (ACC_SYNTHETIC.getFlag()
+								| ACC_PRIVATE.getFlag()))
+						&& methodDeclaration.getMethod().getName().equals(name1)
 						&& methodDeclaration.getMethod().getDescriptor().equals(descriptor1)) {
 					// Create lambda expression
 					ClassFileMethodDeclaration cfmd = (ClassFileMethodDeclaration) methodDeclaration;

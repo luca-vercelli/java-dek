@@ -8,7 +8,7 @@
 package org.jd.core.v1.service.converter.classfiletojavasyntax.visitor;
 
 import static org.jd.core.v1.api.Printer.UNKNOWN_LINE_NUMBER;
-import static org.jd.core.v1.model.javasyntax.declaration.Declaration.FLAG_SYNTHETIC;
+import static org.jd.core.v1.model.classfile.AccessType.*;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -86,7 +86,7 @@ public class InitInstanceFieldVisitor extends AbstractJavaSyntaxVisitor {
 
 	@Override
 	public void visit(FieldDeclaration declaration) {
-		if ((declaration.getFlags() & FieldDeclaration.FLAG_STATIC) == 0) {
+		if ((declaration.getFlags() & ACC_STATIC.getFlag()) == 0) {
 			declaration.getFieldDeclarators().accept(this);
 		}
 	}
@@ -108,7 +108,7 @@ public class InitInstanceFieldVisitor extends AbstractJavaSyntaxVisitor {
 				if (datas.size() == 1) {
 					int firstLineNumber;
 
-					if ((cfcd.getFlags() & FLAG_SYNTHETIC) != 0) {
+					if ((cfcd.getFlags() & ACC_SYNTHETIC.getFlag()) != 0) {
 						firstLineNumber = UNKNOWN_LINE_NUMBER;
 					} else {
 						firstLineNumber = superConstructorCall.getLineNumber();

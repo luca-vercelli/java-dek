@@ -75,9 +75,9 @@ public class CastTest {
 		String source = decompiler.decompile(internalClassName);
 
 		// Check decompiled source code
-		// assertTrue(source.matches(PatternMaker.make(": 35 */", "long b = (long)(double)")));
-		// assertTrue(source.matches(PatternMaker.make(": 40 */", "long b = Long.MAX_VALUE")));
-		// assertTrue(source.matches(PatternMaker.make(": 45 */", "long b = (long)(double)")));
+		assertTrue(source.matches(PatternMaker.make(":  0 */", "public static long l(int x, int y) {")));
+		// assertTrue(source.matches(PatternMaker.make(": 65 */", "long rc = ( (long)y << 32L) | x;")));
+		assertTrue(source.matches(PatternMaker.make(": 66 */", "return rc")));
 
 		// Recompile decompiled source code and check errors
 		assertTrue(CompilerUtil.compile("1.8", new JavaSourceFileObject(internalClassName, source)));

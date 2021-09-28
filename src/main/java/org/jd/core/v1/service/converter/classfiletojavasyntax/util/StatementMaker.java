@@ -8,7 +8,6 @@
 package org.jd.core.v1.service.converter.classfiletojavasyntax.util;
 
 import org.jd.core.v1.model.classfile.ClassFile;
-import org.jd.core.v1.model.classfile.AccessFlagConstants;
 import org.jd.core.v1.model.classfile.attribute.AttributeCode;
 import org.jd.core.v1.model.javasyntax.AbstractJavaSyntaxVisitor;
 import org.jd.core.v1.model.javasyntax.declaration.FieldDeclarator;
@@ -39,6 +38,7 @@ import static org.jd.core.v1.model.javasyntax.expression.NoExpression.NO_EXPRESS
 import static org.jd.core.v1.model.javasyntax.type.ObjectType.TYPE_UNDEFINED_OBJECT;
 import static org.jd.core.v1.model.javasyntax.type.PrimitiveType.*;
 import static org.jd.core.v1.service.converter.classfiletojavasyntax.model.cfg.BasicBlock.*;
+import static org.jd.core.v1.model.classfile.AccessType.*;
 
 public class StatementMaker {
 	protected static final SwitchCaseComparator SWITCH_CASE_COMPARATOR = new SwitchCaseComparator();
@@ -976,7 +976,7 @@ public class StatementMaker {
 		for (ClassFileFieldDeclaration field : bodyDeclaration.getFieldDeclarations()) {
 			field.getFieldDeclarators().accept(memberVisitor);
 			if (memberVisitor.found()) {
-				field.setFlags(field.getFlags() | AccessFlagConstants.ACC_SYNTHETIC);
+				field.setFlags(field.getFlags() | ACC_SYNTHETIC.getFlag());
 				break;
 			}
 		}
@@ -987,7 +987,7 @@ public class StatementMaker {
 		for (ClassFileConstructorOrMethodDeclaration member : bodyDeclaration.getMethodDeclarations()) {
 			member.accept(memberVisitor);
 			if (memberVisitor.found()) {
-				member.setFlags(member.getFlags() | AccessFlagConstants.ACC_SYNTHETIC);
+				member.setFlags(member.getFlags() | ACC_SYNTHETIC.getFlag());
 				break;
 			}
 		}
