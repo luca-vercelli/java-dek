@@ -2878,22 +2878,61 @@ public class ControlFlowGraphTest {
 		}
 	}
 
-	protected InputStream getResource(String zipName) {
-		return this.getClass().getResourceAsStream("/" + zipName);
+	/**
+	 * Load any file resource as an InputStream
+	 * 
+	 * @param resourcePath
+	 * @return
+	 */
+	protected InputStream getResource(String resourcePath) {
+		return this.getClass().getResourceAsStream("/" + resourcePath);
 	}
 
-	protected InputStream loadFile(String zipName) throws IOException {
-		return new FileInputStream(zipName);
+	/**
+	 * Load any file as a FileInputStream
+	 * 
+	 * @param filePath
+	 * @return
+	 */
+	protected InputStream loadFile(String filePath) throws IOException {
+		return new FileInputStream(filePath);
 	}
 
+	/**
+	 * Load a Method from a class using this.loader
+	 * 
+	 * @param internalTypeName
+	 * @param methodName       Can be "&lt;init&gt;" for constructor
+	 * @return
+	 * @throws Exception
+	 */
 	protected Method searchMethod(String internalTypeName, String methodName) throws Exception {
 		return searchMethod(loader, typeMaker, internalTypeName, methodName, null);
 	}
 
+	/**
+	 * Load a Method from a class using a ZipLoader
+	 * 
+	 * @param is               stream from zip archive
+	 * @param internalTypeName
+	 * @param methodName       Can be "&lt;init&gt;" for constructor
+	 * @return
+	 * @throws Exception
+	 */
 	protected Method searchMethod(InputStream is, String internalTypeName, String methodName) throws Exception {
 		return searchMethod(is, internalTypeName, methodName, null);
 	}
 
+	/**
+	 * Load a Method from a class using a ZipLoader
+	 * 
+	 * @param is               stream from zip archive
+	 * @param internalTypeName
+	 * @param methodName       Can be "&lt;init&gt;" for constructor
+	 * @param methodDescriptor
+	 * @return
+	 * @throws Exception
+	 */
 	protected Method searchMethod(InputStream is, String internalTypeName, String methodName, String methodDescriptor)
 			throws Exception {
 		if (is == null) {
@@ -2905,6 +2944,16 @@ public class ControlFlowGraphTest {
 		}
 	}
 
+	/**
+	 * Load a Method from a class
+	 * 
+	 * @param is
+	 * @param internalTypeName
+	 * @param methodName       Can be "&lt;init&gt;" for constructor
+	 * @param methodDescriptor
+	 * @return
+	 * @throws Exception
+	 */
 	protected Method searchMethod(Loader loader, TypeMaker typeMaker, String internalTypeName, String methodName,
 			String methodDescriptor) throws Exception {
 		Message message = new Message();
