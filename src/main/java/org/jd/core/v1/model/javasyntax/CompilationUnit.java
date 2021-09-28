@@ -22,6 +22,6 @@ public class CompilationUnit {
 
 	@Override
 	public String toString() {
-		return "CompilationUnit " + (this.typeDeclarations != null ? typeDeclarations.toString() : "null");
+		return "CompilationUnit(" + (this.typeDeclarations != null ? typeDeclarations.toString() : "null") + ")";
 	}
 }

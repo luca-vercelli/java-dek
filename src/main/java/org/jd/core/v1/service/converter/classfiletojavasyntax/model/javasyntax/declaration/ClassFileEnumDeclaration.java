@@ -16,46 +16,48 @@ import org.jd.core.v1.model.javasyntax.type.BaseType;
 import java.util.List;
 
 public class ClassFileEnumDeclaration extends EnumDeclaration implements ClassFileTypeDeclaration {
-    protected int firstLineNumber;
+	protected int firstLineNumber;
 
-    public ClassFileEnumDeclaration(BaseAnnotationReference annotationReferences, int flags, String internalName, String name, BaseType interfaces, ClassFileBodyDeclaration bodyDeclaration) {
-        super(annotationReferences, flags, internalName, name, interfaces, null, bodyDeclaration);
-        this.firstLineNumber = bodyDeclaration==null ? 0 : bodyDeclaration.getFirstLineNumber();
-    }
+	public ClassFileEnumDeclaration(BaseAnnotationReference annotationReferences, int flags, String internalName,
+			String name, BaseType interfaces, ClassFileBodyDeclaration bodyDeclaration) {
+		super(annotationReferences, flags, internalName, name, interfaces, null, bodyDeclaration);
+		this.firstLineNumber = bodyDeclaration == null ? 0 : bodyDeclaration.getFirstLineNumber();
+	}
 
-    public void setFlags(int flags) {
-        this.flags = flags;
-    }
+	public void setFlags(int flags) {
+		this.flags = flags;
+	}
 
-    public void setConstants(List<Constant> constants) {
-        this.constants = constants;
-    }
+	public void setConstants(List<Constant> constants) {
+		this.constants = constants;
+	}
 
-    @Override
-    public int getFirstLineNumber() {
-        return firstLineNumber;
-    }
+	@Override
+	public int getFirstLineNumber() {
+		return firstLineNumber;
+	}
 
-    @Override
-    public String toString() {
-        return "ClassFileEnumDeclaration{" + internalTypeName + ", firstLineNumber=" + firstLineNumber + "}";
-    }
+	@Override
+	public String toString() {
+		return "ClassFileEnumDeclaration{" + internalTypeName + ", firstLineNumber=" + firstLineNumber + "}";
+	}
 
-    public static class ClassFileConstant extends Constant {
-        protected int index;
+	public static class ClassFileConstant extends Constant {
+		protected int index;
 
-        public ClassFileConstant(int lineNumber, String name, int index, BaseExpression arguments, BodyDeclaration bodyDeclaration) {
-            super(lineNumber, name, arguments, bodyDeclaration);
-            this.index = index;
-        }
+		public ClassFileConstant(int lineNumber, String name, int index, BaseExpression arguments,
+				BodyDeclaration bodyDeclaration) {
+			super(lineNumber, name, arguments, bodyDeclaration);
+			this.index = index;
+		}
 
-        public int getIndex() {
-            return index;
-        }
+		public int getIndex() {
+			return index;
+		}
 
-        @Override
-        public String toString() {
-            return "ClassFileConstant{" + name + " : " + index + "}";
-        }
-    }
+		@Override
+		public String toString() {
+			return "ClassFileEnumDeclaration{" + name + " : " + index + "}";
+		}
+	}
 }

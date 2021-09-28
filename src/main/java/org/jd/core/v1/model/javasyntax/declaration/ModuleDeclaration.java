@@ -10,123 +10,162 @@ package org.jd.core.v1.model.javasyntax.declaration;
 import java.util.List;
 
 public class ModuleDeclaration extends TypeDeclaration {
-    protected String            version;
-    protected List<ModuleInfo>  requires;
-    protected List<PackageInfo> exports;
-    protected List<PackageInfo> opens;
-    protected List<String>      uses;
-    protected List<ServiceInfo> provides;
+	protected String version;
+	protected List<ModuleInfo> requires;
+	protected List<PackageInfo> exports;
+	protected List<PackageInfo> opens;
+	protected List<String> uses;
+	protected List<ServiceInfo> provides;
 
-    public ModuleDeclaration(int flags, String internalName, String name, String version, List<ModuleInfo> requires, List<PackageInfo> exports, List<PackageInfo> opens, List<String> uses, List<ServiceInfo> provides) {
-        super(null, flags, internalName, name, null);
-        this.version = version;
-        this.requires = requires;
-        this.exports = exports;
-        this.opens = opens;
-        this.uses = uses;
-        this.provides = provides;
-    }
+	public ModuleDeclaration(int flags, String internalName, String name, String version, List<ModuleInfo> requires,
+			List<PackageInfo> exports, List<PackageInfo> opens, List<String> uses, List<ServiceInfo> provides) {
+		super(null, flags, internalName, name, null);
+		this.version = version;
+		this.requires = requires;
+		this.exports = exports;
+		this.opens = opens;
+		this.uses = uses;
+		this.provides = provides;
+	}
 
-    public String getVersion() { return version; }
-    public List<ModuleInfo> getRequires() { return requires; }
-    public List<PackageInfo> getExports() { return exports; }
-    public List<PackageInfo> getOpens() { return opens; }
-    public List<String> getUses() { return uses; }
-    public List<ServiceInfo> getProvides() { return provides; }
+	public String getVersion() {
+		return version;
+	}
 
-    @Override
-    public void accept(DeclarationVisitor visitor) {
-        visitor.visit(this);
-    }
+	public List<ModuleInfo> getRequires() {
+		return requires;
+	}
 
-    @Override
-    public String toString() {
-        return "ModuleDeclaration{" + internalTypeName + "}";
-    }
+	public List<PackageInfo> getExports() {
+		return exports;
+	}
 
-    public static class ModuleInfo {
-        protected String name;
-        protected int flags;
-        protected String version;
+	public List<PackageInfo> getOpens() {
+		return opens;
+	}
 
-        public ModuleInfo(String name, int flags, String version) {
-            this.name = name;
-            this.flags = flags;
-            this.version = version;
-        }
+	public List<String> getUses() {
+		return uses;
+	}
 
-        public String getName() { return name; }
-        public int getFlags() { return flags; }
-        public String getVersion() { return version; }
+	public List<ServiceInfo> getProvides() {
+		return provides;
+	}
 
-        @Override
-        public String toString() {
-            StringBuilder sb = new StringBuilder();
+	@Override
+	public void accept(DeclarationVisitor visitor) {
+		visitor.visit(this);
+	}
 
-            sb.append("ModuleInfo{name=").append(name);
-            sb.append(", flags=").append(flags);
+	@Override
+	public String toString() {
+		return "ModuleDeclaration{" + internalTypeName + "}";
+	}
 
-            if (version != null) {
-                sb.append(", version=").append(version);
-            }
+	public static class ModuleInfo {
+		protected String name;
+		protected int flags;
+		protected String version;
 
-            return sb.append("}").toString();
-        }
-    }
+		public ModuleInfo(String name, int flags, String version) {
+			this.name = name;
+			this.flags = flags;
+			this.version = version;
+		}
 
-    public static class PackageInfo {
-        protected String       internalName;
-        protected int flags;
-        protected List<String> moduleInfoNames;
+		public String getName() {
+			return name;
+		}
 
-        public PackageInfo(String internalName, int flags, List<String> moduleInfoNames) {
-            this.internalName = internalName;
-            this.flags = flags;
-            this.moduleInfoNames = moduleInfoNames;
-        }
+		public int getFlags() {
+			return flags;
+		}
 
-        public String getInternalName() { return internalName; }
-        public int getFlags() { return flags; }
-        public List<String> getModuleInfoNames() { return moduleInfoNames; }
+		public String getVersion() {
+			return version;
+		}
 
-        @Override
-        public String toString() {
-            StringBuilder sb = new StringBuilder();
+		@Override
+		public String toString() {
+			StringBuilder sb = new StringBuilder();
 
-            sb.append("PackageInfo{internalName=").append(internalName);
-            sb.append(", flags=").append(flags);
+			sb.append("ModuleInfo{name=").append(name);
+			sb.append(", flags=").append(flags);
 
-            if (moduleInfoNames != null) {
-                sb.append(", moduleInfoNames=").append(moduleInfoNames);
-            }
+			if (version != null) {
+				sb.append(", version=").append(version);
+			}
 
-            return sb.append("}").toString();
-        }
-    }
+			return sb.append("}").toString();
+		}
+	}
 
-    public static class ServiceInfo {
-        protected String       interfaceTypeName;
-        protected List<String> implementationTypeNames;
+	public static class PackageInfo {
+		protected String internalName;
+		protected int flags;
+		protected List<String> moduleInfoNames;
 
-        public ServiceInfo(String interfaceTypeName, List<String> implementationTypeNames) {
-            this.interfaceTypeName = interfaceTypeName;
-            this.implementationTypeNames = implementationTypeNames;
-        }
+		public PackageInfo(String internalName, int flags, List<String> moduleInfoNames) {
+			this.internalName = internalName;
+			this.flags = flags;
+			this.moduleInfoNames = moduleInfoNames;
+		}
 
-        public String getInterfaceTypeName() { return interfaceTypeName; }
-        public List<String> getImplementationTypeNames() { return implementationTypeNames; }
+		public String getInternalName() {
+			return internalName;
+		}
 
-        @Override
-        public String toString() {
-            StringBuilder sb = new StringBuilder();
+		public int getFlags() {
+			return flags;
+		}
 
-            sb.append("ServiceInfo{interfaceTypeName=").append(interfaceTypeName);
+		public List<String> getModuleInfoNames() {
+			return moduleInfoNames;
+		}
 
-            if (implementationTypeNames != null) {
-                sb.append(", implementationTypeNames=").append(implementationTypeNames);
-            }
+		@Override
+		public String toString() {
+			StringBuilder sb = new StringBuilder();
 
-            return sb.append("}").toString();
-        }
-    }
+			sb.append("PackageInfo{internalName=").append(internalName);
+			sb.append(", flags=").append(flags);
+
+			if (moduleInfoNames != null) {
+				sb.append(", moduleInfoNames=").append(moduleInfoNames);
+			}
+
+			return sb.append("}").toString();
+		}
+	}
+
+	public static class ServiceInfo {
+		protected String interfaceTypeName;
+		protected List<String> implementationTypeNames;
+
+		public ServiceInfo(String interfaceTypeName, List<String> implementationTypeNames) {
+			this.interfaceTypeName = interfaceTypeName;
+			this.implementationTypeNames = implementationTypeNames;
+		}
+
+		public String getInterfaceTypeName() {
+			return interfaceTypeName;
+		}
+
+		public List<String> getImplementationTypeNames() {
+			return implementationTypeNames;
+		}
+
+		@Override
+		public String toString() {
+			StringBuilder sb = new StringBuilder();
+
+			sb.append("ServiceInfo{interfaceTypeName=").append(interfaceTypeName);
+
+			if (implementationTypeNames != null) {
+				sb.append(", implementationTypeNames=").append(implementationTypeNames);
+			}
+
+			return sb.append("}").toString();
+		}
+	}
 }

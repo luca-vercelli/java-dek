@@ -13,20 +13,23 @@ import org.jd.core.v1.model.javasyntax.type.BaseType;
 import org.jd.core.v1.model.javasyntax.type.BaseTypeParameter;
 
 public class ClassFileInterfaceDeclaration extends InterfaceDeclaration implements ClassFileTypeDeclaration {
-    protected int firstLineNumber;
+	protected int firstLineNumber;
 
-    public ClassFileInterfaceDeclaration(BaseAnnotationReference annotationReferences, int flags, String internalName, String name, BaseTypeParameter typeParameters, BaseType interfaces, ClassFileBodyDeclaration bodyDeclaration) {
-        super(annotationReferences, flags, internalName, name, typeParameters, interfaces, bodyDeclaration);
-        this.firstLineNumber = bodyDeclaration==null ? 0 : bodyDeclaration.getFirstLineNumber();
-    }
+	public ClassFileInterfaceDeclaration(BaseAnnotationReference annotationReferences, int flags, String internalName,
+			String name, BaseTypeParameter typeParameters, BaseType interfaces,
+			ClassFileBodyDeclaration bodyDeclaration) {
+		super(annotationReferences, flags, internalName, name, typeParameters, interfaces, bodyDeclaration);
+		this.firstLineNumber = bodyDeclaration == null ? 0 : bodyDeclaration.getFirstLineNumber();
+	}
 
-    @Override
-    public int getFirstLineNumber() {
-        return firstLineNumber;
-    }
+	@Override
+	public int getFirstLineNumber() {
+		return firstLineNumber;
+	}
 
-    @Override
-    public String toString() {
-        return "ClassFileInterfaceDeclaration{" + internalTypeName + ", firstLineNumber=" + firstLineNumber + "}";
-    }
+	@Override
+	public String toString() {
+		return "ClassFileInterfaceDeclaration{" + internalTypeName + ", annotations=(" + annotationReferences
+				+ "), body=" + bodyDeclaration + "}";
+	}
 }

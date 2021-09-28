@@ -14,24 +14,27 @@ import org.jd.core.v1.model.javasyntax.type.BaseTypeParameter;
 import org.jd.core.v1.model.javasyntax.type.ObjectType;
 
 public class ClassFileClassDeclaration extends ClassDeclaration implements ClassFileTypeDeclaration {
-    protected int firstLineNumber;
+	protected int firstLineNumber;
 
-    public ClassFileClassDeclaration(BaseAnnotationReference annotationReferences, int flags, String internalName, String name, BaseTypeParameter typeParameters, ObjectType superType, BaseType interfaces, ClassFileBodyDeclaration bodyDeclaration) {
-        super(annotationReferences, flags, internalName, name, typeParameters, superType, interfaces, bodyDeclaration);
-        this.firstLineNumber = bodyDeclaration==null ? 0 : bodyDeclaration.getFirstLineNumber();
-    }
+	public ClassFileClassDeclaration(BaseAnnotationReference annotationReferences, int flags, String internalName,
+			String name, BaseTypeParameter typeParameters, ObjectType superType, BaseType interfaces,
+			ClassFileBodyDeclaration bodyDeclaration) {
+		super(annotationReferences, flags, internalName, name, typeParameters, superType, interfaces, bodyDeclaration);
+		this.firstLineNumber = bodyDeclaration == null ? 0 : bodyDeclaration.getFirstLineNumber();
+	}
 
-    @Override
-    public int getFirstLineNumber() {
-        return firstLineNumber;
-    }
+	@Override
+	public int getFirstLineNumber() {
+		return firstLineNumber;
+	}
 
-    public void setFlags(int flags) {
-        this.flags = flags;
-    }
+	public void setFlags(int flags) {
+		this.flags = flags;
+	}
 
-    @Override
-    public String toString() {
-        return "ClassFileClassDeclaration{" + internalTypeName + ", firstLineNumber=" + firstLineNumber + "}";
-    }
+	@Override
+	public String toString() {
+		return "ClassFileClassDeclaration{" + internalTypeName + ", annotations=(" + annotationReferences + "), body="
+				+ bodyDeclaration + "}";
+	}
 }
