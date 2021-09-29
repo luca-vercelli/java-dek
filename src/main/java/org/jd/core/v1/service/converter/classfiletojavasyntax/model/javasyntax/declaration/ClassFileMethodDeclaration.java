@@ -22,7 +22,7 @@ import org.jd.core.v1.model.javasyntax.type.TypeArgument;
 import java.util.Map;
 
 public class ClassFileMethodDeclaration extends MethodDeclaration implements ClassFileConstructorOrMethodDeclaration {
-	protected ClassFileBodyDeclaration bodyDeclaration;
+	protected ClassFileBodyDeclaration bodyDeclaration; // parent object
 	protected ClassFile classFile;
 	protected Method method;
 	protected BaseType parameterTypes;

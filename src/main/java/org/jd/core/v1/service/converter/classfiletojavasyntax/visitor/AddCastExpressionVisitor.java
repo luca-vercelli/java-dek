@@ -41,7 +41,7 @@ public class AddCastExpressionVisitor extends AbstractJavaSyntaxVisitor {
 	}
 
 	/**
-	 * During visit, populate typeBounds
+	 * During visit, populate "typeBounds"
 	 */
 	@Override
 	public void visit(BodyDeclaration declaration) {
@@ -56,6 +56,9 @@ public class AddCastExpressionVisitor extends AbstractJavaSyntaxVisitor {
 		}
 	}
 
+	/**
+	 * During visit, populate "type"
+	 */
 	@Override
 	public void visit(FieldDeclaration declaration) {
 		if ((declaration.getFlags() & ACC_SYNTHETIC.getFlag()) == 0) {
@@ -67,6 +70,9 @@ public class AddCastExpressionVisitor extends AbstractJavaSyntaxVisitor {
 		}
 	}
 
+	/**
+	 * During visit, populate "type"
+	 */
 	@Override
 	public void visit(FieldDeclarator declarator) {
 		VariableInitializer variableInitializer = declarator.getVariableInitializer();
@@ -86,6 +92,9 @@ public class AddCastExpressionVisitor extends AbstractJavaSyntaxVisitor {
 		}
 	}
 
+	/**
+	 * During visit, populate "typeBounds"
+	 */
 	@Override
 	public void visit(StaticInitializerDeclaration declaration) {
 		BaseStatement statements = declaration.getStatements();
@@ -99,6 +108,9 @@ public class AddCastExpressionVisitor extends AbstractJavaSyntaxVisitor {
 		}
 	}
 
+	/**
+	 * During visit, populate "typeBounds" and "exceptionTypes"
+	 */
 	@Override
 	public void visit(ConstructorDeclaration declaration) {
 		if ((declaration.getFlags() & (ACC_SYNTHETIC.getFlag() | ACC_BRIDGE.getFlag())) == 0) {
@@ -117,6 +129,9 @@ public class AddCastExpressionVisitor extends AbstractJavaSyntaxVisitor {
 		}
 	}
 
+	/**
+	 * During visit, populate "typeBounds", "returnedType", "exceptionTypes"
+	 */
 	@Override
 	public void visit(MethodDeclaration declaration) {
 		if ((declaration.getFlags() & (ACC_SYNTHETIC.getFlag() | ACC_BRIDGE.getFlag())) == 0) {
@@ -138,6 +153,9 @@ public class AddCastExpressionVisitor extends AbstractJavaSyntaxVisitor {
 		}
 	}
 
+	/**
+	 * During visit, populate "returnedType"
+	 */
 	@Override
 	public void visit(LambdaIdentifiersExpression expression) {
 		BaseStatement statements = expression.getStatements();
@@ -151,11 +169,17 @@ public class AddCastExpressionVisitor extends AbstractJavaSyntaxVisitor {
 		}
 	}
 
+	/**
+	 * If return expression does not match "returnType", add a cast
+	 */
 	@Override
 	public void visit(ReturnExpressionStatement statement) {
 		statement.setExpression(updateExpression(returnedType, statement.getExpression(), false, true));
 	}
 
+	/**
+	 * If thrown exception does not match "exceptionTypes", add a cast
+	 */
 	@Override
 	public void visit(ThrowStatement statement) {
 		if ((exceptionTypes != null) && (exceptionTypes.size() == 1)) {
@@ -167,6 +191,9 @@ public class AddCastExpressionVisitor extends AbstractJavaSyntaxVisitor {
 		}
 	}
 
+	/**
+	 * During visit, populate "type"
+	 */
 	@Override
 	public void visit(LocalVariableDeclaration declaration) {
 		Type t = type;
@@ -176,6 +203,9 @@ public class AddCastExpressionVisitor extends AbstractJavaSyntaxVisitor {
 		type = t;
 	}
 
+	/**
+	 * During visit, populate "type"
+	 */
 	@Override
 	public void visit(LocalVariableDeclarator declarator) {
 		VariableInitializer variableInitializer = declarator.getVariableInitializer();
@@ -195,6 +225,9 @@ public class AddCastExpressionVisitor extends AbstractJavaSyntaxVisitor {
 		}
 	}
 
+	/**
+	 * During visit, populate "type"
+	 */
 	@Override
 	public void visit(ArrayVariableInitializer declaration) {
 		if (type.getDimension() == 0) {
@@ -208,6 +241,11 @@ public class AddCastExpressionVisitor extends AbstractJavaSyntaxVisitor {
 		}
 	}
 
+	/**
+	 * During visit of NewInitializedArray, populate "type".
+	 * 
+	 * Otherwise, if expression type does not match "type", add a cast.
+	 */
 	@Override
 	public void visit(ExpressionVariableInitializer declaration) {
 		Expression expression = declaration.getExpression();
@@ -285,6 +323,9 @@ public class AddCastExpressionVisitor extends AbstractJavaSyntaxVisitor {
 		}
 	}
 
+	/**
+	 * During visit, populate "type"
+	 */
 	@Override
 	public void visit(NewInitializedArray expression) {
 		ArrayVariableInitializer arrayInitializer = expression.getArrayInitializer();
@@ -311,6 +352,9 @@ public class AddCastExpressionVisitor extends AbstractJavaSyntaxVisitor {
 		}
 	}
 
+	/**
+	 * If operator is "=" and types do not match, add a cast
+	 */
 	@Override
 	public void visit(BinaryOperatorExpression expression) {
 		expression.getLeftExpression().accept(this);
@@ -336,6 +380,9 @@ public class AddCastExpressionVisitor extends AbstractJavaSyntaxVisitor {
 		rightExpression.accept(this);
 	}
 
+	/**
+	 * Add a cast if types do not match
+	 */
 	@Override
 	public void visit(TernaryOperatorExpression expression) {
 		Type expressionType = expression.getType();
@@ -387,6 +434,9 @@ public class AddCastExpressionVisitor extends AbstractJavaSyntaxVisitor {
 		return expression;
 	}
 
+	/**
+	 * If type is not expression.getType(), add a cast, OR TRANSFORM IT (FIXME)
+	 */
 	private Expression updateExpression(Type type, Expression expression, boolean forceCast, boolean unique) {
 		if (expression.isNullExpression()) {
 			if (forceCast) {
@@ -462,7 +512,7 @@ public class AddCastExpressionVisitor extends AbstractJavaSyntaxVisitor {
 			} else {
 				CastExpression ce = (CastExpression) expression;
 
-				ce.setType(type);
+				ce.setType(type); // FIXME not sure of this
 				return ce;
 			}
 		} else {
