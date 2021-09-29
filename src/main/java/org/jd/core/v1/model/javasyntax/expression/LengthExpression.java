@@ -48,6 +48,6 @@ public class LengthExpression extends AbstractLineNumberExpression {
 
 	@Override
 	public String toString() {
-		return "LengthExpression{" + expression + "}";
+		return "LengthExpression(" + expression + ")";
 	}
 }

@@ -75,6 +75,6 @@ public class ObjectTypeReferenceExpression implements Expression {
 
     @Override
     public String toString() {
-        return "ObjectTypeReferenceExpression{" + type + "}";
+        return "ObjectTypeReferenceExpression(" + type + ")";
     }
 }

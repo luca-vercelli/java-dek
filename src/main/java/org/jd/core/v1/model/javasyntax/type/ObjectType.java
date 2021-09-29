@@ -50,7 +50,7 @@ public class ObjectType implements Type {
     protected String qualifiedName; // e.g. com.foo.Foo or com.foo.Foo.Bar
     protected String name; // eg. Foo or Bar
 
-    protected BaseTypeArgument typeArguments;
+    protected BaseTypeArgument typeArguments; // e.g. [A,B] if type is Foo<A,B>
     protected int dimension;
     protected String descriptor;
 
@@ -295,7 +295,7 @@ public class ObjectType implements Type {
 
 	@Override
 	public String toString() {
-		StringBuilder sb = new StringBuilder("ObjectType{");
+		StringBuilder sb = new StringBuilder("ObjectType(");
 
 		sb.append(internalName);
 
@@ -304,9 +304,9 @@ public class ObjectType implements Type {
 		}
 
 		if (dimension > 0) {
-			sb.append(", dimension=").append(dimension);
+			sb.append("[").append(dimension).append("]");
 		}
 
-		return sb.append('}').toString();
+		return sb.append(')').toString();
 	}
 }

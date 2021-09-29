@@ -10,96 +10,102 @@ package org.jd.core.v1.model.javasyntax.type;
 import java.util.Map;
 
 public class GenericType implements Type {
-    protected String name;
-    protected int  dimension;
+	protected String name;
+	protected int dimension;
 
-    public GenericType(String name) {
-        this.name = name;
-        this.dimension = 0;
-    }
+	public GenericType(String name) {
+		this.name = name;
+		this.dimension = 0;
+	}
 
-    public GenericType(String name, int dimension) {
-        this.name = name;
-        this.dimension = dimension;
-    }
+	public GenericType(String name, int dimension) {
+		this.name = name;
+		this.dimension = dimension;
+	}
 
-    @Override
-    public String getName() {
-        return name;
-    }
+	@Override
+	public String getName() {
+		return name;
+	}
 
-    @Override
-    public String getDescriptor() {
-        return name;
-    }
+	@Override
+	public String getDescriptor() {
+		return name;
+	}
 
-    @Override
-    public int getDimension() {
-        return dimension;
-    }
+	@Override
+	public int getDimension() {
+		return dimension;
+	}
 
-    @Override
-    public Type createType(int dimension) {
-        assert dimension >= 0;
-        if (this.dimension == dimension)
-            return this;
-        else
-            return new GenericType(name, dimension);
-    }
+	@Override
+	public Type createType(int dimension) {
+		assert dimension >= 0;
+		if (this.dimension == dimension)
+			return this;
+		else
+			return new GenericType(name, dimension);
+	}
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
 
-        GenericType that = (GenericType) o;
+		GenericType that = (GenericType) o;
 
-        if (dimension != that.dimension) return false;
-        if (!name.equals(that.name)) return false;
+		if (dimension != that.dimension)
+			return false;
+		if (!name.equals(that.name))
+			return false;
 
-        return true;
-    }
+		return true;
+	}
 
-    @Override
-    public int hashCode() {
-        int result = 991890290 + name.hashCode();
-        result = 31 * result + dimension;
-        return result;
-    }
+	@Override
+	public int hashCode() {
+		int result = 991890290 + name.hashCode();
+		result = 31 * result + dimension;
+		return result;
+	}
 
-    @Override
-    public void accept(TypeVisitor visitor) {
-        visitor.visit(this);
-    }
+	@Override
+	public void accept(TypeVisitor visitor) {
+		visitor.visit(this);
+	}
 
-    @Override
-    public void accept(TypeArgumentVisitor visitor) {
-        visitor.visit(this);
-    }
+	@Override
+	public void accept(TypeArgumentVisitor visitor) {
+		visitor.visit(this);
+	}
 
-    @Override
-    public boolean isTypeArgumentAssignableFrom(Map<String, BaseType> typeBounds, BaseTypeArgument typeArgument) {
-        return equals(typeArgument);
-    }
+	@Override
+	public boolean isTypeArgumentAssignableFrom(Map<String, BaseType> typeBounds, BaseTypeArgument typeArgument) {
+		return equals(typeArgument);
+	}
 
-    @Override
-    public boolean isGenericType() {
-        return true;
-    }
+	@Override
+	public boolean isGenericType() {
+		return true;
+	}
 
-    @Override
-    public boolean isGenericTypeArgument() { return true; }
+	@Override
+	public boolean isGenericTypeArgument() {
+		return true;
+	}
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder("GenericType{");
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder("GenericType(");
 
-        sb.append(name);
+		sb.append(name);
 
-        if (dimension > 0) {
-            sb.append(", dimension=").append(dimension);
-        }
+		if (dimension > 0) {
+			sb.append("[").append(dimension).append("]");
+		}
 
-        return sb.append('}').toString();
-    }
+		return sb.append(')').toString();
+	}
 }

@@ -34,6 +34,6 @@ public class ElementValues extends DefaultList<ElementValue> implements BaseElem
 
 	@Override
 	public String toString() {
-		return "ElementValues{" + super.toString() + "}";
+		return "ElementValues(" + super.toString() + ")";
 	}
 }

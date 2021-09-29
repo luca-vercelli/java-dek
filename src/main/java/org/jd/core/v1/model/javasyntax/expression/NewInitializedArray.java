@@ -11,37 +11,39 @@ import org.jd.core.v1.model.javasyntax.declaration.ArrayVariableInitializer;
 import org.jd.core.v1.model.javasyntax.type.Type;
 
 public class NewInitializedArray extends AbstractLineNumberTypeExpression {
-    protected ArrayVariableInitializer arrayInitializer;
+	protected ArrayVariableInitializer arrayInitializer;
 
-    public NewInitializedArray(Type type, ArrayVariableInitializer arrayInitializer) {
-        super(type);
-        this.arrayInitializer = arrayInitializer;
-    }
+	public NewInitializedArray(Type type, ArrayVariableInitializer arrayInitializer) {
+		super(type);
+		this.arrayInitializer = arrayInitializer;
+	}
 
-    public NewInitializedArray(int lineNumber, Type type, ArrayVariableInitializer arrayInitializer) {
-        super(lineNumber, type);
-        this.arrayInitializer = arrayInitializer;
-    }
+	public NewInitializedArray(int lineNumber, Type type, ArrayVariableInitializer arrayInitializer) {
+		super(lineNumber, type);
+		this.arrayInitializer = arrayInitializer;
+	}
 
-    public ArrayVariableInitializer getArrayInitializer() {
-        return arrayInitializer;
-    }
+	public ArrayVariableInitializer getArrayInitializer() {
+		return arrayInitializer;
+	}
 
-    @Override
-    public int getPriority() {
-        return 0;
-    }
+	@Override
+	public int getPriority() {
+		return 0;
+	}
 
-    @Override
-    public boolean isNewInitializedArray() { return true; }
+	@Override
+	public boolean isNewInitializedArray() {
+		return true;
+	}
 
-    @Override
-    public void accept(ExpressionVisitor visitor) {
-        visitor.visit(this);
-    }
+	@Override
+	public void accept(ExpressionVisitor visitor) {
+		visitor.visit(this);
+	}
 
-    @Override
-    public String toString() {
-        return "NewInitializedArray{new " + type + " [" + arrayInitializer + "]}";
-    }
+	@Override
+	public String toString() {
+		return "NewInitializedArray[new " + type + " [" + arrayInitializer + "]]";
+	}
 }

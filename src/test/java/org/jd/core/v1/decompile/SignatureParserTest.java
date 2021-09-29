@@ -367,7 +367,7 @@ public class SignatureParserTest extends TestCase {
 		TypeArguments typeArguments = (TypeArguments) ot.getTypeArguments();
 
 		Assert.assertEquals(typeArguments.size(), 2);
-		Assert.assertEquals(typeArguments.getFirst().toString(), "GenericType{K}");
-		Assert.assertEquals(typeArguments.getLast().toString(), "GenericType{V}");
+		Assert.assertEquals(typeArguments.getFirst().toString(), "GenericType(K)");
+		Assert.assertEquals(typeArguments.getLast().toString(), "GenericType(V)");
 	}
 }

@@ -13,36 +13,38 @@ import org.jd.core.v1.model.javasyntax.type.Type;
 import java.util.List;
 
 public class LambdaIdentifiersExpression extends AbstractLambdaExpression {
-    protected Type returnedType;
-    protected List<String> parameterNames;
+	protected Type returnedType;
+	protected List<String> parameterNames;
 
-    public LambdaIdentifiersExpression(Type type, Type returnedType, List<String> parameterNames, BaseStatement statements) {
-        super(type, statements);
-        this.returnedType = returnedType;
-        this.parameterNames = parameterNames;
-    }
+	public LambdaIdentifiersExpression(Type type, Type returnedType, List<String> parameterNames,
+			BaseStatement statements) {
+		super(type, statements);
+		this.returnedType = returnedType;
+		this.parameterNames = parameterNames;
+	}
 
-    public LambdaIdentifiersExpression(int lineNumber, Type type, Type returnedType, List<String> parameterNames, BaseStatement statements) {
-        super(lineNumber, type, statements);
-        this.returnedType = returnedType;
-        this.parameterNames = parameterNames;
-    }
+	public LambdaIdentifiersExpression(int lineNumber, Type type, Type returnedType, List<String> parameterNames,
+			BaseStatement statements) {
+		super(lineNumber, type, statements);
+		this.returnedType = returnedType;
+		this.parameterNames = parameterNames;
+	}
 
-    public Type getReturnedType() {
-        return returnedType;
-    }
+	public Type getReturnedType() {
+		return returnedType;
+	}
 
-    public List<String> getParameterNames() {
-        return parameterNames;
-    }
+	public List<String> getParameterNames() {
+		return parameterNames;
+	}
 
-    @Override
-    public void accept(ExpressionVisitor visitor) {
-        visitor.visit(this);
-    }
+	@Override
+	public void accept(ExpressionVisitor visitor) {
+		visitor.visit(this);
+	}
 
-    @Override
-    public String toString() {
-        return "LambdaIdentifiersExpression{" + parameterNames + " -> " + statements + "}";
-    }
+	@Override
+	public String toString() {
+		return "LambdaIdentifiersExpression(" + parameterNames + " -> " + statements + ")";
+	}
 }

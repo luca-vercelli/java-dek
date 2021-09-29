@@ -15,35 +15,35 @@ import org.jd.core.v1.model.javasyntax.type.BaseTypeParameter;
 import org.jd.core.v1.model.javasyntax.type.Type;
 
 public class ClassFileMethodInvocationExpression extends MethodInvocationExpression {
-    protected BaseTypeParameter typeParameters;
-    protected BaseType parameterTypes;
-    protected boolean bound = false;
+	protected BaseTypeParameter typeParameters;
+	protected BaseType parameterTypes;
+	protected boolean bound = false;
 
-    public ClassFileMethodInvocationExpression(
-            int lineNumber, BaseTypeParameter typeParameters, Type type, Expression expression,
-            String internalTypeName, String name, String descriptor, BaseType parameterTypes, BaseExpression parameters) {
-        super(lineNumber, type, expression, internalTypeName, name, descriptor, parameters);
-        this.typeParameters = typeParameters;
-        this.parameterTypes = parameterTypes;
-    }
+	public ClassFileMethodInvocationExpression(int lineNumber, BaseTypeParameter typeParameters, Type type,
+			Expression expression, String internalTypeName, String name, String descriptor, BaseType parameterTypes,
+			BaseExpression parameters) {
+		super(lineNumber, type, expression, internalTypeName, name, descriptor, parameters);
+		this.typeParameters = typeParameters;
+		this.parameterTypes = parameterTypes;
+	}
 
-    public BaseTypeParameter getTypeParameters() {
-        return typeParameters;
-    }
+	public BaseTypeParameter getTypeParameters() {
+		return typeParameters;
+	}
 
-    public BaseType getParameterTypes() {
-        return parameterTypes;
-    }
+	public BaseType getParameterTypes() {
+		return parameterTypes;
+	}
 
-    public void setParameterTypes(BaseType parameterTypes) {
-        this.parameterTypes = parameterTypes;
-    }
+	public void setParameterTypes(BaseType parameterTypes) {
+		this.parameterTypes = parameterTypes;
+	}
 
-    public boolean isBound() {
-        return bound;
-    }
+	public boolean isBound() {
+		return bound;
+	}
 
-    public void setBound(boolean bound) {
-        this.bound = bound;
-    }
+	public void setBound(boolean bound) {
+		this.bound = bound;
+	}
 }

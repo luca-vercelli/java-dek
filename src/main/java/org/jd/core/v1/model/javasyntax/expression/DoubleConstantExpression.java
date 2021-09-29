@@ -39,6 +39,6 @@ public class DoubleConstantExpression extends AbstractLineNumberTypeExpression {
 
 	@Override
 	public String toString() {
-		return "DoubleConstantExpression{" + value + "}";
+		return "DoubleConstantExpression(" + value + ")";
 	}
 }

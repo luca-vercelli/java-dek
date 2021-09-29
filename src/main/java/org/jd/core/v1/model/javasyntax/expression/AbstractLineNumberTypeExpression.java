@@ -10,23 +10,23 @@ package org.jd.core.v1.model.javasyntax.expression;
 import org.jd.core.v1.model.javasyntax.type.Type;
 
 public abstract class AbstractLineNumberTypeExpression extends AbstractLineNumberExpression {
-    protected Type type;
+	protected Type type;
 
-    protected AbstractLineNumberTypeExpression(Type type) {
-        this.type = type;
-    }
+	protected AbstractLineNumberTypeExpression(Type type) {
+		this.type = type;
+	}
 
-    protected AbstractLineNumberTypeExpression(int lineNumber, Type type) {
-        super(lineNumber);
-        this.type = type;
-    }
+	protected AbstractLineNumberTypeExpression(int lineNumber, Type type) {
+		super(lineNumber);
+		this.type = type;
+	}
 
-    @Override
-    public Type getType() {
-        return type;
-    }
+	@Override
+	public Type getType() {
+		return type;
+	}
 
-    public void setType(Type type) {
-        this.type = type;
-    }
+	public void setType(Type type) {
+		this.type = type;
+	}
 }

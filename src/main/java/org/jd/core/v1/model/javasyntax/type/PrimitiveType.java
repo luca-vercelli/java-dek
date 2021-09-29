@@ -177,7 +177,7 @@ public class PrimitiveType implements Type {
 
     @Override
     public String toString() {
-        return "PrimitiveType{primitive=" + name + "}";
+        return "PrimitiveType(" + name + ")";
     }
 
     public int getJavaPrimitiveFlags() {

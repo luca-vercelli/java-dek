@@ -47,6 +47,6 @@ public class SuperConstructorInvocationExpression extends ConstructorReferenceEx
 
     @Override
     public String toString() {
-        return "SuperConstructorInvocationExpression{call super(" + descriptor + ")}";
+        return "SuperConstructorInvocationExpression(call super(" + descriptor + "))";
     }
 }

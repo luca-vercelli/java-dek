@@ -36,6 +36,6 @@ public class FloatConstantExpression extends AbstractLineNumberTypeExpression {
 
     @Override
     public String toString() {
-        return "FloatConstantExpression{" + value + "}";
+        return "FloatConstantExpression(" + value + ")";
     }
 }

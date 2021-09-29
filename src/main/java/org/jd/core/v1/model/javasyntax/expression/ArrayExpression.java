@@ -66,6 +66,6 @@ public class ArrayExpression extends AbstractLineNumberTypeExpression {
 
 	@Override
 	public String toString() {
-		return "ArrayExpression{" + expression + "[" + index + "]}";
+		return "ArrayExpression(" + expression + "[" + index + "])";
 	}
 }

@@ -31,6 +31,6 @@ public class ExpressionElementValue implements ElementValue {
 
 	@Override
 	public String toString() {
-		return "ExpressionElementValue{" + expression + "}";
+		return "ExpressionElementValue(" + expression + ")";
 	}
 }

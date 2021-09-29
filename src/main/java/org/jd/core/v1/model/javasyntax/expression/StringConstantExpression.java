@@ -44,6 +44,6 @@ public class StringConstantExpression extends AbstractLineNumberExpression {
 
     @Override
     public String toString() {
-        return "StringConstantExpression{\"" + string + "\"}";
+        return "StringConstantExpression(\"" + string + "\")";
     }
 }

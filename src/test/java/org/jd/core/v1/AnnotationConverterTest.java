@@ -65,11 +65,13 @@ public class AnnotationConverterTest {
 		assertEquals("Quality", annotationReference0.getType().getName());
 		assertNotNull(annotationReference0.getElementValue());
 		assertNull(annotationReference0.getElementValuePairs());
-		assertEquals("ExpressionElementValue{" + "FieldReferenceExpression{"
-				+ "type=InnerObjectType{ObjectType{org/jd/core/test/annotation/Quality}.Lorg/jd/core/test/annotation/Quality$Level;}, "
-				+ "expression=ObjectTypeReferenceExpression{InnerObjectType{ObjectType{org/jd/core/test/annotation/Quality}.Lorg/jd/core/test/annotation/Quality$Level;}}, "
-				+ "name=HIGH, " + "descriptor=Lorg/jd/core/test/annotation/Quality$Level;}" + "}",
-				annotationReference0.getElementValue().toString());
+		assertEquals("ExpressionElementValue(" //
+				+ "FieldReferenceExpression("
+				+ "type=InnerObjectType(ObjectType(org/jd/core/test/annotation/Quality).Lorg/jd/core/test/annotation/Quality$Level;), "
+				+ "expression=ObjectTypeReferenceExpression(InnerObjectType(ObjectType(org/jd/core/test/annotation/Quality).Lorg/jd/core/test/annotation/Quality$Level;)), "
+				+ "name=HIGH, " //
+				+ "descriptor=Lorg/jd/core/test/annotation/Quality$Level;)" //
+				+ ")", annotationReference0.getElementValue().toString());
 
 		AnnotationReference annotationReference1 = annotationReferenceList.get(1);
 
@@ -83,24 +85,22 @@ public class AnnotationConverterTest {
 
 		assertEquals(2, elementValuePairArrayList.size());
 		assertEquals("value", elementValuePairArrayList.getFirst().getName());
-		assertEquals("AnnotationElementValue{" + "type=ObjectType{org/jd/core/test/annotation/Name}, "
-				+ "elementValue=null, " + "elementValuePairs=ElementValuePairs{["
-				+ "ElementValuePair{name=salutation, elementValue=ExpressionElementValue{StringConstantExpression{\"Mr\"}}}, "
-				+ "ElementValuePair{name=value, elementValue=ExpressionElementValue{StringConstantExpression{\"Donald\"}}}, "
-				+ "ElementValuePair{name=last, elementValue=ExpressionElementValue{StringConstantExpression{\"Duck\"}}}"
-				+ "]}" + "}", elementValuePairArrayList.get(0).getElementValue().toString());
+		assertEquals("AnnotationElementValue(" //
+				+ "ObjectType(org/jd/core/test/annotation/Name), " //
+				+ "null" //
+				+ ")", elementValuePairArrayList.get(0).getElementValue().toString());
 		assertEquals("contributors", elementValuePairArrayList.get(1).getName());
-		assertEquals(
-				"ElementValueArrayInitializerElementValue{" + "ElementValues{[" + "AnnotationElementValue{"
-						+ "type=ObjectType{org/jd/core/test/annotation/Name}, "
-						+ "elementValue=ExpressionElementValue{StringConstantExpression{\"Huey\"}}, "
-						+ "elementValuePairs=null}, " + "AnnotationElementValue{"
-						+ "type=ObjectType{org/jd/core/test/annotation/Name}, "
-						+ "elementValue=ExpressionElementValue{StringConstantExpression{\"Dewey\"}}, "
-						+ "elementValuePairs=null}, " + "AnnotationElementValue{"
-						+ "type=ObjectType{org/jd/core/test/annotation/Name}, "
-						+ "elementValue=ExpressionElementValue{StringConstantExpression{\"Louie\"}}, "
-						+ "elementValuePairs=null}" + "]}" + "}",
-				elementValuePairArrayList.get(1).getElementValue().toString());
+		assertEquals("ElementValueArrayInitializerElementValue(" //
+				+ "ElementValues([" //
+				+ "AnnotationElementValue(" //
+				+ "ObjectType(org/jd/core/test/annotation/Name), "
+				+ "ExpressionElementValue(StringConstantExpression(\"Huey\"))), " //
+				+ "AnnotationElementValue(" //
+				+ "ObjectType(org/jd/core/test/annotation/Name), "
+				+ "ExpressionElementValue(StringConstantExpression(\"Dewey\"))), " //
+				+ "AnnotationElementValue(" //
+				+ "ObjectType(org/jd/core/test/annotation/Name), "
+				+ "ExpressionElementValue(StringConstantExpression(\"Louie\")))" //
+				+ "]))", elementValuePairArrayList.get(1).getElementValue().toString());
 	}
 }

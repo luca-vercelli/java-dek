@@ -40,6 +40,9 @@ public class AddCastExpressionVisitor extends AbstractJavaSyntaxVisitor {
 		this.typeMaker = typeMaker;
 	}
 
+	/**
+	 * During visit, populate typeBounds
+	 */
 	@Override
 	public void visit(BodyDeclaration declaration) {
 		BaseMemberDeclaration memberDeclarations = declaration.getMemberDeclarations();

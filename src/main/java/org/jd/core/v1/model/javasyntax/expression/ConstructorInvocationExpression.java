@@ -47,6 +47,6 @@ public class ConstructorInvocationExpression extends ConstructorReferenceExpress
 
     @Override
     public String toString() {
-        return "ConstructorInvocationExpression{call this(" + descriptor + ")}";
+        return "ConstructorInvocationExpression(call this(" + descriptor + "))";
     }
 }

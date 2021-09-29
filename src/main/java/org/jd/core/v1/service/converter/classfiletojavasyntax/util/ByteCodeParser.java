@@ -2516,7 +2516,7 @@ public class ByteCodeParser {
 
 		@Override
 		public String toString() {
-			return "JsrReturnAddressExpression{}";
+			return "JsrReturnAddressExpression";
 		}
 	}
 
