@@ -92,4 +92,9 @@ public class LineNumberTokensFragment extends FixedFragment {
 	public void accept(JavaFragmentVisitor visitor) {
 		visitor.visit(this);
 	}
+
+	@Override
+	public String toString() {
+		return super.toString() + " " + tokens;
+	}
 }

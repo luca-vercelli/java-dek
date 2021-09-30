@@ -9,6 +9,10 @@ package org.jd.core.v1.model.javasyntax;
 
 import org.jd.core.v1.model.javasyntax.declaration.BaseTypeDeclaration;
 
+/**
+ * Java Syntax tree. An object of this class represents a Java class organized
+ * in a tree of declarations, statements, expressions.
+ */
 public class CompilationUnit {
 	protected BaseTypeDeclaration typeDeclarations;
 

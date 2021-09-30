@@ -124,6 +124,11 @@ public class ImportsFragment extends FlexibleFragment {
 		visitor.visit(this);
 	}
 
+	@Override
+	public String toString() {
+		return super.toString() + " " + importMap;
+	}
+
 	/**
 	 * Order Import's by their counter
 	 */
