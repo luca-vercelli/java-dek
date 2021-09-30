@@ -16,6 +16,9 @@ import org.jd.core.v1.model.javasyntax.type.*;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * Main abstract class for visiting a Java Syntax tree (i.e. a CompilationUnit)
+ */
 public abstract class AbstractJavaSyntaxVisitor extends AbstractTypeArgumentVisitor implements DeclarationVisitor,
 		ExpressionVisitor, ReferenceVisitor, StatementVisitor, TypeVisitor, TypeParameterVisitor {
 

@@ -11,6 +11,10 @@ import org.jd.core.v1.model.javasyntax.type.Type;
 
 public class CastExpression extends AbstractLineNumberTypeExpression {
 	protected Expression expression;
+
+	/**
+	 * Force explicit cast expression. Currently ignored.
+	 */
 	protected boolean explicit;
 
 	public CastExpression(Type type, Expression expression) {

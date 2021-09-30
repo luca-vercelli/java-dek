@@ -94,6 +94,9 @@ import org.jd.core.v1.model.token.StartMarkerToken;
 import org.jd.core.v1.model.token.TextToken;
 import org.jd.core.v1.service.fragmenter.javasyntaxtojavafragment.util.JavaFragmentFactory;
 
+/**
+ * Visit CompilationUnit generating Fragments and Tokens
+ */
 public class CompilationUnitVisitor extends StatementVisitor {
 	public static final KeywordToken ABSTRACT = new KeywordToken("abstract");
 	public static final KeywordToken ANNOTATION = new KeywordToken("@interface");
