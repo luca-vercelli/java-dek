@@ -61,14 +61,14 @@ public class CastTest {
 	}
 
 	static class LongCasting {
-		public static long l (int x, int y) {
-			long rc = ( (long)y << 32L) | x;
+		public static long l(int x, int y) {
+			long rc = ((long) y << 32L) | x;
 			return rc;
-			}
+		}
 	}
 
 	@Test
-	// FIXME https://github.com/java-decompiler/jd-core/issues/45
+	// https://github.com/java-decompiler/jd-core/issues/45
 	public void testLongCasting() throws Exception {
 
 		String internalClassName = LongCasting.class.getName().replace('.', '/');
@@ -76,25 +76,26 @@ public class CastTest {
 
 		// Check decompiled source code
 		assertTrue(source.matches(PatternMaker.make(":  0 */", "public static long l(int x, int y) {")));
-		// assertTrue(source.matches(PatternMaker.make(": 65 */", "long rc = ( (long)y << 32L) | x;")));
+		assertTrue(source.matches(PatternMaker.make(": 65 */", "long rc = (long)y << 32L | (long)x;")));
 		assertTrue(source.matches(PatternMaker.make(": 66 */", "return rc")));
 
 		// Recompile decompiled source code and check errors
 		assertTrue(CompilerUtil.compile("1.8", new JavaSourceFileObject(internalClassName, source)));
 	}
-	
+
 	static class GenericParameterMethod {
-	    static void use(Integer i) {
-	        System.out.println("use(Integer)");
-	    }
-	    static <T> void use(T t) {
-	        System.out.println("use(T)");
-	    }
-	    
-	    public static void main(String... args) {
-	        use(1);
-	        use((Object) 1); // Calls use(T)
-	    }
+		static void use(Integer i) {
+			System.out.println("use(Integer)");
+		}
+
+		static <T> void use(T t) {
+			System.out.println("use(T)");
+		}
+
+		public static void main(String... args) {
+			use(1);
+			use((Object) 1); // Calls use(T)
+		}
 	}
 
 	@Test
@@ -105,10 +106,7 @@ public class CastTest {
 		String internalClassName = GenericParameterMethod.class.getName().replace('.', '/');
 		String source = decompiler.decompile(internalClassName);
 
-		// Check decompiled source code
-		// assertTrue(source.matches(PatternMaker.make(": 35 */", "long b = (long)(double)")));
-		// assertTrue(source.matches(PatternMaker.make(": 40 */", "long b = Long.MAX_VALUE")));
-		assertTrue(source.matches(PatternMaker.make(": 95 */", "use((Object) 1);")));
+		assertTrue(source.matches(PatternMaker.make(": 97 */", "use((Object) 1);")));
 
 		// Recompile decompiled source code and check errors
 		assertTrue(CompilerUtil.compile("1.8", new JavaSourceFileObject(internalClassName, source)));

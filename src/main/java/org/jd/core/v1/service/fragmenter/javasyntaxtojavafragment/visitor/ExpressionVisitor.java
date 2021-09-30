@@ -161,15 +161,20 @@ public class ExpressionVisitor extends TypeVisitor {
 
 	@Override
 	public void visit(CastExpression expression) {
-		if (expression.isExplicit()) {
-			tokens.addLineNumberToken(expression.getLineNumber());
-			tokens.add(TextToken.LEFTROUNDBRACKET);
+		// LV 2021-09 we ignore expression.isExplicit()
+		// Now, maybe some unnecessary casts will be shown
+		// But at least we avoid lot of errors
+		// Notice that "explicit" flag is set in ByteCodeParser, via an empirical rule
+		// that is obviously too naive
+		// See also CastTest
 
-			BaseType type = expression.getType();
+		tokens.addLineNumberToken(expression.getLineNumber());
+		tokens.add(TextToken.LEFTROUNDBRACKET);
 
-			type.accept(this);
-			tokens.add(TextToken.RIGHTROUNDBRACKET);
-		}
+		BaseType type = expression.getType();
+
+		type.accept(this);
+		tokens.add(TextToken.RIGHTROUNDBRACKET);
 
 		visit(expression, expression.getExpression());
 	}
