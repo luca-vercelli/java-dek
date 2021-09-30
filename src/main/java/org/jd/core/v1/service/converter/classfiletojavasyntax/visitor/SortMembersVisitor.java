@@ -20,6 +20,10 @@ import org.jd.core.v1.service.converter.classfiletojavasyntax.model.javasyntax.d
 import org.jd.core.v1.service.converter.classfiletojavasyntax.model.javasyntax.declaration.ClassFileTypeDeclaration;
 import org.jd.core.v1.service.converter.classfiletojavasyntax.util.MergeMembersUtil;
 
+/**
+ * Set the MembersDeclarations, assuming that fields, methods and inner types
+ * are already set. MembersDeclarations is the union of all of them, sorted.
+ */
 public class SortMembersVisitor extends AbstractJavaSyntaxVisitor {
 
 	@Override

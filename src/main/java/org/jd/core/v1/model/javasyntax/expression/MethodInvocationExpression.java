@@ -12,7 +12,7 @@ import org.jd.core.v1.model.javasyntax.type.Type;
 
 public class MethodInvocationExpression extends MethodReferenceExpression {
 	protected BaseTypeArgument nonWildcardTypeArguments;
-	protected BaseExpression parameters;
+	protected BaseExpression parameters; // actual parameters passed as arguments
 
 	public MethodInvocationExpression(Type type, Expression expression, String internalTypeName, String name,
 			String descriptor) {

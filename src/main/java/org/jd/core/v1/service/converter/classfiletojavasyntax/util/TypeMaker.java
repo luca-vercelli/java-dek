@@ -1913,6 +1913,10 @@ public class TypeMaker {
 		return setOfParameterTypes;
 	}
 
+	/**
+	 * True if parameters match parameterTypes, meaning that they can be passed to a
+	 * method with formal arguments parameterTypes
+	 */
 	private boolean match(Map<String, BaseType> typeBounds, BaseType parameterTypes, BaseExpression parameters) {
 		if (parameterTypes.size() != parameters.size()) {
 			return false;
@@ -1937,6 +1941,10 @@ public class TypeMaker {
 		}
 	}
 
+	/**
+	 * True if rightType match leftType, meaning that rightType can be passed to a
+	 * method with a single formal argument leftType
+	 */
 	private boolean match(Map<String, BaseType> typeBounds, Type leftType, Type rightType) {
 		if (leftType.equals(rightType)) {
 			return true;
@@ -1953,6 +1961,11 @@ public class TypeMaker {
 			return isAssignable(typeBounds, ot1, ot2);
 		}
 
+		if (leftType.isGenericType() && rightType.isObjectType()) {
+			// FIXME HANDLE GENERICS
+			return true;
+		}
+		
 		return false;
 	}
 
