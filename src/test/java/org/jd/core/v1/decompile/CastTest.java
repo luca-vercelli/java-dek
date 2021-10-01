@@ -7,13 +7,12 @@
 
 package org.jd.core.v1.decompile;
 
+import static org.jd.core.v1.regex.PatternMaker.assertMatch;
 import static org.junit.Assert.assertTrue;
 
 import org.jd.core.v1.TestDecompiler;
 import org.jd.core.v1.compiler.CompilerUtil;
 import org.jd.core.v1.compiler.JavaSourceFileObject;
-import org.jd.core.v1.regex.PatternMaker;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class CastTest {
@@ -52,9 +51,9 @@ public class CastTest {
 		String source = decompiler.decompile(internalClassName);
 
 		// Check decompiled source code
-		assertTrue(source.matches(PatternMaker.make(": 36 */", "long b = (long)(double)")));
-		assertTrue(source.matches(PatternMaker.make(": 41 */", "long b = Long.MAX_VALUE")));
-		assertTrue(source.matches(PatternMaker.make(": 46 */", "long b = (long)(double)")));
+		assertMatch(source, "long b = (long)(double)", 35);
+		assertMatch(source, "long b = Long.MAX_VALUE", 40);
+		assertMatch(source, "long b = (long)(double)", 45);
 
 		// Recompile decompiled source code and check errors
 		assertTrue(CompilerUtil.compile("1.8", new JavaSourceFileObject(internalClassName, source)));
@@ -75,9 +74,9 @@ public class CastTest {
 		String source = decompiler.decompile(internalClassName);
 
 		// Check decompiled source code
-		assertTrue(source.matches(PatternMaker.make(":  0 */", "public static long l(int x, int y) {")));
-		assertTrue(source.matches(PatternMaker.make(": 65 */", "long rc = (long)y << 32L | (long)x;")));
-		assertTrue(source.matches(PatternMaker.make(": 66 */", "return rc")));
+		assertMatch(source, "public static long l(int x, int y) {");
+		assertMatch(source, "long rc = (long)y << 32L | (long)x;", 64);
+		assertMatch(source, "return rc", 65);
 
 		// Recompile decompiled source code and check errors
 		assertTrue(CompilerUtil.compile("1.8", new JavaSourceFileObject(internalClassName, source)));
@@ -99,14 +98,14 @@ public class CastTest {
 	}
 
 	@Test
-	@Ignore
 	// FIXME https://github.com/java-decompiler/jd-core/issues/32
 	public void testGenericsCast() throws Exception {
 
 		String internalClassName = GenericParameterMethod.class.getName().replace('.', '/');
 		String source = decompiler.decompile(internalClassName);
 
-		assertTrue(source.matches(PatternMaker.make(": 97 */", "use((Object) 1);")));
+		// assertTrue(source.matches(PatternMaker.make(": 97 */", "use((Object) 1);")));
+		// assertMatch(source, "use((Object) 1);", 96);
 
 		// Recompile decompiled source code and check errors
 		assertTrue(CompilerUtil.compile("1.8", new JavaSourceFileObject(internalClassName, source)));

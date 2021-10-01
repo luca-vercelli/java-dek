@@ -7,6 +7,11 @@
 
 package org.jd.core.v1.regex;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import junit.framework.AssertionFailedError;
+
 /**
  * Utility used during tests to create regex patterns matching source code
  */
@@ -48,8 +53,51 @@ public class PatternMaker {
 				.replace("*", "\\*") //
 				.replace("|", "\\|") //
 				.replace("^", "\\^") //
+				.replace(" ", "[ ]+") //
 				.replaceAll("\\s*\\{\\s*", "[^\\\\n\\\\r]*\\\\{[^\\\\n\\\\r]*") //
 				.replaceAll("\\s*\\}\\s*", "[^\\\\n\\\\r]*\\\\}[^\\\\n\\\\r]*") //
 				.replace(",", "[^\\n\\r]*,");
+	}
+
+	/**
+	 * Custom JUnit Assertion. Fails if given line of source code does not match
+	 * expected Java code.
+	 * 
+	 * @param line
+	 * @param expected
+	 * @param source
+	 */
+	public static void assertMatch(String source, String expected, int line) {
+		if (line == 0) {
+			assertMatch(expected, source);
+			return;
+		}
+		boolean success = source.matches(make(": " + line + " */", expected));
+		if (!success) {
+			Pattern pattern = Pattern.compile("(?s).*:[ ]*" + line + "[ ]*\\*/([^\\n\\r]*).*");
+			Matcher m = pattern.matcher(source);
+			if (m.find()) {
+				String msg = "expected: <" + expected + "> but was: <" + m.group(1) + ">";
+				throw new AssertionFailedError(msg);
+			} else {
+				throw new AssertionFailedError("Line " + line + " not found");
+			}
+		}
+	}
+
+	/**
+	 * Custom JUnit Assertion. Fails if no line of source code matches expected Java
+	 * code.
+	 * 
+	 * @param line
+	 * @param expected
+	 * @param source
+	 */
+	public static void assertMatch(String source, String expected) {
+		boolean success = source.matches(make(expected));
+		if (!success) {
+			String msg = "No lines of code matches: " + expected;
+			throw new AssertionFailedError(msg);
+		}
 	}
 }
