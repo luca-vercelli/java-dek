@@ -72,8 +72,8 @@ public class PatternMaker {
 			assertMatch(expected, source);
 			return;
 		}
-		boolean success = source.matches(make(": " + line + " */", expected));
-		if (!success) {
+		boolean found = source.matches(make(": " + line + " */", expected));
+		if (!found) {
 			Pattern pattern = Pattern.compile("(?s).*:[ ]*" + line + "[ ]*\\*/([^\\n\\r]*).*");
 			Matcher m = pattern.matcher(source);
 			if (m.find()) {
@@ -94,9 +94,25 @@ public class PatternMaker {
 	 * @param source
 	 */
 	public static void assertMatch(String source, String expected) {
-		boolean success = source.matches(make(expected));
-		if (!success) {
-			String msg = "No lines of code matches: " + expected;
+		boolean found = source.matches(make(expected));
+		if (!found) {
+			String msg = "No lines of code match: " + expected;
+			throw new AssertionFailedError(msg);
+		}
+	}
+
+	/**
+	 * Custom JUnit Assertion. Fails if some line of source code matches unexpected
+	 * Java code.
+	 * 
+	 * @param line
+	 * @param expected
+	 * @param source
+	 */
+	public static void assertDontMatch(String source, String unexpected) {
+		boolean found = source.matches(make(unexpected));
+		if (found) {
+			String msg = "Unexpected mathing code: " + unexpected;
 			throw new AssertionFailedError(msg);
 		}
 	}
