@@ -7,23 +7,8 @@
 
 package org.jd.core.v1.service.fragmenter.javasyntaxtojavafragment.visitor;
 
-import static org.jd.core.v1.model.classfile.AccessType.ACC_ABSTRACT;
-import static org.jd.core.v1.model.classfile.AccessType.ACC_ANONYMOUS;
-import static org.jd.core.v1.model.classfile.AccessType.ACC_BRIDGE;
-import static org.jd.core.v1.model.classfile.AccessType.ACC_DEFAULT;
-import static org.jd.core.v1.model.classfile.AccessType.ACC_FINAL;
-import static org.jd.core.v1.model.classfile.AccessType.ACC_NATIVE;
-import static org.jd.core.v1.model.classfile.AccessType.ACC_OPEN;
-import static org.jd.core.v1.model.classfile.AccessType.ACC_PRIVATE;
-import static org.jd.core.v1.model.classfile.AccessType.ACC_PROTECTED;
-import static org.jd.core.v1.model.classfile.AccessType.ACC_PUBLIC;
-import static org.jd.core.v1.model.classfile.AccessType.ACC_STATIC;
-import static org.jd.core.v1.model.classfile.AccessType.ACC_STRICT;
-import static org.jd.core.v1.model.classfile.AccessType.ACC_SYNCHRONIZED;
-import static org.jd.core.v1.model.classfile.AccessType.ACC_SYNTHETIC;
-import static org.jd.core.v1.model.classfile.AccessType.ACC_TRANSIENT;
-import static org.jd.core.v1.model.classfile.AccessType.ACC_TRANSITIVE;
-import static org.jd.core.v1.model.classfile.AccessType.ACC_VOLATILE;
+import static org.jd.core.v1.model.classfile.AccessType.*;
+import static org.jd.core.v1.model.token.KeywordToken.*;
 
 import java.util.Iterator;
 import java.util.List;
@@ -98,20 +83,6 @@ import org.jd.core.v1.service.fragmenter.javasyntaxtojavafragment.util.JavaFragm
  * Visit CompilationUnit generating Fragments and Tokens
  */
 public class CompilationUnitVisitor extends StatementVisitor {
-	public static final KeywordToken ABSTRACT = new KeywordToken("abstract");
-	public static final KeywordToken ANNOTATION = new KeywordToken("@interface");
-	public static final KeywordToken CLASS = new KeywordToken("class");
-	public static final KeywordToken DEFAULT = new KeywordToken("default");
-	public static final KeywordToken ENUM = new KeywordToken("enum");
-	public static final KeywordToken IMPLEMENTS = new KeywordToken("implements");
-	public static final KeywordToken INTERFACE = new KeywordToken("interface");
-	public static final KeywordToken NATIVE = new KeywordToken("native");
-	public static final KeywordToken PACKAGE = new KeywordToken("package");
-	public static final KeywordToken PRIVATE = new KeywordToken("private");
-	public static final KeywordToken PROTECTED = new KeywordToken("protected");
-	public static final KeywordToken PUBLIC = new KeywordToken("public");
-	public static final KeywordToken STATIC = new KeywordToken("static");
-	public static final KeywordToken THROWS = new KeywordToken("throws");
 
 	public static final TextToken COMMENT_BRIDGE = new TextToken("/* bridge */");
 	public static final TextToken COMMENT_SYNTHETIC = new TextToken("/* synthetic */");

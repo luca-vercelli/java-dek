@@ -7,42 +7,40 @@
 
 package org.jd.core.v1.service.fragmenter.javasyntaxtojavafragment.visitor;
 
+import static org.jd.core.v1.model.javasyntax.type.PrimitiveType.*;
+import static org.jd.core.v1.model.token.KeywordToken.*;
+
+import java.util.HashMap;
+import java.util.List;
+
 import org.jd.core.v1.api.Loader;
 import org.jd.core.v1.api.Printer;
 import org.jd.core.v1.model.javafragment.ImportsFragment;
 import org.jd.core.v1.model.javasyntax.AbstractJavaSyntaxVisitor;
 import org.jd.core.v1.model.javasyntax.expression.Expression;
-import org.jd.core.v1.model.javasyntax.type.*;
-import org.jd.core.v1.model.token.*;
+import org.jd.core.v1.model.javasyntax.type.BaseType;
+import org.jd.core.v1.model.javasyntax.type.BaseTypeArgument;
+import org.jd.core.v1.model.javasyntax.type.DiamondTypeArgument;
+import org.jd.core.v1.model.javasyntax.type.GenericType;
+import org.jd.core.v1.model.javasyntax.type.InnerObjectType;
+import org.jd.core.v1.model.javasyntax.type.ObjectType;
+import org.jd.core.v1.model.javasyntax.type.PrimitiveType;
+import org.jd.core.v1.model.javasyntax.type.TypeArgumentVisitable;
+import org.jd.core.v1.model.javasyntax.type.TypeArguments;
+import org.jd.core.v1.model.javasyntax.type.TypeParameter;
+import org.jd.core.v1.model.javasyntax.type.TypeParameterWithTypeBounds;
+import org.jd.core.v1.model.javasyntax.type.TypeParameters;
+import org.jd.core.v1.model.javasyntax.type.Types;
+import org.jd.core.v1.model.javasyntax.type.WildcardExtendsTypeArgument;
+import org.jd.core.v1.model.javasyntax.type.WildcardSuperTypeArgument;
+import org.jd.core.v1.model.javasyntax.type.WildcardTypeArgument;
+import org.jd.core.v1.model.token.LineNumberToken;
+import org.jd.core.v1.model.token.ReferenceToken;
+import org.jd.core.v1.model.token.TextToken;
+import org.jd.core.v1.model.token.Token;
 import org.jd.core.v1.util.DefaultList;
 
-import java.util.HashMap;
-import java.util.List;
-
-import static org.jd.core.v1.model.javasyntax.type.PrimitiveType.*;
-
 public class TypeVisitor extends AbstractJavaSyntaxVisitor {
-    public static final KeywordToken BOOLEAN = new KeywordToken("boolean");
-    public static final KeywordToken BYTE = new KeywordToken("byte");
-    public static final KeywordToken CHAR = new KeywordToken("char");
-    public static final KeywordToken DOUBLE = new KeywordToken("double");
-    public static final KeywordToken EXPORTS = new KeywordToken("exports");
-    public static final KeywordToken EXTENDS = new KeywordToken("extends");
-    public static final KeywordToken FLOAT = new KeywordToken("float");
-    public static final KeywordToken INT = new KeywordToken("int");
-    public static final KeywordToken LONG = new KeywordToken("long");
-    public static final KeywordToken MODULE = new KeywordToken("module");
-    public static final KeywordToken OPEN = new KeywordToken("open");
-    public static final KeywordToken OPENS = new KeywordToken("opens");
-    public static final KeywordToken PROVIDES = new KeywordToken("provides");
-    public static final KeywordToken REQUIRES = new KeywordToken("requires");
-    public static final KeywordToken SHORT = new KeywordToken("short");
-    public static final KeywordToken SUPER = new KeywordToken("super");
-    public static final KeywordToken TO = new KeywordToken("to");
-    public static final KeywordToken TRANSITIVE = new KeywordToken("transitive");
-    public static final KeywordToken USES = new KeywordToken("uses");
-    public static final KeywordToken VOID = new KeywordToken("void");
-    public static final KeywordToken WITH = new KeywordToken("with");
 
     public static final int UNKNOWN_LINE_NUMBER = Printer.UNKNOWN_LINE_NUMBER;
 

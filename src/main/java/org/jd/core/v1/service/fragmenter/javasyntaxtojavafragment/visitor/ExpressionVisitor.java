@@ -7,8 +7,8 @@
 
 package org.jd.core.v1.service.fragmenter.javasyntaxtojavafragment.visitor;
 
-import static org.jd.core.v1.model.javasyntax.type.PrimitiveType.FLAG_BOOLEAN;
-import static org.jd.core.v1.model.javasyntax.type.PrimitiveType.FLAG_CHAR;
+import static org.jd.core.v1.model.javasyntax.type.PrimitiveType.*;
+import static org.jd.core.v1.model.token.KeywordToken.*;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -75,7 +75,6 @@ import org.jd.core.v1.model.token.BooleanConstantToken;
 import org.jd.core.v1.model.token.CharacterConstantToken;
 import org.jd.core.v1.model.token.EndBlockToken;
 import org.jd.core.v1.model.token.EndMarkerToken;
-import org.jd.core.v1.model.token.KeywordToken;
 import org.jd.core.v1.model.token.NumericConstantToken;
 import org.jd.core.v1.model.token.ReferenceToken;
 import org.jd.core.v1.model.token.StartBlockToken;
@@ -93,14 +92,6 @@ import org.jd.core.v1.util.DefaultList;
  * There should be one visit() method for every possible Expression subclass.
  */
 public class ExpressionVisitor extends TypeVisitor {
-	public static final KeywordToken CLASS = new KeywordToken("class");
-	public static final KeywordToken FALSE = new KeywordToken("false");
-	public static final KeywordToken INSTANCEOF = new KeywordToken("instanceof");
-	public static final KeywordToken LENGTH = new KeywordToken("length");
-	public static final KeywordToken NEW = new KeywordToken("new");
-	public static final KeywordToken NULL = new KeywordToken("null");
-	public static final KeywordToken THIS = new KeywordToken("this");
-	public static final KeywordToken TRUE = new KeywordToken("true");
 
 	protected static final int UNKNOWN_LINE_NUMBER = Printer.UNKNOWN_LINE_NUMBER;
 

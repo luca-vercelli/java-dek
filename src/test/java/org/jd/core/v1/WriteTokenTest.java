@@ -7,12 +7,13 @@
 
 package org.jd.core.v1;
 
+import static org.jd.core.v1.model.token.KeywordToken.*;
+
 import org.jd.core.v1.impl.printer.PlainTextMetaPrinter;
 import org.jd.core.v1.model.message.Message;
 import org.jd.core.v1.model.token.DeclarationToken;
 import org.jd.core.v1.model.token.EndBlockToken;
 import org.jd.core.v1.model.token.EndMarkerToken;
-import org.jd.core.v1.model.token.KeywordToken;
 import org.jd.core.v1.model.token.LineNumberToken;
 import org.jd.core.v1.model.token.NewLineToken;
 import org.jd.core.v1.model.token.ReferenceToken;
@@ -27,19 +28,6 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public class WriteTokenTest {
-	public static final KeywordToken PACKAGE = new KeywordToken("package");
-	public static final KeywordToken IF = new KeywordToken("if");
-	public static final KeywordToken IMPORT = new KeywordToken("import");
-	public static final KeywordToken STATIC = new KeywordToken("static");
-	public static final KeywordToken PUBLIC = new KeywordToken("public");
-	public static final KeywordToken CLASS = new KeywordToken("class");
-	public static final KeywordToken VOID = new KeywordToken("void");
-	public static final KeywordToken INT = new KeywordToken("int");
-	public static final KeywordToken BOOLEAN = new KeywordToken("boolean");
-	public static final KeywordToken RETURN = new KeywordToken("return");
-	public static final KeywordToken FALSE = new KeywordToken("false");
-	public static final KeywordToken NULL = new KeywordToken("null");
-	public static final KeywordToken NEW = new KeywordToken("new");
 
 	@Test
 	public void writeClassDeclaration() throws Exception {

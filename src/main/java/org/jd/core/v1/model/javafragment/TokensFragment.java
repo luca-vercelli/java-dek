@@ -7,14 +7,19 @@
 
 package org.jd.core.v1.model.javafragment;
 
-import org.jd.core.v1.api.Printer;
-import org.jd.core.v1.model.fragment.FlexibleFragment;
-import org.jd.core.v1.model.token.*;
+import static org.jd.core.v1.model.token.KeywordToken.RETURN;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static org.jd.core.v1.service.fragmenter.javasyntaxtojavafragment.visitor.StatementVisitor.RETURN;
+import org.jd.core.v1.api.Printer;
+import org.jd.core.v1.model.fragment.FlexibleFragment;
+import org.jd.core.v1.model.token.AbstractNopTokenVisitor;
+import org.jd.core.v1.model.token.EndBlockToken;
+import org.jd.core.v1.model.token.LineNumberToken;
+import org.jd.core.v1.model.token.StartBlockToken;
+import org.jd.core.v1.model.token.TextToken;
+import org.jd.core.v1.model.token.Token;
 
 public class TokensFragment extends FlexibleFragment {
 
