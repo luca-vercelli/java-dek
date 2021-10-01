@@ -87,6 +87,11 @@ import org.jd.core.v1.service.fragmenter.javasyntaxtojavafragment.util.JavaFragm
 import org.jd.core.v1.service.fragmenter.javasyntaxtojavafragment.util.StringUtil;
 import org.jd.core.v1.util.DefaultList;
 
+/**
+ * Traverse a tree of Expression's.
+ * 
+ * There should be one visit() method for every possible Expression subclass.
+ */
 public class ExpressionVisitor extends TypeVisitor {
 	public static final KeywordToken CLASS = new KeywordToken("class");
 	public static final KeywordToken FALSE = new KeywordToken("false");
