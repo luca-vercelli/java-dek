@@ -53,7 +53,7 @@ public class PatternMaker {
 				.replace("*", "\\*") //
 				.replace("|", "\\|") //
 				.replace("^", "\\^") //
-				.replace(" ", "[ ]+") //
+				.replace(" ", "[ ]*") //
 				.replaceAll("\\s*\\{\\s*", "[^\\\\n\\\\r]*\\\\{[^\\\\n\\\\r]*") //
 				.replaceAll("\\s*\\}\\s*", "[^\\\\n\\\\r]*\\\\}[^\\\\n\\\\r]*") //
 				.replace(",", "[^\\n\\r]*,");
