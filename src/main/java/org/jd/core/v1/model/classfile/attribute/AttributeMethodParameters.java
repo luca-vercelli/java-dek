@@ -7,14 +7,21 @@
 
 package org.jd.core.v1.model.classfile.attribute;
 
+import java.util.Arrays;
+
 public class AttributeMethodParameters implements Attribute {
-    protected MethodParameter[] parameters;
+	protected MethodParameter[] parameters;
 
-    public AttributeMethodParameters(MethodParameter[] parameters) {
-        this.parameters = parameters;
-    }
+	public AttributeMethodParameters(MethodParameter[] parameters) {
+		this.parameters = parameters;
+	}
 
-    public MethodParameter[] getParameters() {
-        return parameters;
-    }
+	public MethodParameter[] getParameters() {
+		return parameters;
+	}
+
+	@Override
+	public String toString() {
+		return getClass().getSimpleName() + " " + Arrays.asList(parameters);
+	}
 }

@@ -7,14 +7,21 @@
 
 package org.jd.core.v1.model.classfile.attribute;
 
+import java.util.Arrays;
+
 public class AttributeExceptions implements Attribute {
-    protected String[] exceptionTypeNames;
+	protected String[] exceptionTypeNames;
 
-    public AttributeExceptions(String[] exceptionTypeNames) {
-        this.exceptionTypeNames = exceptionTypeNames;
-    }
+	public AttributeExceptions(String[] exceptionTypeNames) {
+		this.exceptionTypeNames = exceptionTypeNames;
+	}
 
-    public String[] getExceptionTypeNames() {
-        return exceptionTypeNames;
-    }
+	public String[] getExceptionTypeNames() {
+		return exceptionTypeNames;
+	}
+
+	@Override
+	public String toString() {
+		return getClass().getSimpleName() + " " + Arrays.asList(exceptionTypeNames);
+	}
 }

@@ -7,14 +7,21 @@
 
 package org.jd.core.v1.model.classfile.attribute;
 
+import java.util.Arrays;
+
 public class AttributeParameterAnnotations implements Attribute {
-    protected Annotations[] parameterAnnotations;
+	protected Annotations[] parameterAnnotations;
 
-    public AttributeParameterAnnotations(Annotations[] parameterAnnotations) {
-        this.parameterAnnotations = parameterAnnotations;
-    }
+	public AttributeParameterAnnotations(Annotations[] parameterAnnotations) {
+		this.parameterAnnotations = parameterAnnotations;
+	}
 
-    public Annotations[] getParameterAnnotations() {
-        return parameterAnnotations;
-    }
+	public Annotations[] getParameterAnnotations() {
+		return parameterAnnotations;
+	}
+
+	@Override
+	public String toString() {
+		return getClass().getSimpleName() + " " + Arrays.asList(parameterAnnotations);
+	}
 }

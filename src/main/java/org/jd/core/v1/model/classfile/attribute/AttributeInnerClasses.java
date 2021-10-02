@@ -8,13 +8,18 @@
 package org.jd.core.v1.model.classfile.attribute;
 
 public class AttributeInnerClasses implements Attribute {
-    protected InnerClass[] classes;
+	protected InnerClass[] classes;
 
-    public AttributeInnerClasses(InnerClass[] classes) {
-        this.classes = classes;
-    }
+	public AttributeInnerClasses(InnerClass[] classes) {
+		this.classes = classes;
+	}
 
-    public InnerClass[] getInnerClasses() {
-        return classes;
-    }
+	public InnerClass[] getInnerClasses() {
+		return classes;
+	}
+
+	@Override
+	public String toString() {
+		return getClass().getSimpleName() + " " + classes;
+	}
 }
