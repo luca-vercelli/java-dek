@@ -8,13 +8,13 @@
 package org.jd.core.v1.decompile;
 
 import static org.junit.Assert.assertTrue;
+import static org.jd.core.v1.regex.PatternMaker.*;
 
 import java.util.function.Function;
 
 import org.jd.core.v1.TestDecompiler;
 import org.jd.core.v1.compiler.CompilerUtil;
 import org.jd.core.v1.compiler.JavaSourceFileObject;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class NestedLambdasTest {
@@ -29,7 +29,6 @@ public class NestedLambdasTest {
 	}
 
 	@Test
-	@Ignore
 	// https://github.com/java-decompiler/jd-core/issues/23 // FIXME
 	public void testNestedLambdas() throws Exception {
 
@@ -37,8 +36,8 @@ public class NestedLambdasTest {
 		String source = decompiler.decompile(internalClassName);
 
 		// Check decompiled source code
-		//assertTrue(source.matches(PatternMaker.make(": 29 */", "Integer intObj = 10;")));
-		//assertTrue(source.matches(PatternMaker.make(": 30 */", "int i = intObj;")));
+		assertMatch(source, "public Function<?, Function<?, ?>> test () {");
+		// assertMatch(source, "Function<?, Function<?, ?>> f = i1 -> i2 -> null;");
 
 		// Recompile decompiled source code and check errors
 		assertTrue(CompilerUtil.compile("1.8", new JavaSourceFileObject(internalClassName, source)));
