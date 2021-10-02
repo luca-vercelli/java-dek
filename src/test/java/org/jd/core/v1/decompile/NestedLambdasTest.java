@@ -22,10 +22,15 @@ public class NestedLambdasTest {
 	protected TestDecompiler decompiler = new TestDecompiler();
 
 	public static class TestClass {
-	    public Function<?, Function<?, ?>> test () {
-	        Function<?, Function<?, ?>> f = i1 -> i2 -> null;
-	        return f;
-	    }
+		public Function<?, Function<?, ?>> test() {
+			Function<?, Function<?, ?>> f = i1 -> i2 -> null;
+			return f;
+		}
+		// internally, this class has 4 methods:
+		// <init>()V
+		// test ()Ljava/util/function/Function
+		// lambda$0 (Ljava/lang/Object;)Ljava/util/function/Function;
+		// lambda$1 (Ljava/lang/Object;)Ljava/lang/Object;
 	}
 
 	@Test
@@ -41,6 +46,6 @@ public class NestedLambdasTest {
 
 		// Recompile decompiled source code and check errors
 		assertTrue(CompilerUtil.compile("1.8", new JavaSourceFileObject(internalClassName, source)));
-		
+
 	}
 }
