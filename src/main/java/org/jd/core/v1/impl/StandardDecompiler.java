@@ -58,6 +58,10 @@ public class StandardDecompiler implements Decompiler {
 		this.deserializer.process(message);
 		this.converter.process(message);
 		this.fragmenter.process(message);
+		
+		// Maybe you want to debug this: 
+		// ((ClassFileClassDeclaration)message.getCompilationUnit().getTypeDeclarations()).getBodyDeclaration().getMemberDeclarations()
+		
 		this.layouter.process(message);
 		this.tokenizer.process(message);
 		this.writer.process(message);
