@@ -37,7 +37,6 @@ import org.jd.core.v1.model.classfile.constant.ConstantValue;
 import org.jd.core.v1.model.javasyntax.CompilationUnit;
 import org.jd.core.v1.model.javasyntax.declaration.ExpressionVariableInitializer;
 import org.jd.core.v1.model.javasyntax.declaration.FieldDeclarator;
-import org.jd.core.v1.model.javasyntax.declaration.MemberDeclarations;
 import org.jd.core.v1.model.javasyntax.declaration.ModuleDeclaration;
 import org.jd.core.v1.model.javasyntax.declaration.TypeDeclaration;
 import org.jd.core.v1.model.javasyntax.expression.DoubleConstantExpression;
