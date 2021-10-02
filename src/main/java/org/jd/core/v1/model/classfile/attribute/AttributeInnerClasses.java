@@ -7,6 +7,8 @@
 
 package org.jd.core.v1.model.classfile.attribute;
 
+import java.util.Arrays;
+
 public class AttributeInnerClasses implements Attribute {
 	protected InnerClass[] classes;
 
@@ -20,6 +22,6 @@ public class AttributeInnerClasses implements Attribute {
 
 	@Override
 	public String toString() {
-		return getClass().getSimpleName() + " " + classes;
+		return getClass().getSimpleName() + " " + Arrays.asList(classes);
 	}
 }

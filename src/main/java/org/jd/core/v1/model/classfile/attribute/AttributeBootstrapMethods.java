@@ -7,6 +7,8 @@
 
 package org.jd.core.v1.model.classfile.attribute;
 
+import java.util.Arrays;
+
 public class AttributeBootstrapMethods implements Attribute {
 	protected BootstrapMethod[] bootstrapMethods;
 
@@ -20,6 +22,6 @@ public class AttributeBootstrapMethods implements Attribute {
 
 	@Override
 	public String toString() {
-		return getClass().getSimpleName() + " " + bootstrapMethods;
+		return getClass().getSimpleName() + " " + Arrays.asList(bootstrapMethods);
 	}
 }
