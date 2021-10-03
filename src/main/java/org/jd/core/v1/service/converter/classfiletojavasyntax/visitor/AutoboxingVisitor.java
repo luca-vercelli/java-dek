@@ -10,6 +10,7 @@ package org.jd.core.v1.service.converter.classfiletojavasyntax.visitor;
 import org.jd.core.v1.model.javasyntax.declaration.*;
 import org.jd.core.v1.model.javasyntax.expression.Expression;
 import org.jd.core.v1.service.converter.classfiletojavasyntax.model.javasyntax.declaration.ClassFileBodyDeclaration;
+import org.jd.core.v1.service.converter.classfiletojavasyntax.util.JavaVersion;
 
 import java.util.HashMap;
 
@@ -51,7 +52,7 @@ public class AutoboxingVisitor extends AbstractUpdateExpressionVisitor {
     @Override
     public void visit(BodyDeclaration declaration) {
         ClassFileBodyDeclaration cfbd = (ClassFileBodyDeclaration)declaration;
-        boolean autoBoxingSupported = (cfbd.getClassFile().getMajorVersion() >= 49); // (majorVersion >= Java 5)
+        boolean autoBoxingSupported = (cfbd.getClassFile().getMajorVersion() >= JavaVersion.JAVA5);
 
         if (autoBoxingSupported) {
             safeAccept(declaration.getMemberDeclarations());

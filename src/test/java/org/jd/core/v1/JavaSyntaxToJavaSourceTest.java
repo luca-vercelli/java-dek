@@ -58,6 +58,7 @@ import org.jd.core.v1.model.javasyntax.type.PrimitiveType;
 import org.jd.core.v1.model.javasyntax.type.Type;
 import org.jd.core.v1.model.javasyntax.type.Types;
 import org.jd.core.v1.model.message.Message;
+import org.jd.core.v1.service.converter.classfiletojavasyntax.util.JavaVersion;
 import org.jd.core.v1.service.fragmenter.javasyntaxtojavafragment.JavaSyntaxToJavaFragmentProcessor;
 import org.jd.core.v1.service.layouter.LayoutFragmentProcessor;
 import org.jd.core.v1.service.tokenizer.javafragmenttotoken.JavaFragmentToTokenProcessor;
@@ -180,7 +181,7 @@ public class JavaSyntaxToJavaSourceTest {
 		message.setPrinter(printer);
 		message.setMainInternalTypeName("org/jd/core/v1/service/test/InterfaceTest");
 		message.setMaxLineNumber(0);
-		message.setMajorVersion(49);
+		message.setMajorVersion(JavaVersion.JAVA5);
 		message.setMinorVersion(0);
 
 		fragmenter.process(message);

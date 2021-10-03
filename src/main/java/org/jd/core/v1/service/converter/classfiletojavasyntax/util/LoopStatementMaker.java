@@ -74,7 +74,7 @@ public class LoopStatementMaker {
 	protected static Statement makeLoop(int majorVersion, Map<String, BaseType> typeBounds,
 			LocalVariableMaker localVariableMaker, BasicBlock loopBasicBlock, Statements statements,
 			Expression condition, Statements subStatements) {
-		boolean forEachSupported = (majorVersion >= 49); // (majorVersion >= Java 5)
+		boolean forEachSupported = (majorVersion >= JavaVersion.JAVA5);
 
 		subStatements.accept(REMOVE_LAST_CONTINUE_STATEMENT_VISITOR);
 

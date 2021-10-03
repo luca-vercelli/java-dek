@@ -128,7 +128,7 @@ public class ByteCodeParser {
 	private MemberVisitor memberVisitor = new MemberVisitor();
 	private SearchFirstLineNumberVisitor searchFirstLineNumberVisitor = new SearchFirstLineNumberVisitor();
 	private EraseTypeArgumentVisitor eraseTypeArgumentVisitor = new EraseTypeArgumentVisitor();
-	private LambdaParameterNamesVisitor lambdaParameterNamesVisitor = new LambdaParameterNamesVisitor();;
+	private LambdaParameterNamesVisitor lambdaParameterNamesVisitor = new LambdaParameterNamesVisitor();
 	private RenameLocalVariablesVisitor renameLocalVariablesVisitor = new RenameLocalVariablesVisitor();
 
 	private TypeMaker typeMaker;
@@ -145,7 +145,7 @@ public class ByteCodeParser {
 			ClassFileBodyDeclaration bodyDeclaration, ClassFileConstructorOrMethodDeclaration comd) {
 		this.typeMaker = typeMaker;
 		this.localVariableMaker = localVariableMaker;
-		this.genericTypesSupported = (classFile.getMajorVersion() >= 49); // (majorVersion >= Java 5)
+		this.genericTypesSupported = (classFile.getMajorVersion() >= JavaVersion.JAVA5);
 		this.internalTypeName = classFile.getInternalTypeName();
 		this.attributeBootstrapMethods = classFile.getAttribute("BootstrapMethods");
 		this.bodyDeclaration = bodyDeclaration;
@@ -1743,22 +1743,28 @@ public class ByteCodeParser {
 	}
 
 	private static boolean isPositiveOne(Expression expression) {
-		if (expression.isIntegerConstantExpression() && expression.getIntegerValue() == 1)
+		if (expression.isIntegerConstantExpression() && expression.getIntegerValue() == 1) {
 			return true;
-		if (expression.isLongConstantExpression() && expression.getLongValue() == 1L)
+		}
+		if (expression.isLongConstantExpression() && expression.getLongValue() == 1L) {
 			return true;
-		if (expression.isFloatConstantExpression() && expression.getFloatValue() == 1.0F)
+		}
+		if (expression.isFloatConstantExpression() && expression.getFloatValue() == 1.0F) {
 			return true;
+		}
 		return (expression.isDoubleConstantExpression() && expression.getDoubleValue() == 1.0D);
 	}
 
 	private static boolean isNegativeOne(Expression expression) {
-		if (expression.isIntegerConstantExpression() && expression.getIntegerValue() == -1)
+		if (expression.isIntegerConstantExpression() && expression.getIntegerValue() == -1) {
 			return true;
-		if (expression.isLongConstantExpression() && expression.getLongValue() == -1L)
+		}
+		if (expression.isLongConstantExpression() && expression.getLongValue() == -1L) {
 			return true;
-		if (expression.isFloatConstantExpression() && expression.getFloatValue() == -1.0F)
+		}
+		if (expression.isFloatConstantExpression() && expression.getFloatValue() == -1.0F) {
 			return true;
+		}
 		return (expression.isDoubleConstantExpression() && expression.getDoubleValue() == -1.0D);
 	}
 

@@ -500,7 +500,7 @@ public class StatementMaker {
 				&& finallyStatements.getFirst().isMonitorExitStatement()) {
 			statement = SynchronizedStatementMaker.make(localVariableMaker, statements, tryStatements);
 		} else {
-			if (majorVersion >= 51) { // (majorVersion >= Java 7)
+			if (majorVersion >= JavaVersion.JAVA7) {
 				assert jsr == false;
 				statement = TryWithResourcesStatementMaker.make(localVariableMaker, statements, tryStatements,
 						catchClauses, finallyStatements);
