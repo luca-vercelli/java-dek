@@ -1580,11 +1580,13 @@ public class ByteCodeParser {
 		// Create expression
 		ConstantMemberRef constantMemberRef = constants.getConstant(index);
 
-		ConstantNameAndType indyCnat = constants.getConstant(constantMemberRef.getNameAndTypeIndex());
+		/*ConstantNameAndType indyCnat = constants.getConstant(constantMemberRef.getNameAndTypeIndex());
 		String indyMethodName = constants.getConstantUtf8(indyCnat.getNameIndex());
-		String indyDescriptor = constants.getConstantUtf8(indyCnat.getDescriptorIndex());
+		String indyDescriptor = constants.getConstantUtf8(indyCnat.getDescriptorIndex());*/
+		String indyMethodName = constantMemberRef.getName(constants);
+		String indyDescriptor = constantMemberRef.getDescriptor(constants);
 		TypeMaker.MethodTypes indyMethodTypes = typeMaker.makeMethodTypes(indyDescriptor);
-
+		
 		BaseExpression indyParameters = extractParametersFromStack(statements, stack, indyMethodTypes.parameterTypes);
 		BootstrapMethod bootstrapMethod = attributeBootstrapMethods.getBootstrapMethods()[constantMemberRef
 				.getClassIndex()];
@@ -1602,15 +1604,14 @@ public class ByteCodeParser {
 		}
 
 		ConstantMethodType cmt0 = constants.getConstant(bootstrapArguments[0]);
-		String descriptor0 = constants.getConstantUtf8(cmt0.getDescriptorIndex());
+		String descriptor0 = cmt0.getDescriptor(constants);
 		TypeMaker.MethodTypes methodTypes0 = typeMaker.makeMethodTypes(descriptor0);
 		int parameterCount = (methodTypes0.parameterTypes == null) ? 0 : methodTypes0.parameterTypes.size();
+
 		ConstantMethodHandle constantMethodHandle1 = constants.getConstant(bootstrapArguments[1]);
-		ConstantMemberRef cmr1 = constants.getConstant(constantMethodHandle1.getReferenceIndex());
-		String typeName = constants.getConstantTypeName(cmr1.getClassIndex());
-		ConstantNameAndType cnat1 = constants.getConstant(cmr1.getNameAndTypeIndex());
-		String name1 = constants.getConstantUtf8(cnat1.getNameIndex());
-		String descriptor1 = constants.getConstantUtf8(cnat1.getDescriptorIndex());
+		String typeName = constantMethodHandle1.getTypeName(constants);
+		String name1 = constantMethodHandle1.getName(constants);
+		String descriptor1 = constantMethodHandle1.getDescriptor(constants);
 
 		if (typeName.equals(internalTypeName)) {
 			for (ClassFileConstructorOrMethodDeclaration methodDeclaration : bodyDeclaration.getMethodDeclarations()) {
