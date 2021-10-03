@@ -44,7 +44,7 @@ public class Java5TypeParametersToTypeArgumentsBinder extends AbstractTypeParame
 			ClassFileConstructorOrMethodDeclaration comd) {
 		this.typeMaker = typeMaker;
 		this.internalTypeName = internalTypeName;
-		this.staticMethod = ((comd.getFlags() & ACC_STATIC.getFlag()) != 0);
+		this.staticMethod = ((comd.getFlags() & ACC_STATIC) != 0);
 		this.populateBindingsWithTypeArgumentVisitor = new PopulateBindingsWithTypeArgumentVisitor(typeMaker);
 		this.contextualBindings = comd.getBindings();
 		this.contextualTypeBounds = comd.getTypeBounds();

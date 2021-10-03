@@ -91,7 +91,7 @@ public class InitInstanceFieldVisitor extends AbstractJavaSyntaxVisitor {
 
 	@Override
 	public void visit(FieldDeclaration declaration) {
-		if ((declaration.getFlags() & ACC_STATIC.getFlag()) == 0) {
+		if ((declaration.getFlags() & ACC_STATIC) == 0) {
 			declaration.getFieldDeclarators().accept(this);
 		}
 	}
@@ -113,7 +113,7 @@ public class InitInstanceFieldVisitor extends AbstractJavaSyntaxVisitor {
 				if (datas.size() == 1) {
 					int firstLineNumber;
 
-					if ((cfcd.getFlags() & ACC_SYNTHETIC.getFlag()) != 0) {
+					if ((cfcd.getFlags() & ACC_SYNTHETIC) != 0) {
 						firstLineNumber = UNKNOWN_LINE_NUMBER;
 					} else {
 						firstLineNumber = superConstructorCall.getLineNumber();

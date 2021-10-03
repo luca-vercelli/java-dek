@@ -101,7 +101,7 @@ public class MethodDeclaration implements MemberDeclaration {
 	}
 
 	public boolean isStatic() {
-		return (flags & ACC_STATIC.getFlag()) != 0;
+		return (flags & ACC_STATIC) != 0;
 	}
 
 	public String getName() {

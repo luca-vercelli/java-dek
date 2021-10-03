@@ -210,7 +210,7 @@ public class InitStaticFieldVisitor extends AbstractJavaSyntaxVisitor {
 				if ((fdr != null) && (fdr.getVariableInitializer() == null)) {
 					FieldDeclaration fdn = fdr.getFieldDeclaration();
 
-					if (((fdn.getFlags() & ACC_STATIC.getFlag()) != 0)
+					if (((fdn.getFlags() & ACC_STATIC) != 0)
 							&& fdn.getType().getDescriptor().equals(fre.getDescriptor())) {
 						expression = expression.getRightExpression();
 

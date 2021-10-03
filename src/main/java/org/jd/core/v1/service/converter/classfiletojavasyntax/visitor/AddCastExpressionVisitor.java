@@ -61,7 +61,7 @@ public class AddCastExpressionVisitor extends AbstractJavaSyntaxVisitor {
 	 */
 	@Override
 	public void visit(FieldDeclaration declaration) {
-		if ((declaration.getFlags() & ACC_SYNTHETIC.getFlag()) == 0) {
+		if ((declaration.getFlags() & ACC_SYNTHETIC) == 0) {
 			Type t = type;
 
 			type = declaration.getType();
@@ -113,7 +113,7 @@ public class AddCastExpressionVisitor extends AbstractJavaSyntaxVisitor {
 	 */
 	@Override
 	public void visit(ConstructorDeclaration declaration) {
-		if ((declaration.getFlags() & (ACC_SYNTHETIC.getFlag() | ACC_BRIDGE.getFlag())) == 0) {
+		if ((declaration.getFlags() & (ACC_SYNTHETIC | ACC_BRIDGE)) == 0) {
 			BaseStatement statements = declaration.getStatements();
 
 			if (statements != null) {
@@ -134,7 +134,7 @@ public class AddCastExpressionVisitor extends AbstractJavaSyntaxVisitor {
 	 */
 	@Override
 	public void visit(MethodDeclaration declaration) {
-		if ((declaration.getFlags() & (ACC_SYNTHETIC.getFlag() | ACC_BRIDGE.getFlag())) == 0) {
+		if ((declaration.getFlags() & (ACC_SYNTHETIC | ACC_BRIDGE)) == 0) {
 			BaseStatement statements = declaration.getStatements();
 
 			if (statements != null) {

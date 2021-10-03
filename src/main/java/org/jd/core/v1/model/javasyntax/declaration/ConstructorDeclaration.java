@@ -52,7 +52,7 @@ public class ConstructorDeclaration implements MemberDeclaration {
 	}
 
 	public boolean isStatic() {
-		return (flags & ACC_STATIC.getFlag()) != 0;
+		return (flags & ACC_STATIC) != 0;
 	}
 
 	public BaseAnnotationReference getAnnotationReferences() {

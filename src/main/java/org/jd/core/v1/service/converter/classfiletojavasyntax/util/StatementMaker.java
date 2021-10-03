@@ -976,7 +976,7 @@ public class StatementMaker {
 		for (ClassFileFieldDeclaration field : bodyDeclaration.getFieldDeclarations()) {
 			field.getFieldDeclarators().accept(memberVisitor);
 			if (memberVisitor.found()) {
-				field.setFlags(field.getFlags() | ACC_SYNTHETIC.getFlag());
+				field.setFlags(field.getFlags() | ACC_SYNTHETIC);
 				break;
 			}
 		}
@@ -987,7 +987,7 @@ public class StatementMaker {
 		for (ClassFileConstructorOrMethodDeclaration member : bodyDeclaration.getMethodDeclarations()) {
 			member.accept(memberVisitor);
 			if (memberVisitor.found()) {
-				member.setFlags(member.getFlags() | ACC_SYNTHETIC.getFlag());
+				member.setFlags(member.getFlags() | ACC_SYNTHETIC);
 				break;
 			}
 		}

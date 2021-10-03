@@ -73,7 +73,7 @@ public class RemoveDefaultConstructorVisitor extends AbstractJavaSyntaxVisitor {
 	 */
 	@Override
 	public void visit(ConstructorDeclaration declaration) {
-		if ((declaration.getFlags() & ACC_ABSTRACT.getFlag()) == 0) {
+		if ((declaration.getFlags() & ACC_ABSTRACT) == 0) {
 			ClassFileConstructorDeclaration cfcd = (ClassFileConstructorDeclaration) declaration;
 
 			if ((cfcd.getStatements() != null) && cfcd.getStatements().isStatements()) {
@@ -87,7 +87,7 @@ public class RemoveDefaultConstructorVisitor extends AbstractJavaSyntaxVisitor {
 					Expression es = iterator.next().getExpression();
 
 					if (es.isSuperConstructorInvocationExpression()) {
-						if ((declaration.getFlags() & ACC_ANONYMOUS.getFlag()) == 0) {
+						if ((declaration.getFlags() & ACC_ANONYMOUS) == 0) {
 							BaseExpression parameters = es.getParameters();
 
 							if ((parameters == null) || (parameters.size() == 0)) {

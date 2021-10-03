@@ -212,7 +212,7 @@ public class InitInnerClassVisitor extends AbstractJavaSyntaxVisitor {
 
 				if (anonymousFlag) {
 					// Mark anonymous class constructor
-					cfcd.setFlags(cfcd.getFlags() | ACC_ANONYMOUS.getFlag());
+					cfcd.setFlags(cfcd.getFlags() | ACC_ANONYMOUS);
 				}
 			}
 		}
@@ -243,7 +243,7 @@ public class InitInnerClassVisitor extends AbstractJavaSyntaxVisitor {
 			declaration.getFieldDeclarators().accept(this);
 
 			if (syntheticField) {
-				declaration.setFlags(declaration.getFlags() | ACC_SYNTHETIC.getFlag());
+				declaration.setFlags(declaration.getFlags() | ACC_SYNTHETIC);
 			}
 		}
 
@@ -463,7 +463,7 @@ public class InitInnerClassVisitor extends AbstractJavaSyntaxVisitor {
 
 						if ((type.getQualifiedName() == null) && (type.getName() != null)) {
 							// Local class
-							cfcd.setFlags(cfcd.getFlags() & (~ACC_SYNTHETIC.getFlag()));
+							cfcd.setFlags(cfcd.getFlags() & (~ACC_SYNTHETIC));
 							localClassDeclarations.add(cfcd);
 							bodyDeclaration.removeInnerType(internalName);
 							lineNumber = ne.getLineNumber();

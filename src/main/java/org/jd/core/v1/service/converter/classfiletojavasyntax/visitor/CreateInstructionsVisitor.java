@@ -44,13 +44,12 @@ public class CreateInstructionsVisitor extends AbstractJavaSyntaxVisitor {
 
 		if (methods != null) {
 			for (ClassFileConstructorOrMethodDeclaration method : methods) {
-				if ((method.getFlags() & (ACC_SYNTHETIC.getFlag() | ACC_BRIDGE.getFlag())) != 0) {
+				if ((method.getFlags() & (ACC_SYNTHETIC | ACC_BRIDGE)) != 0) {
 					method.accept(this);
-				} else if ((method.getFlags() & (ACC_STATIC.getFlag() | ACC_BRIDGE.getFlag())) == ACC_STATIC
-						.getFlag()) {
+				} else if ((method.getFlags() & (ACC_STATIC | ACC_BRIDGE)) == ACC_STATIC) {
 					if (method.getMethod().getName().startsWith("access$")) {
 						// Accessor -> bridge method
-						method.setFlags(method.getFlags() | ACC_BRIDGE.getFlag());
+						method.setFlags(method.getFlags() | ACC_BRIDGE);
 						method.accept(this);
 					}
 				} else if (method.getParameterTypes() != null) {
@@ -58,7 +57,7 @@ public class CreateInstructionsVisitor extends AbstractJavaSyntaxVisitor {
 						for (Type type : method.getParameterTypes()) {
 							if (type.isObjectType() && (type.getName() == null)) {
 								// Synthetic type in parameters -> synthetic method
-								method.setFlags(method.getFlags() | ACC_SYNTHETIC.getFlag());
+								method.setFlags(method.getFlags() | ACC_SYNTHETIC);
 								method.accept(this);
 								break;
 							}
@@ -67,7 +66,7 @@ public class CreateInstructionsVisitor extends AbstractJavaSyntaxVisitor {
 						Type type = method.getParameterTypes().getFirst();
 						if (type.isObjectType() && (type.getName() == null)) {
 							// Synthetic type in parameters -> synthetic method
-							method.setFlags(method.getFlags() | ACC_SYNTHETIC.getFlag());
+							method.setFlags(method.getFlags() | ACC_SYNTHETIC);
 							method.accept(this);
 							break;
 						}
@@ -76,7 +75,7 @@ public class CreateInstructionsVisitor extends AbstractJavaSyntaxVisitor {
 			}
 
 			for (ClassFileConstructorOrMethodDeclaration method : methods) {
-				if ((method.getFlags() & (ACC_SYNTHETIC.getFlag() | ACC_BRIDGE.getFlag())) == 0) {
+				if ((method.getFlags() & (ACC_SYNTHETIC | ACC_BRIDGE)) == 0) {
 					method.accept(this);
 				}
 			}
@@ -139,7 +138,7 @@ public class CreateInstructionsVisitor extends AbstractJavaSyntaxVisitor {
 		comd.setFormalParameters(localVariableMaker.getFormalParameters());
 
 		if (classFile.isInterface()) {
-			comd.setFlags(comd.getFlags() & ~(ACC_PUBLIC.getFlag() | ACC_ABSTRACT.getFlag()));
+			comd.setFlags(comd.getFlags() & ~(ACC_PUBLIC | ACC_ABSTRACT));
 		}
 	}
 

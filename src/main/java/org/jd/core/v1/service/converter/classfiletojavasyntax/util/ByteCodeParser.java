@@ -168,7 +168,7 @@ public class ByteCodeParser {
 		Method method = cfg.getMethod();
 		ConstantPool constants = method.getConstants();
 		byte[] code = method.<AttributeCode>getAttribute("Code").getCode();
-		boolean syntheticFlag = (method.getAccessFlags() & ACC_SYNTHETIC.getFlag()) != 0;
+		boolean syntheticFlag = (method.getAccessFlags() & ACC_SYNTHETIC) != 0;
 
 		Expression indexRef, arrayRef, valueRef, expression1, expression2, expression3;
 		Type type1, type2, type3;
@@ -246,7 +246,7 @@ public class ByteCodeParser {
 			case 25: // ALOAD
 				i = code[++offset] & 255;
 				localVariable = localVariableMaker.getLocalVariable(i, offset);
-				if ((i == 0) && ((method.getAccessFlags() & ACC_STATIC.getFlag()) == 0)) {
+				if ((i == 0) && ((method.getAccessFlags() & ACC_STATIC) == 0)) {
 					stack.push(new ThisExpression(lineNumber, localVariable.getType()));
 				} else {
 					stack.push(new ClassFileLocalVariableReferenceExpression(lineNumber, offset, localVariable));
@@ -282,7 +282,7 @@ public class ByteCodeParser {
 				break;
 			case 42: // ALOAD_0
 				localVariable = localVariableMaker.getLocalVariable(0, offset);
-				if ((method.getAccessFlags() & ACC_STATIC.getFlag()) == 0) {
+				if ((method.getAccessFlags() & ACC_STATIC) == 0) {
 					stack.push(new ThisExpression(lineNumber, localVariable.getType()));
 				} else {
 					stack.push(new ClassFileLocalVariableReferenceExpression(lineNumber, offset, localVariable));
@@ -1614,9 +1614,7 @@ public class ByteCodeParser {
 
 		if (typeName.equals(internalTypeName)) {
 			for (ClassFileConstructorOrMethodDeclaration methodDeclaration : bodyDeclaration.getMethodDeclarations()) {
-				if (((methodDeclaration.getFlags()
-						& (ACC_SYNTHETIC.getFlag() | ACC_PRIVATE.getFlag())) == (ACC_SYNTHETIC.getFlag()
-								| ACC_PRIVATE.getFlag()))
+				if (((methodDeclaration.getFlags() & (ACC_SYNTHETIC | ACC_PRIVATE)) == (ACC_SYNTHETIC | ACC_PRIVATE))
 						&& methodDeclaration.getMethod().getName().equals(name1)
 						&& methodDeclaration.getMethod().getDescriptor().equals(descriptor1)) {
 					// Create lambda expression
