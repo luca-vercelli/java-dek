@@ -7,6 +7,8 @@
 
 package org.jd.core.v1.model.classfile.constant;
 
+import org.jd.core.v1.model.classfile.ConstantPool;
+
 public class ConstantNameAndType extends Constant {
 	protected int nameIndex;
 	protected int descriptorIndex;
@@ -23,5 +25,13 @@ public class ConstantNameAndType extends Constant {
 
 	public int getDescriptorIndex() {
 		return descriptorIndex;
+	}
+
+	public String getName(ConstantPool constants) {
+		return constants.getConstantUtf8(nameIndex);
+	}
+
+	public String getDescriptor(ConstantPool constants) {
+		return constants.getConstantUtf8(descriptorIndex);
 	}
 }

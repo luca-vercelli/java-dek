@@ -7,6 +7,8 @@
 
 package org.jd.core.v1.model.classfile.constant;
 
+import org.jd.core.v1.model.classfile.ConstantPool;
+
 public class ConstantString extends Constant {
 	protected int stringIndex;
 
@@ -17,5 +19,9 @@ public class ConstantString extends Constant {
 
 	public int getStringIndex() {
 		return stringIndex;
+	}
+	
+	public String getString(ConstantPool constants) {
+		return constants.getConstantUtf8(stringIndex);
 	}
 }
