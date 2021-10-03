@@ -11,6 +11,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -21,16 +22,18 @@ import org.jd.core.v1.api.Loader;
  * inside zip file are loaded in memory as byte arrays.
  */
 public class ZipLoader implements Loader {
-	protected HashMap<String, byte[]> map = new HashMap<>();
+	protected Map<String, byte[]> map = new HashMap<>();
+
+	public static final int BUFFER_SIZE = 1024 * 2;
 
 	public ZipLoader(InputStream is) throws IOException {
-		byte[] buffer = new byte[1024 * 2];
+		byte[] buffer = new byte[BUFFER_SIZE];
 
 		try (ZipInputStream zis = new ZipInputStream(is)) {
 			ZipEntry ze = zis.getNextEntry();
 
 			while (ze != null) {
-				if (ze.isDirectory() == false) {
+				if (!ze.isDirectory()) {
 					ByteArrayOutputStream out = new ByteArrayOutputStream();
 					int read = zis.read(buffer);
 
@@ -49,7 +52,7 @@ public class ZipLoader implements Loader {
 		}
 	}
 
-	public HashMap<String, byte[]> getMap() {
+	public Map<String, byte[]> getMap() {
 		return map;
 	}
 

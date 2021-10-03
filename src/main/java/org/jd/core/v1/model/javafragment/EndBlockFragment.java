@@ -30,14 +30,6 @@ public class EndBlockFragment extends EndFlexibleBlockFragment {
     public boolean incLineCount(boolean force) {
         if (lineCount < maximalLineCount) {
             lineCount++;
-
-//            if (!force) {
-//            // Update start body fragment
-//            if ((lineCount == 1) && (start.getLineCount() == 0)) {
-//                start.setLineCount(lineCount);
-//            }
-//            }
-
             return true;
         } else {
             return false;
@@ -48,13 +40,6 @@ public class EndBlockFragment extends EndFlexibleBlockFragment {
     public boolean decLineCount(boolean force) {
         if (lineCount > minimalLineCount) {
             lineCount--;
-
-//            if (!force) {
-//            if (lineCount == 0) {
-//                start.setLineCount(lineCount);
-//            }
-//            }
-
             return true;
         } else {
             return false;

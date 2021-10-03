@@ -355,37 +355,125 @@ public abstract class AbstractUpdateExpressionVisitor extends AbstractJavaSyntax
         statement.setCondition(updateExpression(statement.getCondition()));
         statement.getCondition().accept(this);
         safeAccept(statement.getStatements());
-    }
+	}
 
-    @Override public void visit(ConstructorReferenceExpression expression) {}
-    @Override public void visit(DoubleConstantExpression expression) {}
-    @Override public void visit(EnumConstantReferenceExpression expression) {}
-    @Override public void visit(FloatConstantExpression expression) {}
-    @Override public void visit(IntegerConstantExpression expression) {}
-    @Override public void visit(LocalVariableReferenceExpression expression) {}
-    @Override public void visit(LongConstantExpression expression) {}
-    @Override public void visit(NullExpression expression) {}
-    @Override public void visit(TypeReferenceDotClassExpression expression) {}
-    @Override public void visit(ObjectTypeReferenceExpression expression) {}
-    @Override public void visit(StringConstantExpression expression) {}
-    @Override public void visit(SuperExpression expression) {}
-    @Override public void visit(ThisExpression expression) {}
-    @Override public void visit(AnnotationReference reference) {}
-    @Override public void visit(ElementValueArrayInitializerElementValue reference) {}
-    @Override public void visit(AnnotationElementValue reference) {}
-    @Override public void visit(ObjectReference reference) {}
-    @Override public void visit(BreakStatement statement) {}
-    @Override public void visit(ByteCodeStatement statement) {}
-    @Override public void visit(ContinueStatement statement) {}
-    @Override public void visit(ReturnStatement statement) {}
-    @Override public void visit(SwitchStatement.DefaultLabel statement) {}
+	@Override
+	public void visit(ConstructorReferenceExpression expression) {
+	}
 
-    @Override public void visit(InnerObjectReference reference) {}
-    @Override public void visit(TypeArguments type) {}
-    @Override public void visit(WildcardExtendsTypeArgument type) {}
-    @Override public void visit(ObjectType type) {}
-    @Override public void visit(InnerObjectType type) {}
-    @Override public void visit(WildcardSuperTypeArgument type) {}
-    @Override public void visit(Types list) {}
-    @Override public void visit(TypeParameterWithTypeBounds type) {}
+	@Override
+	public void visit(DoubleConstantExpression expression) {
+	}
+
+	@Override
+	public void visit(EnumConstantReferenceExpression expression) {
+	}
+
+	@Override
+	public void visit(FloatConstantExpression expression) {
+	}
+
+	@Override
+	public void visit(IntegerConstantExpression expression) {
+	}
+
+	@Override
+	public void visit(LocalVariableReferenceExpression expression) {
+	}
+
+	@Override
+	public void visit(LongConstantExpression expression) {
+	}
+
+	@Override
+	public void visit(NullExpression expression) {
+	}
+
+	@Override
+	public void visit(TypeReferenceDotClassExpression expression) {
+	}
+
+	@Override
+	public void visit(ObjectTypeReferenceExpression expression) {
+	}
+
+	@Override
+	public void visit(StringConstantExpression expression) {
+	}
+
+	@Override
+	public void visit(SuperExpression expression) {
+	}
+
+	@Override
+	public void visit(ThisExpression expression) {
+	}
+
+	@Override
+	public void visit(AnnotationReference reference) {
+	}
+
+	@Override
+	public void visit(ElementValueArrayInitializerElementValue reference) {
+	}
+
+	@Override
+	public void visit(AnnotationElementValue reference) {
+	}
+
+	@Override
+	public void visit(ObjectReference reference) {
+	}
+
+	@Override
+	public void visit(BreakStatement statement) {
+	}
+
+	@Override
+	public void visit(ByteCodeStatement statement) {
+	}
+
+	@Override
+	public void visit(ContinueStatement statement) {
+	}
+
+	@Override
+	public void visit(ReturnStatement statement) {
+	}
+
+	@Override
+	public void visit(SwitchStatement.DefaultLabel statement) {
+	}
+
+	@Override
+	public void visit(InnerObjectReference reference) {
+	}
+
+	@Override
+	public void visit(TypeArguments type) {
+	}
+
+	@Override
+	public void visit(WildcardExtendsTypeArgument type) {
+	}
+
+	@Override
+	public void visit(ObjectType type) {
+	}
+
+	@Override
+	public void visit(InnerObjectType type) {
+	}
+
+	@Override
+	public void visit(WildcardSuperTypeArgument type) {
+	}
+
+	@Override
+	public void visit(Types list) {
+	}
+
+	@Override
+	public void visit(TypeParameterWithTypeBounds type) {
+	}
 }

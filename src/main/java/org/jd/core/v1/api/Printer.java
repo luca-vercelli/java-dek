@@ -12,7 +12,7 @@ package org.jd.core.v1.api;
  * example it could print to a file or to a String.
  */
 public interface Printer {
-	
+
 	/**
 	 * Emits a String representation of decompiled source code
 	 */
