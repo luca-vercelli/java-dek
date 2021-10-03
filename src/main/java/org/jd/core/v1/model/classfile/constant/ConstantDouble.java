@@ -18,4 +18,9 @@ public class ConstantDouble extends ConstantValue {
 	public double getValue() {
 		return value;
 	}
+
+	@Override
+	public String toString() {
+		return getClass().getSimpleName() + " " + value;
+	}
 }
