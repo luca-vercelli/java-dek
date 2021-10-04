@@ -132,7 +132,7 @@ public class ClassFileDeserializer {
 						}
 
 						if (Character.isDigit(innerTypeName.charAt(length))) {
-							flags |= ACC_SYNTHETIC.getFlag();
+							flags |= ACC_SYNTHETIC;
 						}
 
 						if (innerClassFile == null) {

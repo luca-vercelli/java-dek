@@ -61,10 +61,10 @@ public class InitEnumVisitor extends AbstractJavaSyntaxVisitor {
 
 	@Override
 	public void visit(ConstructorDeclaration declaration) {
-		if ((declaration.getFlags() & ACC_ANONYMOUS.getFlag()) != 0) {
-			declaration.setFlags(ACC_SYNTHETIC.getFlag());
+		if ((declaration.getFlags() & ACC_ANONYMOUS) != 0) {
+			declaration.setFlags(ACC_SYNTHETIC);
 		} else if (declaration.getStatements().size() <= 1) {
-			declaration.setFlags(ACC_SYNTHETIC.getFlag());
+			declaration.setFlags(ACC_SYNTHETIC);
 		} else {
 			FormalParameters parameters = (FormalParameters) declaration.getFormalParameters();
 			// Remove name & index parameterTypes
@@ -82,20 +82,20 @@ public class InitEnumVisitor extends AbstractJavaSyntaxVisitor {
 
 	@Override
 	public void visit(MethodDeclaration declaration) {
-		if ((declaration.getFlags() & (ACC_STATIC.getFlag() | ACC_PUBLIC.getFlag())) != 0) {
+		if ((declaration.getFlags() & (ACC_STATIC | ACC_PUBLIC)) != 0) {
 			if (declaration.getName().equals("values") || declaration.getName().equals("valueOf")) {
 				ClassFileMethodDeclaration cfmd = (ClassFileMethodDeclaration) declaration;
-				cfmd.setFlags(cfmd.getFlags() | ACC_SYNTHETIC.getFlag());
+				cfmd.setFlags(cfmd.getFlags() | ACC_SYNTHETIC);
 			}
 		}
 	}
 
 	@Override
 	public void visit(FieldDeclaration declaration) {
-		if ((declaration.getFlags() & ACC_ENUM.getFlag()) != 0) {
+		if ((declaration.getFlags() & ACC_ENUM) != 0) {
 			ClassFileFieldDeclaration cffd = (ClassFileFieldDeclaration) declaration;
 			cffd.getFieldDeclarators().accept(this);
-			cffd.setFlags(cffd.getFlags() | ACC_SYNTHETIC.getFlag());
+			cffd.setFlags(cffd.getFlags() | ACC_SYNTHETIC);
 		}
 	}
 

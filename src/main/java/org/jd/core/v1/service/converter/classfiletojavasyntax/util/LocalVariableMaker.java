@@ -115,7 +115,7 @@ public class LocalVariableMaker {
 		// Initialize local variables from access flags & signature
 		int firstVariableIndex = 0;
 
-		if ((method.getAccessFlags() & ACC_STATIC.getFlag()) == 0) {
+		if ((method.getAccessFlags() & ACC_STATIC) == 0) {
 			if (localVariableSet.root(0) == null) {
 				// Local variable missing
 				localVariableSet.add(0, new ObjectLocalVariable(typeMaker, 0, 0,
@@ -148,7 +148,7 @@ public class LocalVariableMaker {
 
 		if (parameterTypes != null) {
 			int lastParameterIndex = parameterTypes.size() - 1;
-			boolean varargs = ((method.getAccessFlags() & ACC_VARARGS.getFlag()) != 0);
+			boolean varargs = ((method.getAccessFlags() & ACC_VARARGS) != 0);
 
 			initLocalVariablesFromParameterTypes(classFile, parameterTypes, varargs, firstVariableIndex,
 					lastParameterIndex);
@@ -160,8 +160,7 @@ public class LocalVariableMaker {
 			AttributeParameterAnnotations ripa = method.getAttribute("RuntimeInvisibleParameterAnnotations");
 
 			if ((rvpa == null) && (ripa == null)) {
-				for (int parameterIndex = 0,
-						variableIndex = firstVariableIndex; parameterIndex <= lastParameterIndex; parameterIndex++, variableIndex++) {
+				for (int parameterIndex = 0, variableIndex = firstVariableIndex; parameterIndex <= lastParameterIndex; parameterIndex++, variableIndex++) {
 					AbstractLocalVariable lv = localVariableSet.root(variableIndex);
 
 					formalParameters
@@ -177,8 +176,7 @@ public class LocalVariableMaker {
 				Annotations[] invisiblesArray = (ripa == null) ? null : ripa.getParameterAnnotations();
 				AnnotationConverter annotationConverter = new AnnotationConverter(typeMaker);
 
-				for (int parameterIndex = 0,
-						variableIndex = firstVariableIndex; parameterIndex <= lastParameterIndex; parameterIndex++, variableIndex++) {
+				for (int parameterIndex = 0, variableIndex = firstVariableIndex; parameterIndex <= lastParameterIndex; parameterIndex++, variableIndex++) {
 					AbstractLocalVariable lv = localVariableSet.root(variableIndex);
 
 					Annotations visibles = ((visiblesArray == null) || (visiblesArray.length <= parameterIndex)) ? null
@@ -211,7 +209,7 @@ public class LocalVariableMaker {
 			AttributeLocalVariableTable localVariableTable = code.getAttribute("LocalVariableTable");
 
 			if (localVariableTable != null) {
-				boolean staticFlag = (method.getAccessFlags() & ACC_STATIC.getFlag()) != 0;
+				boolean staticFlag = (method.getAccessFlags() & ACC_STATIC) != 0;
 
 				for (org.jd.core.v1.model.classfile.attribute.LocalVariable localVariable : localVariableTable
 						.getLocalVariableTable()) {
@@ -282,8 +280,7 @@ public class LocalVariableMaker {
 		StringBuilder sb = new StringBuilder();
 		GenerateParameterSuffixNameVisitor generateParameterSuffixNameVisitor = new GenerateParameterSuffixNameVisitor();
 
-		for (int parameterIndex = 0,
-				variableIndex = firstVariableIndex; parameterIndex <= lastParameterIndex; parameterIndex++, variableIndex++) {
+		for (int parameterIndex = 0, variableIndex = firstVariableIndex; parameterIndex <= lastParameterIndex; parameterIndex++, variableIndex++) {
 			Type type = t.get(parameterIndex);
 			AbstractLocalVariable lv = localVariableSet.root(variableIndex);
 

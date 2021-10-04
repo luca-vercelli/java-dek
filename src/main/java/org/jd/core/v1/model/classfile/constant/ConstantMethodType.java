@@ -7,6 +7,8 @@
 
 package org.jd.core.v1.model.classfile.constant;
 
+import org.jd.core.v1.model.classfile.ConstantPool;
+
 public class ConstantMethodType extends Constant {
 	protected int descriptorIndex;
 
@@ -17,5 +19,9 @@ public class ConstantMethodType extends Constant {
 
 	public int getDescriptorIndex() {
 		return descriptorIndex;
+	}
+
+	public String getDescriptor(ConstantPool constants) {
+		return constants.getConstantUtf8(descriptorIndex);
 	}
 }

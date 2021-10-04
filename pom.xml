@@ -127,17 +127,17 @@
 	</dependencies>
 
 	<build>
-	    <resources>
-		    <!-- Include source code into JAR -->
-	        <resource>
-	            <directory>src/main/java</directory>
-	            <filtering>false</filtering>
-	        </resource>
-	        <resource>
-	            <directory>src/main/resources</directory>
-	            <filtering>false</filtering>
-	        </resource>
-	    </resources>
+		<resources>
+			<!-- Include source code into JAR -->
+			<resource>
+				<directory>src/main/java</directory>
+				<filtering>false</filtering>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>false</filtering>
+			</resource>
+		</resources>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -169,41 +169,63 @@
 					</execution>
 				</executions>
 			</plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>3.2.0</version>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <mainClass>org.jd.core.v1.cli.CliMain</mainClass>
-                        </manifest>
-                    </archive>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.2.0</version>
-                <executions>
-                    <execution>
-                        <id>attach-javadocs</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <doctitle>Java Decompiler java-dek</doctitle>
-                    <title>Java Decompiler java-dek</title>
-                    <!-- NB: We don't use -html5, as it requires j9+, which not everyone has -->
-                    <additionalOptions>-quiet</additionalOptions>
-                    <subpackages>
-                        org/jd/core/v1
-                    </subpackages>
-                    <doclint>none</doclint>
-                </configuration>
-            </plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>3.2.0</version>
+				<configuration>
+					<archive>
+						<manifest>
+							<mainClass>org.jd.core.v1.cli.CliMain</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>3.2.0</version>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<doctitle>Java Decompiler java-dek</doctitle>
+					<title>Java Decompiler java-dek</title>
+					<!-- NB: We don't use -html5, as it requires j9+, which not everyone 
+						has -->
+					<additionalOptions>-quiet</additionalOptions>
+					<subpackages>
+						org/jd/core/v1
+					</subpackages>
+					<doclint>none</doclint>
+				</configuration>
+			</plugin>
+<!--			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>3.1.1</version>
+				<configuration>
+					<consoleOutput>true</consoleOutput>
+					<configLocation>src/main/checkstyle/stylecheck.xml</configLocation>
+				</configuration>
+				<executions>
+					<execution>
+						<id>checkstyle</id>
+						<phase>validate</phase>
+						<goals>
+							<goal>check</goal>
+						</goals>
+						<configuration>
+							<failOnViolation>false</failOnViolation>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin> -->
 		</plugins>
 	</build>
 </project>

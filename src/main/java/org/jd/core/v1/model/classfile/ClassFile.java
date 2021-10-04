@@ -62,23 +62,23 @@ public class ClassFile {
 	}
 
 	public boolean isEnum() {
-		return (accessFlags & ACC_ENUM.getFlag()) != 0;
+		return (accessFlags & ACC_ENUM) != 0;
 	}
 
 	public boolean isAnnotation() {
-		return (accessFlags & ACC_ANNOTATION.getFlag()) != 0;
+		return (accessFlags & ACC_ANNOTATION) != 0;
 	}
 
 	public boolean isInterface() {
-		return (accessFlags & ACC_INTERFACE.getFlag()) != 0;
+		return (accessFlags & ACC_INTERFACE) != 0;
 	}
 
 	public boolean isModule() {
-		return (accessFlags & ACC_MODULE.getFlag()) != 0;
+		return (accessFlags & ACC_MODULE) != 0;
 	}
 
 	public boolean isStatic() {
-		return (accessFlags & ACC_STATIC.getFlag()) != 0;
+		return (accessFlags & ACC_STATIC) != 0;
 	}
 
 	public String getInternalTypeName() {

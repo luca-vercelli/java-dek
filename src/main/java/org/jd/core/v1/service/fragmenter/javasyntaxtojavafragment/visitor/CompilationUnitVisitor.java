@@ -99,10 +99,10 @@ public class CompilationUnitVisitor extends StatementVisitor {
 
 	@Override
 	public void visit(AnnotationDeclaration declaration) {
-		if ((declaration.getFlags() & ACC_SYNTHETIC.getFlag()) == 0) {
+		if ((declaration.getFlags() & ACC_SYNTHETIC) == 0) {
 			fragments.add(StartMovableJavaBlockFragment.START_MOVABLE_TYPE_BLOCK);
 
-			buildFragmentsForTypeDeclaration(declaration, declaration.getFlags() & ~ACC_ABSTRACT.getFlag(), ANNOTATION);
+			buildFragmentsForTypeDeclaration(declaration, declaration.getFlags() & ~ACC_ABSTRACT, ANNOTATION);
 
 			fragments.addTokensFragment(tokens);
 
@@ -254,7 +254,7 @@ public class CompilationUnitVisitor extends StatementVisitor {
 
 	@Override
 	public void visit(ClassDeclaration declaration) {
-		if ((declaration.getFlags() & ACC_SYNTHETIC.getFlag()) == 0) {
+		if ((declaration.getFlags() & ACC_SYNTHETIC) == 0) {
 			fragments.add(StartMovableJavaBlockFragment.START_MOVABLE_TYPE_BLOCK);
 
 			buildFragmentsForClassOrInterfaceDeclaration(declaration, declaration.getFlags(), CLASS);
@@ -365,10 +365,10 @@ public class CompilationUnitVisitor extends StatementVisitor {
 
 	@Override
 	public void visit(ConstructorDeclaration declaration) {
-		if ((declaration.getFlags() & (ACC_SYNTHETIC.getFlag() | ACC_BRIDGE.getFlag())) == 0) {
+		if ((declaration.getFlags() & (ACC_SYNTHETIC | ACC_BRIDGE)) == 0) {
 			BaseStatement statements = declaration.getStatements();
 
-			if ((declaration.getFlags() & ACC_ANONYMOUS.getFlag()) == 0) {
+			if ((declaration.getFlags() & ACC_ANONYMOUS) == 0) {
 				fragments.add(StartMovableJavaBlockFragment.START_MOVABLE_METHOD_BLOCK);
 
 				tokens = new Tokens();
@@ -526,7 +526,7 @@ public class CompilationUnitVisitor extends StatementVisitor {
 
 	@Override
 	public void visit(EnumDeclaration declaration) {
-		if ((declaration.getFlags() & ACC_SYNTHETIC.getFlag()) == 0) {
+		if ((declaration.getFlags() & ACC_SYNTHETIC) == 0) {
 			fragments.add(StartMovableJavaBlockFragment.START_MOVABLE_TYPE_BLOCK);
 
 			buildFragmentsForTypeDeclaration(declaration, declaration.getFlags(), ENUM);
@@ -658,7 +658,7 @@ public class CompilationUnitVisitor extends StatementVisitor {
 
 	@Override
 	public void visit(FieldDeclaration declaration) {
-		if ((declaration.getFlags() & ACC_SYNTHETIC.getFlag()) == 0) {
+		if ((declaration.getFlags() & ACC_SYNTHETIC) == 0) {
 			fragments.add(StartMovableJavaBlockFragment.START_MOVABLE_FIELD_BLOCK);
 
 			tokens = new Tokens();
@@ -816,10 +816,10 @@ public class CompilationUnitVisitor extends StatementVisitor {
 
 	@Override
 	public void visit(InterfaceDeclaration declaration) {
-		if ((declaration.getFlags() & ACC_SYNTHETIC.getFlag()) == 0) {
+		if ((declaration.getFlags() & ACC_SYNTHETIC) == 0) {
 			fragments.add(StartMovableJavaBlockFragment.START_MOVABLE_TYPE_BLOCK);
 
-			buildFragmentsForClassOrInterfaceDeclaration(declaration, declaration.getFlags() & ~ACC_ABSTRACT.getFlag(),
+			buildFragmentsForClassOrInterfaceDeclaration(declaration, declaration.getFlags() & ~ACC_ABSTRACT,
 					INTERFACE);
 
 			tokens.add(StartBlockToken.START_DECLARATION_OR_STATEMENT_BLOCK);
@@ -880,7 +880,7 @@ public class CompilationUnitVisitor extends StatementVisitor {
 
 		tokens = new Tokens();
 
-		if ((declaration.getFlags() & ACC_OPEN.getFlag()) != 0) {
+		if ((declaration.getFlags() & ACC_OPEN) != 0) {
 			tokens.add(OPEN);
 			tokens.add(TextToken.SPACE);
 		}
@@ -966,11 +966,11 @@ public class CompilationUnitVisitor extends StatementVisitor {
 	protected void visitModuleDeclaration(ModuleDeclaration.ModuleInfo moduleInfo) {
 		tokens.add(REQUIRES);
 
-		if ((moduleInfo.getFlags() & ACC_STATIC.getFlag()) != 0) {
+		if ((moduleInfo.getFlags() & ACC_STATIC) != 0) {
 			tokens.add(TextToken.SPACE);
 			tokens.add(STATIC);
 		}
-		if ((moduleInfo.getFlags() & ACC_TRANSITIVE.getFlag()) != 0) {
+		if ((moduleInfo.getFlags() & ACC_TRANSITIVE) != 0) {
 			tokens.add(TextToken.SPACE);
 			tokens.add(TRANSITIVE);
 		}
@@ -1140,7 +1140,7 @@ public class CompilationUnitVisitor extends StatementVisitor {
 
 	@Override
 	public void visit(MethodDeclaration declaration) {
-		if ((declaration.getFlags() & (ACC_SYNTHETIC.getFlag() | ACC_BRIDGE.getFlag())) == 0) {
+		if ((declaration.getFlags() & (ACC_SYNTHETIC | ACC_BRIDGE)) == 0) {
 			fragments.add(StartMovableJavaBlockFragment.START_MOVABLE_METHOD_BLOCK);
 
 			tokens = new Tokens();
@@ -1344,31 +1344,31 @@ public class CompilationUnitVisitor extends StatementVisitor {
 	}
 
 	protected void buildTokensForTypeAccessFlags(int flags) {
-		if ((flags & ACC_PUBLIC.getFlag()) != 0) {
+		if ((flags & ACC_PUBLIC) != 0) {
 			tokens.add(PUBLIC);
 			tokens.add(TextToken.SPACE);
 		}
-		if ((flags & ACC_PROTECTED.getFlag()) != 0) {
+		if ((flags & ACC_PROTECTED) != 0) {
 			tokens.add(PROTECTED);
 			tokens.add(TextToken.SPACE);
 		}
-		if ((flags & ACC_PRIVATE.getFlag()) != 0) {
+		if ((flags & ACC_PRIVATE) != 0) {
 			tokens.add(PRIVATE);
 			tokens.add(TextToken.SPACE);
 		}
-		if ((flags & ACC_STATIC.getFlag()) != 0) {
+		if ((flags & ACC_STATIC) != 0) {
 			tokens.add(STATIC);
 			tokens.add(TextToken.SPACE);
 		}
-		if ((flags & ACC_FINAL.getFlag()) != 0) {
+		if ((flags & ACC_FINAL) != 0) {
 			tokens.add(FINAL);
 			tokens.add(TextToken.SPACE);
 		}
-		if ((flags & ACC_ABSTRACT.getFlag()) != 0) {
+		if ((flags & ACC_ABSTRACT) != 0) {
 			tokens.add(ABSTRACT);
 			tokens.add(TextToken.SPACE);
 		}
-		if ((flags & ACC_SYNTHETIC.getFlag()) != 0) {
+		if ((flags & ACC_SYNTHETIC) != 0) {
 			tokens.add(StartMarkerToken.COMMENT);
 			tokens.add(COMMENT_SYNTHETIC);
 			tokens.add(EndMarkerToken.COMMENT);
@@ -1377,35 +1377,35 @@ public class CompilationUnitVisitor extends StatementVisitor {
 	}
 
 	protected void buildTokensForFieldAccessFlags(int flags) {
-		if ((flags & ACC_PUBLIC.getFlag()) != 0) {
+		if ((flags & ACC_PUBLIC) != 0) {
 			tokens.add(PUBLIC);
 			tokens.add(TextToken.SPACE);
 		}
-		if ((flags & ACC_PROTECTED.getFlag()) != 0) {
+		if ((flags & ACC_PROTECTED) != 0) {
 			tokens.add(PROTECTED);
 			tokens.add(TextToken.SPACE);
 		}
-		if ((flags & ACC_PRIVATE.getFlag()) != 0) {
+		if ((flags & ACC_PRIVATE) != 0) {
 			tokens.add(PRIVATE);
 			tokens.add(TextToken.SPACE);
 		}
-		if ((flags & ACC_STATIC.getFlag()) != 0) {
+		if ((flags & ACC_STATIC) != 0) {
 			tokens.add(STATIC);
 			tokens.add(TextToken.SPACE);
 		}
-		if ((flags & ACC_FINAL.getFlag()) != 0) {
+		if ((flags & ACC_FINAL) != 0) {
 			tokens.add(FINAL);
 			tokens.add(TextToken.SPACE);
 		}
-		if ((flags & ACC_VOLATILE.getFlag()) != 0) {
+		if ((flags & ACC_VOLATILE) != 0) {
 			tokens.add(VOLATILE);
 			tokens.add(TextToken.SPACE);
 		}
-		if ((flags & ACC_TRANSIENT.getFlag()) != 0) {
+		if ((flags & ACC_TRANSIENT) != 0) {
 			tokens.add(TRANSIENT);
 			tokens.add(TextToken.SPACE);
 		}
-		if ((flags & ACC_SYNTHETIC.getFlag()) != 0) {
+		if ((flags & ACC_SYNTHETIC) != 0) {
 			tokens.add(StartMarkerToken.COMMENT);
 			tokens.add(COMMENT_SYNTHETIC);
 			tokens.add(EndMarkerToken.COMMENT);
@@ -1414,55 +1414,55 @@ public class CompilationUnitVisitor extends StatementVisitor {
 	}
 
 	protected void buildTokensForMethodAccessFlags(int flags) {
-		if ((flags & ACC_PUBLIC.getFlag()) != 0) {
+		if ((flags & ACC_PUBLIC) != 0) {
 			tokens.add(PUBLIC);
 			tokens.add(TextToken.SPACE);
 		}
-		if ((flags & ACC_PROTECTED.getFlag()) != 0) {
+		if ((flags & ACC_PROTECTED) != 0) {
 			tokens.add(PROTECTED);
 			tokens.add(TextToken.SPACE);
 		}
-		if ((flags & ACC_PRIVATE.getFlag()) != 0) {
+		if ((flags & ACC_PRIVATE) != 0) {
 			tokens.add(PRIVATE);
 			tokens.add(TextToken.SPACE);
 		}
-		if ((flags & ACC_STATIC.getFlag()) != 0) {
+		if ((flags & ACC_STATIC) != 0) {
 			tokens.add(STATIC);
 			tokens.add(TextToken.SPACE);
 		}
-		if ((flags & ACC_FINAL.getFlag()) != 0) {
+		if ((flags & ACC_FINAL) != 0) {
 			tokens.add(FINAL);
 			tokens.add(TextToken.SPACE);
 		}
-		if ((flags & ACC_SYNCHRONIZED.getFlag()) != 0) {
+		if ((flags & ACC_SYNCHRONIZED) != 0) {
 			tokens.add(SYNCHRONIZED);
 			tokens.add(TextToken.SPACE);
 		}
-		if ((flags & ACC_BRIDGE.getFlag()) != 0) {
+		if ((flags & ACC_BRIDGE) != 0) {
 			tokens.add(StartMarkerToken.COMMENT);
 			tokens.add(COMMENT_BRIDGE);
 			tokens.add(EndMarkerToken.COMMENT);
 			tokens.add(TextToken.SPACE);
 		}
-		if ((flags & ACC_NATIVE.getFlag()) != 0) {
+		if ((flags & ACC_NATIVE) != 0) {
 			tokens.add(NATIVE);
 			tokens.add(TextToken.SPACE);
 		}
-		if ((flags & ACC_ABSTRACT.getFlag()) != 0) {
+		if ((flags & ACC_ABSTRACT) != 0) {
 			tokens.add(ABSTRACT);
 			tokens.add(TextToken.SPACE);
 		}
-		if ((flags & ACC_STRICT.getFlag()) != 0) {
+		if ((flags & ACC_STRICT) != 0) {
 			tokens.add(STRICT);
 			tokens.add(TextToken.SPACE);
 		}
-		if ((flags & ACC_SYNTHETIC.getFlag()) != 0) {
+		if ((flags & ACC_SYNTHETIC) != 0) {
 			tokens.add(StartMarkerToken.COMMENT);
 			tokens.add(COMMENT_SYNTHETIC);
 			tokens.add(EndMarkerToken.COMMENT);
 			tokens.add(TextToken.SPACE);
 		}
-		if ((flags & ACC_DEFAULT.getFlag()) != 0) {
+		if ((flags & ACC_DEFAULT) != 0) {
 			tokens.add(DEFAULT);
 			tokens.add(TextToken.SPACE);
 		}

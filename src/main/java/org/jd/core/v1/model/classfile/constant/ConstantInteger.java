@@ -18,4 +18,9 @@ public class ConstantInteger extends ConstantValue {
 	public int getValue() {
 		return value;
 	}
+
+	@Override
+	public String toString() {
+		return getClass().getSimpleName() + " " + value;
+	}
 }

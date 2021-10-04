@@ -302,7 +302,7 @@ public class ConvertClassFileProcessor implements Processor {
 				Map<String, TypeArgument> bindings;
 				Map<String, BaseType> typeBounds;
 
-				if ((method.getAccessFlags() & ACC_STATIC.getFlag()) == 0) {
+				if ((method.getAccessFlags() & ACC_STATIC) == 0) {
 					bindings = bodyDeclaration.getBindings();
 					typeBounds = bodyDeclaration.getTypeBounds();
 				} else {
@@ -339,9 +339,9 @@ public class ConvertClassFileProcessor implements Processor {
 							methodTypes.returnedType, methodTypes.parameterTypes, methodTypes.exceptionTypes,
 							defaultAnnotationValue, bindings, typeBounds, firstLineNumber);
 					if (classFile.isInterface()) {
-						if (methodDeclaration.getFlags() == ACC_PUBLIC.getFlag()) {
+						if (methodDeclaration.getFlags() == ACC_PUBLIC) {
 							// For interfaces, add 'default' access flag on public methods
-							methodDeclaration.setFlags(ACC_PUBLIC.getFlag() | ACC_DEFAULT.getFlag());
+							methodDeclaration.setFlags(ACC_PUBLIC | ACC_DEFAULT);
 						}
 					}
 					list.add(methodDeclaration);

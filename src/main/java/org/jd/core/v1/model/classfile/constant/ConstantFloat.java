@@ -18,4 +18,9 @@ public class ConstantFloat extends ConstantValue {
 	public float getValue() {
 		return value;
 	}
+
+	@Override
+	public String toString() {
+		return getClass().getSimpleName() + " " + value;
+	}
 }

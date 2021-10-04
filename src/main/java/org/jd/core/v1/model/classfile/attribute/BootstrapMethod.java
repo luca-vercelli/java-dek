@@ -26,4 +26,9 @@ public class BootstrapMethod {
 	public int[] getBootstrapArguments() {
 		return bootstrapArguments;
 	}
+
+	@Override
+	public String toString() {
+		return getClass().getSimpleName() + " " + bootstrapMethodRef;
+	}
 }

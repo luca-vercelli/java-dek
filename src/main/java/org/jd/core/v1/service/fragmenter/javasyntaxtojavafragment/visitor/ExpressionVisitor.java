@@ -81,6 +81,7 @@ import org.jd.core.v1.model.token.StartBlockToken;
 import org.jd.core.v1.model.token.StartMarkerToken;
 import org.jd.core.v1.model.token.StringConstantToken;
 import org.jd.core.v1.model.token.TextToken;
+import org.jd.core.v1.service.converter.classfiletojavasyntax.util.JavaVersion;
 import org.jd.core.v1.service.fragmenter.javasyntaxtojavafragment.util.CharacterUtil;
 import org.jd.core.v1.service.fragmenter.javasyntaxtojavafragment.util.JavaFragmentFactory;
 import org.jd.core.v1.service.fragmenter.javasyntaxtojavafragment.util.StringUtil;
@@ -106,7 +107,7 @@ public class ExpressionVisitor extends TypeVisitor {
 	public ExpressionVisitor(Loader loader, String mainInternalTypeName, int majorVersion,
 			ImportsFragment importsFragment) {
 		super(loader, mainInternalTypeName, majorVersion, importsFragment);
-		this.diamondOperatorSupported = (majorVersion >= 51); // (majorVersion >= Java 7)
+		this.diamondOperatorSupported = (majorVersion >= JavaVersion.JAVA7);
 	}
 
 	public List<JavaFragment> getFragments() {

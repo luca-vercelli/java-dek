@@ -92,7 +92,7 @@ public class LayoutFragmentProcessor implements Processor {
 					for (Section section : sections) {
 						changed |= section.layout(false);
 					}
-					if (changed == false) {
+					if (!changed) {
 						// Nothing changed -> Quit loop
 						break;
 					}

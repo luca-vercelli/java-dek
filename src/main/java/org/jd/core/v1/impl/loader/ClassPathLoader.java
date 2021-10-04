@@ -17,6 +17,9 @@ import org.jd.core.v1.api.Loader;
  * A Loader that loads classes from classpath.
  */
 public class ClassPathLoader implements Loader {
+
+	public static final int BUFFER_SIZE = 1024 * 2;
+
 	@Override
 	public byte[] load(String internalName) throws IOException {
 		InputStream is = this.getClass().getResourceAsStream("/" + internalName + ".class");
@@ -25,7 +28,7 @@ public class ClassPathLoader implements Loader {
 			return null;
 		} else {
 			try (InputStream in = is; ByteArrayOutputStream out = new ByteArrayOutputStream()) {
-				byte[] buffer = new byte[1024 * 2];
+				byte[] buffer = new byte[BUFFER_SIZE];
 				int read = in.read(buffer);
 
 				while (read > 0) {

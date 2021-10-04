@@ -58,6 +58,7 @@ import org.jd.core.v1.model.javasyntax.type.PrimitiveType;
 import org.jd.core.v1.model.javasyntax.type.Type;
 import org.jd.core.v1.model.javasyntax.type.Types;
 import org.jd.core.v1.model.message.Message;
+import org.jd.core.v1.service.converter.classfiletojavasyntax.util.JavaVersion;
 import org.jd.core.v1.service.fragmenter.javasyntaxtojavafragment.JavaSyntaxToJavaFragmentProcessor;
 import org.jd.core.v1.service.layouter.LayoutFragmentProcessor;
 import org.jd.core.v1.service.tokenizer.javafragmenttotoken.JavaFragmentToTokenProcessor;
@@ -77,10 +78,10 @@ public class JavaSyntaxToJavaSourceTest {
 		ObjectType stringArrayType = new ObjectType("java/lang/String", "java.lang.String", "String", 1);
 		ObjectType printStreamType = new ObjectType("java/io/PrintStream", "java.io.PrintStream", "PrintStream");
 
-		CompilationUnit compilationUnit = new CompilationUnit(new ClassDeclaration(ACC_PUBLIC.getFlag(),
+		CompilationUnit compilationUnit = new CompilationUnit(new ClassDeclaration(ACC_PUBLIC,
 				"org/jd/core/v1/service/test/TokenWriterTest", "TokenWriterTest",
 				new BodyDeclaration("org/jd/core/v1/service/test/TokenWriterTest", new MethodDeclaration(
-						ACC_PUBLIC.getFlag() | ACC_STATIC.getFlag(), "main", PrimitiveType.TYPE_VOID,
+						ACC_PUBLIC | ACC_STATIC, "main", PrimitiveType.TYPE_VOID,
 						new FormalParameter(ObjectType.TYPE_STRING.createType(1), "args"), "([Ljava/lang/String;)V",
 						new Statements(
 								new IfStatement(new BinaryOperatorExpression(8, PrimitiveType.TYPE_BOOLEAN,
@@ -107,7 +108,7 @@ public class JavaSyntaxToJavaSourceTest {
 																		new BodyDeclaration("java/util/Enumeration",
 																				new MemberDeclarations(
 																						new MethodDeclaration(
-																								ACC_PUBLIC.getFlag(),
+																								ACC_PUBLIC,
 																								"hasMoreElements",
 																								PrimitiveType.TYPE_BOOLEAN,
 																								"()Z",
@@ -116,7 +117,7 @@ public class JavaSyntaxToJavaSourceTest {
 																												15,
 																												false))),
 																						new MethodDeclaration(
-																								ACC_PUBLIC.getFlag(),
+																								ACC_PUBLIC,
 																								"nextElement",
 																								ObjectType.TYPE_OBJECT,
 																								"()Ljava/lang/Object;",
@@ -169,7 +170,7 @@ public class JavaSyntaxToJavaSourceTest {
 		ObjectType stringType = new ObjectType("java/lang/String", "java.lang.String", "String");
 		ObjectType listType = new ObjectType("java/util/List", "java.util.List", "List", stringType);
 
-		CompilationUnit compilationUnit = new CompilationUnit(new InterfaceDeclaration(ACC_PUBLIC.getFlag(),
+		CompilationUnit compilationUnit = new CompilationUnit(new InterfaceDeclaration(ACC_PUBLIC,
 				"org/jd/core/v1/service/test/InterfaceTest", "InterfaceTest", new Types(listType, cloneableType)));
 
 		PlainTextMetaPrinter printer = new PlainTextMetaPrinter();
@@ -180,7 +181,7 @@ public class JavaSyntaxToJavaSourceTest {
 		message.setPrinter(printer);
 		message.setMainInternalTypeName("org/jd/core/v1/service/test/InterfaceTest");
 		message.setMaxLineNumber(0);
-		message.setMajorVersion(49);
+		message.setMajorVersion(JavaVersion.JAVA5);
 		message.setMinorVersion(0);
 
 		fragmenter.process(message);
@@ -204,7 +205,7 @@ public class JavaSyntaxToJavaSourceTest {
 	@Test
 	public void testEnumDayDeclaration() throws Exception {
 		CompilationUnit compilationUnit = new CompilationUnit(
-				new EnumDeclaration(null, ACC_PUBLIC.getFlag(), "org/jd/core/v1/service/test/Day", "Day", null,
+				new EnumDeclaration(null, ACC_PUBLIC, "org/jd/core/v1/service/test/Day", "Day", null,
 						Arrays.asList(new EnumDeclaration.Constant("SUNDAY"), new EnumDeclaration.Constant("MONDAY"),
 								new EnumDeclaration.Constant("TUESDAY"), new EnumDeclaration.Constant("WEDNESDAY"),
 								new EnumDeclaration.Constant("THURSDAY"), new EnumDeclaration.Constant("FRIDAY"),
@@ -250,7 +251,7 @@ public class JavaSyntaxToJavaSourceTest {
 		ThisExpression thisExpression = new ThisExpression(
 				new ObjectType("org/jd/core/v1/service/test/Planet", "org.jd.core.v1.service.test.Planet", "Planet"));
 
-		CompilationUnit compilationUnit = new CompilationUnit(new EnumDeclaration(ACC_PUBLIC.getFlag(),
+		CompilationUnit compilationUnit = new CompilationUnit(new EnumDeclaration(ACC_PUBLIC,
 				"org/jd/core/v1/service/test/Planet", "Planet",
 				Arrays.asList(
 						new EnumDeclaration.Constant("MERCURY",
@@ -263,9 +264,9 @@ public class JavaSyntaxToJavaSourceTest {
 								new Expressions(new DoubleConstantExpression(5.976e+24),
 										new DoubleConstantExpression(6.37814e6)))),
 				new BodyDeclaration("org/jd/core/v1/service/test/Planet", new MemberDeclarations(
-						new FieldDeclaration(ACC_PRIVATE.getFlag() | ACC_FINAL.getFlag(), PrimitiveType.TYPE_DOUBLE,
+						new FieldDeclaration(ACC_PRIVATE | ACC_FINAL, PrimitiveType.TYPE_DOUBLE,
 								new FieldDeclarator("mass")),
-						new FieldDeclaration(ACC_PRIVATE.getFlag() | ACC_FINAL.getFlag(), PrimitiveType.TYPE_DOUBLE,
+						new FieldDeclaration(ACC_PRIVATE | ACC_FINAL, PrimitiveType.TYPE_DOUBLE,
 								new FieldDeclarator("radius")),
 						new ConstructorDeclaration(0,
 								new FormalParameters(new FormalParameter(PrimitiveType.TYPE_DOUBLE, "mass"),
@@ -287,13 +288,13 @@ public class JavaSyntaxToJavaSourceTest {
 												new LocalVariableReferenceExpression(PrimitiveType.TYPE_DOUBLE,
 														"radius"),
 												16)))),
-						new MethodDeclaration(ACC_PRIVATE.getFlag(), "mass", PrimitiveType.TYPE_DOUBLE, "()D",
+						new MethodDeclaration(ACC_PRIVATE, "mass", PrimitiveType.TYPE_DOUBLE, "()D",
 								new ReturnExpressionStatement(new FieldReferenceExpression(PrimitiveType.TYPE_DOUBLE,
 										thisExpression, "org/jd/core/v1/service/test/Planet", "mass", "D"))),
-						new MethodDeclaration(ACC_PRIVATE.getFlag(), "radius", PrimitiveType.TYPE_DOUBLE, "()D",
+						new MethodDeclaration(ACC_PRIVATE, "radius", PrimitiveType.TYPE_DOUBLE, "()D",
 								new ReturnExpressionStatement(new FieldReferenceExpression(PrimitiveType.TYPE_DOUBLE,
 										thisExpression, "org/jd/core/v1/service/test/Planet", "radius", "D"))),
-						new FieldDeclaration(ACC_PUBLIC.getFlag() | ACC_STATIC.getFlag() | ACC_FINAL.getFlag(),
+						new FieldDeclaration(ACC_PUBLIC | ACC_STATIC | ACC_FINAL,
 								PrimitiveType.TYPE_DOUBLE,
 								new FieldDeclarator("G",
 										new ExpressionVariableInitializer(new DoubleConstantExpression(6.67300E-11)))),
@@ -326,7 +327,7 @@ public class JavaSyntaxToJavaSourceTest {
 										new MethodInvocationExpression(PrimitiveType.TYPE_DOUBLE, thisExpression,
 												"org/jd/core/v1/service/test/Planet", "surfaceGravity", "()D"),
 										4))),
-						new MethodDeclaration(ACC_PUBLIC.getFlag() | ACC_STATIC.getFlag(), "surfaceWeight",
+						new MethodDeclaration(ACC_PUBLIC | ACC_STATIC, "surfaceWeight",
 								PrimitiveType.TYPE_VOID, new FormalParameter(arrayOfStringType, "args"),
 								"([Ljava/lan/String;)V",
 								new Statements(
@@ -448,10 +449,10 @@ public class JavaSyntaxToJavaSourceTest {
 
 	@Test
 	public void testSwitch() throws Exception {
-		CompilationUnit compilationUnit = new CompilationUnit(new ClassDeclaration(ACC_PUBLIC.getFlag(),
+		CompilationUnit compilationUnit = new CompilationUnit(new ClassDeclaration(ACC_PUBLIC,
 				"org/jd/core/v1/service/test/SwitchTest", "SwitchTest",
 				new BodyDeclaration("org/jd/core/v1/service/test/SwitchTest", new MethodDeclaration(
-						ACC_PUBLIC.getFlag() | ACC_STATIC.getFlag(), "translate", PrimitiveType.TYPE_INT,
+						ACC_PUBLIC | ACC_STATIC, "translate", PrimitiveType.TYPE_INT,
 						new FormalParameter(PrimitiveType.TYPE_INT, "i"), "(I)Ljava/lang/String;",
 						new SwitchStatement(new LocalVariableReferenceExpression(PrimitiveType.TYPE_INT, "i"),
 								Arrays.asList(
@@ -504,15 +505,15 @@ public class JavaSyntaxToJavaSourceTest {
 
 	@Test
 	public void testBridgeAndSyntheticAttributes() throws Exception {
-		CompilationUnit compilationUnit = new CompilationUnit(new ClassDeclaration(ACC_PUBLIC.getFlag(),
+		CompilationUnit compilationUnit = new CompilationUnit(new ClassDeclaration(ACC_PUBLIC,
 				"org/jd/core/v1/service/test/SyntheticAttributeTest", "SyntheticAttributeTest",
 				new BodyDeclaration("org/jd/core/v1/service/test/SyntheticAttributeTest",
 						new MemberDeclarations(
-								new FieldDeclaration(ACC_PUBLIC.getFlag() | ACC_BRIDGE.getFlag(),
+								new FieldDeclaration(ACC_PUBLIC | ACC_BRIDGE,
 										PrimitiveType.TYPE_INT, new FieldDeclarator("i")),
-								new MethodDeclaration(ACC_PUBLIC.getFlag() | ACC_BRIDGE.getFlag(),
+								new MethodDeclaration(ACC_PUBLIC | ACC_BRIDGE,
 										"testBridgeAttribute", PrimitiveType.TYPE_VOID, "()V"),
-								new MethodDeclaration(ACC_PUBLIC.getFlag() | ACC_SYNTHETIC.getFlag(),
+								new MethodDeclaration(ACC_PUBLIC | ACC_SYNTHETIC,
 										"testSyntheticAttribute", PrimitiveType.TYPE_VOID, "()V")))));
 
 		PlainTextMetaPrinter printer = new PlainTextMetaPrinter();

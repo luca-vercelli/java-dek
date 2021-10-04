@@ -18,4 +18,9 @@ public class ConstantUtf8 extends ConstantValue {
 	public String getValue() {
 		return value;
 	}
+
+	@Override
+	public String toString() {
+		return getClass().getSimpleName() + " " + value;
+	}
 }

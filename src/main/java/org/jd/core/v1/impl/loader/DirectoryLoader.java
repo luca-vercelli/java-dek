@@ -20,6 +20,8 @@ import org.jd.core.v1.api.Loader;
 public class DirectoryLoader implements Loader {
 	protected File base;
 
+	public static final int BUFFER_SIZE = 1024;
+
 	public DirectoryLoader(File base) {
 		this.base = base;
 	}
@@ -31,7 +33,7 @@ public class DirectoryLoader implements Loader {
 		if (file.exists()) {
 			try (FileInputStream in = new FileInputStream(file);
 					ByteArrayOutputStream out = new ByteArrayOutputStream()) {
-				byte[] buffer = new byte[1024];
+				byte[] buffer = new byte[BUFFER_SIZE];
 				int read = in.read(buffer);
 
 				while (read > 0) {

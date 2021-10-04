@@ -128,7 +128,7 @@ public class ByteCodeParser {
 	private MemberVisitor memberVisitor = new MemberVisitor();
 	private SearchFirstLineNumberVisitor searchFirstLineNumberVisitor = new SearchFirstLineNumberVisitor();
 	private EraseTypeArgumentVisitor eraseTypeArgumentVisitor = new EraseTypeArgumentVisitor();
-	private LambdaParameterNamesVisitor lambdaParameterNamesVisitor = new LambdaParameterNamesVisitor();;
+	private LambdaParameterNamesVisitor lambdaParameterNamesVisitor = new LambdaParameterNamesVisitor();
 	private RenameLocalVariablesVisitor renameLocalVariablesVisitor = new RenameLocalVariablesVisitor();
 
 	private TypeMaker typeMaker;
@@ -145,7 +145,7 @@ public class ByteCodeParser {
 			ClassFileBodyDeclaration bodyDeclaration, ClassFileConstructorOrMethodDeclaration comd) {
 		this.typeMaker = typeMaker;
 		this.localVariableMaker = localVariableMaker;
-		this.genericTypesSupported = (classFile.getMajorVersion() >= 49); // (majorVersion >= Java 5)
+		this.genericTypesSupported = (classFile.getMajorVersion() >= JavaVersion.JAVA5);
 		this.internalTypeName = classFile.getInternalTypeName();
 		this.attributeBootstrapMethods = classFile.getAttribute("BootstrapMethods");
 		this.bodyDeclaration = bodyDeclaration;
@@ -168,7 +168,7 @@ public class ByteCodeParser {
 		Method method = cfg.getMethod();
 		ConstantPool constants = method.getConstants();
 		byte[] code = method.<AttributeCode>getAttribute("Code").getCode();
-		boolean syntheticFlag = (method.getAccessFlags() & ACC_SYNTHETIC.getFlag()) != 0;
+		boolean syntheticFlag = (method.getAccessFlags() & ACC_SYNTHETIC) != 0;
 
 		Expression indexRef, arrayRef, valueRef, expression1, expression2, expression3;
 		Type type1, type2, type3;
@@ -246,7 +246,7 @@ public class ByteCodeParser {
 			case 25: // ALOAD
 				i = code[++offset] & 255;
 				localVariable = localVariableMaker.getLocalVariable(i, offset);
-				if ((i == 0) && ((method.getAccessFlags() & ACC_STATIC.getFlag()) == 0)) {
+				if ((i == 0) && ((method.getAccessFlags() & ACC_STATIC) == 0)) {
 					stack.push(new ThisExpression(lineNumber, localVariable.getType()));
 				} else {
 					stack.push(new ClassFileLocalVariableReferenceExpression(lineNumber, offset, localVariable));
@@ -282,7 +282,7 @@ public class ByteCodeParser {
 				break;
 			case 42: // ALOAD_0
 				localVariable = localVariableMaker.getLocalVariable(0, offset);
-				if ((method.getAccessFlags() & ACC_STATIC.getFlag()) == 0) {
+				if ((method.getAccessFlags() & ACC_STATIC) == 0) {
 					stack.push(new ThisExpression(lineNumber, localVariable.getType()));
 				} else {
 					stack.push(new ClassFileLocalVariableReferenceExpression(lineNumber, offset, localVariable));
@@ -1580,11 +1580,13 @@ public class ByteCodeParser {
 		// Create expression
 		ConstantMemberRef constantMemberRef = constants.getConstant(index);
 
-		ConstantNameAndType indyCnat = constants.getConstant(constantMemberRef.getNameAndTypeIndex());
+		/*ConstantNameAndType indyCnat = constants.getConstant(constantMemberRef.getNameAndTypeIndex());
 		String indyMethodName = constants.getConstantUtf8(indyCnat.getNameIndex());
-		String indyDescriptor = constants.getConstantUtf8(indyCnat.getDescriptorIndex());
+		String indyDescriptor = constants.getConstantUtf8(indyCnat.getDescriptorIndex());*/
+		String indyMethodName = constantMemberRef.getName(constants);
+		String indyDescriptor = constantMemberRef.getDescriptor(constants);
 		TypeMaker.MethodTypes indyMethodTypes = typeMaker.makeMethodTypes(indyDescriptor);
-
+		
 		BaseExpression indyParameters = extractParametersFromStack(statements, stack, indyMethodTypes.parameterTypes);
 		BootstrapMethod bootstrapMethod = attributeBootstrapMethods.getBootstrapMethods()[constantMemberRef
 				.getClassIndex()];
@@ -1602,21 +1604,18 @@ public class ByteCodeParser {
 		}
 
 		ConstantMethodType cmt0 = constants.getConstant(bootstrapArguments[0]);
-		String descriptor0 = constants.getConstantUtf8(cmt0.getDescriptorIndex());
+		String descriptor0 = cmt0.getDescriptor(constants);
 		TypeMaker.MethodTypes methodTypes0 = typeMaker.makeMethodTypes(descriptor0);
 		int parameterCount = (methodTypes0.parameterTypes == null) ? 0 : methodTypes0.parameterTypes.size();
+
 		ConstantMethodHandle constantMethodHandle1 = constants.getConstant(bootstrapArguments[1]);
-		ConstantMemberRef cmr1 = constants.getConstant(constantMethodHandle1.getReferenceIndex());
-		String typeName = constants.getConstantTypeName(cmr1.getClassIndex());
-		ConstantNameAndType cnat1 = constants.getConstant(cmr1.getNameAndTypeIndex());
-		String name1 = constants.getConstantUtf8(cnat1.getNameIndex());
-		String descriptor1 = constants.getConstantUtf8(cnat1.getDescriptorIndex());
+		String typeName = constantMethodHandle1.getTypeName(constants);
+		String name1 = constantMethodHandle1.getName(constants);
+		String descriptor1 = constantMethodHandle1.getDescriptor(constants);
 
 		if (typeName.equals(internalTypeName)) {
 			for (ClassFileConstructorOrMethodDeclaration methodDeclaration : bodyDeclaration.getMethodDeclarations()) {
-				if (((methodDeclaration.getFlags()
-						& (ACC_SYNTHETIC.getFlag() | ACC_PRIVATE.getFlag())) == (ACC_SYNTHETIC.getFlag()
-								| ACC_PRIVATE.getFlag()))
+				if (((methodDeclaration.getFlags() & (ACC_SYNTHETIC | ACC_PRIVATE)) == (ACC_SYNTHETIC | ACC_PRIVATE))
 						&& methodDeclaration.getMethod().getName().equals(name1)
 						&& methodDeclaration.getMethod().getDescriptor().equals(descriptor1)) {
 					// Create lambda expression
@@ -1745,22 +1744,28 @@ public class ByteCodeParser {
 	}
 
 	private static boolean isPositiveOne(Expression expression) {
-		if (expression.isIntegerConstantExpression() && expression.getIntegerValue() == 1)
+		if (expression.isIntegerConstantExpression() && expression.getIntegerValue() == 1) {
 			return true;
-		if (expression.isLongConstantExpression() && expression.getLongValue() == 1L)
+		}
+		if (expression.isLongConstantExpression() && expression.getLongValue() == 1L) {
 			return true;
-		if (expression.isFloatConstantExpression() && expression.getFloatValue() == 1.0F)
+		}
+		if (expression.isFloatConstantExpression() && expression.getFloatValue() == 1.0F) {
 			return true;
+		}
 		return (expression.isDoubleConstantExpression() && expression.getDoubleValue() == 1.0D);
 	}
 
 	private static boolean isNegativeOne(Expression expression) {
-		if (expression.isIntegerConstantExpression() && expression.getIntegerValue() == -1)
+		if (expression.isIntegerConstantExpression() && expression.getIntegerValue() == -1) {
 			return true;
-		if (expression.isLongConstantExpression() && expression.getLongValue() == -1L)
+		}
+		if (expression.isLongConstantExpression() && expression.getLongValue() == -1L) {
 			return true;
-		if (expression.isFloatConstantExpression() && expression.getFloatValue() == -1.0F)
+		}
+		if (expression.isFloatConstantExpression() && expression.getFloatValue() == -1.0F) {
 			return true;
+		}
 		return (expression.isDoubleConstantExpression() && expression.getDoubleValue() == -1.0D);
 	}
 

@@ -248,7 +248,7 @@ public class UpdateBridgeMethodVisitor extends AbstractUpdateExpressionVisitor {
 
 		@Override
 		public void visit(MethodDeclaration declaration) {
-			if ((declaration.getFlags() & ACC_STATIC.getFlag()) == 0) {
+			if ((declaration.getFlags() & ACC_STATIC) == 0) {
 				return;
 			}
 

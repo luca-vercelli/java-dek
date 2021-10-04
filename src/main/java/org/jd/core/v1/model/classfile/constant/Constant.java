@@ -18,4 +18,9 @@ public abstract class Constant {
 	public ConstantPoolTag getTag() {
 		return tag;
 	}
+
+	@Override
+	public String toString() {
+		return getClass().getSimpleName() + " " + tag;
+	}
 }

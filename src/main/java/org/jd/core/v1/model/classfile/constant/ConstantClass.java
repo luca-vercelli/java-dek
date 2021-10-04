@@ -7,6 +7,8 @@
 
 package org.jd.core.v1.model.classfile.constant;
 
+import org.jd.core.v1.model.classfile.ConstantPool;
+
 public class ConstantClass extends Constant {
 	protected int nameIndex;
 
@@ -17,5 +19,9 @@ public class ConstantClass extends Constant {
 
 	public int getNameIndex() {
 		return nameIndex;
+	}
+
+	public String getName(ConstantPool constants) {
+		return constants.getConstantUtf8(nameIndex);
 	}
 }

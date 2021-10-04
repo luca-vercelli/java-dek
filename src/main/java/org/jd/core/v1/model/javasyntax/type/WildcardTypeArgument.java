@@ -9,6 +9,9 @@ package org.jd.core.v1.model.javasyntax.type;
 
 import java.util.Map;
 
+/**
+ * This is the wildcard type "?"
+ */
 public class WildcardTypeArgument implements TypeArgument {
     public static final WildcardTypeArgument WILDCARD_TYPE_ARGUMENT = new WildcardTypeArgument();
 
