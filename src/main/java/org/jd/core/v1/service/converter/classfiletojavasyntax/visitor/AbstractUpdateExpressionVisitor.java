@@ -17,8 +17,9 @@ import org.jd.core.v1.model.javasyntax.type.*;
 import java.util.ListIterator;
 
 /**
- * A visitor that fransform all expressions found. Transformation must be
- * implemented in <code>updateExpression</code> method by subclasses.
+ * A visitor that transforms all expressions found. Transformation is context
+ * independent. Transformation must be implemented in
+ * <code>updateExpression</code> method by subclasses.
  */
 public abstract class AbstractUpdateExpressionVisitor extends AbstractJavaSyntaxVisitor {
 	protected abstract Expression updateExpression(Expression expression);
