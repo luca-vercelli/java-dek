@@ -7,6 +7,7 @@
 
 package org.jd.core.v1.service.converter.classfiletojavasyntax.visitor;
 
+import org.jd.core.v1.model.javasyntax.AbstractJavaSyntaxVisitor;
 import org.jd.core.v1.model.javasyntax.declaration.*;
 import org.jd.core.v1.model.javasyntax.expression.Expression;
 import org.jd.core.v1.service.converter.classfiletojavasyntax.model.javasyntax.declaration.ClassFileBodyDeclaration;
@@ -15,7 +16,14 @@ import org.jd.core.v1.service.converter.classfiletojavasyntax.util.JavaVersion;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AutoboxingVisitor extends AbstractUpdateExpressionVisitor {
+/**
+ * Replace <code>Double.valueOf(x)</code> with <code>x</code> (autoboxing) and
+ * <code>x.doubleValue()</code> with <code>x</code> (unboxing), if this is
+ * allowed.
+ * 
+ * @see https://docs.oracle.com/javase/tutorial/java/data/autoboxing.html
+ */
+public class AutoboxingVisitor extends AbstractJavaSyntaxVisitor {
 	protected static final Map<String, String> VALUEOF_DESCRIPTOR_MAP = new HashMap<>();
 	protected static final Map<String, String> VALUE_DESCRIPTOR_MAP = new HashMap<>();
 	protected static final Map<String, String> VALUE_METHODNAME_MAP = new HashMap<>();
@@ -62,7 +70,6 @@ public class AutoboxingVisitor extends AbstractUpdateExpressionVisitor {
 		}
 	}
 
-	@Override
 	protected Expression updateExpression(Expression expression) {
 		if (expression.isMethodInvocationExpression() && expression.getInternalTypeName().startsWith("java/lang/")) {
 			int parameterSize = (expression.getParameters() == null) ? 0 : expression.getParameters().size();
