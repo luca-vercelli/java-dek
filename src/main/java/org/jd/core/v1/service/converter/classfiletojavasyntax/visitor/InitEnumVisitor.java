@@ -40,6 +40,9 @@ public class InitEnumVisitor extends AbstractJavaSyntaxVisitor {
 	protected int index;
 	protected BaseExpression arguments;
 
+	/**
+	 * Expose a sorted copy of internal <code>constants</code> field
+	 */
 	public DefaultList<EnumDeclaration.Constant> getConstants() {
 		if (!constants.isEmpty()) {
 			constants.sort(new EnumConstantComparator());
@@ -48,6 +51,9 @@ public class InitEnumVisitor extends AbstractJavaSyntaxVisitor {
 		return new DefaultList(constants);
 	}
 
+	/**
+	 * Accumulate <code>constants</code> during visit
+	 */
 	@Override
 	public void visit(BodyDeclaration declaration) {
 		ClassFileBodyDeclaration bd = bodyDeclaration;
@@ -59,6 +65,9 @@ public class InitEnumVisitor extends AbstractJavaSyntaxVisitor {
 		bodyDeclaration = bd;
 	}
 
+	/**
+	 * Mark some constructors as synthetic, and fix others
+	 */
 	@Override
 	public void visit(ConstructorDeclaration declaration) {
 		if ((declaration.getFlags() & ACC_ANONYMOUS) != 0) {
@@ -80,16 +89,25 @@ public class InitEnumVisitor extends AbstractJavaSyntaxVisitor {
 	public void visit(StaticInitializerDeclaration declaration) {
 	}
 
+	/**
+	 * Mark methods <code>values</code> and <code>valueOf</code> as synthetic 
+	 */
 	@Override
 	public void visit(MethodDeclaration declaration) {
 		if ((declaration.getFlags() & (ACC_STATIC | ACC_PUBLIC)) != 0) {
-			if (declaration.getName().equals("values") || declaration.getName().equals("valueOf")) {
+			// LV 2021-10 check method signature
+			if ((declaration.getName().equals("values") && declaration.getDescriptor().startsWith("()"))
+					|| (declaration.getName().equals("valueOf")
+							&& declaration.getDescriptor().startsWith("(Ljava/lang/String;)"))) {
 				ClassFileMethodDeclaration cfmd = (ClassFileMethodDeclaration) declaration;
 				cfmd.setFlags(cfmd.getFlags() | ACC_SYNTHETIC);
 			}
 		}
 	}
 
+	/**
+	 * Mark all non-enum fields as synthetic.
+	 */
 	@Override
 	public void visit(FieldDeclaration declaration) {
 		if ((declaration.getFlags() & ACC_ENUM) != 0) {
@@ -139,6 +157,9 @@ public class InitEnumVisitor extends AbstractJavaSyntaxVisitor {
 		}
 	}
 
+	/**
+	 * Order ClassFileConstant's by index
+	 */
 	protected static class EnumConstantComparator implements Comparator<ClassFileEnumDeclaration.ClassFileConstant> {
 		public int compare(ClassFileEnumDeclaration.ClassFileConstant ec1,
 				ClassFileEnumDeclaration.ClassFileConstant ec2) {

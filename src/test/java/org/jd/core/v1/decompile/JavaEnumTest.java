@@ -20,7 +20,6 @@ import org.jd.core.v1.api.Loader;
 import org.jd.core.v1.compiler.CompilerUtil;
 import org.jd.core.v1.compiler.JavaSourceFileObject;
 import org.jd.core.v1.impl.loader.ZipLoader;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class JavaEnumTest {
@@ -131,8 +130,7 @@ public class JavaEnumTest {
 	}
 
 	@Test
-	@Ignore
-	// https://github.com/java-decompiler/jd-core/issues/36 // FIXME
+	// https://github.com/java-decompiler/jd-core/issues/36
 	public void testJavaEnumWithStaticMethod() throws Exception {
 
 		String internalClassName = EnumWithStaticMethod.class.getName().replace('.', '/');
