@@ -1850,11 +1850,29 @@ public class TypeMaker {
 		}
 	}
 
+	/**
+	 * Return number of methods with same name and number of parameters
+	 * 
+	 * @param internalTypeName
+	 * @param name
+	 * @param parameterCount
+	 * @param constructor
+	 * @return
+	 */
 	public int matchCount(String internalTypeName, String name, int parameterCount, boolean constructor) {
 		String suffixKey = ":" + name + ':' + parameterCount;
 		return getSetOfParameterTypes(internalTypeName, suffixKey, constructor).size();
 	}
 
+	/**
+	 * Return number of methods with matching signature
+	 * 
+	 * @param internalTypeName
+	 * @param name
+	 * @param parameterCount
+	 * @param constructor
+	 * @return
+	 */
 	public int matchCount(Map<String, BaseType> typeBounds, String internalTypeName, String name,
 			BaseExpression parameters, boolean constructor) {
 		int parameterCount = parameters.size();
@@ -1871,6 +1889,7 @@ public class TypeMaker {
 		} else {
 			int counter = 0;
 
+			// loop over all available methods
 			for (BaseType parameterTypes : setOfParameterTypes) {
 				if (match(typeBounds, parameterTypes, parameters)) {
 					counter++;
@@ -1881,6 +1900,14 @@ public class TypeMaker {
 		}
 	}
 
+	/**
+	 * Return set of all available signatures of methods matching given one
+	 * 
+	 * @param internalTypeName
+	 * @param suffixKey
+	 * @param constructor
+	 * @return set of lists of types
+	 */
 	private Set<BaseType> getSetOfParameterTypes(String internalTypeName, String suffixKey, boolean constructor) {
 		String key = internalTypeName + suffixKey;
 		Set<BaseType> setOfParameterTypes = internalTypeNameMethodNameParameterCountToParameterTypes.get(key);

@@ -23,6 +23,9 @@ import java.util.List;
 
 import static org.jd.core.v1.model.classfile.AccessType.*;
 
+/**
+ * Create parameters, variables, statements
+ */
 public class CreateInstructionsVisitor extends AbstractJavaSyntaxVisitor {
 	protected TypeMaker typeMaker;
 
@@ -35,6 +38,9 @@ public class CreateInstructionsVisitor extends AbstractJavaSyntaxVisitor {
 		safeAccept(declaration.getBodyDeclaration());
 	}
 
+	/**
+	 * Create parameters, variables, statements
+	 */
 	@Override
 	public void visit(BodyDeclaration declaration) {
 		ClassFileBodyDeclaration bodyDeclaration = (ClassFileBodyDeclaration) declaration;
