@@ -36,6 +36,10 @@ public class JavaAutoboxingTest {
 			int testRequiredAutoboxing() {
 				return Double.valueOf(0.0).intValue();
 			}
+
+			Integer testReturn() {
+				return 2;
+			}
 		}
 
 		String internalClassName = AutoboxingAndUnboxing.class.getName().replace('.', '/');
@@ -45,7 +49,8 @@ public class JavaAutoboxingTest {
 
 		assertMatch(source, "Integer intObj = 10;", 31);
 		assertMatch(source, "int i = intObj;", 32);
-		assertMatch(source, "return Double.valueOf(0.0).intValue();", 37);
+		assertMatch(source, "return Double.valueOf(0.0D).intValue();", 37);
+		assertMatch(source, "return 2;", 41);
 
 		// Recompile decompiled source code and check errors
 		assertTrue(CompilerUtil.compile("1.8", new JavaSourceFileObject(internalClassName, source)));
@@ -65,15 +70,14 @@ public class JavaAutoboxingTest {
 			void use(Integer i) {
 			}
 
-			Integer getInt() {
-				return null;
+			void use(Double d) {
 			}
 
 			void testOverload() {
 				// Needed to call correct overloaded method
 				use((Integer) 1);
-				// Needed for null check
-				getInt().intValue();
+				// No need for box
+				use(0.0D);
 			}
 		}
 
@@ -81,7 +85,8 @@ public class JavaAutoboxingTest {
 		String source = decompiler.decompile(internalClassName);
 
 		// Check decompiled source code
-		// FIXME assertMatch(source, "use((Integer) 1);", 74);
+		assertMatch(source, "use(Integer.valueOf(1));", 78);
+		assertMatch(source, "use(0.0D);", 80);
 
 		// Recompile decompiled source code and check errors
 		assertTrue(CompilerUtil.compile("1.8", new JavaSourceFileObject(internalClassName, source)));

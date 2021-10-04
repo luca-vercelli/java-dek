@@ -7,14 +7,18 @@
 
 package org.jd.core.v1.service.converter.classfiletojavasyntax.visitor;
 
+import java.util.HashMap;
+import java.util.ListIterator;
+import java.util.Map;
+
 import org.jd.core.v1.model.javasyntax.AbstractJavaSyntaxVisitor;
-import org.jd.core.v1.model.javasyntax.declaration.*;
+import org.jd.core.v1.model.javasyntax.declaration.BodyDeclaration;
+import org.jd.core.v1.model.javasyntax.declaration.ExpressionVariableInitializer;
 import org.jd.core.v1.model.javasyntax.expression.Expression;
+import org.jd.core.v1.model.javasyntax.expression.MethodInvocationExpression;
+import org.jd.core.v1.model.javasyntax.statement.ReturnExpressionStatement;
 import org.jd.core.v1.service.converter.classfiletojavasyntax.model.javasyntax.declaration.ClassFileBodyDeclaration;
 import org.jd.core.v1.service.converter.classfiletojavasyntax.util.JavaVersion;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Replace <code>Double.valueOf(x)</code> with <code>x</code> (autoboxing) and
@@ -70,27 +74,64 @@ public class AutoboxingVisitor extends AbstractJavaSyntaxVisitor {
 		}
 	}
 
-	protected Expression updateExpression(Expression expression) {
-		if (expression.isMethodInvocationExpression() && expression.getInternalTypeName().startsWith("java/lang/")) {
-			int parameterSize = (expression.getParameters() == null) ? 0 : expression.getParameters().size();
+	@Override
+	public void visit(ExpressionVariableInitializer declaration) {
+		if (declaration.getExpression() instanceof MethodInvocationExpression) {
+			MethodInvocationExpression mie = (MethodInvocationExpression) declaration.getExpression();
+			declaration.setExpression(updateExpression(mie));
+		}
+		declaration.getExpression().accept(this);
+	}
 
-			if (expression.getExpression().isObjectTypeReferenceExpression()) {
-				// static method invocation
-				if ((parameterSize == 1) && expression.getName().equals("valueOf") && expression.getDescriptor()
-						.equals(VALUEOF_DESCRIPTOR_MAP.get(expression.getInternalTypeName()))) {
-					return expression.getParameters().getFirst();
-				}
-			} else {
-				// non-static method invocation
-				if ((parameterSize == 0)
-						&& expression.getName().equals(VALUE_METHODNAME_MAP.get(expression.getInternalTypeName()))
-						&& expression.getDescriptor()
-								.equals(VALUE_DESCRIPTOR_MAP.get(expression.getInternalTypeName()))) {
-					return expression.getExpression();
+	private Expression updateExpression(MethodInvocationExpression mie) {
+		Expression newExpression = mie;
+		int numParameters = (mie.getParameters() == null) ? 0 : mie.getParameters().size();
+		if ("valueOf".equals(mie.getName())
+				&& mie.getDescriptor().equals(VALUEOF_DESCRIPTOR_MAP.get(mie.getInternalTypeName()))
+				&& numParameters == 1) {
+			// this is an assignment x = Double.valueOf(y)
+			newExpression = mie.getParameters().getFirst();
+		} else if (mie.getName().equals(VALUE_METHODNAME_MAP.get(mie.getInternalTypeName()))
+				&& mie.getDescriptor().equals(VALUE_DESCRIPTOR_MAP.get(mie.getInternalTypeName()))
+				&& numParameters == 0) {
+			// this is an assignment x = y.doubleValue()
+			newExpression = mie.getExpression();
+		}
+		return newExpression;
+	}
+
+	@Override
+	public void visit(ReturnExpressionStatement statement) {
+		if (statement.getExpression() instanceof MethodInvocationExpression) {
+			MethodInvocationExpression mie = (MethodInvocationExpression) statement.getExpression();
+			statement.setExpression(updateExpression(mie));
+		}
+		statement.getExpression().accept(this);
+	}
+
+	@Override
+	public void visit(MethodInvocationExpression mie) {
+		int numParameters = (mie.getParameters() == null) ? 0 : mie.getParameters().size();
+		if (numParameters > 1) {
+			ListIterator<Expression> iterator = mie.getParameters().getList().listIterator();
+			while (iterator.hasNext()) {
+				Expression param = iterator.next();
+				if (param instanceof MethodInvocationExpression) {
+					MethodInvocationExpression innerMie = (MethodInvocationExpression) param;
+					iterator.set(updateExpression(innerMie));
 				}
 			}
-		}
 
-		return expression;
+		} else if (numParameters == 1) {
+			Expression param = mie.getParameters().getFirst();
+			if (param instanceof MethodInvocationExpression) {
+				MethodInvocationExpression innerMie = (MethodInvocationExpression) param;
+				mie.setParameters(updateExpression(innerMie));
+			}
+		}
+		mie.getExpression().accept(this);
+
+		safeAccept(mie.getParameters());
 	}
+
 }
