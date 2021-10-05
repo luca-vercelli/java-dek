@@ -8,14 +8,15 @@
 package org.jd.core.v1.service.converter.classfiletojavasyntax.visitor;
 
 import java.util.HashMap;
-import java.util.ListIterator;
 import java.util.Map;
 
 import org.jd.core.v1.model.javasyntax.AbstractJavaSyntaxVisitor;
 import org.jd.core.v1.model.javasyntax.declaration.BodyDeclaration;
 import org.jd.core.v1.model.javasyntax.declaration.ExpressionVariableInitializer;
 import org.jd.core.v1.model.javasyntax.expression.Expression;
+import org.jd.core.v1.model.javasyntax.expression.LambdaIdentifiersExpression;
 import org.jd.core.v1.model.javasyntax.expression.MethodInvocationExpression;
+import org.jd.core.v1.model.javasyntax.statement.LambdaExpressionStatement;
 import org.jd.core.v1.model.javasyntax.statement.ReturnExpressionStatement;
 import org.jd.core.v1.service.converter.classfiletojavasyntax.model.javasyntax.declaration.ClassFileBodyDeclaration;
 import org.jd.core.v1.service.converter.classfiletojavasyntax.util.JavaVersion;
@@ -110,28 +111,16 @@ public class AutoboxingVisitor extends AbstractJavaSyntaxVisitor {
 	}
 
 	@Override
-	public void visit(MethodInvocationExpression mie) {
-		int numParameters = (mie.getParameters() == null) ? 0 : mie.getParameters().size();
-		if (numParameters > 1) {
-			ListIterator<Expression> iterator = mie.getParameters().getList().listIterator();
-			while (iterator.hasNext()) {
-				Expression param = iterator.next();
-				if (param instanceof MethodInvocationExpression) {
-					MethodInvocationExpression innerMie = (MethodInvocationExpression) param;
-					iterator.set(updateExpression(innerMie));
-				}
-			}
-
-		} else if (numParameters == 1) {
-			Expression param = mie.getParameters().getFirst();
-			if (param instanceof MethodInvocationExpression) {
-				MethodInvocationExpression innerMie = (MethodInvocationExpression) param;
-				mie.setParameters(updateExpression(innerMie));
+	public void visit(LambdaIdentifiersExpression expression) {
+		if (expression.getStatements() instanceof LambdaExpressionStatement) {
+			// 1 statement only, isn't it?
+			LambdaExpressionStatement le = (LambdaExpressionStatement) expression.getStatements();
+			if (le.getExpression() instanceof MethodInvocationExpression) {
+				MethodInvocationExpression mie = (MethodInvocationExpression) le.getExpression();
+				le.setExpression(updateExpression(mie));
 			}
 		}
-		mie.getExpression().accept(this);
-
-		safeAccept(mie.getParameters());
+		safeAccept(expression.getStatements());
 	}
 
 }

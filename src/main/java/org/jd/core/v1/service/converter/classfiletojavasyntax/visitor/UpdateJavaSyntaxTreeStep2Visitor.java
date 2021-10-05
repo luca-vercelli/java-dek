@@ -67,11 +67,11 @@ public class UpdateJavaSyntaxTreeStep2Visitor extends AbstractJavaSyntaxVisitor 
 				replaceBridgeMethodVisitor.visit(bodyDeclaration);
 			}
 
-			// Add cast expressions
-			addCastExpressionVisitor.visit(declaration);
-
 			// Autoboxing
 			AUTOBOXING_VISITOR.visit(declaration);
+
+			// Add cast expressions (AFTER autoboxing visitor)
+			addCastExpressionVisitor.visit(declaration);
 		}
 	}
 

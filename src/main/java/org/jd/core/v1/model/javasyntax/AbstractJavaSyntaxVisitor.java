@@ -277,6 +277,9 @@ public abstract class AbstractJavaSyntaxVisitor extends AbstractTypeArgumentVisi
 		expression.getStatements().accept(this);
 	}
 
+	/**
+	 * LambdaIdentifiersExpression([s] -> LambdaExpressionStatement{...})
+	 */
 	@Override
 	public void visit(LambdaIdentifiersExpression expression) {
 		safeAccept(expression.getStatements());

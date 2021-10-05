@@ -49,12 +49,12 @@ import org.jd.core.v1.service.converter.classfiletojavasyntax.visitor.BindTypesT
 import org.jd.core.v1.service.deserializer.classfile.ClassFileFormatException;
 import org.jd.core.v1.service.deserializer.classfile.ClassFileReader;
 
-/*
- * https://jcp.org/aboutJava/communityprocess/maintenance/jsr924/JVMS-SE5.0-Ch4-ClassFile.pdf
+/**
+ * @see https://jcp.org/aboutJava/communityprocess/maintenance/jsr924/JVMS-SE5.0-Ch4-ClassFile.pdf
  *
- * https://docs.oracle.com/javase/tutorial/extra/generics/methods.html
+ *      https://docs.oracle.com/javase/tutorial/extra/generics/methods.html
  *
- * http://www.angelikalanger.com/GenericsFAQ/JavaGenericsFAQ.html
+ *      http://www.angelikalanger.com/GenericsFAQ/JavaGenericsFAQ.html
  */
 public class TypeMaker {
 	private static final Map<String, ObjectType> INTERNALNAME_TO_OBJECTPRIMITIVETYPE = new HashMap<>();
@@ -1982,6 +1982,19 @@ public class TypeMaker {
 			return flags != 0;
 		}
 
+		if (leftType.isPrimitiveType() && rightType.isObjectType()) {
+			String ld = leftType.getDescriptor();
+			String rd = rightType.getInternalName();
+			return ld.equals(ObjectType.BOX_TO_PRIMITIVE_MAP.get(rd));
+		}
+
+		if (leftType.isObjectType() && rightType.isPrimitiveType()) {
+			String ld = leftType.getInternalName();
+			String rd = rightType.getDescriptor();
+			return rd.equals(ObjectType.BOX_TO_PRIMITIVE_MAP.get(ld)); // int assignable to Integer, not to Double,
+																		// correct?
+		}
+
 		if (leftType.isObjectType() && rightType.isObjectType()) {
 			ObjectType ot1 = (ObjectType) leftType;
 			ObjectType ot2 = (ObjectType) rightType;
@@ -1992,7 +2005,7 @@ public class TypeMaker {
 			// FIXME HANDLE GENERICS
 			return true;
 		}
-		
+
 		return false;
 	}
 

@@ -472,6 +472,8 @@ public class AddCastExpressionVisitor extends AbstractJavaSyntaxVisitor {
 							}
 							expression = addCastExpression(t, expression);
 						}
+					} else if (expressionType.isPrimitiveType() && forceCast) {
+						expression = addCastExpression(type, expression);
 					} else if (expressionType.isGenericType() && !ObjectType.TYPE_OBJECT.equals(type)) {
 						expression = addCastExpression(type, expression);
 					}
