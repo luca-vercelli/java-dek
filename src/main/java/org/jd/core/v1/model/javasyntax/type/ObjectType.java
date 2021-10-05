@@ -7,52 +7,83 @@
 
 package org.jd.core.v1.model.javasyntax.type;
 
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 public class ObjectType implements Type {
-    public static final ObjectType TYPE_BOOLEAN           = new ObjectType("java/lang/Boolean", "java.lang.Boolean", "Boolean");
-    public static final ObjectType TYPE_BYTE              = new ObjectType("java/lang/Byte", "java.lang.Byte", "Byte");
-    public static final ObjectType TYPE_CHARACTER         = new ObjectType("java/lang/Character", "java.lang.Character", "Character");
-    public static final ObjectType TYPE_CLASS             = new ObjectType("java/lang/Class", "java.lang.Class", "Class");
-    public static final ObjectType TYPE_CLASS_WILDCARD    = TYPE_CLASS.createType(WildcardTypeArgument.WILDCARD_TYPE_ARGUMENT);
-    public static final ObjectType TYPE_DOUBLE            = new ObjectType("java/lang/Double", "java.lang.Double", "Double");
-    public static final ObjectType TYPE_EXCEPTION         = new ObjectType("java/lang/Exception", "java.lang.Exception", "Exception");
-    public static final ObjectType TYPE_FLOAT             = new ObjectType("java/lang/Float", "java.lang.Float", "Float");
-    public static final ObjectType TYPE_INTEGER           = new ObjectType("java/lang/Integer", "java.lang.Integer", "Integer");
-    public static final ObjectType TYPE_ITERABLE          = new ObjectType("java/lang/Iterable", "java.lang.Iterable", "Iterable");
-    public static final ObjectType TYPE_LONG              = new ObjectType("java/lang/Long", "java.lang.Long", "Long");
-    public static final ObjectType TYPE_MATH              = new ObjectType("java/lang/Math", "java.lang.Math", "Math");
-    public static final ObjectType TYPE_OBJECT            = new ObjectType("java/lang/Object", "java.lang.Object", "Object");
-    public static final ObjectType TYPE_RUNTIME_EXCEPTION = new ObjectType("java/lang/RuntimeException", "java.lang.RuntimeException", "RuntimeException");
-    public static final ObjectType TYPE_SHORT             = new ObjectType("java/lang/Short", "java.lang.Short", "Short");
-    public static final ObjectType TYPE_STRING            = new ObjectType("java/lang/String", "java.lang.String", "String");
-    public static final ObjectType TYPE_STRING_BUFFER     = new ObjectType("java/lang/StringBuffer", "java.lang.StringBuffer", "StringBuffer");
-    public static final ObjectType TYPE_STRING_BUILDER    = new ObjectType("java/lang/StringBuilder", "java.lang.StringBuilder", "StringBuilder");
-    public static final ObjectType TYPE_SYSTEM            = new ObjectType("java/lang/System", "java.lang.System", "System");
-    public static final ObjectType TYPE_THREAD            = new ObjectType("java/lang/Thread", "java.lang.Thread", "Thread");
-    public static final ObjectType TYPE_THROWABLE         = new ObjectType("java/lang/Throwable", "java.lang.Throwable", "Throwable");
+	public static final ObjectType TYPE_BOOLEAN = new ObjectType("java/lang/Boolean", "java.lang.Boolean", "Boolean");
+	public static final ObjectType TYPE_BYTE = new ObjectType("java/lang/Byte", "java.lang.Byte", "Byte");
+	public static final ObjectType TYPE_CHARACTER = new ObjectType("java/lang/Character", "java.lang.Character",
+			"Character");
+	public static final ObjectType TYPE_CLASS = new ObjectType("java/lang/Class", "java.lang.Class", "Class");
+	public static final ObjectType TYPE_CLASS_WILDCARD = TYPE_CLASS
+			.createType(WildcardTypeArgument.WILDCARD_TYPE_ARGUMENT);
+	public static final ObjectType TYPE_DOUBLE = new ObjectType("java/lang/Double", "java.lang.Double", "Double");
+	public static final ObjectType TYPE_EXCEPTION = new ObjectType("java/lang/Exception", "java.lang.Exception",
+			"Exception");
+	public static final ObjectType TYPE_FLOAT = new ObjectType("java/lang/Float", "java.lang.Float", "Float");
+	public static final ObjectType TYPE_INTEGER = new ObjectType("java/lang/Integer", "java.lang.Integer", "Integer");
+	public static final ObjectType TYPE_ITERABLE = new ObjectType("java/lang/Iterable", "java.lang.Iterable",
+			"Iterable");
+	public static final ObjectType TYPE_LONG = new ObjectType("java/lang/Long", "java.lang.Long", "Long");
+	public static final ObjectType TYPE_MATH = new ObjectType("java/lang/Math", "java.lang.Math", "Math");
+	public static final ObjectType TYPE_OBJECT = new ObjectType("java/lang/Object", "java.lang.Object", "Object");
+	public static final ObjectType TYPE_RUNTIME_EXCEPTION = new ObjectType("java/lang/RuntimeException",
+			"java.lang.RuntimeException", "RuntimeException");
+	public static final ObjectType TYPE_SHORT = new ObjectType("java/lang/Short", "java.lang.Short", "Short");
+	public static final ObjectType TYPE_STRING = new ObjectType("java/lang/String", "java.lang.String", "String");
+	public static final ObjectType TYPE_STRING_BUFFER = new ObjectType("java/lang/StringBuffer",
+			"java.lang.StringBuffer", "StringBuffer");
+	public static final ObjectType TYPE_STRING_BUILDER = new ObjectType("java/lang/StringBuilder",
+			"java.lang.StringBuilder", "StringBuilder");
+	public static final ObjectType TYPE_SYSTEM = new ObjectType("java/lang/System", "java.lang.System", "System");
+	public static final ObjectType TYPE_THREAD = new ObjectType("java/lang/Thread", "java.lang.Thread", "Thread");
+	public static final ObjectType TYPE_THROWABLE = new ObjectType("java/lang/Throwable", "java.lang.Throwable",
+			"Throwable");
 
-    public static final ObjectType TYPE_PRIMITIVE_BOOLEAN = new ObjectType("Z");
-    public static final ObjectType TYPE_PRIMITIVE_BYTE    = new ObjectType("B");
-    public static final ObjectType TYPE_PRIMITIVE_CHAR    = new ObjectType("C");
-    public static final ObjectType TYPE_PRIMITIVE_DOUBLE  = new ObjectType("D");
-    public static final ObjectType TYPE_PRIMITIVE_FLOAT   = new ObjectType("F");
-    public static final ObjectType TYPE_PRIMITIVE_INT     = new ObjectType("I");
-    public static final ObjectType TYPE_PRIMITIVE_LONG    = new ObjectType("J");
-    public static final ObjectType TYPE_PRIMITIVE_SHORT   = new ObjectType("S");
-    public static final ObjectType TYPE_PRIMITIVE_VOID    = new ObjectType("V");
+	public static final ObjectType TYPE_PRIMITIVE_BOOLEAN = new ObjectType("Z");
+	public static final ObjectType TYPE_PRIMITIVE_BYTE = new ObjectType("B");
+	public static final ObjectType TYPE_PRIMITIVE_CHAR = new ObjectType("C");
+	public static final ObjectType TYPE_PRIMITIVE_DOUBLE = new ObjectType("D");
+	public static final ObjectType TYPE_PRIMITIVE_FLOAT = new ObjectType("F");
+	public static final ObjectType TYPE_PRIMITIVE_INT = new ObjectType("I");
+	public static final ObjectType TYPE_PRIMITIVE_LONG = new ObjectType("J");
+	public static final ObjectType TYPE_PRIMITIVE_SHORT = new ObjectType("S");
+	public static final ObjectType TYPE_PRIMITIVE_VOID = new ObjectType("V");
 
-    public static final ObjectType TYPE_UNDEFINED_OBJECT = new ObjectType("java/lang/Object", "java.lang.Object", "Object") {
-        @Override public String toString() { return "UndefinedObjectType"; }
-    };
+	public static final ObjectType TYPE_UNDEFINED_OBJECT = new ObjectType("java/lang/Object", "java.lang.Object",
+			"Object") {
+		@Override
+		public String toString() {
+			return "UndefinedObjectType";
+		}
+	};
 
-    protected String internalName; // e.g. com/foo/Foo or com/foo/Foo$Bar
-    protected String qualifiedName; // e.g. com.foo.Foo or com.foo.Foo.Bar
-    protected String name; // eg. Foo or Bar
+	public static final Map<String, String> PRIMITIVE_TO_BOX_MAP = new HashMap<>();
+	public static final Map<String, String> BOX_TO_PRIMITIVE_MAP = new HashMap<>();
+	static {
+		PRIMITIVE_TO_BOX_MAP.put("Z", "java/lang/Boolean");
+		PRIMITIVE_TO_BOX_MAP.put("B", "java/lang/Byte");
+		PRIMITIVE_TO_BOX_MAP.put("C", "java/lang/Character");
+		PRIMITIVE_TO_BOX_MAP.put("D", "java/lang/Double");
+		PRIMITIVE_TO_BOX_MAP.put("F", "java/lang/Float");
+		PRIMITIVE_TO_BOX_MAP.put("I", "java/lang/Integer");
+		PRIMITIVE_TO_BOX_MAP.put("J", "java/lang/Long");
+		PRIMITIVE_TO_BOX_MAP.put("S", "java/lang/Short");
+		PRIMITIVE_TO_BOX_MAP.put("V", "java/lang/Void");
+		for (Entry<String, String> entry : PRIMITIVE_TO_BOX_MAP.entrySet()) {
+			BOX_TO_PRIMITIVE_MAP.put(entry.getValue(), entry.getKey());
+		}
+	}
 
-    protected BaseTypeArgument typeArguments; // e.g. [A,B] if type is Foo<A,B>
-    protected int dimension;
-    protected String descriptor;
+	protected String internalName; // e.g. com/foo/Foo or com/foo/Foo$Bar
+	protected String qualifiedName; // e.g. com.foo.Foo or com.foo.Foo.Bar
+	protected String name; // eg. Foo or Bar
+
+	protected BaseTypeArgument typeArguments; // e.g. [A,B] if type is Foo<A,B>
+	protected int dimension;
+	protected String descriptor;
 
 	public ObjectType(String internalName, String qualifiedName, String name) {
 		this(internalName, qualifiedName, name, null, 0);
