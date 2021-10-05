@@ -7,12 +7,12 @@
 
 package org.jd.core.v1.decompile;
 
+import static org.jd.core.v1.regex.PatternMaker.assertMatch;
 import static org.junit.Assert.assertTrue;
 
 import org.jd.core.v1.TestDecompiler;
 import org.jd.core.v1.compiler.CompilerUtil;
 import org.jd.core.v1.compiler.JavaSourceFileObject;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class TryWithResourcesTest {
@@ -20,29 +20,29 @@ public class TryWithResourcesTest {
 	protected TestDecompiler decompiler = new TestDecompiler();
 
 	static class TestClass implements AutoCloseable {
-	    public void close() { }
+		public void close() {
+		}
 
-	    static int test() {
-	        try (TestClass obj = new TestClass()) {
-	            return 1;
-	        }
-	    }
+		static int test() {
+			try (TestClass obj = new TestClass()) {
+				return 1;
+			}
+		}
 	}
 
 	@Test
-	@Ignore
-	// https://github.com/java-decompiler/jd-core/issues/17 // FIXME
+	// https://github.com/java-decompiler/jd-core/issues/23 // FIXME
 	public void testTryWithResource() throws Exception {
 
 		String internalClassName = TestClass.class.getName().replace('.', '/');
 		String source = decompiler.decompile(internalClassName);
 
 		// Check decompiled source code
-		//assertTrue(source.matches(PatternMaker.make(": 29 */", "Integer intObj = 10;")));
-		//assertTrue(source.matches(PatternMaker.make(": 30 */", "int i = intObj;")));
+		assertMatch(source, "try (TestClass obj = new TestClass()) {", 27);
+		assertMatch(source, "return 1;", 28);
 
 		// Recompile decompiled source code and check errors
 		assertTrue(CompilerUtil.compile("1.8", new JavaSourceFileObject(internalClassName, source)));
-		
+
 	}
 }

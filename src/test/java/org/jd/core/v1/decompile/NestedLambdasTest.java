@@ -23,7 +23,7 @@ public class NestedLambdasTest {
 
 	public static class TestClass {
 		public Function<?, Function<?, ?>> test() {
-			Function<?, Function<?, ?>> f = i1 -> i2 -> null;
+			Function<?, Function<?, ?>> f = i1 -> i2 -> 1;
 			return f;
 		}
 		// internally, this class has 4 methods:
