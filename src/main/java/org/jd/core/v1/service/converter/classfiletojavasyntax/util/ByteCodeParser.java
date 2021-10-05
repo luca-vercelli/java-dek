@@ -1580,9 +1580,6 @@ public class ByteCodeParser {
 		// Create expression
 		ConstantMemberRef constantMemberRef = constants.getConstant(index);
 
-		/*ConstantNameAndType indyCnat = constants.getConstant(constantMemberRef.getNameAndTypeIndex());
-		String indyMethodName = constants.getConstantUtf8(indyCnat.getNameIndex());
-		String indyDescriptor = constants.getConstantUtf8(indyCnat.getDescriptorIndex());*/
 		String indyMethodName = constantMemberRef.getName(constants);
 		String indyDescriptor = constantMemberRef.getDescriptor(constants);
 		TypeMaker.MethodTypes indyMethodTypes = typeMaker.makeMethodTypes(indyDescriptor);

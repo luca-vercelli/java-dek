@@ -18,28 +18,34 @@ import org.jd.core.v1.model.javasyntax.type.TypeArgument;
 
 import java.util.Map;
 
+/**
+ * Common interface to ClassFileMethodDeclaration,
+ * ClassFileConstructorDeclaration, ClassFileStaticInitializerDeclaration
+ */
 public interface ClassFileConstructorOrMethodDeclaration extends ClassFileMemberDeclaration {
-    int getFlags();
-    void setFlags(int flags);
+	int getFlags();
 
-    ClassFile getClassFile();
+	void setFlags(int flags);
 
-    Method getMethod();
+	ClassFile getClassFile();
 
-    BaseTypeParameter getTypeParameters();
+	Method getMethod();
 
-    BaseType getParameterTypes();
+	BaseTypeParameter getTypeParameters();
 
-    Type getReturnedType();
+	BaseType getParameterTypes();
 
-    ClassFileBodyDeclaration getBodyDeclaration();
+	Type getReturnedType();
 
-    Map<String, TypeArgument> getBindings();
+	ClassFileBodyDeclaration getBodyDeclaration();
 
-    Map<String, BaseType> getTypeBounds();
+	Map<String, TypeArgument> getBindings();
 
-    void setFormalParameters(BaseFormalParameter formalParameters);
+	Map<String, BaseType> getTypeBounds();
 
-    BaseStatement getStatements();
-    void setStatements(BaseStatement statements);
+	void setFormalParameters(BaseFormalParameter formalParameters);
+
+	BaseStatement getStatements();
+
+	void setStatements(BaseStatement statements);
 }
