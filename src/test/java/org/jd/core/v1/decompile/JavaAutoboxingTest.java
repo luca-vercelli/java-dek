@@ -84,8 +84,8 @@ public class JavaAutoboxingTest {
 		String source = decompiler.decompile(internalClassName);
 
 		// Check decompiled source code
-		assertMatch(source, "use(Integer.valueOf(1));", 78);
-		// FIXME wishlist assertMatch(source, "use(0.0D);", 80);
+		assertMatch(source, "use(Integer.valueOf(1));", 77);
+		// FIXME wishlist assertMatch(source, "use(0.0D);", 79);
 
 		// Recompile decompiled source code and check errors
 		assertTrue(CompilerUtil.compile("1.8", new JavaSourceFileObject(internalClassName, source)));
