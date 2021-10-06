@@ -88,9 +88,8 @@ import org.jd.core.v1.service.fragmenter.javasyntaxtojavafragment.util.StringUti
 import org.jd.core.v1.util.DefaultList;
 
 /**
- * Traverse a tree of Expression's.
- * 
- * There should be one visit() method for every possible Expression subclass.
+ * Traverse java syntax tree, accumulating types and expressions into
+ * <code>tokens</code> attribute.
  */
 public class ExpressionVisitor extends TypeVisitor {
 

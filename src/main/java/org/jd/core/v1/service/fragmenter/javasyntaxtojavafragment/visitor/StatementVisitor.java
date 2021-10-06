@@ -53,6 +53,10 @@ import org.jd.core.v1.model.token.StartMarkerToken;
 import org.jd.core.v1.model.token.TextToken;
 import org.jd.core.v1.service.fragmenter.javasyntaxtojavafragment.util.JavaFragmentFactory;
 
+/**
+ * Traverse java syntax tree, accumulating types, expressions and statements
+ * into <code>tokens</code> attribute.
+ */
 public class StatementVisitor extends ExpressionVisitor {
 
 	public StatementVisitor(Loader loader, String mainInternalTypeName, int majorVersion,

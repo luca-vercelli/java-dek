@@ -42,6 +42,10 @@ import org.jd.core.v1.model.token.Token;
 import org.jd.core.v1.service.converter.classfiletojavasyntax.util.JavaVersion;
 import org.jd.core.v1.util.DefaultList;
 
+/**
+ * Traverse java syntax tree, accumulating types into <code>tokens</code>
+ * attribute.
+ */
 public class TypeVisitor extends AbstractJavaSyntaxVisitor {
 
 	public static final int UNKNOWN_LINE_NUMBER = Printer.UNKNOWN_LINE_NUMBER;
