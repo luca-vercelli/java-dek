@@ -24,7 +24,7 @@ import java.util.List;
 import static org.jd.core.v1.model.classfile.AccessType.*;
 
 /**
- * Create parameters, variables, statements
+ * Add FormalParameters, variables, statements
  */
 public class CreateInstructionsVisitor extends AbstractJavaSyntaxVisitor {
 	protected TypeMaker typeMaker;
@@ -39,7 +39,7 @@ public class CreateInstructionsVisitor extends AbstractJavaSyntaxVisitor {
 	}
 
 	/**
-	 * Create parameters, variables, statements
+	 * Add FormalParameters, variables, statements
 	 */
 	@Override
 	public void visit(BodyDeclaration declaration) {
@@ -49,6 +49,8 @@ public class CreateInstructionsVisitor extends AbstractJavaSyntaxVisitor {
 		List<ClassFileConstructorOrMethodDeclaration> methods = bodyDeclaration.getMethodDeclarations();
 
 		if (methods != null) {
+			
+			// Synthetic and Bridge methods first
 			for (ClassFileConstructorOrMethodDeclaration method : methods) {
 				if ((method.getFlags() & (ACC_SYNTHETIC | ACC_BRIDGE)) != 0) {
 					method.accept(this);
@@ -80,6 +82,7 @@ public class CreateInstructionsVisitor extends AbstractJavaSyntaxVisitor {
 				}
 			}
 
+			// Then, all other methods
 			for (ClassFileConstructorOrMethodDeclaration method : methods) {
 				if ((method.getFlags() & (ACC_SYNTHETIC | ACC_BRIDGE)) == 0) {
 					method.accept(this);
