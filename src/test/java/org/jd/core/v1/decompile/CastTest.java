@@ -84,11 +84,9 @@ public class CastTest {
 
 	static class GenericParameterMethod {
 		static void use(Integer i) {
-			System.out.println("use(Integer)");
 		}
 
 		static <T> void use(T t) {
-			System.out.println("use(T)");
 		}
 
 		public static void main(String... args) {
@@ -104,8 +102,7 @@ public class CastTest {
 		String internalClassName = GenericParameterMethod.class.getName().replace('.', '/');
 		String source = decompiler.decompile(internalClassName);
 
-		// assertTrue(source.matches(PatternMaker.make(": 97 */", "use((Object) 1);")));
-		// assertMatch(source, "use((Object) 1);", 96);
+		assertMatch(source, "use((Object) 1);", 96);
 
 		// Recompile decompiled source code and check errors
 		assertTrue(CompilerUtil.compile("1.8", new JavaSourceFileObject(internalClassName, source)));
