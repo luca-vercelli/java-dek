@@ -102,7 +102,8 @@ public class CastTest {
 		String internalClassName = GenericParameterMethod.class.getName().replace('.', '/');
 		String source = decompiler.decompile(internalClassName);
 
-		assertMatch(source, "use((Object) 1);", 96);
+		assertMatch(source, "use(1);", 93);
+		assertMatch(source, "use((Object) 1);", 94);
 
 		// Recompile decompiled source code and check errors
 		assertTrue(CompilerUtil.compile("1.8", new JavaSourceFileObject(internalClassName, source)));
