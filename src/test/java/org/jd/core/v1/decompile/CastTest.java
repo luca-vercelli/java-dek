@@ -90,8 +90,8 @@ public class CastTest {
 		}
 
 		public static void main(String... args) {
-			use(1);
-			use((Object) 1); // Calls use(T)
+			use(1);                // call use(Integer)
+			use((Object) 1);       // call use(T)
 		}
 	}
 

@@ -9,10 +9,10 @@ package org.jd.core.v1;
 
 import junit.framework.TestCase;
 
-import org.jd.core.v1.impl.loader.ClassPathLoader;
 import org.jd.core.v1.model.javasyntax.type.*;
 import org.jd.core.v1.service.converter.classfiletojavasyntax.util.TypeMaker;
 import org.jd.core.v1.service.converter.classfiletojavasyntax.visitor.PopulateBindingsWithTypeArgumentVisitor;
+import org.jd.core.v1.service.loader.ClassPathLoader;
 import org.junit.Test;
 
 import java.util.Arrays;

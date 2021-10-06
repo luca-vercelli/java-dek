@@ -7,7 +7,7 @@
 
 package org.jd.core.v1.service.deserializer.classfile;
 
-import static org.jd.core.v1.model.classfile.AccessType.*;
+import static org.jd.core.v1.model.classfile.AccessType.ACC_SYNTHETIC;
 
 import java.io.IOException;
 import java.io.UTFDataFormatException;
@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.jd.core.v1.api.Loader;
+import org.jd.core.v1.api.Processor;
 import org.jd.core.v1.model.classfile.ClassFile;
 import org.jd.core.v1.model.classfile.ConstantPool;
 import org.jd.core.v1.model.classfile.Field;
@@ -73,6 +74,7 @@ import org.jd.core.v1.model.classfile.constant.ConstantPoolTag;
 import org.jd.core.v1.model.classfile.constant.ConstantString;
 import org.jd.core.v1.model.classfile.constant.ConstantUtf8;
 import org.jd.core.v1.model.classfile.constant.ConstantValue;
+import org.jd.core.v1.model.message.Message;
 import org.jd.core.v1.util.DefaultList;
 
 /**
@@ -80,7 +82,7 @@ import org.jd.core.v1.util.DefaultList;
  * 
  * Lower level methods are in ClassFileReader.
  */
-public class ClassFileDeserializer {
+public class ClassFileDeserializer implements Processor {
 	protected static final int[] EMPTY_INT_ARRAY = new int[0];
 
 	public ClassFile loadClassFile(Loader loader, String internalTypeName) throws IOException {
@@ -320,10 +322,10 @@ public class ClassFileDeserializer {
 				AttributeType type;
 				try {
 					type = AttributeType.valueOf(name);
-				} catch(IllegalStateException exc) {
+				} catch (IllegalStateException exc) {
 					type = null;
 				}
-				
+
 				switch (type) {
 				case AnnotationDefault:
 					attributes.put(name, new AttributeAnnotationDefault(loadElementValue(reader, constants)));
@@ -763,5 +765,31 @@ public class ClassFileDeserializer {
 		}
 
 		return parameterAnnotations;
+	}
+
+	/**
+	 * Create a ClassFile model from a loader and a internal type name
+	 * 
+	 * @throws IOException
+	 */
+	@Override
+	public void process(Message message) throws IOException {
+		Loader loader = message.getLoader();
+		String internalTypeName = message.getMainInternalTypeName();
+		ClassFile classFile = loadClassFile(loader, internalTypeName);
+
+		message.setClassFile(classFile);
+	}
+
+	private static ClassFileDeserializer instance = null;
+
+	/**
+	 * Get Singleton instance
+	 */
+	public static ClassFileDeserializer getInstance() {
+		if (instance == null) {
+			instance = new ClassFileDeserializer();
+		}
+		return instance;
 	}
 }

@@ -17,9 +17,9 @@ import org.jd.core.v1.TestDecompiler;
 import org.jd.core.v1.api.Loader;
 import org.jd.core.v1.compiler.CompilerUtil;
 import org.jd.core.v1.compiler.JavaSourceFileObject;
-import org.jd.core.v1.impl.loader.ZipLoader;
-import org.jd.core.v1.impl.printer.PlainTextPrinter;
 import org.jd.core.v1.regex.PatternMaker;
+import org.jd.core.v1.service.loader.ZipLoader;
+import org.jd.core.v1.service.printer.PlainTextPrinter;
 import org.junit.Test;
 
 public class JavaAssertTest {

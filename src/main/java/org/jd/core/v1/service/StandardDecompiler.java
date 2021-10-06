@@ -5,7 +5,7 @@
  * copy and modify the code freely for non-commercial purposes.
  */
 
-package org.jd.core.v1.impl;
+package org.jd.core.v1.service;
 
 import java.io.IOException;
 import java.util.Map;
@@ -15,7 +15,7 @@ import org.jd.core.v1.api.Loader;
 import org.jd.core.v1.api.Printer;
 import org.jd.core.v1.model.message.Message;
 import org.jd.core.v1.service.converter.classfiletojavasyntax.processor.ConvertClassFileProcessor;
-import org.jd.core.v1.service.deserializer.classfile.DeserializeClassFileProcessor;
+import org.jd.core.v1.service.deserializer.classfile.ClassFileDeserializer;
 import org.jd.core.v1.service.fragmenter.javasyntaxtojavafragment.JavaSyntaxToJavaFragmentProcessor;
 import org.jd.core.v1.service.layouter.LayoutFragmentProcessor;
 import org.jd.core.v1.service.tokenizer.javafragmenttotoken.JavaFragmentToTokenProcessor;
@@ -25,7 +25,7 @@ import org.jd.core.v1.service.writer.WriteTokenProcessor;
  * This is the main Decompiler implementation
  */
 public class StandardDecompiler implements Decompiler {
-	protected DeserializeClassFileProcessor deserializer = DeserializeClassFileProcessor.getInstance();
+	protected ClassFileDeserializer deserializer = ClassFileDeserializer.getInstance();
 	protected ConvertClassFileProcessor converter = ConvertClassFileProcessor.getInstance();
 	protected JavaSyntaxToJavaFragmentProcessor fragmenter = JavaSyntaxToJavaFragmentProcessor.getInstance();
 	protected LayoutFragmentProcessor layouter = LayoutFragmentProcessor.getInstance();
@@ -58,10 +58,10 @@ public class StandardDecompiler implements Decompiler {
 		this.deserializer.process(message);
 		this.converter.process(message);
 		this.fragmenter.process(message);
-		
-		// Maybe you want to debug this: 
+
+		// Maybe you want to debug this:
 		// ((ClassFileClassDeclaration)message.getCompilationUnit().getTypeDeclarations()).getBodyDeclaration().getMemberDeclarations()
-		
+
 		this.layouter.process(message);
 		this.tokenizer.process(message);
 		this.writer.process(message);

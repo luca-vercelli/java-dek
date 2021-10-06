@@ -14,7 +14,6 @@ import static org.junit.Assert.fail;
 import java.io.InputStream;
 
 import org.jd.core.v1.api.Loader;
-import org.jd.core.v1.impl.loader.ZipLoader;
 import org.jd.core.v1.model.classfile.ClassFile;
 import org.jd.core.v1.model.classfile.Field;
 import org.jd.core.v1.model.classfile.attribute.Annotations;
@@ -24,7 +23,7 @@ import org.jd.core.v1.model.classfile.constant.ConstantInteger;
 import org.jd.core.v1.model.classfile.constant.ConstantUtf8;
 import org.jd.core.v1.model.message.Message;
 import org.jd.core.v1.service.deserializer.classfile.ClassFileDeserializer;
-import org.jd.core.v1.service.deserializer.classfile.DeserializeClassFileProcessor;
+import org.jd.core.v1.service.loader.ZipLoader;
 import org.junit.Test;
 
 public class ClassFileDeserializerTest {
@@ -57,7 +56,7 @@ public class ClassFileDeserializerTest {
 	public void testAnnotatedClass() throws Exception {
 		InputStream is = this.getClass().getResourceAsStream("/zip/data-java-jdk-1.7.0.zip");
 		ZipLoader loader = new ZipLoader(is);
-		DeserializeClassFileProcessor deserializer = DeserializeClassFileProcessor.getInstance();
+		ClassFileDeserializer deserializer = ClassFileDeserializer.getInstance();
 
 		Message message = new Message();
 		message.setLoader(loader);

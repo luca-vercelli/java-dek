@@ -5,7 +5,7 @@
  * copy and modify the code freely for non-commercial purposes.
  */
 
-package org.jd.core.v1.impl.loader;
+package org.jd.core.v1.service.loader;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

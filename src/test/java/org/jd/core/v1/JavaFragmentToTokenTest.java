@@ -15,8 +15,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import org.jd.core.v1.impl.printer.PlainTextMetaPrinter;
-import org.jd.core.v1.impl.printer.PlainTextPrinter;
 import org.jd.core.v1.model.javafragment.EndMovableJavaBlockFragment;
 import org.jd.core.v1.model.javafragment.ImportsFragment;
 import org.jd.core.v1.model.javafragment.JavaFragment;
@@ -40,6 +38,8 @@ import org.jd.core.v1.model.token.Token;
 import org.jd.core.v1.regex.PatternMaker;
 import org.jd.core.v1.service.fragmenter.javasyntaxtojavafragment.util.JavaFragmentFactory;
 import org.jd.core.v1.service.layouter.LayoutFragmentProcessor;
+import org.jd.core.v1.service.printer.PlainTextMetaPrinter;
+import org.jd.core.v1.service.printer.PlainTextPrinter;
 import org.jd.core.v1.service.writer.WriteTokenProcessor;
 import org.jd.core.v1.services.tokenizer.javafragmenttotoken.TestJavaFragmentToTokenProcessor;
 import org.jd.core.v1.util.DefaultList;

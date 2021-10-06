@@ -13,8 +13,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
 
-import org.jd.core.v1.impl.loader.NopLoader;
-import org.jd.core.v1.impl.printer.PlainTextMetaPrinter;
 import org.jd.core.v1.model.javasyntax.CompilationUnit;
 import org.jd.core.v1.model.javasyntax.declaration.BodyDeclaration;
 import org.jd.core.v1.model.javasyntax.declaration.ClassDeclaration;
@@ -61,6 +59,8 @@ import org.jd.core.v1.model.message.Message;
 import org.jd.core.v1.service.converter.classfiletojavasyntax.util.JavaVersion;
 import org.jd.core.v1.service.fragmenter.javasyntaxtojavafragment.JavaSyntaxToJavaFragmentProcessor;
 import org.jd.core.v1.service.layouter.LayoutFragmentProcessor;
+import org.jd.core.v1.service.loader.NopLoader;
+import org.jd.core.v1.service.printer.PlainTextMetaPrinter;
 import org.jd.core.v1.service.tokenizer.javafragmenttotoken.JavaFragmentToTokenProcessor;
 import org.jd.core.v1.service.writer.WriteTokenProcessor;
 import org.junit.Test;

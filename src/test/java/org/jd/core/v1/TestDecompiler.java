@@ -7,10 +7,10 @@ import java.util.Map;
 
 import org.jd.core.v1.api.Loader;
 import org.jd.core.v1.api.Printer;
-import org.jd.core.v1.impl.StandardDecompiler;
-import org.jd.core.v1.impl.loader.ClassPathLoader;
-import org.jd.core.v1.impl.printer.PlainTextPrinter;
 import org.jd.core.v1.model.message.Message;
+import org.jd.core.v1.service.StandardDecompiler;
+import org.jd.core.v1.service.loader.ClassPathLoader;
+import org.jd.core.v1.service.printer.PlainTextPrinter;
 
 /**
  * Similar to StandardDecompiler, with output to stdout

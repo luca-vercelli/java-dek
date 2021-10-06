@@ -11,14 +11,14 @@ import java.io.InputStream;
 import java.util.Collections;
 import java.util.Map;
 
-import org.jd.core.v1.impl.loader.ZipLoader;
-import org.jd.core.v1.impl.printer.PlainTextPrinter;
 import org.jd.core.v1.model.message.Message;
 import org.jd.core.v1.regex.PatternMaker;
 import org.jd.core.v1.service.converter.classfiletojavasyntax.processor.ConvertClassFileProcessor;
-import org.jd.core.v1.service.deserializer.classfile.DeserializeClassFileProcessor;
+import org.jd.core.v1.service.deserializer.classfile.ClassFileDeserializer;
 import org.jd.core.v1.service.fragmenter.javasyntaxtojavafragment.JavaSyntaxToJavaFragmentProcessor;
 import org.jd.core.v1.service.layouter.LayoutFragmentProcessor;
+import org.jd.core.v1.service.loader.ZipLoader;
+import org.jd.core.v1.service.printer.PlainTextPrinter;
 import org.jd.core.v1.service.tokenizer.javafragmenttotoken.JavaFragmentToTokenProcessor;
 import org.jd.core.v1.service.writer.WriteTokenProcessor;
 import org.jd.core.v1.services.tokenizer.javafragmenttotoken.TestJavaFragmentToTokenProcessor;
@@ -27,7 +27,7 @@ import org.junit.Test;
 import junit.framework.TestCase;
 
 public class LayoutFragmentProcessorTest extends TestCase {
-	protected DeserializeClassFileProcessor deserializer = DeserializeClassFileProcessor.getInstance();
+	protected ClassFileDeserializer deserializer = ClassFileDeserializer.getInstance();
 	protected ConvertClassFileProcessor converter = ConvertClassFileProcessor.getInstance();
 	protected JavaSyntaxToJavaFragmentProcessor fragmenter = JavaSyntaxToJavaFragmentProcessor.getInstance();
 	protected LayoutFragmentProcessor layouter = LayoutFragmentProcessor.getInstance();

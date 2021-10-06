@@ -15,9 +15,9 @@ import java.util.stream.Collectors;
 import org.jd.core.v1.api.Decompiler;
 import org.jd.core.v1.api.Loader;
 import org.jd.core.v1.api.Printer;
-import org.jd.core.v1.impl.StandardDecompiler;
-import org.jd.core.v1.impl.loader.DirectoryLoader;
-import org.jd.core.v1.impl.printer.PlainTextPrinter;
+import org.jd.core.v1.service.StandardDecompiler;
+import org.jd.core.v1.service.loader.DirectoryLoader;
+import org.jd.core.v1.service.printer.PlainTextPrinter;
 
 /**
  * CLI application

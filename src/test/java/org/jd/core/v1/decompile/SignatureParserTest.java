@@ -7,23 +7,28 @@
 
 package org.jd.core.v1.decompile;
 
-import junit.framework.TestCase;
+import java.io.InputStream;
 
-import org.jd.core.v1.impl.loader.ClassPathLoader;
-import org.jd.core.v1.impl.loader.ZipLoader;
 import org.jd.core.v1.model.classfile.ClassFile;
-import org.jd.core.v1.model.javasyntax.type.*;
+import org.jd.core.v1.model.javasyntax.type.BaseType;
+import org.jd.core.v1.model.javasyntax.type.InnerObjectType;
+import org.jd.core.v1.model.javasyntax.type.ObjectType;
+import org.jd.core.v1.model.javasyntax.type.PrimitiveType;
+import org.jd.core.v1.model.javasyntax.type.Type;
+import org.jd.core.v1.model.javasyntax.type.TypeArguments;
 import org.jd.core.v1.model.message.Message;
 import org.jd.core.v1.service.converter.classfiletojavasyntax.util.TypeMaker;
-import org.jd.core.v1.service.deserializer.classfile.DeserializeClassFileProcessor;
+import org.jd.core.v1.service.deserializer.classfile.ClassFileDeserializer;
+import org.jd.core.v1.service.loader.ClassPathLoader;
+import org.jd.core.v1.service.loader.ZipLoader;
 import org.jd.core.v1.services.javasyntax.type.visitor.PrintTypeVisitor;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.io.InputStream;
+import junit.framework.TestCase;
 
 public class SignatureParserTest extends TestCase {
-	protected DeserializeClassFileProcessor deserializer = DeserializeClassFileProcessor.getInstance();
+	protected ClassFileDeserializer deserializer = ClassFileDeserializer.getInstance();
 
 	@Test
 	public void testAnnotatedClass() throws Exception {

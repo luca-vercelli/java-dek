@@ -21,13 +21,13 @@ import java.util.List;
 import java.util.PrimitiveIterator;
 
 import org.apache.commons.collections4.iterators.AbstractUntypedIteratorDecorator;
-import org.jd.core.v1.impl.loader.ClassPathLoader;
-import org.jd.core.v1.impl.loader.ZipLoader;
 import org.jd.core.v1.model.javasyntax.type.ObjectType;
 import org.jd.core.v1.model.javasyntax.type.TypeArguments;
 import org.jd.core.v1.model.javasyntax.type.WildcardExtendsTypeArgument;
 import org.jd.core.v1.model.javasyntax.type.WildcardSuperTypeArgument;
 import org.jd.core.v1.service.converter.classfiletojavasyntax.util.TypeMaker;
+import org.jd.core.v1.service.loader.ClassPathLoader;
+import org.jd.core.v1.service.loader.ZipLoader;
 import org.junit.Test;
 
 public class TypeMakerTest {

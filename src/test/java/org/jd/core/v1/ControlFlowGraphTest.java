@@ -57,8 +57,6 @@ import java.util.List;
 
 import org.jd.core.v1.api.Loader;
 import org.jd.core.v1.cfg.ControlFlowGraphPlantUMLWriter;
-import org.jd.core.v1.impl.loader.ClassPathLoader;
-import org.jd.core.v1.impl.loader.ZipLoader;
 import org.jd.core.v1.model.classfile.ClassFile;
 import org.jd.core.v1.model.classfile.Method;
 import org.jd.core.v1.model.javasyntax.CompilationUnit;
@@ -84,11 +82,13 @@ import org.jd.core.v1.service.converter.classfiletojavasyntax.util.ControlFlowGr
 import org.jd.core.v1.service.converter.classfiletojavasyntax.util.ControlFlowGraphReducer;
 import org.jd.core.v1.service.converter.classfiletojavasyntax.util.TypeMaker;
 import org.jd.core.v1.service.converter.classfiletojavasyntax.util.WatchDog;
-import org.jd.core.v1.service.deserializer.classfile.DeserializeClassFileProcessor;
+import org.jd.core.v1.service.deserializer.classfile.ClassFileDeserializer;
+import org.jd.core.v1.service.loader.ClassPathLoader;
+import org.jd.core.v1.service.loader.ZipLoader;
 import org.junit.Test;
 
 public class ControlFlowGraphTest {
-	protected DeserializeClassFileProcessor deserializer = DeserializeClassFileProcessor.getInstance();
+	protected ClassFileDeserializer deserializer = ClassFileDeserializer.getInstance();
 	protected ConvertClassFileProcessor converter = ConvertClassFileProcessor.getInstance();
 	protected ClassPathLoader loader = new ClassPathLoader();
 	protected TypeMaker typeMaker = new TypeMaker(loader);

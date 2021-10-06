@@ -9,7 +9,6 @@ package org.jd.core.v1;
 
 import static org.jd.core.v1.model.token.KeywordToken.*;
 
-import org.jd.core.v1.impl.printer.PlainTextMetaPrinter;
 import org.jd.core.v1.model.message.Message;
 import org.jd.core.v1.model.token.DeclarationToken;
 import org.jd.core.v1.model.token.EndBlockToken;
@@ -22,6 +21,7 @@ import org.jd.core.v1.model.token.StartMarkerToken;
 import org.jd.core.v1.model.token.StringConstantToken;
 import org.jd.core.v1.model.token.TextToken;
 import org.jd.core.v1.model.token.Token;
+import org.jd.core.v1.service.printer.PlainTextMetaPrinter;
 import org.jd.core.v1.service.writer.WriteTokenProcessor;
 import org.jd.core.v1.util.DefaultList;
 import org.junit.Assert;
