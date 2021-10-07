@@ -8,11 +8,18 @@
 package org.jd.core.v1.model.javasyntax.type;
 
 public interface Type extends BaseType, TypeArgument {
-    String getName();
+	String getName();
 
-    String getDescriptor();
+	String getDescriptor();
 
-    int getDimension();
+	int getDimension();
 
-    Type createType(int dimension);
+	/**
+	 * Return a type with same descriptor of this and given dimension. May return
+	 * this.
+	 * 
+	 * @param dimension
+	 * @return
+	 */
+	Type createType(int dimension);
 }

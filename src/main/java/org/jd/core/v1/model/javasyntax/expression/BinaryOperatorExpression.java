@@ -9,6 +9,9 @@ package org.jd.core.v1.model.javasyntax.expression;
 
 import org.jd.core.v1.model.javasyntax.type.Type;
 
+/**
+ * Binary operator (arithmetic, boolean, assignment, ...)
+ */
 public class BinaryOperatorExpression extends AbstractLineNumberTypeExpression {
     protected Expression leftExpression;
     protected String operator;

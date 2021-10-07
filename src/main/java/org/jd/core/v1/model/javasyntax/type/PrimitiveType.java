@@ -92,6 +92,9 @@ public class PrimitiveType implements Type {
         this.descriptor = sb.toString();
     }
 
+    /**
+     * Get Type with given character description (e.g.'B' -> byte)
+     */
     public static PrimitiveType getPrimitiveType(char primitiveDescriptor) {
         return descriptorToType[primitiveDescriptor - 'B'];
     }
