@@ -42,7 +42,7 @@ public class NestedLambdasTest {
 
 		// Check decompiled source code
 		assertMatch(source, "public Function<?, Function<?, ?>> test () {");
-		// assertMatch(source, "Function<?, Function<?, ?>> f = i1 -> i2 -> null;");
+		assertMatch(source, "Function<?, Function<?, ?>> f = i1 -> i2 -> 1;");
 
 		// Recompile decompiled source code and check errors
 		assertTrue(CompilerUtil.compile("1.8", new JavaSourceFileObject(internalClassName, source)));
