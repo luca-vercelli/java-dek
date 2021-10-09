@@ -12,6 +12,11 @@ import org.jd.core.v1.util.DefaultList;
 
 import java.util.HashSet;
 
+/**
+ * Flow graph of bytecode of a single method.
+ * 
+ * The object contains a structure of BasicBlock's.
+ */
 public class ControlFlowGraph {
     protected Method method;
     protected DefaultList<BasicBlock> list = new DefaultList<BasicBlock>() {
