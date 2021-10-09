@@ -1645,6 +1645,9 @@ public class ByteCodeParser {
 				typeName, name1, descriptor1));
 	}
 
+	/**
+	 * Return list of names of formal parameters
+	 */
 	private List<String> prepareLambdaParameterNames(BaseFormalParameter formalParameters, int parameterCount) {
 		if ((formalParameters == null) || (parameterCount == 0)) {
 			return null;
@@ -1663,6 +1666,9 @@ public class ByteCodeParser {
 		}
 	}
 
+	/**
+	 * Return statement that should be put inside LambdaExpression
+	 */
 	private BaseStatement prepareLambdaStatements(BaseFormalParameter formalParameters, BaseExpression indyParameters,
 			BaseStatement baseStatement) {
 		if (baseStatement != null) {
@@ -1670,7 +1676,7 @@ public class ByteCodeParser {
 				int size = indyParameters.size();
 
 				if ((size > 0) && (size <= formalParameters.size())) {
-					HashMap<String, String> mapping = new HashMap<>();
+					Map<String, String> mapping = new HashMap<>();
 					Expression expression = indyParameters.getFirst();
 
 					if (expression.isLocalVariableReferenceExpression()) {
