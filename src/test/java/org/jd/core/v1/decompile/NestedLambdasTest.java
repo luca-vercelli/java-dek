@@ -21,7 +21,7 @@ public class NestedLambdasTest {
 
 	protected TestDecompiler decompiler = new TestDecompiler();
 
-	public static class TestClass {
+	static class TestClass {
 		public Function<?, Function<?, ?>> test() {
 			Function<?, Function<?, ?>> f = i1 -> i2 -> 1;
 			return f;
@@ -34,7 +34,7 @@ public class NestedLambdasTest {
 	}
 
 	@Test
-	// https://github.com/java-decompiler/jd-core/issues/23 // FIXME
+	// https://github.com/java-decompiler/jd-core/issues/23
 	public void testNestedLambdas() throws Exception {
 
 		String internalClassName = TestClass.class.getName().replace('.', '/');
