@@ -7,11 +7,13 @@
 
 package org.jd.core.v1.service.converter.classfiletojavasyntax.util;
 
-import static org.jd.core.v1.model.classfile.AccessType.*;
+import static org.jd.core.v1.model.classfile.AccessType.ACC_STATIC;
+import static org.jd.core.v1.model.classfile.AccessType.ACC_VARARGS;
 
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.jd.core.v1.model.classfile.ClassFile;
 import org.jd.core.v1.model.classfile.Field;
@@ -50,8 +52,8 @@ import org.jd.core.v1.util.DefaultList;
 
 public class LocalVariableMaker {
 	protected LocalVariableSet localVariableSet = new LocalVariableSet();
-	protected HashSet<String> names = new HashSet<>();
-	protected HashSet<String> blackListNames = new HashSet<>();
+	protected Set<String> names = new HashSet<>();
+	protected Set<String> blackListNames = new HashSet<>();
 	protected Frame currentFrame = new RootFrame();
 	protected AbstractLocalVariable[] localVariableCache;
 
@@ -255,7 +257,7 @@ public class LocalVariableMaker {
 
 	protected void initLocalVariablesFromParameterTypes(ClassFile classFile, BaseType parameterTypes, boolean varargs,
 			int firstVariableIndex, int lastParameterIndex) {
-		HashMap<Type, Boolean> typeMap = new HashMap<>();
+		Map<Type, Boolean> typeMap = new HashMap<>();
 		DefaultList<Type> t = parameterTypes.getList();
 
 		for (int parameterIndex = 0; parameterIndex <= lastParameterIndex; parameterIndex++) {

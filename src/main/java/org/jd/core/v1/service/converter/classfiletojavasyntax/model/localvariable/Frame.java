@@ -7,10 +7,53 @@
 
 package org.jd.core.v1.service.converter.classfiletojavasyntax.model.localvariable;
 
-import org.jd.core.v1.model.javasyntax.declaration.*;
-import org.jd.core.v1.model.javasyntax.expression.*;
-import org.jd.core.v1.model.javasyntax.statement.*;
-import org.jd.core.v1.model.javasyntax.type.*;
+import static org.jd.core.v1.model.javasyntax.type.PrimitiveType.FLAG_BOOLEAN;
+import static org.jd.core.v1.model.javasyntax.type.PrimitiveType.FLAG_BYTE;
+import static org.jd.core.v1.model.javasyntax.type.PrimitiveType.FLAG_CHAR;
+import static org.jd.core.v1.model.javasyntax.type.PrimitiveType.FLAG_DOUBLE;
+import static org.jd.core.v1.model.javasyntax.type.PrimitiveType.FLAG_FLOAT;
+import static org.jd.core.v1.model.javasyntax.type.PrimitiveType.FLAG_INT;
+import static org.jd.core.v1.model.javasyntax.type.PrimitiveType.FLAG_LONG;
+import static org.jd.core.v1.model.javasyntax.type.PrimitiveType.FLAG_SHORT;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Map;
+import java.util.Set;
+
+import org.jd.core.v1.model.javasyntax.declaration.ExpressionVariableInitializer;
+import org.jd.core.v1.model.javasyntax.declaration.LocalVariableDeclaration;
+import org.jd.core.v1.model.javasyntax.declaration.LocalVariableDeclarator;
+import org.jd.core.v1.model.javasyntax.declaration.LocalVariableDeclarators;
+import org.jd.core.v1.model.javasyntax.declaration.VariableInitializer;
+import org.jd.core.v1.model.javasyntax.expression.BaseExpression;
+import org.jd.core.v1.model.javasyntax.expression.BinaryOperatorExpression;
+import org.jd.core.v1.model.javasyntax.expression.Expression;
+import org.jd.core.v1.model.javasyntax.expression.Expressions;
+import org.jd.core.v1.model.javasyntax.expression.NewExpression;
+import org.jd.core.v1.model.javasyntax.expression.NewInitializedArray;
+import org.jd.core.v1.model.javasyntax.statement.ExpressionStatement;
+import org.jd.core.v1.model.javasyntax.statement.LocalVariableDeclarationStatement;
+import org.jd.core.v1.model.javasyntax.statement.Statement;
+import org.jd.core.v1.model.javasyntax.statement.Statements;
+import org.jd.core.v1.model.javasyntax.type.BaseType;
+import org.jd.core.v1.model.javasyntax.type.DiamondTypeArgument;
+import org.jd.core.v1.model.javasyntax.type.GenericType;
+import org.jd.core.v1.model.javasyntax.type.InnerObjectType;
+import org.jd.core.v1.model.javasyntax.type.ObjectType;
+import org.jd.core.v1.model.javasyntax.type.PrimitiveType;
+import org.jd.core.v1.model.javasyntax.type.Type;
+import org.jd.core.v1.model.javasyntax.type.TypeArgumentVisitor;
+import org.jd.core.v1.model.javasyntax.type.TypeArguments;
+import org.jd.core.v1.model.javasyntax.type.WildcardExtendsTypeArgument;
+import org.jd.core.v1.model.javasyntax.type.WildcardSuperTypeArgument;
+import org.jd.core.v1.model.javasyntax.type.WildcardTypeArgument;
 import org.jd.core.v1.service.converter.classfiletojavasyntax.model.javasyntax.declaration.ClassFileLocalVariableDeclarator;
 import org.jd.core.v1.service.converter.classfiletojavasyntax.model.javasyntax.expression.ClassFileLocalVariableReferenceExpression;
 import org.jd.core.v1.service.converter.classfiletojavasyntax.model.javasyntax.statement.ClassFileForStatement;
@@ -21,10 +64,6 @@ import org.jd.core.v1.service.converter.classfiletojavasyntax.visitor.CreateLoca
 import org.jd.core.v1.service.converter.classfiletojavasyntax.visitor.SearchLocalVariableVisitor;
 import org.jd.core.v1.service.converter.classfiletojavasyntax.visitor.SearchUndeclaredLocalVariableVisitor;
 import org.jd.core.v1.util.DefaultList;
-
-import java.util.*;
-
-import static org.jd.core.v1.model.javasyntax.type.PrimitiveType.*;
 
 public class Frame {
 	protected static final AbstractLocalVariableComparator ABSTRACT_LOCAL_VARIABLE_COMPARATOR = new AbstractLocalVariableComparator();
@@ -211,9 +250,9 @@ public class Frame {
 		}
 	}
 
-	public void createNames(HashSet<String> parentNames) {
-		HashSet<String> names = new HashSet<>(parentNames);
-		HashMap<Type, Boolean> types = new HashMap<>();
+	public void createNames(Set<String> parentNames) {
+		Set<String> names = new HashSet<>(parentNames);
+		Map<Type, Boolean> types = new HashMap<>();
 		int length = localVariableArray.length;
 
 		for (int i = 0; i < length; i++) {
@@ -916,11 +955,11 @@ public class Frame {
 		protected static final String[] INTEGER_NAMES = { "i", "j", "k", "m", "n" };
 
 		protected StringBuilder sb = new StringBuilder();
-		protected HashSet<String> blackListNames;
-		protected HashMap<Type, Boolean> types;
+		protected Set<String> blackListNames;
+		protected Map<Type, Boolean> types;
 		protected String name;
 
-		public GenerateLocalVariableNameVisitor(HashSet<String> blackListNames, HashMap<Type, Boolean> types) {
+		public GenerateLocalVariableNameVisitor(Set<String> blackListNames, Map<Type, Boolean> types) {
 			this.blackListNames = blackListNames;
 			this.types = types;
 		}

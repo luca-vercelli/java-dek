@@ -7,32 +7,35 @@
 
 package org.jd.core.v1.service.converter.classfiletojavasyntax.visitor;
 
+import java.util.Set;
+
 import org.jd.core.v1.model.javasyntax.type.AbstractNopTypeArgumentVisitor;
 import org.jd.core.v1.model.javasyntax.type.GenericType;
 import org.jd.core.v1.model.javasyntax.type.InnerObjectType;
 import org.jd.core.v1.model.javasyntax.type.ObjectType;
 
-import java.util.HashSet;
-
+/**
+ * Populate internal <code>blackListNames</code> with names of types visited
+ */
 public class PopulateBlackListNamesVisitor extends AbstractNopTypeArgumentVisitor {
-    protected HashSet<String> blackListNames;
+	protected Set<String> blackListNames;
 
-    public PopulateBlackListNamesVisitor(HashSet<String> blackListNames) {
-        this.blackListNames = blackListNames;
-    }
+	public PopulateBlackListNamesVisitor(Set<String> blackListNames) {
+		this.blackListNames = blackListNames;
+	}
 
-    @Override
-    public void visit(ObjectType type) {
-        blackListNames.add(type.getName());
-    }
+	@Override
+	public void visit(ObjectType type) {
+		blackListNames.add(type.getName());
+	}
 
-    @Override
-    public void visit(InnerObjectType type) {
-        blackListNames.add(type.getName());
-    }
+	@Override
+	public void visit(InnerObjectType type) {
+		blackListNames.add(type.getName());
+	}
 
-    @Override
-    public void visit(GenericType type) {
-        blackListNames.add(type.getName());
-    }
+	@Override
+	public void visit(GenericType type) {
+		blackListNames.add(type.getName());
+	}
 }

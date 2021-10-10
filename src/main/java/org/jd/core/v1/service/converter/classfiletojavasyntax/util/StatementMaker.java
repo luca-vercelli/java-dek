@@ -78,6 +78,9 @@ public class StatementMaker {
 		this.updateIntegerConstantTypeVisitor = new UpdateIntegerConstantTypeVisitor(comd.getReturnedType());
 	}
 
+	/**
+	 * Create Statement(s) from a given ControlFlowGraph
+	 */
 	public Statements make(ControlFlowGraph cfg) {
 		Statements statements = new Statements();
 		Statements jumps = new Statements();
