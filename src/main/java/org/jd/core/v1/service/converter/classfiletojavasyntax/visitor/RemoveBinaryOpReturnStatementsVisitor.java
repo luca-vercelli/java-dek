@@ -16,6 +16,11 @@ import org.jd.core.v1.model.javasyntax.statement.Statements;
 import org.jd.core.v1.service.converter.classfiletojavasyntax.model.javasyntax.expression.ClassFileLocalVariableReferenceExpression;
 import org.jd.core.v1.service.converter.classfiletojavasyntax.util.LocalVariableMaker;
 
+/**
+ * Replace pattern "local_var_2 = ...; return local_var_2;" with "return ...;"
+ * 
+ * Local variable could be synthetic
+ */
 public class RemoveBinaryOpReturnStatementsVisitor extends AbstractJavaSyntaxVisitor {
 	protected LocalVariableMaker localVariableMaker;
 
@@ -26,7 +31,6 @@ public class RemoveBinaryOpReturnStatementsVisitor extends AbstractJavaSyntaxVis
 	@Override
 	public void visit(Statements statements) {
 		if (statements.size() > 1) {
-			// Replace pattern "local_var_2 = ...; return local_var_2;" with "return ...;"
 			Statement lastStatement = statements.getLast();
 
 			if (lastStatement.isReturnExpressionStatement()

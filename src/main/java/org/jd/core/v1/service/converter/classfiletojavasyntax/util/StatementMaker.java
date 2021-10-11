@@ -1056,6 +1056,10 @@ public class StatementMaker {
 		}
 	}
 
+	/**
+	 * Search for member (field or method) with given name, and store the result in
+	 * <code>found</code> field.
+	 */
 	protected static class MemberVisitor extends AbstractJavaSyntaxVisitor {
 		protected String name;
 		protected boolean found;

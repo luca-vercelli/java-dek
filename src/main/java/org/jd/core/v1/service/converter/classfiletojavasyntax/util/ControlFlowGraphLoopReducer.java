@@ -131,10 +131,10 @@ public class ControlFlowGraphLoopReducer {
 				BitSet startDominatorIndexes = arrayOfDominatorIndexes[i];
 
 				if ((start.getType() == TYPE_TRY_DECLARATION) && (maxOffset != start.getFromOffset())
-						&& (maxOffset < start.getExceptionHandlers().getFirst().getBasicBlock().getFromOffset())) {
+						&& (maxOffset < start.getExceptionHandlers().get(0).getBasicBlock().getFromOffset())) {
 					// 'try' statement outside the loop
 					BasicBlock newStart = start.getNext();
-					HashSet<BasicBlock> newStartPredecessors = newStart.getPredecessors();
+					Set<BasicBlock> newStartPredecessors = newStart.getPredecessors();
 
 					// Loop in 'try' statement
 					Iterator<BasicBlock> iterator = start.getPredecessors().iterator();
@@ -421,7 +421,7 @@ public class ControlFlowGraphLoopReducer {
 	private static int checkSynchronizedBlockOffset(BasicBlock basicBlock) {
 		if ((basicBlock.getNext().getType() == TYPE_TRY_DECLARATION)
 				&& (ByteCodeUtil.getLastOpcode(basicBlock) == 194)) { // MONITORENTER
-			return checkThrowBlockOffset(basicBlock.getNext().getExceptionHandlers().getFirst().getBasicBlock());
+			return checkThrowBlockOffset(basicBlock.getNext().getExceptionHandlers().get(0).getBasicBlock());
 		}
 
 		return basicBlock.getFromOffset();
