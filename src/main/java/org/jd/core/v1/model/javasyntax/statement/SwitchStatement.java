@@ -45,6 +45,11 @@ public class SwitchStatement implements Statement {
 		visitor.visit(this);
 	}
 
+	@Override
+	public String toString() {
+		return "SwitchStatement(" + condition + ")";
+	}
+
 	// --- Label --- //
 	public interface Label extends Statement {
 	}

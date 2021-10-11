@@ -36,4 +36,9 @@ public class DoWhileStatement implements Statement {
 	public void accept(StatementVisitor visitor) {
 		visitor.visit(this);
 	}
+
+	@Override
+	public String toString() {
+		return "DoWhileStatement(" + condition + ")" + statements;
+	}
 }

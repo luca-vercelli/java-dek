@@ -47,7 +47,7 @@ public class ClassFileTryStatement extends TryStatement {
     public boolean isEclipse() {
         return eclipse;
     }
-
+	
     public static class CatchClause extends TryStatement.CatchClause {
         protected AbstractLocalVariable localVariable;
 
