@@ -16,7 +16,10 @@ import static org.jd.core.v1.model.javasyntax.expression.Expression.UNKNOWN_LINE
 import static org.jd.core.v1.model.javasyntax.expression.NoExpression.NO_EXPRESSION;
 import static org.jd.core.v1.model.javasyntax.statement.NoStatement.NO_STATEMENT;
 
+import java.util.List;
+
 public interface BaseStatement extends Base<Statement> {
+	
 	void accept(StatementVisitor visitor);
 
 	default boolean isBreakStatement() {
@@ -135,7 +138,7 @@ public interface BaseStatement extends Base<Statement> {
 		return NO_EXPRESSION;
 	}
 
-	default DefaultList<TryStatement.CatchClause> getCatchClauses() {
+	default List<TryStatement.CatchClause> getCatchClauses() {
 		return DefaultList.emptyList();
 	}
 

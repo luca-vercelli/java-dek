@@ -7,31 +7,33 @@
 
 package org.jd.core.v1.model.javasyntax.statement;
 
+import java.util.List;
+
 import org.jd.core.v1.model.javasyntax.expression.Expression;
 import org.jd.core.v1.model.javasyntax.type.ObjectType;
 import org.jd.core.v1.util.DefaultList;
 
 public class TryStatement implements Statement {
-    protected DefaultList<Resource> resources;
+    protected List<Resource> resources;
     protected BaseStatement tryStatements;
-    protected DefaultList<CatchClause> catchClauses;
+    protected List<CatchClause> catchClauses;
     protected BaseStatement finallyStatements;
 
-    public TryStatement(BaseStatement tryStatements, DefaultList<CatchClause> catchClauses, BaseStatement finallyStatements) {
+    public TryStatement(BaseStatement tryStatements, List<CatchClause> catchClauses, BaseStatement finallyStatements) {
         this.resources = null;
         this.tryStatements = tryStatements;
         this.catchClauses = catchClauses;
         this.finallyStatements = finallyStatements;
     }
 
-    public TryStatement(DefaultList<Resource> resources, BaseStatement tryStatements, DefaultList<CatchClause> catchClauses, BaseStatement finallyStatements) {
+    public TryStatement(List<Resource> resources, BaseStatement tryStatements, List<CatchClause> catchClauses, BaseStatement finallyStatements) {
         this.resources = resources;
         this.tryStatements = tryStatements;
         this.catchClauses = catchClauses;
         this.finallyStatements = finallyStatements;
     }
 
-    public DefaultList<Resource> getResources() {
+    public List<Resource> getResources() {
         return resources;
     }
 
@@ -45,7 +47,7 @@ public class TryStatement implements Statement {
     }
 
     @Override
-    public DefaultList<CatchClause> getCatchClauses() {
+    public List<CatchClause> getCatchClauses() {
         return catchClauses;
     }
 

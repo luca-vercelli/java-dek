@@ -1044,6 +1044,9 @@ public class StatementMaker {
 		}
 	}
 
+	/**
+	 * Compare two SwitchCase first by offset, then by value
+	 */
 	protected static class SwitchCaseComparator implements Comparator<SwitchCase> {
 		@Override
 		public int compare(SwitchCase sc1, SwitchCase sc2) {
