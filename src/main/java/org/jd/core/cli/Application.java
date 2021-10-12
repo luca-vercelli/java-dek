@@ -1,4 +1,4 @@
-package org.jd.core.v1.cli;
+package org.jd.core.cli;
 
 import java.io.File;
 import java.io.FileInputStream;
