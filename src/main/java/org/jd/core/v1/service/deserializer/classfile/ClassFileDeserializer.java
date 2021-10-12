@@ -308,7 +308,7 @@ public class ClassFileDeserializer implements Processor {
 		if (count == 0)
 			return null;
 
-		HashMap<String, Attribute> attributes = new HashMap<>();
+		Map<String, Attribute> attributes = new HashMap<>();
 
 		for (int i = 0; i < count; i++) {
 			int attributeNameIndex = reader.readUnsignedShort();
@@ -322,7 +322,7 @@ public class ClassFileDeserializer implements Processor {
 				AttributeType type;
 				try {
 					type = AttributeType.valueOf(name);
-				} catch (IllegalStateException exc) {
+				} catch (IllegalArgumentException exc) {
 					type = null;
 				}
 
