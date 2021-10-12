@@ -160,6 +160,13 @@ public class ByteCodeParser {
 		}
 	}
 
+	/**
+	 * Create statements from bytecode contained in <code>basicBlock.cfg.method</code>.
+	 *
+	 * @param basicBlock
+	 * @param statements new statements are added to this list
+	 * @param stack
+	 */
 	public void parse(BasicBlock basicBlock, Statements statements, DefaultStack<Expression> stack) {
 		ControlFlowGraph cfg = basicBlock.getControlFlowGraph();
 		int fromOffset = basicBlock.getFromOffset();

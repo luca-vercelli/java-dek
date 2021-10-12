@@ -41,6 +41,11 @@ public class WatchDog {
 			links.add(link);
 		}
 	}
+	
+	@Override
+	public String toString() {
+		return "WatchDog " + links;
+	}
 
 	protected static class Link {
 		protected int parentIndex;
@@ -61,6 +66,11 @@ public class WatchDog {
 			Link other = (Link) o;
 
 			return (parentIndex == other.parentIndex) && (childIndex == other.childIndex);
+		}
+		
+		@Override
+		public String toString() {
+			return "Link (" + parentIndex + "," + childIndex + ")";
 		}
 	}
 }
