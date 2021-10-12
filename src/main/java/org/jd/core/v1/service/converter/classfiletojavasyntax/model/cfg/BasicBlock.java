@@ -14,6 +14,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * A block of code
+ */
 public class BasicBlock {
     public static final int TYPE_DELETED                         = 0;
     public static final int TYPE_START                           = (1 << 0);

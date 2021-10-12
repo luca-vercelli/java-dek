@@ -46,7 +46,7 @@ public class ClassFileLocalVariableDeclarator extends LocalVariableDeclarator im
 
 	@Override
 	public String toString() {
-		return "ClassFileLocalVariableDeclarator(" + localVariable.getName() + "[" + dimension + "] = "
-				+ variableInitializer + ")";
+		String dim = (dimension > 0) ? "[" + dimension + "]" : "";
+		return "ClassFileLocalVariableDeclarator(" + localVariable.getName() + dim + " = " + variableInitializer + ")";
 	}
 }

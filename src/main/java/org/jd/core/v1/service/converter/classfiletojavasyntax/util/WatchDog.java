@@ -10,14 +10,26 @@ package org.jd.core.v1.service.converter.classfiletojavasyntax.util;
 import org.jd.core.v1.service.converter.classfiletojavasyntax.model.cfg.BasicBlock;
 
 import java.util.HashSet;
+import java.util.Set;
 
+/**
+ * Maintain a set of parent-child blocks
+ */
 public class WatchDog {
-	protected HashSet<Link> links = new HashSet<>();
+	protected Set<Link> links = new HashSet<>();
 
 	public void clear() {
 		links.clear();
 	}
 
+	/**
+	 * Add a new link with given parent-child blocks, and throws an Exception if
+	 * given link is already present
+	 * 
+	 * @param parent
+	 * @param child
+	 * @throws RuntimeException if links already contains given link
+	 */
 	public void check(BasicBlock parent, BasicBlock child) {
 		if (!child.matchType(BasicBlock.GROUP_END)) {
 			Link link = new Link(parent, child);

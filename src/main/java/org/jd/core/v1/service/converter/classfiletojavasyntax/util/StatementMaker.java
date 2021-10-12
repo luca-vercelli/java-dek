@@ -404,7 +404,7 @@ public class StatementMaker {
 	protected void parseTry(WatchDog watchdog, BasicBlock basicBlock, Statements statements, Statements jumps,
 			boolean jsr, boolean eclipse) {
 		Statements tryStatements;
-		DefaultList<TryStatement.CatchClause> catchClauses = new DefaultList<>();
+		List<TryStatement.CatchClause> catchClauses = new DefaultList<>();
 		Statements finallyStatements = null;
 		int assertStackSize = stack.size();
 
