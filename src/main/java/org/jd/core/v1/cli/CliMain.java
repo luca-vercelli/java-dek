@@ -21,7 +21,7 @@ public class CliMain {
 		o.println("Usage:");
 		o.println("  java org.jd.core.v1.cli [-h |-v| [options] <paths>]");
 		o.println("Decompile .class files. Allowed paths include: a single .class file,");
-		o.println("a single .jar/.war/.ear/.zip file, a root classes folder.");
+		o.println("a single .jar/.war/.zip file, a root classes folder.");
 		o.println();
 		o.println("Actions:");
 		o.println("    -h | --help                  print this help message then exit");

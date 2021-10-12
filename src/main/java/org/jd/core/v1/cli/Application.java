@@ -193,7 +193,13 @@ public class Application {
 				destination = source.getParentFile();
 			}
 		} else if (fileNameLowercase.endsWith(".jar") || fileNameLowercase.endsWith(".zip")
-				|| fileNameLowercase.endsWith(".war") || fileNameLowercase.endsWith(".ear")) {
+				|| fileNameLowercase.endsWith(".war")) {
+			fileType = TYPE_ZIP;
+			if (destination == null) {
+				destination = source.getParentFile();
+			}
+		} else if (fileNameLowercase.endsWith(".ear")) {
+			System.err.println("Warning, an EAR unlikely contains classes to decompile:" + src);
 			fileType = TYPE_ZIP;
 			if (destination == null) {
 				destination = source.getParentFile();
