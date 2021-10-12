@@ -93,31 +93,47 @@ public class BasicBlock {
     protected List<SwitchCase> switchCases = EMPTY_SWITCH_CASES;
     protected Set<BasicBlock> predecessors;
 
-    public BasicBlock(ControlFlowGraph controlFlowGraph, int index, BasicBlock original) {
-        this(controlFlowGraph, index, original, new HashSet<>());
-    }
+	/**
+	 * Create a BasicBlock with same features of <code>original</code>
+	 * 
+	 * @param controlFlowGraph
+	 * @param index            index in controlFlowGraph.list
+	 * @param original
+	 */
+	public BasicBlock(ControlFlowGraph controlFlowGraph, int index, BasicBlock original) {
+		this(controlFlowGraph, index, original, new HashSet<>());
+	}
 
-    public BasicBlock(ControlFlowGraph controlFlowGraph, int index, BasicBlock original, Set<BasicBlock> predecessors) {
-        this.controlFlowGraph = controlFlowGraph;
-        this.index = index;
-        this.type = original.type;
-        this.fromOffset = original.fromOffset;
-        this.toOffset = original.toOffset;
-        this.next = original.next;
-        this.branch = original.branch;
-        this.condition = original.condition;
-        this.inverseCondition = original.inverseCondition;
-        this.sub1 = original.sub1;
-        this.sub2 = original.sub2;
-        this.exceptionHandlers = original.exceptionHandlers;
-        this.switchCases = original.switchCases;
-        this.predecessors = predecessors;
-    }
+	/**
+	 * Create a BasicBlock with same features of <code>original</code>
+	 * 
+	 * @param controlFlowGraph
+	 * @param index            index in controlFlowGraph.list
+	 * @param original
+	 * @param predecessors
+	 */
+	public BasicBlock(ControlFlowGraph controlFlowGraph, int index, BasicBlock original, Set<BasicBlock> predecessors) {
+		this.controlFlowGraph = controlFlowGraph;
+		this.index = index;
+		this.type = original.type;
+		this.fromOffset = original.fromOffset;
+		this.toOffset = original.toOffset;
+		this.next = original.next;
+		this.branch = original.branch;
+		this.condition = original.condition;
+		this.inverseCondition = original.inverseCondition;
+		this.sub1 = original.sub1;
+		this.sub2 = original.sub2;
+		this.exceptionHandlers = original.exceptionHandlers;
+		this.switchCases = original.switchCases;
+		this.predecessors = predecessors;
+	}
 
     public BasicBlock(ControlFlowGraph controlFlowGraph, int index, int type, int fromOffset, int toOffset, boolean inverseCondition) {
         this(controlFlowGraph, index, type, fromOffset, toOffset, inverseCondition, new HashSet<>());
     }
 
+    
     public BasicBlock(ControlFlowGraph controlFlowGraph, int index, int type, int fromOffset, int toOffset, boolean inverseCondition, Set<BasicBlock> predecessors) {
         this.controlFlowGraph = controlFlowGraph;
         this.index = index;
@@ -165,9 +181,9 @@ public class BasicBlock {
         return controlFlowGraph.getLineNumber(this.fromOffset);
     }
 
-    public int getLastLineNumber() {
-        return controlFlowGraph.getLineNumber(this.toOffset-1);
-    }
+	public int getLastLineNumber() {
+		return controlFlowGraph.getLineNumber(this.toOffset - 1);
+	}
 
     public BasicBlock getNext() {
         return next;
@@ -233,6 +249,10 @@ public class BasicBlock {
         this.inverseCondition = inverseCondition;
     }
 
+	/**
+	 * Return true if given block is somehow related to this block (in next, branch,
+	 * exceptionHandlers, switchCases, sub1 or sub2).
+	 */
     public boolean contains(BasicBlock basicBlock) {
         if (next == basicBlock)
             return true;
@@ -259,6 +279,10 @@ public class BasicBlock {
         return false;
     }
 
+	/**
+	 * Replace given block with a new one, wherever inside this block (in next,
+	 * branch, exceptionHandlers, switchCases, sub1, sub2, predecessors).
+	 */
     public void replace(BasicBlock old, BasicBlock nevv) {
         if (next == old)
             next = nevv;
@@ -287,6 +311,10 @@ public class BasicBlock {
         }
     }
 
+	/**
+	 * Replace all given blocks with a new one, wherever inside this block (in next,
+	 * branch, exceptionHandlers, switchCases, sub1, sub2, predecessors).
+	 */
     public void replace(Set<BasicBlock> olds, BasicBlock nevv) {
         if (olds.contains(next))
             next = nevv;

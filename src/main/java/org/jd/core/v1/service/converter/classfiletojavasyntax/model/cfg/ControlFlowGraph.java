@@ -7,10 +7,11 @@
 
 package org.jd.core.v1.service.converter.classfiletojavasyntax.model.cfg;
 
+import java.util.List;
+import java.util.Set;
+
 import org.jd.core.v1.model.classfile.Method;
 import org.jd.core.v1.util.DefaultList;
-
-import java.util.HashSet;
 
 /**
  * Flow graph of bytecode of a single method.
@@ -19,7 +20,7 @@ import java.util.HashSet;
  */
 public class ControlFlowGraph {
     protected Method method;
-    protected DefaultList<BasicBlock> list = new DefaultList<BasicBlock>() {
+    protected List<BasicBlock> list = new DefaultList<BasicBlock>() {
 
 		private static final long serialVersionUID = -6085305152533533391L;
 
@@ -37,7 +38,7 @@ public class ControlFlowGraph {
         return method;
     }
 
-    public DefaultList<BasicBlock> getBasicBlocks() {
+    public List<BasicBlock> getBasicBlocks() {
         return list;
     }
 
@@ -45,29 +46,47 @@ public class ControlFlowGraph {
         return list.get(0);
     }
 
+    /**
+     * Add a new BasicBlock in the graph, with same features as <code>original</code>
+     * 
+     * @param original
+     * @return new block
+     */
     public BasicBlock newBasicBlock(BasicBlock original) {
         BasicBlock basicBlock = new BasicBlock(this, list.size(), original);
         list.add(basicBlock);
         return basicBlock;
     }
 
+    /**
+     * Add a new BasicBlock in the graph
+     */
     public BasicBlock newBasicBlock(int fromOffset, int toOffset) {
         return newBasicBlock(0, fromOffset, toOffset);
     }
 
+    /**
+     * Add a new BasicBlock in the graph
+     */
     public BasicBlock newBasicBlock(int type, int fromOffset, int toOffset) {
         BasicBlock basicBlock = new BasicBlock(this, list.size(), type, fromOffset, toOffset, true);
         list.add(basicBlock);
         return basicBlock;
     }
 
+    /**
+     * Add a new BasicBlock in the graph
+     */
     public BasicBlock newBasicBlock(int type, int fromOffset, int toOffset, boolean inverseCondition) {
         BasicBlock basicBlock = new BasicBlock(this, list.size(), type, fromOffset, toOffset, inverseCondition);
         list.add(basicBlock);
         return basicBlock;
     }
 
-    public BasicBlock newBasicBlock(int type, int fromOffset, int toOffset, HashSet<BasicBlock> predecessors) {
+    /**
+     * Add a new BasicBlock in the graph
+     */
+    public BasicBlock newBasicBlock(int type, int fromOffset, int toOffset, Set<BasicBlock> predecessors) {
         BasicBlock basicBlock = new BasicBlock(this, list.size(), type, fromOffset, toOffset, true, predecessors);
         list.add(basicBlock);
         return basicBlock;
