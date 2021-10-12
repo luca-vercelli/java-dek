@@ -1,23 +1,9 @@
 package org.jd.core.v1.cli;
 
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLClassLoader;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-
-import org.jd.core.v1.api.Decompiler;
-import org.jd.core.v1.api.Loader;
-import org.jd.core.v1.api.Printer;
-import org.jd.core.v1.service.StandardDecompiler;
-import org.jd.core.v1.service.loader.DirectoryLoader;
-import org.jd.core.v1.service.printer.PlainTextPrinter;
 
 /**
  * CLI application
@@ -25,36 +11,27 @@ import org.jd.core.v1.service.printer.PlainTextPrinter;
  * @author luca vercelli 2021
  *
  */
-public class CliMain implements Runnable {
+public class CliMain {
 
 	public static final String VERSION = "1.0 2021";
 
-	private File srcFolder;
-	private File destFolder;
-	private boolean override;
-	private boolean escapeUnicode;
-	private boolean printLineNumbers;
-
-	public CliMain(File srcFolder, File destFolder, boolean override, boolean escapeUnicode, boolean printLineNumbers) {
-		this.srcFolder = srcFolder;
-		this.destFolder = destFolder;
-		this.override = override;
-		this.escapeUnicode = escapeUnicode;
-		this.printLineNumbers = printLineNumbers;
-	}
-
 	public static void usage() {
-		System.out.println("Usage:");
-		System.out.println("  java org.jd.core.v1.cli [-h |-v| [options] <classes folder>]");
-		System.out.println("Decompile all .class files inside given folder.");
-		System.out.println("Actions:");
-		System.out.println("    -h | --help                  print this help message then exit");
-		System.out.println("    -v | --version               print version then exit");
-		System.out.println("Options:");
-		System.out.println("    -d | --dest-folder <path>    java files folder (default classes folder)");
-		System.out.println("    --override                   override existing java files");
-		System.out.println("    --escape-unicode             escape unidoce characters");
-		System.out.println("    --no-line-numbers            omit line numbers");
+		PrintStream o = System.out;
+
+		o.println("Usage:");
+		o.println("  java org.jd.core.v1.cli [-h |-v| [options] <paths>]");
+		o.println("Decompile .class files. Allowed paths include: a single .class file,");
+		o.println("a single .jar/.war/.ear/.zip file, a root classes folder.");
+		o.println();
+		o.println("Actions:");
+		o.println("    -h | --help                  print this help message then exit");
+		o.println("    -v | --version               print version then exit");
+		o.println();
+		o.println("Options:");
+		o.println("    -d | --destination <path>    java files folder (default classes folder)");
+		o.println("    --override                   override existing java files");
+		o.println("    --escape-unicode             escape unidoce characters");
+		o.println("    --no-line-numbers            omit line numbers");
 	}
 
 	public static void version() {
@@ -79,15 +56,18 @@ public class CliMain implements Runnable {
 		}
 
 		int i = 0; // current CLI argument
-		File srcFolder = null;
+		List<File> sources = new ArrayList<>();
 		File destFolder = null;
 		boolean override = false;
 		boolean escapeUnicode = false;
 		boolean printLineNumbers = true;
 
 		while (i < args.length) {
-			if ("-d".equals(args[i]) || "--dest-folder".equals(args[i])) {
-				destFolder = new File(args[++i]);
+			if ("-d".equals(args[i]) || "--destination".equals(args[i])) {
+				String folder = args[++i];
+				if (!folder.isEmpty()) {
+					destFolder = new File(folder);
+				}
 			} else if ("--override".equals(args[i])) {
 				override = true;
 			} else if ("--escape-unicode".equals(args[i])) {
@@ -98,152 +78,22 @@ public class CliMain implements Runnable {
 				System.err.println("Unknown option: " + args[i]);
 				usage();
 				System.exit(1);
-			} else if (args.length - i > 1) {
-				System.err.println("Too many arguments.");
-				usage();
-				System.exit(1);
 			} else {
-				srcFolder = new File(args[i]);
+				sources.add(new File(args[i].trim()));
 			}
 			++i;
 		}
-		if (srcFolder == null || srcFolder.getPath().trim().isEmpty()) {
-			System.err.println("Missing classes folder.");
+		if (sources.isEmpty()) {
+			System.err.println("No sources given.");
 			usage();
 			System.exit(1);
 		}
-		if (destFolder == null) {
-			destFolder = srcFolder;
-		}
 
-		Runnable application = new CliMain(srcFolder, destFolder, override, escapeUnicode, printLineNumbers);
-		application.run();
-	}
-
-	@Override
-	public void run() {
-		prepareFolders(srcFolder, destFolder);
-
-		// adding whole folder to classpath should give better decompilation, doesn't
-		// it?
-		addToClassPath(srcFolder);
-
-		Loader loader = new DirectoryLoader(srcFolder);
-		Printer printer = new PlainTextPrinter(escapeUnicode, printLineNumbers);
-		Decompiler decompiler = StandardDecompiler.getInstance();
-		List<String> internalNames = listClasses(srcFolder);
-		for (String internalName : internalNames) {
-			try {
-				decompiler.decompile(loader, printer, internalName);
-			} catch (Exception e) {
-				System.err.println("Exception while decompiling " + internalName + " : " + e.getMessage());
-				continue;
-			}
-			try {
-				writeFile(printer.toString(), destFolder, internalName, override);
-				System.out.println(internalName);
-			} catch (IOException e) {
-				System.err.println("Exception while writing " + destFolder.getPath() + File.separator + internalName
-						+ " : " + e.getMessage());
-			}
+		boolean success = true;
+		for (File s : sources) {
+			Application application = new Application(s, destFolder, override, escapeUnicode, printLineNumbers);
+			success &= application.run();
 		}
-	}
-
-	public void prepareFolders(File srcFolder, File destFolder) {
-		if (!srcFolder.exists()) {
-			System.err.println("Classes folder does not exists.");
-			System.exit(2);
-		}
-		if (!srcFolder.canRead()) {
-			System.err.println("Classes folder is not readable.");
-			System.exit(3);
-		}
-		if (!srcFolder.isDirectory()) {
-			System.err.println("Classes folder is not a directory.");
-			System.exit(4);
-		}
-		if (!destFolder.exists()) {
-			destFolder.mkdirs();
-		} else if (!destFolder.isDirectory()) {
-			System.err.println("Destination folder is not a directory.");
-			System.exit(5);
-		}
-		if (!destFolder.canWrite()) {
-			System.err.println("Destination folder is not writable.");
-			System.exit(6);
-		}
-	}
-
-	/**
-	 * Add a folder to classpath
-	 * 
-	 * @see https://stackoverflow.com/a/7884406/5116356
-	 */
-	@SuppressWarnings("deprecation")
-	public void addToClassPath(File folder) {
-		URL u;
-		try {
-			u = folder.toURL();
-		} catch (MalformedURLException e) {
-			throw new RuntimeException(e); // can this happen ?!?
-		}
-		URLClassLoader urlClassLoader = (URLClassLoader) ClassLoader.getSystemClassLoader();
-		Class<URLClassLoader> urlClass = URLClassLoader.class;
-		try {
-			Method method = urlClass.getDeclaredMethod("addURL", new Class[] { URL.class });
-			method.setAccessible(true);
-			method.invoke(urlClassLoader, new Object[] { u });
-		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException
-				| SecurityException e) {
-			throw new RuntimeException(e);
-		}
-	}
-
-	public List<String> listClasses(File srcFolder) {
-		List<File> list = new ArrayList<>();
-		listClasses(srcFolder.listFiles(), list);
-		List<String> ls = list.stream() //
-				.map(x -> getClassName(srcFolder, x)) //
-				.collect(Collectors.toList());
-		return ls;
-	}
-
-	/**
-	 * 
-	 * @param srcFolder C:\some\path
-	 * @param classFile C:\some\path\package\to\File.class
-	 * @return
-	 */
-	public String getClassName(File srcFolder, File classFile) {
-		String s = classFile.getPath();
-		final int beginIndex = srcFolder.getPath().length() + 1;
-		final int difflen = ".class".length();
-		s = s.substring(beginIndex, s.length() - difflen);
-		if (s.startsWith("/")) {
-			s = s.substring(1);
-		}
-		return s;
-	}
-
-	private void listClasses(File[] files, List<File> result) {
-		for (File file : files) {
-			if (file.isDirectory()) {
-				listClasses(file.listFiles(), result);
-			} else if (file.getName().endsWith(".class") && !file.getName().contains("$")) {
-				result.add(file);
-			}
-		}
-	}
-
-	public void writeFile(String source, File destFolder, String internalName, boolean override) throws IOException {
-		File f = new File(destFolder, internalName + ".java");
-		if (f.exists() && !override) {
-			System.err.println("Skipping existing file " + f.getPath());
-			return;
-		}
-		f.getParentFile().mkdirs();
-		try (FileWriter fw = new FileWriter(f)) {
-			fw.write(source);
-		}
+		System.exit(success ? 0 : 1);
 	}
 }

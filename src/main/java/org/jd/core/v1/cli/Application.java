@@ -18,6 +18,7 @@ import org.jd.core.v1.api.Loader;
 import org.jd.core.v1.api.Printer;
 import org.jd.core.v1.service.StandardDecompiler;
 import org.jd.core.v1.service.loader.DirectoryLoader;
+import org.jd.core.v1.service.loader.SingleFileLoader;
 import org.jd.core.v1.service.loader.ZipLoader;
 import org.jd.core.v1.service.printer.PlainTextPrinter;
 
@@ -34,8 +35,10 @@ public class Application {
 	private boolean override;
 	private boolean escapeUnicode;
 	private boolean printLineNumbers;
+	private int fileType;
 
-	public Application(File source, File destination, boolean override, boolean escapeUnicode, boolean printLineNumbers) {
+	public Application(File source, File destination, boolean override, boolean escapeUnicode,
+			boolean printLineNumbers) {
 		this.source = source;
 		this.destination = destination;
 		this.override = override;
@@ -43,8 +46,13 @@ public class Application {
 		this.printLineNumbers = printLineNumbers;
 	}
 
+	/**
+	 * Main elaborative procedure
+	 * 
+	 * @return success
+	 */
 	public boolean run() {
-		int fileType = prepareFolders(source, destination);
+		fileType = prepareFolders(source, destination);
 
 		switch (fileType) {
 		case TYPE_FOLDER:
@@ -63,7 +71,7 @@ public class Application {
 	 * 
 	 * @return success
 	 */
-	public boolean decompileSingleFolder() {
+	protected boolean decompileSingleFolder() {
 		addToClassPath(source); // this allows resolution of inner classes, I hope
 
 		Loader loader = new DirectoryLoader(source);
@@ -82,7 +90,7 @@ public class Application {
 	 * 
 	 * @return success
 	 */
-	public boolean decompileSingleZip() {
+	protected boolean decompileSingleZip() {
 		addToClassPath(source); // this allows resolution of inner classes, I hope
 
 		ZipLoader loader;
@@ -95,10 +103,26 @@ public class Application {
 		Printer printer = new PlainTextPrinter(escapeUnicode, printLineNumbers);
 		Decompiler decompiler = StandardDecompiler.getInstance();
 		boolean success = true;
-		for (String internalName : loader.getMap().keySet()) {
+		for (String internalName : getClassesInZip(loader)) {
 			success &= runCommonCode(loader, printer, decompiler, internalName);
 		}
 		return success;
+	}
+
+	/**
+	 * Return all non-inner classes inside zip archive
+	 * 
+	 * @param loader
+	 * @return
+	 */
+	protected List<String> getClassesInZip(ZipLoader loader) {
+		List<String> ret = new ArrayList<>();
+		for (String fileName : loader.getMap().keySet()) {
+			if (fileName.endsWith(".class") && !fileName.contains("$")) {
+				ret.add(fileName.substring(0, fileName.length() - 6));
+			}
+		}
+		return ret;
 	}
 
 	/**
@@ -106,8 +130,17 @@ public class Application {
 	 * 
 	 * @return success
 	 */
-	public boolean decompileSingleClassFile() {
-		throw new RuntimeException("Not implemented");
+	protected boolean decompileSingleClassFile() {
+		SingleFileLoader loader;
+		try {
+			loader = new SingleFileLoader(source);
+		} catch (IOException e) {
+			System.err.println("I/O Exception loading file: " + source + " : " + e.getMessage());
+			return false;
+		}
+		Printer printer = new PlainTextPrinter(escapeUnicode, printLineNumbers);
+		Decompiler decompiler = StandardDecompiler.getInstance();
+		return runCommonCode(loader, printer, decompiler, loader.getInternalTypeName());
 	}
 
 	protected boolean runCommonCode(Loader loader, Printer printer, Decompiler decompiler, String internalName) {
@@ -115,10 +148,13 @@ public class Application {
 			decompiler.decompile(loader, printer, internalName);
 		} catch (Exception e) {
 			System.err.println("Exception while decompiling " + internalName + " : " + e.getMessage());
+			e.printStackTrace();
 			return false;
 		}
+		String pathAndName = fileType != TYPE_CLASS ? internalName
+				: internalName.substring(internalName.lastIndexOf("/"));
 		try {
-			writeFile(printer.toString(), destination, internalName, override);
+			writeFile(printer.toString(), destination, pathAndName, override);
 			System.out.println(internalName);
 		} catch (IOException e) {
 			System.err.println("Exception while writing " + destination.getPath() + File.separator + internalName
@@ -241,9 +277,19 @@ public class Application {
 		}
 	}
 
-	public void writeFile(String src, File destFolder, String internalName, boolean override) throws IOException {
-		File f = new File(destFolder, internalName + ".java");
-		if (f.exists() && !override) {
+	/**
+	 * Write source code <code>src</code> to file
+	 * <code>destFolder/pathAndName</code>.
+	 * 
+	 * @param src
+	 * @param destFolder
+	 * @param pathAndName
+	 * @param overwrite   if file already exists, overwrite it.
+	 * @throws IOException
+	 */
+	public void writeFile(String src, File destFolder, String pathAndName, boolean overwrite) throws IOException {
+		File f = new File(destFolder, pathAndName + ".java");
+		if (f.exists() && !overwrite) {
 			System.err.println("Skipping existing file " + f.getPath());
 			return;
 		}

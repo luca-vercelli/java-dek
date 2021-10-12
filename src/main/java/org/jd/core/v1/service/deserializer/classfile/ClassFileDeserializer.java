@@ -12,6 +12,7 @@ import static org.jd.core.v1.model.classfile.AccessType.ACC_SYNTHETIC;
 import java.io.IOException;
 import java.io.UTFDataFormatException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.jd.core.v1.api.Loader;
@@ -106,16 +107,14 @@ public class ClassFileDeserializer implements Processor {
 			return null;
 		}
 
-		ClassFileReader reader = new ClassFileReader(data);
-
 		// Load main type
-		ClassFile classFile = loadClassFile(reader);
+		ClassFile classFile = loadClassFile(data);
 
 		// Load inner types
 		AttributeInnerClasses aic = classFile.getAttribute("InnerClasses");
 
 		if (aic != null) {
-			DefaultList<ClassFile> innerClassFiles = new DefaultList<>();
+			List<ClassFile> innerClassFiles = new DefaultList<>();
 			String innerTypePrefix = internalTypeName + '$';
 
 			for (InnerClass ic : aic.getInnerClasses()) {
@@ -158,7 +157,17 @@ public class ClassFileDeserializer implements Processor {
 		return classFile;
 	}
 
-	protected ClassFile loadClassFile(ClassFileReader reader) throws UTFDataFormatException {
+	/**
+	 * Load main type (not inner types)
+	 * 
+	 * @param data
+	 * @return
+	 * @throws UTFDataFormatException
+	 */
+	protected ClassFile loadClassFile(byte[] data) throws UTFDataFormatException {
+
+		ClassFileReader reader = new ClassFileReader(data);
+
 		int magic = reader.readInt();
 
 		if (magic != ClassFileReader.JAVA_MAGIC_NUMBER)
@@ -182,6 +191,18 @@ public class ClassFileDeserializer implements Processor {
 
 		return new ClassFile(majorVersion, minorVersion, accessFlags, internalTypeName, superTypeName,
 				interfaceTypeNames, fields, methods, attributes);
+	}
+
+	/**
+	 * Given a single class file, retrieve main type name
+	 * 
+	 * @param data
+	 * @return
+	 * @throws UTFDataFormatException 
+	 */
+	public String getMainTypeName(byte[] data) throws UTFDataFormatException {
+		ClassFile classFile = loadClassFile(data);
+		return classFile.getInternalTypeName();
 	}
 
 	protected Constant[] loadConstants(ClassFileReader reader) throws UTFDataFormatException {
