@@ -75,12 +75,9 @@ public class Application {
 		addToClassPath(source); // this allows resolution of inner classes, I hope
 
 		Loader loader = new DirectoryLoader(source);
-		Printer printer = new PlainTextPrinter(escapeUnicode, printLineNumbers);
-		Decompiler decompiler = StandardDecompiler.getInstance();
-		List<String> internalNames = listClasses(source);
 		boolean success = true;
-		for (String internalName : internalNames) {
-			success &= runCommonCode(loader, printer, decompiler, internalName);
+		for (String internalName : getClassesInFolder(source)) {
+			success &= runCommonCode(loader, internalName);
 		}
 		return success;
 	}
@@ -100,11 +97,9 @@ public class Application {
 			System.err.println("I/O Exception accessing file: " + source + " : " + e.getMessage());
 			return false;
 		}
-		Printer printer = new PlainTextPrinter(escapeUnicode, printLineNumbers);
-		Decompiler decompiler = StandardDecompiler.getInstance();
 		boolean success = true;
 		for (String internalName : getClassesInZip(loader)) {
-			success &= runCommonCode(loader, printer, decompiler, internalName);
+			success &= runCommonCode(loader, internalName);
 		}
 		return success;
 	}
@@ -138,12 +133,12 @@ public class Application {
 			System.err.println("I/O Exception loading file: " + source + " : " + e.getMessage());
 			return false;
 		}
-		Printer printer = new PlainTextPrinter(escapeUnicode, printLineNumbers);
-		Decompiler decompiler = StandardDecompiler.getInstance();
-		return runCommonCode(loader, printer, decompiler, loader.getInternalTypeName());
+		return runCommonCode(loader, loader.getInternalTypeName());
 	}
 
-	protected boolean runCommonCode(Loader loader, Printer printer, Decompiler decompiler, String internalName) {
+	protected boolean runCommonCode(Loader loader, String internalName) {
+		Decompiler decompiler = StandardDecompiler.getInstance();
+		Printer printer = new PlainTextPrinter(escapeUnicode, printLineNumbers);
 		try {
 			decompiler.decompile(loader, printer, internalName);
 		} catch (Exception e) {
@@ -247,7 +242,7 @@ public class Application {
 		}
 	}
 
-	public List<String> listClasses(File srcFolder) {
+	public List<String> getClassesInFolder(File srcFolder) {
 		List<File> list = new ArrayList<>();
 		listClasses(srcFolder.listFiles(), list);
 		List<String> ls = list.stream() //
