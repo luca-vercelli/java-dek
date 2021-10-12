@@ -12,144 +12,157 @@ import org.jd.core.v1.model.javasyntax.expression.Expression;
 import java.util.List;
 
 public class SwitchStatement implements Statement {
-    public static final DefaultLabel DEFAULT_LABEL = new DefaultLabel();
+	public static final DefaultLabel DEFAULT_LABEL = new DefaultLabel();
 
-    protected Expression condition;
-    protected List<Block> blocks;
+	protected Expression condition;
+	protected List<Block> blocks;
 
-    public SwitchStatement(Expression condition, List<Block> blocks) {
-        this.condition = condition;
-        this.blocks = blocks;
-    }
+	public SwitchStatement(Expression condition, List<Block> blocks) {
+		this.condition = condition;
+		this.blocks = blocks;
+	}
 
-    @Override
-    public Expression getCondition() {
-        return condition;
-    }
+	@Override
+	public Expression getCondition() {
+		return condition;
+	}
 
-    public void setCondition(Expression condition) {
-        this.condition = condition;
-    }
+	public void setCondition(Expression condition) {
+		this.condition = condition;
+	}
 
-    public List<Block> getBlocks() {
-        return blocks;
-    }
+	public List<Block> getBlocks() {
+		return blocks;
+	}
 
-    @Override
-    public boolean isSwitchStatement() { return true; }
+	@Override
+	public boolean isSwitchStatement() {
+		return true;
+	}
 
-    @Override
-    public void accept(StatementVisitor visitor) {
-        visitor.visit(this);
-    }
+	@Override
+	public void accept(StatementVisitor visitor) {
+		visitor.visit(this);
+	}
 
-    // --- Label --- //
-    public interface Label extends Statement {}
+	@Override
+	public String toString() {
+		return "SwitchStatement(" + condition + ")";
+	}
 
-    public static class DefaultLabel implements Label {
-        protected DefaultLabel() {}
+	// --- Label --- //
+	public interface Label extends Statement {
+	}
 
-        @Override
-        public void accept(StatementVisitor visitor) {
-            visitor.visit(this);
-        }
+	public static class DefaultLabel implements Label {
+		protected DefaultLabel() {
+		}
 
-        @Override
-        public String toString() {
-            return "DefaultLabel";
-        }
-    }
+		@Override
+		public void accept(StatementVisitor visitor) {
+			visitor.visit(this);
+		}
 
-    public static class ExpressionLabel implements Label {
-        protected Expression expression;
+		@Override
+		public String toString() {
+			return "DefaultLabel";
+		}
+	}
 
-        public ExpressionLabel(Expression expression) {
-            this.expression = expression;
-        }
+	public static class ExpressionLabel implements Label {
+		protected Expression expression;
 
-        @Override
-        public Expression getExpression() {
-            return expression;
-        }
+		public ExpressionLabel(Expression expression) {
+			this.expression = expression;
+		}
 
-        public void setExpression(Expression expression) {
-            this.expression = expression;
-        }
+		@Override
+		public Expression getExpression() {
+			return expression;
+		}
 
-        @Override
-        public void accept(StatementVisitor visitor) {
-            visitor.visit(this);
-        }
+		public void setExpression(Expression expression) {
+			this.expression = expression;
+		}
 
-        @Override
-        public String toString() {
-            return "ExpressionLabel{" + expression.toString() + '}';
-        }
-    }
+		@Override
+		public void accept(StatementVisitor visitor) {
+			visitor.visit(this);
+		}
 
-    // --- Block --- //
-    public static abstract class Block implements Statement {
-        protected BaseStatement statements;
+		@Override
+		public String toString() {
+			return "ExpressionLabel{" + expression.toString() + '}';
+		}
+	}
 
-        protected Block(BaseStatement statements) {
-            this.statements = statements;
-        }
+	// --- Block --- //
+	public static abstract class Block implements Statement {
+		protected BaseStatement statements;
 
-        @Override
-        public BaseStatement getStatements() {
-            return statements;
-        }
-    }
+		protected Block(BaseStatement statements) {
+			this.statements = statements;
+		}
 
-    public static class LabelBlock extends Block {
-        protected Label label;
+		@Override
+		public BaseStatement getStatements() {
+			return statements;
+		}
+	}
 
-        public LabelBlock(Label label, BaseStatement statements) {
-            super(statements);
-            this.label = label;
-        }
+	public static class LabelBlock extends Block {
+		protected Label label;
 
-        public Label getLabel() {
-            return label;
-        }
+		public LabelBlock(Label label, BaseStatement statements) {
+			super(statements);
+			this.label = label;
+		}
 
-        @Override
-        public boolean isSwitchStatementLabelBlock() { return true; }
+		public Label getLabel() {
+			return label;
+		}
 
-        @Override
-        public void accept(StatementVisitor visitor) {
-            visitor.visit(this);
-        }
+		@Override
+		public boolean isSwitchStatementLabelBlock() {
+			return true;
+		}
 
-        @Override
-        public String toString() {
-            return "LabelBlock{label=" + label.toString() + '}';
-        }
-    }
+		@Override
+		public void accept(StatementVisitor visitor) {
+			visitor.visit(this);
+		}
 
-    public static class MultiLabelsBlock extends Block {
-        protected List<Label> labels;
+		@Override
+		public String toString() {
+			return "LabelBlock{label=" + label.toString() + '}';
+		}
+	}
 
-        public MultiLabelsBlock(List<Label> labels, BaseStatement statements) {
-            super(statements);
-            this.labels = labels;
-        }
+	public static class MultiLabelsBlock extends Block {
+		protected List<Label> labels;
 
-        public List<Label> getLabels() {
-            return labels;
-        }
+		public MultiLabelsBlock(List<Label> labels, BaseStatement statements) {
+			super(statements);
+			this.labels = labels;
+		}
 
-        @Override
-        public boolean isSwitchStatementMultiLabelsBlock() { return true; }
+		public List<Label> getLabels() {
+			return labels;
+		}
 
-        @Override
-        public void accept(StatementVisitor visitor) {
-            visitor.visit(this);
-        }
+		@Override
+		public boolean isSwitchStatementMultiLabelsBlock() {
+			return true;
+		}
 
-        @Override
-        public String toString() {
-            return "MultiLabelsBlock{labels=" + labels.toString() + '}';
-        }
-    }
+		@Override
+		public void accept(StatementVisitor visitor) {
+			visitor.visit(this);
+		}
+
+		@Override
+		public String toString() {
+			return "MultiLabelsBlock{labels=" + labels.toString() + '}';
+		}
+	}
 }

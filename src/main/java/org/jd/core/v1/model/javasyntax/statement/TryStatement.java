@@ -7,145 +7,161 @@
 
 package org.jd.core.v1.model.javasyntax.statement;
 
+import java.util.List;
+
 import org.jd.core.v1.model.javasyntax.expression.Expression;
 import org.jd.core.v1.model.javasyntax.type.ObjectType;
 import org.jd.core.v1.util.DefaultList;
 
 public class TryStatement implements Statement {
-    protected DefaultList<Resource> resources;
-    protected BaseStatement tryStatements;
-    protected DefaultList<CatchClause> catchClauses;
-    protected BaseStatement finallyStatements;
+	protected List<Resource> resources;
+	protected BaseStatement tryStatements;
+	protected List<CatchClause> catchClauses;
+	protected BaseStatement finallyStatements;
 
-    public TryStatement(BaseStatement tryStatements, DefaultList<CatchClause> catchClauses, BaseStatement finallyStatements) {
-        this.resources = null;
-        this.tryStatements = tryStatements;
-        this.catchClauses = catchClauses;
-        this.finallyStatements = finallyStatements;
-    }
+	public TryStatement(BaseStatement tryStatements, List<CatchClause> catchClauses, BaseStatement finallyStatements) {
+		this.resources = null;
+		this.tryStatements = tryStatements;
+		this.catchClauses = catchClauses;
+		this.finallyStatements = finallyStatements;
+	}
 
-    public TryStatement(DefaultList<Resource> resources, BaseStatement tryStatements, DefaultList<CatchClause> catchClauses, BaseStatement finallyStatements) {
-        this.resources = resources;
-        this.tryStatements = tryStatements;
-        this.catchClauses = catchClauses;
-        this.finallyStatements = finallyStatements;
-    }
+	public TryStatement(List<Resource> resources, BaseStatement tryStatements, List<CatchClause> catchClauses,
+			BaseStatement finallyStatements) {
+		this.resources = resources;
+		this.tryStatements = tryStatements;
+		this.catchClauses = catchClauses;
+		this.finallyStatements = finallyStatements;
+	}
 
-    public DefaultList<Resource> getResources() {
-        return resources;
-    }
+	public List<Resource> getResources() {
+		return resources;
+	}
 
-    @Override
-    public BaseStatement getTryStatements() {
-        return tryStatements;
-    }
+	@Override
+	public BaseStatement getTryStatements() {
+		return tryStatements;
+	}
 
-    public void setTryStatements(BaseStatement tryStatements) {
-        this.tryStatements = tryStatements;
-    }
+	public void setTryStatements(BaseStatement tryStatements) {
+		this.tryStatements = tryStatements;
+	}
 
-    @Override
-    public DefaultList<CatchClause> getCatchClauses() {
-        return catchClauses;
-    }
+	@Override
+	public List<CatchClause> getCatchClauses() {
+		return catchClauses;
+	}
 
-    @Override
-    public BaseStatement getFinallyStatements() {
-        return finallyStatements;
-    }
+	@Override
+	public BaseStatement getFinallyStatements() {
+		return finallyStatements;
+	}
 
-    public void setFinallyStatements(BaseStatement finallyStatements) {
-        this.finallyStatements = finallyStatements;
-    }
+	public void setFinallyStatements(BaseStatement finallyStatements) {
+		this.finallyStatements = finallyStatements;
+	}
 
-    public static class Resource implements Statement {
-        protected ObjectType type;
-        protected String name;
-        protected Expression expression;
+	@Override
+	public String toString() {
+		return "TryStatement(" + resources + ") {" + tryStatements + "} catch {" + catchClauses + "} finally {"
+				+ finallyStatements + "}";
+	}
 
-        public Resource(ObjectType type, String name, Expression expression) {
-            this.type = type;
-            this.name = name;
-            this.expression = expression;
-        }
+	public static class Resource implements Statement {
+		protected ObjectType type;
+		protected String name;
+		protected Expression expression;
 
-        public ObjectType getType() {
-            return type;
-        }
+		public Resource(ObjectType type, String name, Expression expression) {
+			this.type = type;
+			this.name = name;
+			this.expression = expression;
+		}
 
-        public String getName() {
-            return name;
-        }
+		public ObjectType getType() {
+			return type;
+		}
 
-        @Override
-        public Expression getExpression() {
-            return expression;
-        }
+		public String getName() {
+			return name;
+		}
 
-        public void setExpression(Expression expression) {
-            this.expression = expression;
-        }
+		@Override
+		public Expression getExpression() {
+			return expression;
+		}
 
-        @Override
-        public void accept(StatementVisitor visitor) {
-            visitor.visit(this);
-        }
-    }
+		public void setExpression(Expression expression) {
+			this.expression = expression;
+		}
 
-    public static class CatchClause implements Statement {
-        protected int lineNumber;
-        protected ObjectType type;
-        protected DefaultList<ObjectType> otherTypes = null;
-        protected String name;
-        protected BaseStatement statements;
+		@Override
+		public void accept(StatementVisitor visitor) {
+			visitor.visit(this);
+		}
 
-        public CatchClause(int lineNumber, ObjectType type, String name, BaseStatement statements) {
-            this.lineNumber = lineNumber;
-            this.type = type;
-            this.name = name;
-            this.statements = statements;
-        }
+		@Override
+		public String toString() {
+			return "Resource(" + expression + ")";
+		}
+	}
 
-        @Override
-        public int getLineNumber() {
-            return lineNumber;
-        }
+	public static class CatchClause implements Statement {
+		protected int lineNumber;
+		protected ObjectType type;
+		protected DefaultList<ObjectType> otherTypes = null;
+		protected String name;
+		protected BaseStatement statements;
 
-        public ObjectType getType() {
-            return type;
-        }
+		public CatchClause(int lineNumber, ObjectType type, String name, BaseStatement statements) {
+			this.lineNumber = lineNumber;
+			this.type = type;
+			this.name = name;
+			this.statements = statements;
+		}
 
-        public DefaultList<ObjectType> getOtherTypes() {
-            return otherTypes;
-        }
+		@Override
+		public int getLineNumber() {
+			return lineNumber;
+		}
 
-        public String getName() {
-            return name;
-        }
+		public ObjectType getType() {
+			return type;
+		}
 
-        @Override
-        public BaseStatement getStatements() {
-            return statements;
-        }
+		public DefaultList<ObjectType> getOtherTypes() {
+			return otherTypes;
+		}
 
-        public void addType(ObjectType type) {
-            if (otherTypes == null) {
-                otherTypes = new DefaultList<>();
-            }
-            otherTypes.add(type);
-        }
+		public String getName() {
+			return name;
+		}
 
-        @Override
-        public void accept(StatementVisitor visitor) {
-            visitor.visit(this);
-        }
-    }
+		@Override
+		public BaseStatement getStatements() {
+			return statements;
+		}
 
-    @Override
-    public boolean isTryStatement() { return true; }
+		public void addType(ObjectType type) {
+			if (otherTypes == null) {
+				otherTypes = new DefaultList<>();
+			}
+			otherTypes.add(type);
+		}
 
-    @Override
-    public void accept(StatementVisitor visitor) {
-        visitor.visit(this);
-    }
+		@Override
+		public void accept(StatementVisitor visitor) {
+			visitor.visit(this);
+		}
+	}
+
+	@Override
+	public boolean isTryStatement() {
+		return true;
+	}
+
+	@Override
+	public void accept(StatementVisitor visitor) {
+		visitor.visit(this);
+	}
 }

@@ -23,7 +23,7 @@ import org.jd.core.v1.util.DefaultList;
 public class TryWithResourcesStatementMaker {
 
 	public static Statement make(LocalVariableMaker localVariableMaker, Statements statements, Statements tryStatements,
-			DefaultList<TryStatement.CatchClause> catchClauses, Statements finallyStatements) {
+			List<TryStatement.CatchClause> catchClauses, Statements finallyStatements) {
 		int size = statements.size();
 
 		if ((size < 2) || (finallyStatements == null) || (finallyStatements.size() != 1)
@@ -150,7 +150,7 @@ public class TryWithResourcesStatementMaker {
 			return null;
 		}
 
-		statement = ts.getCatchClauses().getFirst().getStatements().getFirst();
+		statement = ts.getCatchClauses().get(0).getStatements().getFirst();
 
 		if (!statement.isExpressionStatement()) {
 			return null;

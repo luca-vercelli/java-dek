@@ -10,18 +10,23 @@ package org.jd.core.v1.model.javasyntax.statement;
 import org.jd.core.v1.model.javasyntax.declaration.TypeDeclaration;
 
 public class TypeDeclarationStatement implements Statement {
-    protected TypeDeclaration typeDeclaration;
+	protected TypeDeclaration typeDeclaration;
 
-    public TypeDeclarationStatement(TypeDeclaration typeDeclaration) {
-        this.typeDeclaration = typeDeclaration;
-    }
+	public TypeDeclarationStatement(TypeDeclaration typeDeclaration) {
+		this.typeDeclaration = typeDeclaration;
+	}
 
-    public TypeDeclaration getTypeDeclaration() {
-        return typeDeclaration;
-    }
+	public TypeDeclaration getTypeDeclaration() {
+		return typeDeclaration;
+	}
 
-    @Override
-    public void accept(StatementVisitor visitor) {
-        visitor.visit(this);
-    }
+	@Override
+	public void accept(StatementVisitor visitor) {
+		visitor.visit(this);
+	}
+
+	@Override
+	public String toString() {
+		return "TypeDeclarationStatement(" + typeDeclaration + ")";
+	}
 }

@@ -1044,6 +1044,9 @@ public class StatementMaker {
 		}
 	}
 
+	/**
+	 * Compare two SwitchCase first by offset, then by value
+	 */
 	protected static class SwitchCaseComparator implements Comparator<SwitchCase> {
 		@Override
 		public int compare(SwitchCase sc1, SwitchCase sc2) {
@@ -1056,6 +1059,10 @@ public class StatementMaker {
 		}
 	}
 
+	/**
+	 * Search for member (field or method) with given name, and store the result in
+	 * <code>found</code> field.
+	 */
 	protected static class MemberVisitor extends AbstractJavaSyntaxVisitor {
 		protected String name;
 		protected boolean found;

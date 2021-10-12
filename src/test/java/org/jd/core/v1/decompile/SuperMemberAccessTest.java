@@ -7,12 +7,12 @@
 
 package org.jd.core.v1.decompile;
 
+import static org.jd.core.v1.regex.PatternMaker.assertMatch;
 import static org.junit.Assert.assertTrue;
 
 import org.jd.core.v1.TestDecompiler;
 import org.jd.core.v1.compiler.CompilerUtil;
 import org.jd.core.v1.compiler.JavaSourceFileObject;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class SuperMemberAccessTest {
@@ -20,28 +20,27 @@ public class SuperMemberAccessTest {
 	protected TestDecompiler decompiler = new TestDecompiler();
 
 	class TestClass {
-	    private String a;
-	    
-	    private String test() {
-	        return "";
-	    }
-	    
-	    public class Child extends TestClass {
-	        public int a;
-	        
-	        public int test() {
-	            return 1;
-	        }
-	        
-	        String doSomething() {
-	            super.test();
-	            return super.a;
-	        }
-	    }
+		private String a;
+
+		private String test() {
+			return "";
+		}
+
+		public class Child extends TestClass {
+			public int a;
+
+			public int test() {
+				return 1;
+			}
+
+			String doSomething() {
+				super.test();
+				return super.a;
+			}
+		}
 	}
 
 	@Test
-	@Ignore
 	// https://github.com/java-decompiler/jd-core/issues/20 // FIXME
 	public void testSuperMembreAccess() throws Exception {
 
@@ -49,11 +48,10 @@ public class SuperMemberAccessTest {
 		String source = decompiler.decompile(internalClassName);
 
 		// Check decompiled source code
-		//assertTrue(source.matches(PatternMaker.make(": 29 */", "Integer intObj = 10;")));
-		//assertTrue(source.matches(PatternMaker.make(": 30 */", "int i = intObj;")));
+		assertMatch(source, "return super.a;", 38);
 
 		// Recompile decompiled source code and check errors
 		assertTrue(CompilerUtil.compile("1.8", new JavaSourceFileObject(internalClassName, source)));
-		
+
 	}
 }
