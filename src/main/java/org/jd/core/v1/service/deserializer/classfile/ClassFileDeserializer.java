@@ -323,7 +323,10 @@ public class ClassFileDeserializer implements Processor {
 				try {
 					type = AttributeType.valueOf(name);
 				} catch (IllegalArgumentException exc) {
-					type = null;
+					System.err.println("Unknown attribute: " + name);
+					attributes.put(name, new UnknownAttribute());
+					reader.skip(attributeLength);
+					continue;
 				}
 
 				switch (type) {
@@ -411,7 +414,7 @@ public class ClassFileDeserializer implements Processor {
 					reader.skip(attributeLength);
 				}
 			} else {
-				throw new ClassFileFormatException("Invalid attributes");
+				throw new ClassFileFormatException("Invalid " + i + "th attribute");
 			}
 			int diffOffset = reader.offset - offsetBefore;
 			if (diffOffset > attributeLength) {
