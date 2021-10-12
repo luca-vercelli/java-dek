@@ -5,7 +5,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 import java.net.URISyntaxException;
 
-import org.jd.core.cli.CliMain;
+import org.jd.cli.CliMain;
 import org.junit.Ignore;
 import org.junit.Test;
 
