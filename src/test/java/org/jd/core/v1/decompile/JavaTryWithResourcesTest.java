@@ -104,15 +104,11 @@ public class JavaTryWithResourcesTest {
 		public void t(String pathIn, String pathOut) {
 			try (FileInputStream input = new FileInputStream(pathIn);
 					FileOutputStream output = new FileOutputStream(pathOut)) {
-				int data = input.read();
-				while (data != -1) {
-					output.write(data);
-					data = input.read();
-				}
+				System.out.println("inside try");
 			} catch (IOException e) {
-				e.printStackTrace();
+				System.out.println("inside catch");
 			} finally {
-				System.out.println("finally");
+				System.out.println("inside finally");
 			}
 		}
 	}
@@ -126,8 +122,8 @@ public class JavaTryWithResourcesTest {
 		// Check decompiled source code
 		assertMatch(source, "try (FileInputStream input = new FileInputStream(pathIn);", 105);
 		assertMatch(source, "FileOutputStream output = new FileOutputStream(pathOut)) {", 106);
-		assertMatch(source, "} catch (IOException e) {", 112);
-		assertMatch(source, "} finally {", 114);
+		assertMatch(source, "} catch (IOException e) {", 108);
+		assertMatch(source, "} finally {", 110);
 
 		// Recompile decompiled source code and check errors
 		assertTrue(CompilerUtil.compile("1.8", new JavaSourceFileObject(internalClassName, source)));
@@ -153,8 +149,8 @@ public class JavaTryWithResourcesTest {
 		String source = decompiler.decompile(internalClassName);
 
 		// Check decompiled source code
-		assertMatch(source, "try (TestClass obj = new TestClass()) {", 142);
-		assertMatch(source, "return 1;", 143);
+		assertMatch(source, "try (TestClass obj = new TestClass()) {", 138);
+		assertMatch(source, "return 1;", 139);
 
 		// Recompile decompiled source code and check errors
 		assertTrue(CompilerUtil.compile("1.8", new JavaSourceFileObject(internalClassName, source)));
