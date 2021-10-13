@@ -260,7 +260,7 @@ public class ControlFlowGraphLoopReducer {
 		memberIndexes.clear();
 		recursiveForwardSearchLoopMemberIndexes(memberIndexes, searchZoneIndexes, start, maxOffset);
 
-		HashSet<BasicBlock> members = new HashSet<>(memberIndexes.cardinality());
+		Set<BasicBlock> members = new HashSet<>(memberIndexes.cardinality());
 
 		for (int i = 0; i < length; i++) {
 			if (memberIndexes.get(i)) {
@@ -291,7 +291,7 @@ public class ControlFlowGraphLoopReducer {
 			if (!end.matchType(TYPE_END | TYPE_RETURN | TYPE_LOOP_START | TYPE_LOOP_CONTINUE | TYPE_LOOP_END)
 					&& (end.getPredecessors().size() == 1)
 					&& (end.getPredecessors().iterator().next().getLastLineNumber() + 1 >= end.getFirstLineNumber())) {
-				HashSet<BasicBlock> set = new HashSet<>();
+				Set<BasicBlock> set = new HashSet<>();
 
 				if (recursiveForwardSearchLastLoopMemberIndexes(members, searchZoneIndexes, set, end, null)) {
 					members.addAll(set);
@@ -309,8 +309,8 @@ public class ControlFlowGraphLoopReducer {
 
 		// Extend last member
 		if (end != END) {
-			HashSet<BasicBlock> m = new HashSet<>(members);
-			HashSet<BasicBlock> set = new HashSet<>();
+			Set<BasicBlock> m = new HashSet<>(members);
+			Set<BasicBlock> set = new HashSet<>();
 
 			for (BasicBlock member : m) {
 				if ((member.getType() == TYPE_CONDITIONAL_BRANCH) && (member != start)) {
@@ -496,8 +496,8 @@ public class ControlFlowGraphLoopReducer {
 		}
 	}
 
-	protected static boolean recursiveForwardSearchLastLoopMemberIndexes(HashSet<BasicBlock> members,
-			BitSet searchZoneIndexes, HashSet<BasicBlock> set, BasicBlock current, BasicBlock end) {
+	protected static boolean recursiveForwardSearchLastLoopMemberIndexes(Set<BasicBlock> members,
+			BitSet searchZoneIndexes, Set<BasicBlock> set, BasicBlock current, BasicBlock end) {
 		if ((current == end) || members.contains(current) || set.contains(current)) {
 			return true;
 		} else if (current.matchType(GROUP_SINGLE_SUCCESSOR)) {
@@ -615,7 +615,7 @@ public class ControlFlowGraphLoopReducer {
 
 	protected static BasicBlock reduceLoop(Loop loop) {
 		BasicBlock start = loop.getStart();
-		HashSet<BasicBlock> members = loop.getMembers();
+		Set<BasicBlock> members = loop.getMembers();
 		BasicBlock end = loop.getEnd();
 		int toOffset = start.getToOffset();
 
@@ -704,7 +704,7 @@ public class ControlFlowGraphLoopReducer {
 	}
 
 	protected static BasicBlock newJumpBasicBlock(BasicBlock bb, BasicBlock target) {
-		HashSet<BasicBlock> predecessors = new HashSet<>();
+		Set<BasicBlock> predecessors = new HashSet<>();
 
 		predecessors.add(bb);
 		target.getPredecessors().remove(bb);
@@ -742,7 +742,7 @@ public class ControlFlowGraphLoopReducer {
 		}
 	}
 
-	/*
+	/**
 	 * Smaller loop first
 	 */
 	public static class LoopComparator implements Comparator<Loop> {

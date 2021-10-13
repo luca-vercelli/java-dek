@@ -26,6 +26,17 @@ public class ControlFlowGraphReducer {
 		return reduce(visited, start, jsrTargets);
 	}
 
+	/**
+	 * Reduce the graph, i.e. tries to match opcodes with Java statements blocks.
+	 * 
+	 * Existing blocks are replaced with others, more high level.
+	 * 
+	 *
+	 * @param visited
+	 * @param basicBlock
+	 * @param jsrTargets
+	 * @return
+	 */
 	public static boolean reduce(BitSet visited, BasicBlock basicBlock, BitSet jsrTargets) {
 		if (!basicBlock.matchType(GROUP_END) && (!visited.get(basicBlock.getIndex()))) {
 			visited.set(basicBlock.getIndex());
