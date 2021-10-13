@@ -422,35 +422,7 @@ public class ControlFlowGraphMaker {
 
 			// --- Create line numbers --- //
 			ControlFlowGraph cfg = new ControlFlowGraph(method);
-			AttributeLineNumberTable attributeLineNumberTable = attributeCode.getAttribute("LineNumberTable");
-
-			if (attributeLineNumberTable != null) {
-				// Parse line numbers
-				LineNumber[] lineNumberTable = attributeLineNumberTable.getLineNumberTable();
-
-				int[] offsetToLineNumbers = new int[length];
-				int offset = 0;
-				int lineNumber = lineNumberTable[0].getLineNumber();
-
-				for (int i = 1, len = lineNumberTable.length; i < len; i++) {
-					LineNumber lineNumberEntry = lineNumberTable[i];
-					int toIndex = lineNumberEntry.getStartPc();
-
-					while (offset < toIndex)
-						offsetToLineNumbers[offset++] = lineNumber;
-
-					if (lineNumber > lineNumberEntry.getLineNumber()) {
-						map[offset] = MARK;
-					}
-
-					lineNumber = lineNumberEntry.getLineNumber();
-				}
-
-				while (offset < length)
-					offsetToLineNumbers[offset++] = lineNumber;
-
-				cfg.setOffsetToLineNumbers(offsetToLineNumbers);
-			}
+			createLineNumbers(attributeCode, length, map, cfg);
 
 			// --- Create basic blocks --- //
 			lastOffset = 0;
@@ -468,194 +440,243 @@ public class ControlFlowGraphMaker {
 			map[lastOffset] = cfg.newBasicBlock(lastOffset, length);
 
 			// --- Set type, successors and predecessors --- //
-			List<BasicBlock> list = cfg.getBasicBlocks();
-			List<BasicBlock> basicBlocks = new DefaultList<>(list.size());
-			BasicBlock successor = list.get(1);
-			startBasicBlock.setNext(successor);
-			successor.getPredecessors().add(startBasicBlock);
-
-			for (int i = 1, basicBlockLength = list.size(); i < basicBlockLength; i++) {
-				BasicBlock basicBlock = list.get(i);
-				int lastInstructionOffset = basicBlock.getToOffset() - 1;
-
-				switch (types[lastInstructionOffset]) {
-				case 'g': // Goto
-					basicBlock.setType(TYPE_GOTO);
-					successor = map[branchOffsets[lastInstructionOffset]];
-					basicBlock.setNext(successor);
-					successor.getPredecessors().add(basicBlock);
-					break;
-				case 'G': // Goto in ternary operator
-					basicBlock.setType(TYPE_GOTO_IN_TERNARY_OPERATOR);
-					successor = map[branchOffsets[lastInstructionOffset]];
-					basicBlock.setNext(successor);
-					successor.getPredecessors().add(basicBlock);
-					break;
-				case 't': // Throw
-					basicBlock.setType(TYPE_THROW);
-					basicBlock.setNext(END);
-					break;
-				case 'r': // Return
-					basicBlock.setType(TYPE_RETURN);
-					basicBlock.setNext(END);
-					break;
-				case 'c': // Conditional
-					basicBlock.setType(TYPE_CONDITIONAL_BRANCH);
-					successor = map[basicBlock.getToOffset()];
-					basicBlock.setNext(successor);
-					successor.getPredecessors().add(basicBlock);
-					successor = map[branchOffsets[lastInstructionOffset]];
-					basicBlock.setBranch(successor);
-					successor.getPredecessors().add(basicBlock);
-					break;
-				case 's': // Switch
-					basicBlock.setType(TYPE_SWITCH_DECLARATION);
-					int[] values = switchValues[lastInstructionOffset];
-					int[] offsets = switchOffsets[lastInstructionOffset];
-					DefaultList<SwitchCase> switchCases = new DefaultList<>(offsets.length);
-
-					int defaultOffset = offsets[0];
-					BasicBlock bb = map[defaultOffset];
-					switchCases.add(new SwitchCase(bb));
-					bb.getPredecessors().add(basicBlock);
-
-					for (int j = 1, len = offsets.length; j < len; j++) {
-						int offset = offsets[j];
-						if (offset != defaultOffset) {
-							bb = map[offset];
-							switchCases.add(new SwitchCase(values[j], bb));
-							bb.getPredecessors().add(basicBlock);
-						}
-					}
-
-					basicBlock.setSwitchCases(switchCases);
-					break;
-				case 'j': // Jsr
-					basicBlock.setType(TYPE_JSR);
-					successor = map[basicBlock.getToOffset()];
-					basicBlock.setNext(successor);
-					successor.getPredecessors().add(basicBlock);
-					successor = map[branchOffsets[lastInstructionOffset]];
-					basicBlock.setBranch(successor);
-					successor.getPredecessors().add(basicBlock);
-					break;
-				case 'R': // Ret
-					basicBlock.setType(TYPE_RET);
-					basicBlock.setNext(END);
-					break;
-				case 'v': // Return value
-					basicBlock.setType(TYPE_RETURN_VALUE);
-					basicBlock.setNext(END);
-					break;
-				default:
-					basicBlock.setType(TYPE_STATEMENTS);
-					successor = map[basicBlock.getToOffset()];
-					basicBlock.setNext(successor);
-					successor.getPredecessors().add(basicBlock);
-					basicBlocks.add(basicBlock);
-					break;
-				}
-			}
+			List<BasicBlock> basicBlocks = setTypeAndSuccessors(map, types, branchOffsets, switchValues, switchOffsets,
+					cfg, startBasicBlock);
 
 			// --- Create try-catch-finally basic blocks --- //
-			if (codeExceptions != null) {
-				HashMap<CodeException, BasicBlock> cache = new HashMap<>();
-				ConstantPool constantPool = method.getConstants();
-				// Reuse arrays
-				int[] handlePcToStartPc = branchOffsets;
-				char[] handlePcMarks = types;
-
-				Arrays.sort(codeExceptions, CODE_EXCEPTION_COMPARATOR);
-
-				for (CodeException codeException : codeExceptions) {
-					int startPc = codeException.getStartPc();
-					int handlerPc = codeException.getHandlerPc();
-
-					if (startPc != handlerPc) {
-						if ((handlePcMarks[handlerPc] != 'T')
-								|| (startPc <= map[handlePcToStartPc[handlerPc]].getFromOffset())) {
-							int catchType = codeException.getCatchType();
-							BasicBlock tcf = cache.get(codeException);
-
-							if (tcf == null) {
-								int endPc = codeException.getEndPc();
-								// Check 'endPc'
-								BasicBlock start = map[startPc];
-
-								// Insert a new 'try-catch-finally' basic block
-								tcf = cfg.newBasicBlock(TYPE_TRY_DECLARATION, startPc, endPc);
-								tcf.setNext(start);
-
-								// Update predecessors
-								Set<BasicBlock> tcfPredecessors = tcf.getPredecessors();
-								Set<BasicBlock> startPredecessors = start.getPredecessors();
-								Iterator<BasicBlock> iterator = startPredecessors.iterator();
-
-								while (iterator.hasNext()) {
-									BasicBlock predecessor = iterator.next();
-
-									if (!start.contains(predecessor)) {
-										predecessor.replace(start, tcf);
-										tcfPredecessors.add(predecessor);
-										iterator.remove();
-									}
-								}
-
-								startPredecessors.add(tcf);
-
-								// Update map
-								map[startPc] = tcf;
-
-								// Store to objectTypeCache
-								cache.put(codeException, tcf);
-							}
-
-							String internalThrowableName = catchType == 0 ? null
-									: constantPool.getConstantTypeName(catchType);
-							BasicBlock handlerBB = map[handlerPc];
-							tcf.addExceptionHandler(internalThrowableName, handlerBB);
-							handlerBB.getPredecessors().add(tcf);
-							handlePcToStartPc[handlerPc] = startPc;
-							handlePcMarks[handlerPc] = 'T';
-						}
-					}
-				}
-			}
+			checkTryCatchBlocks(method, map, types, branchOffsets, codeExceptions, cfg);
 
 			// --- Recheck TYPE_GOTO_IN_TERNARY_OPERATOR --- //
-			for (BasicBlock bb : basicBlocks) {
-				BasicBlock next = bb.getNext();
-				Set<BasicBlock> predecessors;
+			checkTernaryOperators(basicBlocks, code, constants);
 
-				if ((bb.getType() == TYPE_STATEMENTS) && (next.getPredecessors().size() == 1)) {
-					if ((next.getType() == TYPE_GOTO) && (ByteCodeUtil.evalStackDepth(constants, code, bb) > 0)) {
-						// Transform STATEMENTS and GOTO to GOTO_IN_TERNARY_OPERATOR
-						bb.setType(TYPE_GOTO_IN_TERNARY_OPERATOR);
-						bb.setToOffset(next.getToOffset());
-						bb.setNext(next.getNext());
-						predecessors = next.getNext().getPredecessors();
-						predecessors.remove(next);
-						predecessors.add(bb);
-						next.setType(TYPE_DELETED);
-					} else if ((next.getType() == TYPE_CONDITIONAL_BRANCH)
-							&& (ByteCodeUtil.evalStackDepth(constants, code, bb) > 0)) {
-						// Merge STATEMENTS and CONDITIONAL_BRANCH
-						bb.setType(TYPE_CONDITIONAL_BRANCH);
-						bb.setToOffset(next.getToOffset());
-						bb.setNext(next.getNext());
-						predecessors = next.getNext().getPredecessors();
-						predecessors.remove(next);
-						predecessors.add(bb);
-						bb.setBranch(next.getBranch());
-						predecessors = next.getBranch().getPredecessors();
-						predecessors.remove(next);
-						predecessors.add(bb);
-						next.setType(TYPE_DELETED);
+			return cfg;
+		}
+	}
+
+	private static void createLineNumbers(AttributeCode attributeCode, int length, BasicBlock[] map,
+			ControlFlowGraph cfg) {
+		AttributeLineNumberTable attributeLineNumberTable = attributeCode.getAttribute("LineNumberTable");
+
+		if (attributeLineNumberTable != null) {
+			// Parse line numbers
+			LineNumber[] lineNumberTable = attributeLineNumberTable.getLineNumberTable();
+
+			int[] offsetToLineNumbers = new int[length];
+			int offset = 0;
+			int lineNumber = lineNumberTable[0].getLineNumber();
+
+			for (int i = 1, len = lineNumberTable.length; i < len; i++) {
+				LineNumber lineNumberEntry = lineNumberTable[i];
+				int toIndex = lineNumberEntry.getStartPc();
+
+				while (offset < toIndex)
+					offsetToLineNumbers[offset++] = lineNumber;
+
+				if (lineNumber > lineNumberEntry.getLineNumber()) {
+					map[offset] = MARK;
+				}
+
+				lineNumber = lineNumberEntry.getLineNumber();
+			}
+
+			while (offset < length)
+				offsetToLineNumbers[offset++] = lineNumber;
+
+			cfg.setOffsetToLineNumbers(offsetToLineNumbers);
+		}
+	}
+
+	private static List<BasicBlock> setTypeAndSuccessors(BasicBlock[] map, char[] types, int[] branchOffsets,
+			int[][] switchValues, int[][] switchOffsets, ControlFlowGraph cfg, BasicBlock startBasicBlock) {
+		List<BasicBlock> list = cfg.getBasicBlocks();
+		List<BasicBlock> basicBlocks = new DefaultList<>(list.size());
+		BasicBlock successor = list.get(1);
+		startBasicBlock.setNext(successor);
+		successor.getPredecessors().add(startBasicBlock);
+
+		for (int i = 1, basicBlockLength = list.size(); i < basicBlockLength; i++) {
+			BasicBlock basicBlock = list.get(i);
+			int lastInstructionOffset = basicBlock.getToOffset() - 1;
+
+			switch (types[lastInstructionOffset]) {
+			case 'g': // Goto
+				basicBlock.setType(TYPE_GOTO);
+				successor = map[branchOffsets[lastInstructionOffset]];
+				basicBlock.setNext(successor);
+				successor.getPredecessors().add(basicBlock);
+				break;
+			case 'G': // Goto in ternary operator
+				basicBlock.setType(TYPE_GOTO_IN_TERNARY_OPERATOR);
+				successor = map[branchOffsets[lastInstructionOffset]];
+				basicBlock.setNext(successor);
+				successor.getPredecessors().add(basicBlock);
+				break;
+			case 't': // Throw
+				basicBlock.setType(TYPE_THROW);
+				basicBlock.setNext(END);
+				break;
+			case 'r': // Return
+				basicBlock.setType(TYPE_RETURN);
+				basicBlock.setNext(END);
+				break;
+			case 'c': // Conditional
+				basicBlock.setType(TYPE_CONDITIONAL_BRANCH);
+				successor = map[basicBlock.getToOffset()];
+				basicBlock.setNext(successor);
+				successor.getPredecessors().add(basicBlock);
+				successor = map[branchOffsets[lastInstructionOffset]];
+				basicBlock.setBranch(successor);
+				successor.getPredecessors().add(basicBlock);
+				break;
+			case 's': // Switch
+				basicBlock.setType(TYPE_SWITCH_DECLARATION);
+				int[] values = switchValues[lastInstructionOffset];
+				int[] offsets = switchOffsets[lastInstructionOffset];
+				DefaultList<SwitchCase> switchCases = new DefaultList<>(offsets.length);
+
+				int defaultOffset = offsets[0];
+				BasicBlock bb = map[defaultOffset];
+				switchCases.add(new SwitchCase(bb));
+				bb.getPredecessors().add(basicBlock);
+
+				for (int j = 1, len = offsets.length; j < len; j++) {
+					int offset = offsets[j];
+					if (offset != defaultOffset) {
+						bb = map[offset];
+						switchCases.add(new SwitchCase(values[j], bb));
+						bb.getPredecessors().add(basicBlock);
+					}
+				}
+
+				basicBlock.setSwitchCases(switchCases);
+				break;
+			case 'j': // Jsr
+				basicBlock.setType(TYPE_JSR);
+				successor = map[basicBlock.getToOffset()];
+				basicBlock.setNext(successor);
+				successor.getPredecessors().add(basicBlock);
+				successor = map[branchOffsets[lastInstructionOffset]];
+				basicBlock.setBranch(successor);
+				successor.getPredecessors().add(basicBlock);
+				break;
+			case 'R': // Ret
+				basicBlock.setType(TYPE_RET);
+				basicBlock.setNext(END);
+				break;
+			case 'v': // Return value
+				basicBlock.setType(TYPE_RETURN_VALUE);
+				basicBlock.setNext(END);
+				break;
+			default:
+				basicBlock.setType(TYPE_STATEMENTS);
+				successor = map[basicBlock.getToOffset()];
+				basicBlock.setNext(successor);
+				successor.getPredecessors().add(basicBlock);
+				basicBlocks.add(basicBlock);
+				break;
+			}
+		}
+		return basicBlocks;
+	}
+
+	private static void checkTryCatchBlocks(Method method, BasicBlock[] map, char[] types, int[] branchOffsets,
+			CodeException[] codeExceptions, ControlFlowGraph cfg) {
+		if (codeExceptions != null) {
+			HashMap<CodeException, BasicBlock> cache = new HashMap<>();
+			ConstantPool constantPool = method.getConstants();
+			// Reuse arrays
+			int[] handlePcToStartPc = branchOffsets;
+			char[] handlePcMarks = types;
+
+			Arrays.sort(codeExceptions, CODE_EXCEPTION_COMPARATOR);
+
+			for (CodeException codeException : codeExceptions) {
+				int startPc = codeException.getStartPc();
+				int handlerPc = codeException.getHandlerPc();
+
+				if (startPc != handlerPc) {
+					if ((handlePcMarks[handlerPc] != 'T')
+							|| (startPc <= map[handlePcToStartPc[handlerPc]].getFromOffset())) {
+						int catchType = codeException.getCatchType();
+						BasicBlock tcf = cache.get(codeException);
+
+						if (tcf == null) {
+							int endPc = codeException.getEndPc();
+							// Check 'endPc'
+							BasicBlock start = map[startPc];
+
+							// Insert a new 'try-catch-finally' basic block
+							tcf = cfg.newBasicBlock(TYPE_TRY_DECLARATION, startPc, endPc);
+							tcf.setNext(start);
+
+							// Update predecessors
+							Set<BasicBlock> tcfPredecessors = tcf.getPredecessors();
+							Set<BasicBlock> startPredecessors = start.getPredecessors();
+							Iterator<BasicBlock> iterator = startPredecessors.iterator();
+
+							while (iterator.hasNext()) {
+								BasicBlock predecessor = iterator.next();
+
+								if (!start.contains(predecessor)) {
+									predecessor.replace(start, tcf);
+									tcfPredecessors.add(predecessor);
+									iterator.remove();
+								}
+							}
+
+							startPredecessors.add(tcf);
+
+							// Update map
+							map[startPc] = tcf;
+
+							// Store to objectTypeCache
+							cache.put(codeException, tcf);
+						}
+
+						String internalThrowableName = catchType == 0 ? null
+								: constantPool.getConstantTypeName(catchType);
+						BasicBlock handlerBB = map[handlerPc];
+						tcf.addExceptionHandler(internalThrowableName, handlerBB);
+						handlerBB.getPredecessors().add(tcf);
+						handlePcToStartPc[handlerPc] = startPc;
+						handlePcMarks[handlerPc] = 'T';
 					}
 				}
 			}
+		}
+	}
 
-			return cfg;
+	private static void checkTernaryOperators(List<BasicBlock> basicBlocks, byte[] code, ConstantPool constants) {
+		for (BasicBlock bb : basicBlocks) {
+			BasicBlock next = bb.getNext();
+			Set<BasicBlock> predecessors;
+
+			if ((bb.getType() == TYPE_STATEMENTS) && (next.getPredecessors().size() == 1)) {
+				if ((next.getType() == TYPE_GOTO) && (ByteCodeUtil.evalStackDepth(constants, code, bb) > 0)) {
+					// Transform STATEMENTS and GOTO to GOTO_IN_TERNARY_OPERATOR
+					bb.setType(TYPE_GOTO_IN_TERNARY_OPERATOR);
+					bb.setToOffset(next.getToOffset());
+					bb.setNext(next.getNext());
+					predecessors = next.getNext().getPredecessors();
+					predecessors.remove(next);
+					predecessors.add(bb);
+					next.setType(TYPE_DELETED);
+				} else if ((next.getType() == TYPE_CONDITIONAL_BRANCH)
+						&& (ByteCodeUtil.evalStackDepth(constants, code, bb) > 0)) {
+					// Merge STATEMENTS and CONDITIONAL_BRANCH
+					bb.setType(TYPE_CONDITIONAL_BRANCH);
+					bb.setToOffset(next.getToOffset());
+					bb.setNext(next.getNext());
+					predecessors = next.getNext().getPredecessors();
+					predecessors.remove(next);
+					predecessors.add(bb);
+					bb.setBranch(next.getBranch());
+					predecessors = next.getBranch().getPredecessors();
+					predecessors.remove(next);
+					predecessors.add(bb);
+					next.setType(TYPE_DELETED);
+				}
+			}
 		}
 	}
 
