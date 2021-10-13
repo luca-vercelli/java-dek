@@ -106,7 +106,7 @@ public class StatementMaker {
 		// "return ...;"
 		statements.accept(removeBinaryOpReturnStatementsVisitor);
 
-		// Remove last 'return' statement
+		// Remove last (useless) 'return' statement
 		if (!statements.isEmpty() && statements.getLast().isReturnStatement()) {
 			statements.removeLast();
 		}
@@ -1001,10 +1001,20 @@ public class StatementMaker {
 		return new TypeReferenceDotClassExpression(lineNumber, ot);
 	}
 
+	/**
+	 * Create statements from bytecode contained in <code>basicBlock.cfg.method</code>.
+	 *
+	 * @param basicBlock
+	 * @param statements new statements are added to this list
+	 */
 	protected void parseByteCode(BasicBlock basicBlock, Statements statements) {
 		byteCodeParser.parse(basicBlock, statements, stack);
 	}
 
+	/**
+	 * Replace ++i with i++ and --i with i--, when this is the last operator of a
+	 * statement
+	 */
 	protected void replacePreOperatorWithPostOperator(Statements statements) {
 		Iterator<Statement> iterator = statements.iterator();
 
