@@ -7,13 +7,28 @@
 
 package org.jd.core.v1;
 
+import static org.jd.core.v1.model.token.KeywordToken.BOOLEAN;
+import static org.jd.core.v1.model.token.KeywordToken.CATCH;
+import static org.jd.core.v1.model.token.KeywordToken.CLASS;
+import static org.jd.core.v1.model.token.KeywordToken.EXTENDS;
+import static org.jd.core.v1.model.token.KeywordToken.FALSE;
+import static org.jd.core.v1.model.token.KeywordToken.FINALLY;
+import static org.jd.core.v1.model.token.KeywordToken.IF;
+import static org.jd.core.v1.model.token.KeywordToken.IMPLEMENTS;
+import static org.jd.core.v1.model.token.KeywordToken.INT;
+import static org.jd.core.v1.model.token.KeywordToken.NEW;
+import static org.jd.core.v1.model.token.KeywordToken.NULL;
+import static org.jd.core.v1.model.token.KeywordToken.PACKAGE;
+import static org.jd.core.v1.model.token.KeywordToken.PROTECTED;
+import static org.jd.core.v1.model.token.KeywordToken.PUBLIC;
+import static org.jd.core.v1.model.token.KeywordToken.RETURN;
+import static org.jd.core.v1.model.token.KeywordToken.STATIC;
+import static org.jd.core.v1.model.token.KeywordToken.SUPER;
+import static org.jd.core.v1.model.token.KeywordToken.VOID;
 import static org.junit.Assert.assertTrue;
-import static org.jd.core.v1.model.token.KeywordToken.*;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 import org.jd.core.v1.model.javafragment.EndMovableJavaBlockFragment;
 import org.jd.core.v1.model.javafragment.ImportsFragment;
@@ -24,6 +39,7 @@ import org.jd.core.v1.model.javafragment.StartMovableJavaBlockFragment;
 import org.jd.core.v1.model.javafragment.StartSingleStatementBlockFragment;
 import org.jd.core.v1.model.javafragment.StartStatementsBlockFragment;
 import org.jd.core.v1.model.javafragment.TokensFragment;
+import org.jd.core.v1.model.message.CompileConfiguration;
 import org.jd.core.v1.model.message.Message;
 import org.jd.core.v1.model.token.DeclarationToken;
 import org.jd.core.v1.model.token.EndBlockToken;
@@ -77,7 +93,7 @@ public class JavaFragmentToTokenTest {
 	public void testIfReturn_1_3() throws Exception {
 		Message message = createMessageToTestIfReturn(1, 3);
 		PlainTextMetaPrinter printer = new PlainTextMetaPrinter();
-		Map<String, Object> configuration = Collections.singletonMap("realignLineNumbers", Boolean.TRUE);
+        CompileConfiguration configuration = new CompileConfiguration().setRealignLineNumbers(true);
 
 		message.setPrinter(printer);
 		message.setConfiguration(configuration);
@@ -102,7 +118,7 @@ public class JavaFragmentToTokenTest {
 	public void testIfReturn_1_4() throws Exception {
 		Message message = createMessageToTestIfReturn(1, 4);
 		PlainTextMetaPrinter printer = new PlainTextMetaPrinter();
-		Map<String, Object> configuration = Collections.singletonMap("realignLineNumbers", Boolean.TRUE);
+		CompileConfiguration configuration = new CompileConfiguration().setRealignLineNumbers(true);
 
 		message.setPrinter(printer);
 		message.setConfiguration(configuration);
@@ -148,7 +164,7 @@ public class JavaFragmentToTokenTest {
 	public void testIfAssignation_1_2_3() throws Exception {
 		Message message = createMessageToTestIfAssignation(1, 2, 3);
 		PlainTextMetaPrinter printer = new PlainTextMetaPrinter();
-		Map<String, Object> configuration = Collections.singletonMap("realignLineNumbers", Boolean.TRUE);
+        CompileConfiguration configuration = new CompileConfiguration().setRealignLineNumbers(true);
 
 		message.setPrinter(printer);
 		message.setConfiguration(configuration);
@@ -174,7 +190,7 @@ public class JavaFragmentToTokenTest {
 	public void testIfAssignation_1_3_5() throws Exception {
 		Message message = createMessageToTestIfAssignation(1, 3, 5);
 		PlainTextMetaPrinter printer = new PlainTextMetaPrinter();
-		Map<String, Object> configuration = Collections.singletonMap("realignLineNumbers", Boolean.TRUE);
+		CompileConfiguration configuration = new CompileConfiguration().setRealignLineNumbers(true);
 
 		message.setPrinter(printer);
 		message.setConfiguration(configuration);
@@ -242,7 +258,7 @@ public class JavaFragmentToTokenTest {
 	public void testClassAndFieldDeclaration_1() throws Exception {
 		Message message = createMessageToTestClassDeclaration(1);
 		PlainTextMetaPrinter printer = new PlainTextMetaPrinter();
-		Map<String, Object> configuration = Collections.singletonMap("realignLineNumbers", Boolean.TRUE);
+		CompileConfiguration configuration = new CompileConfiguration().setRealignLineNumbers(true);
 
 		message.setPrinter(printer);
 		message.setConfiguration(configuration);
@@ -266,7 +282,7 @@ public class JavaFragmentToTokenTest {
 	public void testClassAndFieldDeclaration_2() throws Exception {
 		Message message = createMessageToTestClassDeclaration(2);
 		PlainTextMetaPrinter printer = new PlainTextMetaPrinter();
-		Map<String, Object> configuration = Collections.singletonMap("realignLineNumbers", Boolean.TRUE);
+		CompileConfiguration configuration = new CompileConfiguration().setRealignLineNumbers(true);
 
 		message.setPrinter(printer);
 		message.setConfiguration(configuration);
@@ -290,7 +306,7 @@ public class JavaFragmentToTokenTest {
 	public void testClassAndFieldDeclaration_3() throws Exception {
 		Message message = createMessageToTestClassDeclaration(3);
 		PlainTextMetaPrinter printer = new PlainTextMetaPrinter();
-		Map<String, Object> configuration = Collections.singletonMap("realignLineNumbers", Boolean.TRUE);
+        CompileConfiguration configuration = new CompileConfiguration().setRealignLineNumbers(true);
 
 		message.setPrinter(printer);
 		message.setConfiguration(configuration);
@@ -316,7 +332,7 @@ public class JavaFragmentToTokenTest {
 	public void testClassAndFieldDeclaration_4() throws Exception {
 		Message message = createMessageToTestClassDeclaration(4);
 		PlainTextMetaPrinter printer = new PlainTextMetaPrinter();
-		Map<String, Object> configuration = Collections.singletonMap("realignLineNumbers", Boolean.TRUE);
+		CompileConfiguration configuration = new CompileConfiguration().setRealignLineNumbers(true);
 
 		message.setPrinter(printer);
 		message.setConfiguration(configuration);
@@ -342,7 +358,7 @@ public class JavaFragmentToTokenTest {
 	public void testClassAndFieldDeclaration_5() throws Exception {
 		Message message = createMessageToTestClassDeclaration(5);
 		PlainTextMetaPrinter printer = new PlainTextMetaPrinter();
-		Map<String, Object> configuration = Collections.singletonMap("realignLineNumbers", Boolean.TRUE);
+        CompileConfiguration configuration = new CompileConfiguration().setRealignLineNumbers(true);
 
 		message.setPrinter(printer);
 		message.setConfiguration(configuration);
@@ -367,7 +383,7 @@ public class JavaFragmentToTokenTest {
 	public void testClassAndFieldDeclaration_6() throws Exception {
 		Message message = createMessageToTestClassDeclaration(6);
 		PlainTextMetaPrinter printer = new PlainTextMetaPrinter();
-		Map<String, Object> configuration = Collections.singletonMap("realignLineNumbers", Boolean.TRUE);
+		CompileConfiguration configuration = new CompileConfiguration().setRealignLineNumbers(true);
 
 		message.setPrinter(printer);
 		message.setConfiguration(configuration);
@@ -418,7 +434,7 @@ public class JavaFragmentToTokenTest {
 	public void testClassAndFieldDeclaration_8() throws Exception {
 		Message message = createMessageToTestClassDeclaration(8);
 		PlainTextMetaPrinter printer = new PlainTextMetaPrinter();
-		Map<String, Object> configuration = Collections.singletonMap("realignLineNumbers", Boolean.TRUE);
+		CompileConfiguration configuration = new CompileConfiguration().setRealignLineNumbers(true);
 
 		message.setPrinter(printer);
 		message.setConfiguration(configuration);
@@ -445,7 +461,7 @@ public class JavaFragmentToTokenTest {
 	public void testClassAndFieldDeclaration_9() throws Exception {
 		Message message = createMessageToTestClassDeclaration(9);
 		PlainTextMetaPrinter printer = new PlainTextMetaPrinter();
-		Map<String, Object> configuration = Collections.singletonMap("realignLineNumbers", Boolean.TRUE);
+		CompileConfiguration configuration = new CompileConfiguration().setRealignLineNumbers(true);
 
 		message.setPrinter(printer);
 		message.setConfiguration(configuration);
@@ -473,7 +489,7 @@ public class JavaFragmentToTokenTest {
 		Message message = createMessageToTestClassDeclaration(10);
 		// PlainTextMetaPrinter printer = new PlainTextMetaPrinter();
 		PlainTextPrinter printer = new PlainTextPrinter();
-		Map<String, Object> configuration = Collections.singletonMap("realignLineNumbers", Boolean.TRUE);
+		CompileConfiguration configuration = new CompileConfiguration().setRealignLineNumbers(true);
 
 		message.setPrinter(printer);
 		message.setConfiguration(configuration);
@@ -500,7 +516,7 @@ public class JavaFragmentToTokenTest {
 	public void testClassAndMethodDeclaration_3() throws Exception {
 		Message message = createMessageToTestClassAndMethodDeclaration(3);
 		PlainTextMetaPrinter printer = new PlainTextMetaPrinter();
-		Map<String, Object> configuration = Collections.singletonMap("realignLineNumbers", Boolean.TRUE);
+        CompileConfiguration configuration = new CompileConfiguration().setRealignLineNumbers(true);
 
 		message.setPrinter(printer);
 		message.setConfiguration(configuration);
@@ -525,7 +541,7 @@ public class JavaFragmentToTokenTest {
 	public void testClassAndMethodDeclaration_4() throws Exception {
 		Message message = createMessageToTestClassAndMethodDeclaration(4);
 		PlainTextMetaPrinter printer = new PlainTextMetaPrinter();
-		Map<String, Object> configuration = Collections.singletonMap("realignLineNumbers", Boolean.TRUE);
+		CompileConfiguration configuration = new CompileConfiguration().setRealignLineNumbers(true);
 
 		message.setPrinter(printer);
 		message.setConfiguration(configuration);
@@ -575,7 +591,7 @@ public class JavaFragmentToTokenTest {
 	public void testClassAndMethodDeclaration_9() throws Exception {
 		Message message = createMessageToTestClassAndMethodDeclaration(9);
 		PlainTextMetaPrinter printer = new PlainTextMetaPrinter();
-		Map<String, Object> configuration = Collections.singletonMap("realignLineNumbers", Boolean.TRUE);
+		CompileConfiguration configuration = new CompileConfiguration().setRealignLineNumbers(true);
 
 		message.setPrinter(printer);
 		message.setConfiguration(configuration);
@@ -603,7 +619,7 @@ public class JavaFragmentToTokenTest {
 		Message message = createMessageToTestClassAndMethodDeclaration(10);
 		// PlainTextMetaPrinter printer = new PlainTextMetaPrinter();
 		PlainTextPrinter printer = new PlainTextPrinter();
-		Map<String, Object> configuration = Collections.singletonMap("realignLineNumbers", Boolean.TRUE);
+		CompileConfiguration configuration = new CompileConfiguration().setRealignLineNumbers(true);
 
 		message.setPrinter(printer);
 		message.setConfiguration(configuration);
@@ -634,7 +650,7 @@ public class JavaFragmentToTokenTest {
 		Message message = createMessageToTestClassAndMethodDeclaration(11);
 		// PlainTextMetaPrinter printer = new PlainTextMetaPrinter();
 		PlainTextPrinter printer = new PlainTextPrinter();
-		Map<String, Object> configuration = Collections.singletonMap("realignLineNumbers", Boolean.TRUE);
+        CompileConfiguration configuration = new CompileConfiguration().setRealignLineNumbers(true);
 
 		message.setPrinter(printer);
 		message.setConfiguration(configuration);
@@ -665,7 +681,7 @@ public class JavaFragmentToTokenTest {
 		Message message = createMessageToTestClassAndMethodDeclaration(12);
 		// PlainTextMetaPrinter printer = new PlainTextMetaPrinter();
 		PlainTextPrinter printer = new PlainTextPrinter();
-		Map<String, Object> configuration = Collections.singletonMap("realignLineNumbers", Boolean.TRUE);
+		CompileConfiguration configuration = new CompileConfiguration().setRealignLineNumbers(true);
 
 		message.setPrinter(printer);
 		message.setConfiguration(configuration);
@@ -696,7 +712,7 @@ public class JavaFragmentToTokenTest {
 		Message message = createMessageToTestClassAndMethodDeclaration(14);
 		// PlainTextMetaPrinter printer = new PlainTextMetaPrinter();
 		PlainTextPrinter printer = new PlainTextPrinter();
-		Map<String, Object> configuration = Collections.singletonMap("realignLineNumbers", Boolean.TRUE);
+		CompileConfiguration configuration = new CompileConfiguration().setRealignLineNumbers(true);
 
 		message.setPrinter(printer);
 		message.setConfiguration(configuration);
@@ -768,7 +784,7 @@ public class JavaFragmentToTokenTest {
 	public void testLayoutWithStretchedfFragments_2() throws Exception {
 		Message message = createSimpleMessage(2);
 		PlainTextMetaPrinter printer = new PlainTextMetaPrinter();
-		Map<String, Object> configuration = Collections.singletonMap("realignLineNumbers", Boolean.TRUE);
+        CompileConfiguration configuration = new CompileConfiguration().setRealignLineNumbers(true);
 
 		message.setPrinter(printer);
 		message.setConfiguration(configuration);
@@ -791,7 +807,7 @@ public class JavaFragmentToTokenTest {
 	public void testLayoutWithStretchedfFragments_3() throws Exception {
 		Message message = createSimpleMessage(3);
 		PlainTextMetaPrinter printer = new PlainTextMetaPrinter();
-		Map<String, Object> configuration = Collections.singletonMap("realignLineNumbers", Boolean.TRUE);
+		CompileConfiguration configuration = new CompileConfiguration().setRealignLineNumbers(true);
 
 		message.setPrinter(printer);
 		message.setConfiguration(configuration);
@@ -814,7 +830,7 @@ public class JavaFragmentToTokenTest {
 	public void testMoveDown() throws Exception {
 		Message message = createMessageToTestMoveDown();
 		PlainTextMetaPrinter printer = new PlainTextMetaPrinter();
-		Map<String, Object> configuration = Collections.singletonMap("realignLineNumbers", Boolean.TRUE);
+		CompileConfiguration configuration = new CompileConfiguration().setRealignLineNumbers(true);
 
 		message.setPrinter(printer);
 		message.setConfiguration(configuration);
@@ -837,7 +853,7 @@ public class JavaFragmentToTokenTest {
 	public void testLinkedBlocks_16() throws Exception {
 		Message message = createMessageToTestLinkedBlocks(6, 9, 11, 13, 16);
 		PlainTextMetaPrinter printer = new PlainTextMetaPrinter();
-		Map<String, Object> configuration = Collections.singletonMap("realignLineNumbers", Boolean.TRUE);
+		CompileConfiguration configuration = new CompileConfiguration().setRealignLineNumbers(true);
 
 		message.setPrinter(printer);
 		message.setConfiguration(configuration);
@@ -860,7 +876,7 @@ public class JavaFragmentToTokenTest {
 	public void testLinkedBlocks_22() throws Exception {
 		Message message = createMessageToTestLinkedBlocks(7, 11, 15, 19, 22);
 		PlainTextMetaPrinter printer = new PlainTextMetaPrinter();
-		Map<String, Object> configuration = Collections.singletonMap("realignLineNumbers", Boolean.TRUE);
+		CompileConfiguration configuration = new CompileConfiguration().setRealignLineNumbers(true);
 
 		message.setPrinter(printer);
 		message.setConfiguration(configuration);

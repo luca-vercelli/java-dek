@@ -10,13 +10,12 @@ package org.jd.core.v1.decompile;
 import static org.junit.Assert.assertTrue;
 
 import java.io.InputStream;
-import java.util.Collections;
-import java.util.Map;
 
 import org.jd.core.v1.TestDecompiler;
 import org.jd.core.v1.api.Loader;
 import org.jd.core.v1.compiler.CompilerUtil;
 import org.jd.core.v1.compiler.JavaSourceFileObject;
+import org.jd.core.v1.model.message.CompileConfiguration;
 import org.jd.core.v1.regex.PatternMaker;
 import org.jd.core.v1.service.loader.ZipLoader;
 import org.junit.Test;
@@ -29,7 +28,7 @@ public class JavaInnerOuterClassTest {
 		String internalClassName = "org/jd/core/test/OuterClass";
 		InputStream is = this.getClass().getResourceAsStream("/zip/data-java-jdk-1.7.0.zip");
 		Loader loader = new ZipLoader(is);
-		Map<String, Object> configuration = Collections.singletonMap("realignLineNumbers", Boolean.TRUE);
+		CompileConfiguration configuration = new CompileConfiguration().setRealignLineNumbers(true);
 		String source = decompiler.decompile(loader, internalClassName, configuration);
 
 		// Check decompiled source code

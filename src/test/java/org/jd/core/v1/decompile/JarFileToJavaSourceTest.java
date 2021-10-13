@@ -18,6 +18,7 @@ import java.util.Map;
 import org.jd.core.v1.api.Decompiler;
 import org.jd.core.v1.compiler.CompilerUtil;
 import org.jd.core.v1.compiler.JavaSourceFileObject;
+import org.jd.core.v1.model.message.CompileConfiguration;
 import org.jd.core.v1.service.StandardDecompiler;
 import org.jd.core.v1.service.loader.ZipLoader;
 import org.jd.core.v1.service.printer.PlainTextPrinter;
@@ -144,10 +145,8 @@ public class JarFileToJavaSourceTest {
 		try (InputStream is = inputStream) {
 			ZipLoader loader = new ZipLoader(is);
 			CounterPrinter printer = new CounterPrinter();
-			HashMap<String, Integer> statistics = new HashMap<>();
-			HashMap<String, Object> configuration = new HashMap<>();
-
-			configuration.put("realignLineNumbers", Boolean.TRUE);
+			Map<String, Integer> statistics = new HashMap<>();
+	        CompileConfiguration configuration = new CompileConfiguration().setRealignLineNumbers(true);
 
 			long time0 = System.currentTimeMillis();
 

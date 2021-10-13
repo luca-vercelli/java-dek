@@ -7,11 +7,15 @@
 
 package org.jd.core.v1;
 
+import static org.jd.core.v1.model.classfile.AccessType.ACC_BRIDGE;
+import static org.jd.core.v1.model.classfile.AccessType.ACC_FINAL;
+import static org.jd.core.v1.model.classfile.AccessType.ACC_PRIVATE;
+import static org.jd.core.v1.model.classfile.AccessType.ACC_PUBLIC;
+import static org.jd.core.v1.model.classfile.AccessType.ACC_STATIC;
+import static org.jd.core.v1.model.classfile.AccessType.ACC_SYNTHETIC;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.Map;
 
 import org.jd.core.v1.model.javasyntax.CompilationUnit;
 import org.jd.core.v1.model.javasyntax.declaration.BodyDeclaration;
@@ -55,6 +59,7 @@ import org.jd.core.v1.model.javasyntax.type.ObjectType;
 import org.jd.core.v1.model.javasyntax.type.PrimitiveType;
 import org.jd.core.v1.model.javasyntax.type.Type;
 import org.jd.core.v1.model.javasyntax.type.Types;
+import org.jd.core.v1.model.message.CompileConfiguration;
 import org.jd.core.v1.model.message.Message;
 import org.jd.core.v1.service.converter.classfiletojavasyntax.util.JavaVersion;
 import org.jd.core.v1.service.fragmenter.javasyntaxtojavafragment.JavaSyntaxToJavaFragmentProcessor;
@@ -64,7 +69,6 @@ import org.jd.core.v1.service.printer.PlainTextMetaPrinter;
 import org.jd.core.v1.service.tokenizer.javafragmenttotoken.JavaFragmentToTokenProcessor;
 import org.jd.core.v1.service.writer.WriteTokenProcessor;
 import org.junit.Test;
-import static org.jd.core.v1.model.classfile.AccessType.*;
 
 public class JavaSyntaxToJavaSourceTest {
 
@@ -137,7 +141,7 @@ public class JavaSyntaxToJavaSourceTest {
 										new LocalVariableReferenceExpression(22, PrimitiveType.TYPE_INT, "i"))))))));
 
 		PlainTextMetaPrinter printer = new PlainTextMetaPrinter();
-		Map<String, Object> configuration = Collections.singletonMap("realignLineNumbers", Boolean.TRUE);
+		CompileConfiguration configuration = new CompileConfiguration().setRealignLineNumbers(true);
 		Message message = new Message();
 		message.setCompilationUnit(compilationUnit);
 

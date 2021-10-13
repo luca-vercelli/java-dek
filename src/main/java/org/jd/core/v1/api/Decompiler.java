@@ -8,7 +8,8 @@
 package org.jd.core.v1.api;
 
 import java.io.IOException;
-import java.util.Map;
+
+import org.jd.core.v1.model.message.CompileConfiguration;
 
 /**
  * An object that perform decompilation to a Printer
@@ -19,6 +20,6 @@ public interface Decompiler {
 
 	Printer decompile(Loader loader, Printer printer, String internalName) throws IOException;
 
-	Printer decompile(Loader loader, Printer printer, String internalName, Map<String, Object> configuration)
+	Printer decompile(Loader loader, Printer printer, String internalName, CompileConfiguration configuration)
 			throws IOException;
 }

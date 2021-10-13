@@ -3,10 +3,10 @@ package org.jd.core.v1;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
-import java.util.Map;
 
 import org.jd.core.v1.api.Loader;
 import org.jd.core.v1.api.Printer;
+import org.jd.core.v1.model.message.CompileConfiguration;
 import org.jd.core.v1.model.message.Message;
 import org.jd.core.v1.service.StandardDecompiler;
 import org.jd.core.v1.service.loader.ClassPathLoader;
@@ -47,7 +47,7 @@ public class TestDecompiler extends StandardDecompiler {
 	/**
 	 * Convenience method for tests
 	 */
-	public String decompile(String internalName, Map<String, Object> configuration) throws Exception {
+	public String decompile(String internalName, CompileConfiguration configuration) throws Exception {
 		Printer printer = new PlainTextPrinter();
 		decompile(new ClassPathLoader(), printer, internalName, configuration);
 		return printer.toString();
@@ -65,7 +65,7 @@ public class TestDecompiler extends StandardDecompiler {
 	/**
 	 * Convenience method for tests
 	 */
-	public String decompile(Loader loader, String internalName, Map<String, Object> configuration) throws Exception {
+	public String decompile(Loader loader, String internalName, CompileConfiguration configuration) throws Exception {
 		Printer printer = new PlainTextPrinter();
 		decompile(loader, printer, internalName, configuration);
 		return printer.toString();

@@ -8,9 +8,8 @@
 package org.jd.core.v1;
 
 import java.io.InputStream;
-import java.util.Collections;
-import java.util.Map;
 
+import org.jd.core.v1.model.message.CompileConfiguration;
 import org.jd.core.v1.model.message.Message;
 import org.jd.core.v1.regex.PatternMaker;
 import org.jd.core.v1.service.converter.classfiletojavasyntax.processor.ConvertClassFileProcessor;
@@ -39,7 +38,7 @@ public class LayoutFragmentProcessorTest extends TestCase {
 		InputStream is = this.getClass().getResourceAsStream("/zip/data-java-jdk-1.1.8.zip");
 		ZipLoader loader = new ZipLoader(is);
 		PlainTextPrinter printer = new PlainTextPrinter();
-		Map<String, Object> configuration = Collections.singletonMap("realignLineNumbers", Boolean.TRUE);
+		CompileConfiguration configuration = new CompileConfiguration().setRealignLineNumbers(true);
 
 		Message message = new Message();
 		message.setLoader(loader);
@@ -66,7 +65,7 @@ public class LayoutFragmentProcessorTest extends TestCase {
 		InputStream is = this.getClass().getResourceAsStream("/zip/data-java-jdk-1.3.1.zip");
 		ZipLoader loader = new ZipLoader(is);
 		PlainTextPrinter printer = new PlainTextPrinter();
-		Map<String, Object> configuration = Collections.singletonMap("realignLineNumbers", Boolean.TRUE);
+		CompileConfiguration configuration = new CompileConfiguration().setRealignLineNumbers(true);
 
 		Message message = new Message();
 		message.setLoader(loader);
@@ -93,7 +92,7 @@ public class LayoutFragmentProcessorTest extends TestCase {
 		InputStream is = this.getClass().getResourceAsStream("/zip/data-java-jdk-1.7.0.zip");
 		ZipLoader loader = new ZipLoader(is);
 		PlainTextPrinter printer = new PlainTextPrinter();
-		Map<String, Object> configuration = Collections.singletonMap("realignLineNumbers", Boolean.TRUE);
+		CompileConfiguration configuration = new CompileConfiguration().setRealignLineNumbers(true);
 
 		Message message = new Message();
 		message.setLoader(loader);
@@ -120,7 +119,7 @@ public class LayoutFragmentProcessorTest extends TestCase {
 		InputStream is = this.getClass().getResourceAsStream("/zip/data-java-jdk-1.7.0.zip");
 		ZipLoader loader = new ZipLoader(is);
 		PlainTextPrinter printer = new PlainTextPrinter();
-		Map<String, Object> configuration = Collections.singletonMap("realignLineNumbers", Boolean.TRUE);
+		CompileConfiguration configuration = new CompileConfiguration().setRealignLineNumbers(true);
 
 		Message message = new Message();
 		message.setLoader(loader);
@@ -149,7 +148,7 @@ public class LayoutFragmentProcessorTest extends TestCase {
 		InputStream is = this.getClass().getResourceAsStream("/zip/data-java-jdk-1.7.0.zip");
 		ZipLoader loader = new ZipLoader(is);
 		PlainTextPrinter printer = new PlainTextPrinter();
-		Map<String, Object> configuration = Collections.singletonMap("realignLineNumbers", Boolean.TRUE);
+		CompileConfiguration configuration = new CompileConfiguration().setRealignLineNumbers(true);
 
 		Message message = new Message();
 		message.setLoader(loader);
@@ -204,7 +203,7 @@ public class LayoutFragmentProcessorTest extends TestCase {
 		InputStream is = this.getClass().getResourceAsStream("/zip/data-java-jdk-1.7.0.zip");
 		ZipLoader loader = new ZipLoader(is);
 		PlainTextPrinter printer = new PlainTextPrinter();
-		Map<String, Object> configuration = Collections.singletonMap("realignLineNumbers", Boolean.TRUE);
+		CompileConfiguration configuration = new CompileConfiguration().setRealignLineNumbers(true);
 
 		TestJavaFragmentToTokenProcessor tokenizer = new TestJavaFragmentToTokenProcessor();
 
@@ -233,7 +232,7 @@ public class LayoutFragmentProcessorTest extends TestCase {
 		InputStream is = this.getClass().getResourceAsStream("/zip/data-java-jdk-1.7.0.zip");
 		ZipLoader loader = new ZipLoader(is);
 		PlainTextPrinter printer = new PlainTextPrinter();
-		Map<String, Object> configuration = Collections.singletonMap("realignLineNumbers", Boolean.TRUE);
+		CompileConfiguration configuration = new CompileConfiguration().setRealignLineNumbers(true);
 
 		TestJavaFragmentToTokenProcessor tokenizer = new TestJavaFragmentToTokenProcessor();
 

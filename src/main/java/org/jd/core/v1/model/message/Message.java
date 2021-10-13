@@ -7,9 +7,7 @@
 
 package org.jd.core.v1.model.message;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.jd.core.v1.api.Loader;
 import org.jd.core.v1.api.Printer;
@@ -23,7 +21,7 @@ public class Message {
 
 	private Printer printer;
 	private Loader loader;
-	private Map<String, Object> configuration = new HashMap<>();
+	private CompileConfiguration configuration = new CompileConfiguration();
 	private String mainInternalTypeName;
 	private Integer maxLineNumber;
 	private Integer majorVersion;
@@ -36,14 +34,13 @@ public class Message {
 	private List<JavaFragment> fragments;
 	private List<Token> tokens;
 
-	public Map<String, Object> getConfiguration() {
+	public CompileConfiguration getConfiguration() {
 		return configuration;
 	}
 
-	public void setConfiguration(Map<String, Object> configuration) {
-		this.configuration.clear();
+	public void setConfiguration(CompileConfiguration configuration) {
 		if (configuration != null) {
-			this.configuration.putAll(configuration);
+			this.configuration = configuration;
 		}
 	}
 

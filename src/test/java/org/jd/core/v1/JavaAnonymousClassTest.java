@@ -10,12 +10,11 @@ package org.jd.core.v1;
 import static org.junit.Assert.assertTrue;
 
 import java.io.InputStream;
-import java.util.Collections;
-import java.util.Map;
 
 import org.jd.core.v1.api.Loader;
 import org.jd.core.v1.compiler.CompilerUtil;
 import org.jd.core.v1.compiler.JavaSourceFileObject;
+import org.jd.core.v1.model.message.CompileConfiguration;
 import org.jd.core.v1.regex.PatternMaker;
 import org.jd.core.v1.service.loader.ZipLoader;
 import org.jd.core.v1.service.printer.PlainTextPrinter;
@@ -29,7 +28,7 @@ public class JavaAnonymousClassTest  {
         String internalClassName = "org/jd/core/test/AnonymousClass";
         InputStream is = this.getClass().getResourceAsStream("/zip/data-java-jdk-1.5.0.zip");
         Loader loader = new ZipLoader(is);
-        Map<String, Object> configuration = Collections.singletonMap("realignLineNumbers", Boolean.TRUE);
+        CompileConfiguration configuration = new CompileConfiguration().setRealignLineNumbers(true);
         String source = decompiler.decompile(loader, new PlainTextPrinter(), internalClassName, configuration).toString();
 
         // Check decompiled source code
@@ -67,7 +66,7 @@ public class JavaAnonymousClassTest  {
         String internalClassName = "org/jd/core/test/AnonymousClass";
         InputStream is = this.getClass().getResourceAsStream("/zip/data-java-jdk-1.7.0.zip");
         Loader loader = new ZipLoader(is);
-        Map<String, Object> configuration = Collections.singletonMap("realignLineNumbers", Boolean.TRUE);
+        CompileConfiguration configuration = new CompileConfiguration().setRealignLineNumbers(true);
         String source = decompiler.decompile(loader, new PlainTextPrinter(), internalClassName, configuration).toString();
 
         // Check decompiled source code

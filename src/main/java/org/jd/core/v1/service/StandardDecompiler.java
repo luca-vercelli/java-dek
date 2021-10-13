@@ -8,11 +8,11 @@
 package org.jd.core.v1.service;
 
 import java.io.IOException;
-import java.util.Map;
 
 import org.jd.core.v1.api.Decompiler;
 import org.jd.core.v1.api.Loader;
 import org.jd.core.v1.api.Printer;
+import org.jd.core.v1.model.message.CompileConfiguration;
 import org.jd.core.v1.model.message.Message;
 import org.jd.core.v1.service.converter.classfiletojavasyntax.processor.ConvertClassFileProcessor;
 import org.jd.core.v1.service.deserializer.classfile.ClassFileDeserializer;
@@ -41,7 +41,7 @@ public class StandardDecompiler implements Decompiler {
 	}
 
 	@Override
-	public Printer decompile(Loader loader, Printer printer, String internalName, Map<String, Object> configuration)
+	public Printer decompile(Loader loader, Printer printer, String internalName, CompileConfiguration configuration)
 			throws IOException {
 		Message message = new Message();
 

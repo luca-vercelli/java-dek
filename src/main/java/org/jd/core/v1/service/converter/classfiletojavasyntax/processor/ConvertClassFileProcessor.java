@@ -54,6 +54,7 @@ import org.jd.core.v1.model.javasyntax.type.Type;
 import org.jd.core.v1.model.javasyntax.type.TypeArgument;
 import org.jd.core.v1.model.javasyntax.type.TypeParameter;
 import org.jd.core.v1.model.javasyntax.type.TypeParameterWithTypeBounds;
+import org.jd.core.v1.model.message.CompileConfiguration;
 import org.jd.core.v1.model.message.Message;
 import org.jd.core.v1.service.converter.classfiletojavasyntax.model.javasyntax.declaration.ClassFileAnnotationDeclaration;
 import org.jd.core.v1.service.converter.classfiletojavasyntax.model.javasyntax.declaration.ClassFileBodyDeclaration;
@@ -108,14 +109,14 @@ public class ConvertClassFileProcessor implements Processor {
 	public void process(Message message) {
 		ClassFile classFile = message.getClassFile();
 		Loader loader = message.getLoader();
-		Map<String, Object> configuration = message.getConfiguration();
+		CompileConfiguration configuration = message.getConfiguration();
 
 		TypeMaker typeMaker = createTypeMaker(loader, configuration);
 		message.setTypeMaker(typeMaker);
 
 		CompilationUnit compilationUnit = createCompilationUnit(typeMaker, classFile);
 
-		boolean dumpOpcode = configuration.containsKey("dumpOpcode") ? Boolean.TRUE.equals(configuration.get("dumpOpcode")) : false;
+		boolean dumpOpcode = configuration.isDumpOpcode();
 		fillCompilationUnit(typeMaker, compilationUnit, dumpOpcode);
 
 		message.setMajorVersion(classFile.getMajorVersion());
@@ -132,7 +133,7 @@ public class ConvertClassFileProcessor implements Processor {
 	/**
 	 * Create TypeMaker, or take it from Configuration
 	 */
-	public TypeMaker createTypeMaker(Loader loader, Map<String, Object> configuration) {
+	public TypeMaker createTypeMaker(Loader loader, CompileConfiguration configuration) {
 		TypeMaker typeMaker = null;
 
 		if (configuration == null) {
@@ -140,11 +141,11 @@ public class ConvertClassFileProcessor implements Processor {
 		} else {
 
 			try {
-				typeMaker = (TypeMaker) configuration.get("typeMaker");
+				typeMaker = configuration.getTypeMaker();
 
 				if (typeMaker == null) {
 					// Store the heavy weight object 'typeMaker' in 'configuration' to reuse it
-					configuration.put("typeMaker", typeMaker = new TypeMaker(loader));
+					configuration.setTypeMaker( typeMaker = new TypeMaker(loader));
 				}
 			} catch (Exception e) {
 				if (typeMaker == null) {

@@ -14,13 +14,12 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Collections;
-import java.util.Map;
 
 import org.jd.core.v1.TestDecompiler;
 import org.jd.core.v1.api.Loader;
 import org.jd.core.v1.compiler.CompilerUtil;
 import org.jd.core.v1.compiler.JavaSourceFileObject;
+import org.jd.core.v1.model.message.CompileConfiguration;
 import org.jd.core.v1.service.loader.ZipLoader;
 import org.junit.Test;
 
@@ -33,7 +32,7 @@ public class JavaTryWithResourcesTest {
 		String internalClassName = "org/jd/core/test/TryWithResources";
 		InputStream is = this.getClass().getResourceAsStream("/zip/data-java-jdk-1.7.0.zip");
 		Loader loader = new ZipLoader(is);
-		Map<String, Object> configuration = Collections.singletonMap("realignLineNumbers", Boolean.TRUE);
+		CompileConfiguration configuration = new CompileConfiguration().setRealignLineNumbers(true);
 		String source = decompiler.decompile(loader, internalClassName, configuration);
 
 		// Check decompiled source code
@@ -68,7 +67,7 @@ public class JavaTryWithResourcesTest {
 		String internalClassName = "org/jd/core/test/TryWithResources";
 		InputStream is = this.getClass().getResourceAsStream("/zip/data-java-jdk-1.8.0.zip");
 		Loader loader = new ZipLoader(is);
-		Map<String, Object> configuration = Collections.singletonMap("realignLineNumbers", Boolean.TRUE);
+		CompileConfiguration configuration = new CompileConfiguration().setRealignLineNumbers(true);
 		String source = decompiler.decompile(loader, internalClassName, configuration);
 
 		// Check decompiled source code
@@ -120,10 +119,10 @@ public class JavaTryWithResourcesTest {
 		String source = decompiler.decompile(internalClassName);
 
 		// Check decompiled source code
-		assertMatch(source, "try (FileInputStream input = new FileInputStream(pathIn);", 105);
-		assertMatch(source, "FileOutputStream output = new FileOutputStream(pathOut)) {", 106);
-		assertMatch(source, "} catch (IOException e) {", 108);
-		assertMatch(source, "} finally {", 110);
+		assertMatch(source, "try (FileInputStream input = new FileInputStream(pathIn);");
+		assertMatch(source, "FileOutputStream output = new FileOutputStream(pathOut)) {");
+		assertMatch(source, "} catch (IOException e) {");
+		assertMatch(source, "} finally {");
 
 		// Recompile decompiled source code and check errors
 		assertTrue(CompilerUtil.compile("1.8", new JavaSourceFileObject(internalClassName, source)));
