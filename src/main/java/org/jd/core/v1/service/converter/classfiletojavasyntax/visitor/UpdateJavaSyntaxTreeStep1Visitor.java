@@ -19,8 +19,13 @@ public class UpdateJavaSyntaxTreeStep1Visitor extends AbstractJavaSyntaxVisitor 
 	protected CreateInstructionsVisitor createInstructionsVisitor;
 	protected InitInnerClassVisitor initInnerClassStep1Visitor;
 
-	public UpdateJavaSyntaxTreeStep1Visitor(TypeMaker typeMaker) {
-		createInstructionsVisitor = new CreateInstructionsVisitor(typeMaker);
+	/**
+	 * 
+	 * @param typeMaker
+	 * @param dumpOpcode if true, print opcode instead of statements
+	 */
+	public UpdateJavaSyntaxTreeStep1Visitor(TypeMaker typeMaker, boolean dumpOpcode) {
+		createInstructionsVisitor = new CreateInstructionsVisitor(typeMaker, dumpOpcode);
 		initInnerClassStep1Visitor = new InitInnerClassVisitor();
 	}
 

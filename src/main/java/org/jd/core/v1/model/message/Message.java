@@ -7,6 +7,7 @@
 
 package org.jd.core.v1.model.message;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -22,7 +23,7 @@ public class Message {
 
 	private Printer printer;
 	private Loader loader;
-	private Map<String, Object> configuration;
+	private Map<String, Object> configuration = new HashMap<>();
 	private String mainInternalTypeName;
 	private Integer maxLineNumber;
 	private Integer majorVersion;
@@ -40,7 +41,10 @@ public class Message {
 	}
 
 	public void setConfiguration(Map<String, Object> configuration) {
-		this.configuration = configuration;
+		this.configuration.clear();
+		if (configuration != null) {
+			this.configuration.putAll(configuration);
+		}
 	}
 
 	public Integer getMaxLineNumber() {

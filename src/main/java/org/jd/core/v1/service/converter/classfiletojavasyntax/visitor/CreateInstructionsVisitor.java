@@ -43,9 +43,17 @@ import org.jd.core.v1.service.converter.classfiletojavasyntax.util.TypeMaker;
  */
 public class CreateInstructionsVisitor extends AbstractJavaSyntaxVisitor {
 	protected TypeMaker typeMaker;
+	protected boolean dumpOpcode;
 
-	public CreateInstructionsVisitor(TypeMaker typeMaker) {
+	/**
+	 * Constructor
+	 * 
+	 * @param typeMaker
+	 * @param dumpOpcode if true, print opcode instead of statements
+	 */
+	public CreateInstructionsVisitor(TypeMaker typeMaker, boolean dumpOpcode) {
 		this.typeMaker = typeMaker;
+		this.dumpOpcode = dumpOpcode;
 	}
 
 	@Override
@@ -143,17 +151,22 @@ public class CreateInstructionsVisitor extends AbstractJavaSyntaxVisitor {
 			boolean containsLineNumber = (attributeCode.getAttribute("LineNumberTable") != null);
 
 			try {
-				ControlFlowGraph cfg = ControlFlowGraphMaker.make(method);
+				boolean decompileSuccess = false;
+				if (!dumpOpcode) {
+					ControlFlowGraph cfg = ControlFlowGraphMaker.make(method);
 
-				if (cfg != null) {
-					ControlFlowGraphGotoReducer.reduce(cfg);
-					ControlFlowGraphLoopReducer.reduce(cfg);
+					if (cfg != null) {
+						ControlFlowGraphGotoReducer.reduce(cfg);
+						ControlFlowGraphLoopReducer.reduce(cfg);
 
-					if (ControlFlowGraphReducer.reduce(cfg)) {
-						comd.setStatements(statementMaker.make(cfg));
-					} else {
-						comd.setStatements(new ByteCodeStatement(ByteCodeWriter.write("// ", method)));
+						if (ControlFlowGraphReducer.reduce(cfg)) {
+							comd.setStatements(statementMaker.make(cfg));
+							decompileSuccess = true;
+						}
 					}
+				}
+				if (!decompileSuccess) {
+					comd.setStatements(new ByteCodeStatement(ByteCodeWriter.write("// ", method)));
 				}
 			} catch (Exception e) {
 				assert ExceptionUtil.printStackTrace(e);

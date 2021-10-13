@@ -115,16 +115,17 @@ public class ConvertClassFileProcessor implements Processor {
 
 		CompilationUnit compilationUnit = createCompilationUnit(typeMaker, classFile);
 
-		fillCompilationUnit(typeMaker, compilationUnit);
+		boolean dumpOpcode = configuration.containsKey("dumpOpcode") ? Boolean.TRUE.equals(configuration.get("dumpOpcode")) : false;
+		fillCompilationUnit(typeMaker, compilationUnit, dumpOpcode);
 
 		message.setMajorVersion(classFile.getMajorVersion());
 		message.setMinorVersion(classFile.getMinorVersion());
 		message.setCompilationUnit(compilationUnit);
 	}
 
-	public void fillCompilationUnit(TypeMaker typeMaker, CompilationUnit compilationUnit) {
+	public void fillCompilationUnit(TypeMaker typeMaker, CompilationUnit compilationUnit, boolean dumpOpcode) {
 		new UpdateJavaSyntaxTreeStep0Visitor(typeMaker).visit(compilationUnit);
-		new UpdateJavaSyntaxTreeStep1Visitor(typeMaker).visit(compilationUnit); // statements are added in this step
+		new UpdateJavaSyntaxTreeStep1Visitor(typeMaker, dumpOpcode).visit(compilationUnit); // statements are added in this step
 		new UpdateJavaSyntaxTreeStep2Visitor(typeMaker).visit(compilationUnit);
 	}
 
