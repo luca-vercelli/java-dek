@@ -7,65 +7,85 @@
 
 package org.jd.core.v1.service.converter.classfiletojavasyntax.visitor;
 
-import org.jd.core.v1.model.javasyntax.type.*;
-
 import static org.jd.core.v1.model.javasyntax.type.ObjectType.TYPE_OBJECT;
 
+import org.jd.core.v1.model.javasyntax.type.BaseType;
+import org.jd.core.v1.model.javasyntax.type.GenericType;
+import org.jd.core.v1.model.javasyntax.type.InnerObjectType;
+import org.jd.core.v1.model.javasyntax.type.ObjectType;
+import org.jd.core.v1.model.javasyntax.type.PrimitiveType;
+import org.jd.core.v1.model.javasyntax.type.Type;
+import org.jd.core.v1.model.javasyntax.type.TypeVisitor;
+import org.jd.core.v1.model.javasyntax.type.Types;
+
 public class EraseTypeArgumentVisitor implements TypeVisitor {
-    protected BaseType result;
+	protected BaseType result;
 
-    public void init() {
-        this.result = null;
-    }
+	public void init() {
+		this.result = null;
+	}
 
-    public BaseType getBaseType() {
-        return result;
-    }
+	public BaseType getBaseType() {
+		return result;
+	}
 
-    @Override public void visit(PrimitiveType type) { result = type; }
-    @Override public void visit(ObjectType type) { result = type.createType(null); }
-    @Override public void visit(GenericType type) { result = TYPE_OBJECT; }
+	@Override
+	public void visit(PrimitiveType type) {
+		result = type;
+	}
 
-    @Override public void visit(InnerObjectType type) {
-        Type t = type.getOuterType();
+	@Override
+	public void visit(ObjectType type) {
+		result = type.createType(null);
+	}
 
-        t.accept(this);
+	@Override
+	public void visit(GenericType type) {
+		result = TYPE_OBJECT;
+	}
 
-        if (result == t) {
-            result = type.createType(null);
-        } else {
-            result = new InnerObjectType(type.getInternalName(), type.getQualifiedName(), type.getName(), null, type.getDimension(), (ObjectType)result);
-        }
-    }
+	@Override
+	public void visit(InnerObjectType type) {
+		Type t = type.getOuterType();
 
-    @Override
-    public void visit(Types types) {
-        int size = types.size();
-        int i;
+		t.accept(this);
 
-        for (i=0; i<size; i++) {
-            Type t = types.get(i);
-            t.accept(this);
-            if (result != t) {
-                break;
-            }
-        }
+		if (result == t) {
+			result = type.createType(null);
+		} else {
+			result = new InnerObjectType(type.getInternalName(), type.getQualifiedName(), type.getName(), null,
+					type.getDimension(), (ObjectType) result);
+		}
+	}
 
-        if (i == size) {
-            result = types;
-        } else {
-            Types newTypes = new Types(size);
+	@Override
+	public void visit(Types types) {
+		int size = types.size();
+		int i;
 
-            newTypes.addAll(types.subList(0, i));
-            newTypes.add((Type) result);
+		for (i = 0; i < size; i++) {
+			Type t = types.get(i);
+			t.accept(this);
+			if (result != t) {
+				break;
+			}
+		}
 
-            for (i++; i<size; i++) {
-                Type t = types.get(i);
-                t.accept(this);
-                newTypes.add((Type) result);
-            }
+		if (i == size) {
+			result = types;
+		} else {
+			Types newTypes = new Types(size);
 
-            result = newTypes;
-        }
-    }
+			newTypes.addAll(types.subList(0, i));
+			newTypes.add((Type) result);
+
+			for (i++; i < size; i++) {
+				Type t = types.get(i);
+				t.accept(this);
+				newTypes.add((Type) result);
+			}
+
+			result = newTypes;
+		}
+	}
 }

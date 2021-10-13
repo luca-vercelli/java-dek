@@ -42,6 +42,9 @@ public class ControlFlowGraph {
         return list;
     }
 
+    /**
+     * Return first block in internal list, it should be a START block
+     */
     public BasicBlock getStart() {
         return list.get(0);
     }
@@ -99,4 +102,9 @@ public class ControlFlowGraph {
     public int getLineNumber(int offset) {
         return (offsetToLineNumbers == null) ? 0 : offsetToLineNumbers[offset];
     }
+   
+	@Override
+	public String toString() {
+		return "ControlFlowGraph for " + method;
+	}
 }

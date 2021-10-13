@@ -7,6 +7,9 @@
 
 package org.jd.core.v1.util;
 
+/**
+ * This is essentially a ArrayDeque&lt;E&gt; with a replace() method
+ */
 public class DefaultStack<E> {
 	protected E[] elements;
 	protected int head;
