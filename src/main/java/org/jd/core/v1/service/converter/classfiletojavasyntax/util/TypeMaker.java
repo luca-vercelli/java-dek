@@ -1091,7 +1091,7 @@ public class TypeMaker {
 						typeTypes = makeTypeTypes(internalTypeName, classPathLoader.load(internalTypeName)));
 			}
 		} catch (Exception e) {
-			assert ExceptionUtil.printStackTrace(e);
+			e.printStackTrace();
 		}
 
 		return typeTypes;
@@ -1412,7 +1412,7 @@ public class TypeMaker {
 							ot = loadType(internalTypeName, classPathLoader.load(internalTypeName)));
 				}
 			} catch (Exception e) {
-				assert ExceptionUtil.printStackTrace(e);
+				e.printStackTrace();
 			}
 		}
 
@@ -1521,7 +1521,7 @@ public class TypeMaker {
 				return true;
 			}
 		} catch (Exception e) {
-			assert ExceptionUtil.printStackTrace(e);
+			e.printStackTrace();
 		}
 
 		return false;

@@ -33,7 +33,6 @@ import org.jd.core.v1.service.converter.classfiletojavasyntax.util.ControlFlowGr
 import org.jd.core.v1.service.converter.classfiletojavasyntax.util.ControlFlowGraphLoopReducer;
 import org.jd.core.v1.service.converter.classfiletojavasyntax.util.ControlFlowGraphMaker;
 import org.jd.core.v1.service.converter.classfiletojavasyntax.util.ControlFlowGraphReducer;
-import org.jd.core.v1.service.converter.classfiletojavasyntax.util.ExceptionUtil;
 import org.jd.core.v1.service.converter.classfiletojavasyntax.util.LocalVariableMaker;
 import org.jd.core.v1.service.converter.classfiletojavasyntax.util.StatementMaker;
 import org.jd.core.v1.service.converter.classfiletojavasyntax.util.TypeMaker;
@@ -169,7 +168,7 @@ public class CreateInstructionsVisitor extends AbstractJavaSyntaxVisitor {
 					comd.setStatements(new ByteCodeStatement(ByteCodeWriter.write("// ", method)));
 				}
 			} catch (Exception e) {
-				assert ExceptionUtil.printStackTrace(e);
+				e.printStackTrace();
 				comd.setStatements(new ByteCodeStatement(ByteCodeWriter.write("// ", method)));
 			}
 
