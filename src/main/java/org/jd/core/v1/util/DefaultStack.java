@@ -22,6 +22,7 @@ public class DefaultStack<E> extends Stack<E> {
 	/**
 	 * Create a stack with same elements of <code>other</code> and in same order.
 	 * 
+	 * Similar to <code>other.clone()</code>
 	 * @param other
 	 */
 	public DefaultStack(DefaultStack<E> other) {
