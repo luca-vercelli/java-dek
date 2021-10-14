@@ -7,93 +7,56 @@
 
 package org.jd.core.v1.util;
 
+import java.util.Stack;
+
 /**
- * This is essentially a ArrayDeque&lt;E&gt; with a replace() method
+ * A stack
  */
-public class DefaultStack<E> {
-	protected E[] elements;
-	protected int head;
+public class DefaultStack<E> extends Stack<E> {
 
-	@SuppressWarnings("unchecked")
+	private static final long serialVersionUID = -5876733783687054972L;
+
 	public DefaultStack() {
-		elements = (E[]) new Object[16];
-		head = 0;
 	}
 
+	/**
+	 * Create a stack with same elements of <code>other</code> and in same order.
+	 * 
+	 * @param other
+	 */
 	public DefaultStack(DefaultStack<E> other) {
-		elements = other.elements.clone();
-		head = other.head;
+		elementData = other.elementData.clone();
+		elementCount = other.elementCount;
 	}
 
-	public void clear() {
-		head = 0;
-	}
-
-	public int size() {
-		return head;
-	}
-
-	public boolean isEmpty() {
-		return head == 0;
-	}
-
+	/**
+	 * Replace content of this queue with content of other queue
+	 * 
+	 * @param other
+	 */
 	@SuppressWarnings("unchecked")
 	public void copy(DefaultStack<E> other) {
-		if (elements.length < other.head) {
-			elements = (E[]) new Object[other.head];
+		if (elementData.length < other.elementCount) {
+			elementData = (E[]) new Object[other.elementCount];
 		}
 
-		System.arraycopy(other.elements, 0, elements, 0, other.head);
-		head = other.head;
+		System.arraycopy(other.elementData, 0, elementData, 0, other.elementCount);
+		elementCount = other.elementCount;
 	}
 
-	@SuppressWarnings("unchecked")
-	public void push(E expression) {
-		if (head == elements.length) {
-			E[] tmp = (E[]) new Object[elements.length * 2];
-			System.arraycopy(elements, 0, tmp, 0, elements.length);
-			elements = tmp;
-		}
-
-		elements[head++] = expression;
-	}
-
-	public E pop() {
-		E e = elements[--head];
-		elements[head] = null;
-		return e;
-
-		// return elements[--head];
-	}
-
-	public E peek() {
-		return elements[head - 1];
-	}
-
+	/**
+	 * Replace all occurrences of <code>old</code> in the stack with
+	 * <code>nevv</code>
+	 * 
+	 * @param old
+	 * @param nevv
+	 */
 	public void replace(E old, E nevv) {
-		int i = head - 1;
+		int i = elementCount - 1;
 
-		while ((i >= 0) && (elements[i] == old)) {
-			elements[i--] = nevv;
+		// WARNING using == not .equals()
+		while ((i >= 0) && (elementData[i] == old)) {
+			elementData[i--] = nevv;
 		}
-	}
-
-	@Override
-	public String toString() {
-		StringBuilder sb = new StringBuilder("Stack{head=");
-		sb.append(head);
-		sb.append(", elements=[");
-
-		if (head > 0) {
-			sb.append(elements[0]);
-			for (int i = 1; i < head; i++) {
-				sb.append(", ");
-				sb.append(elements[i]);
-			}
-		}
-
-		sb.append("]}");
-
-		return sb.toString();
 	}
 }
