@@ -26,6 +26,16 @@ import org.jd.core.v1.util.DefaultList;
 public class ControlFlowGraphLoopReducer {
 	protected static final LoopComparator LOOP_COMPARATOR = new LoopComparator();
 
+	/**
+	 * Return square matrix of dominator nodes relationship.
+	 * 
+	 * "A node d dominates a node n if every path from the entry node to n must go
+	 * through d"
+	 * 
+	 * @return a square matrix of bits, such as M[i][j] = 1 if the node of index i
+	 *         dominates node with index j
+	 * @see e.g. https://en.wikipedia.org/wiki/Dominator_(graph_theory)
+	 */
 	public static BitSet[] buildDominatorIndexes(ControlFlowGraph cfg) {
 		List<BasicBlock> list = cfg.getBasicBlocks();
 		int length = list.size();
@@ -44,6 +54,9 @@ public class ControlFlowGraphLoopReducer {
 		initial = arrayOfDominatorIndexes[0];
 		initial.clear();
 		initial.set(0);
+
+		// Here arrayOfDominatorIndexes is a square matrix of bits
+		// where elements in the lower-left triangle are set to 1
 
 		boolean change;
 
@@ -64,11 +77,28 @@ public class ControlFlowGraphLoopReducer {
 				dominatorIndexes.set(index);
 				change |= (!initial.equals(dominatorIndexes));
 			}
+			// loop while at least one row changed
 		} while (change);
 
 		return arrayOfDominatorIndexes;
 	}
 
+	/**
+	 * Identify loops in graph knowing dominators in advance.
+	 * 
+	 * @param cfg
+	 * @param arrayOfDominatorIndexes
+	 * @return
+	 * @see e.g. https://web.cs.wpi.edu/~kal/PLT/PLT8.6.4.html "We use dominators to
+	 *      find loops. Since loops contain a cycle, and a header dominates all the
+	 *      nodes in a loop, there must be a least one arc entering the header from
+	 *      a node in the loop. For this reason, we search for an arc whose head
+	 *      dominates its tail. This is called a back edge. Loops must have a back
+	 *      edge. The natural loop of the back edge is defined to be the smallest
+	 *      set of nodes that includes the back edge and has no predecessors outside
+	 *      the set except for the predecessor of the header. Natural loops are the
+	 *      loops for which we find optimizations."
+	 */
 	public static List<Loop> identifyNaturalLoops(ControlFlowGraph cfg, BitSet[] arrayOfDominatorIndexes) {
 		List<BasicBlock> list = cfg.getBasicBlocks();
 		int length = list.size();
@@ -157,7 +187,7 @@ public class ControlFlowGraphLoopReducer {
 		}
 
 		// Build loops
-		DefaultList<Loop> loops = new DefaultList<>();
+		List<Loop> loops = new DefaultList<>();
 
 		for (int i = 0; i < length; i++) {
 			if (arrayOfMemberIndexes[i] != null) {
@@ -713,6 +743,12 @@ public class ControlFlowGraphLoopReducer {
 				predecessors);
 	}
 
+	/**
+	 * Perform graph reduction of a ControlFlowGraph.
+	 * 
+	 * @param cfg
+	 * @see e.g. https://en.wikipedia.org/wiki/Graph_reduction
+	 */
 	public static void reduce(ControlFlowGraph cfg) {
 		BitSet[] arrayOfDominatorIndexes = buildDominatorIndexes(cfg);
 		List<Loop> loops = identifyNaturalLoops(cfg, arrayOfDominatorIndexes);
