@@ -143,6 +143,14 @@ public class ControlFlowGraphLoopReducer {
 		}
 
 		// Loops & 'try' statements
+		identifyTryLoops(arrayOfDominatorIndexes, list, length, arrayOfMemberIndexes);
+
+		// Build loops
+		return buildLoops(arrayOfDominatorIndexes, list, length, arrayOfMemberIndexes);
+	}
+
+	public static void identifyTryLoops(BitSet[] arrayOfDominatorIndexes, List<BasicBlock> list, int length,
+			BitSet[] arrayOfMemberIndexes) {
 		for (int i = 0; i < length; i++) {
 			if (arrayOfMemberIndexes[i] != null) {
 				BitSet memberIndexes = arrayOfMemberIndexes[i];
@@ -185,8 +193,10 @@ public class ControlFlowGraphLoopReducer {
 				}
 			}
 		}
+	}
 
-		// Build loops
+	public static List<Loop> buildLoops(BitSet[] arrayOfDominatorIndexes, List<BasicBlock> list, int length,
+			BitSet[] arrayOfMemberIndexes) {
 		List<Loop> loops = new DefaultList<>();
 
 		for (int i = 0; i < length; i++) {
