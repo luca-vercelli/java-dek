@@ -15,6 +15,11 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * A local variable in some method. Recall that in bytecode variables are identified by their index.
+ * 
+ * A variable can be primitive, object or generic (3 subclasses of this abstract class).
+ */
 public abstract class AbstractLocalVariable {
 	protected Frame frame;
 	protected AbstractLocalVariable next;
