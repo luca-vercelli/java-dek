@@ -14,7 +14,6 @@ import org.jd.core.v1.model.classfile.attribute.AttributeLineNumberTable;
 import org.jd.core.v1.model.classfile.attribute.CodeException;
 import org.jd.core.v1.model.classfile.attribute.LineNumber;
 import org.jd.core.v1.model.classfile.constant.ConstantMemberRef;
-import org.jd.core.v1.model.classfile.constant.ConstantNameAndType;
 import org.jd.core.v1.service.converter.classfiletojavasyntax.model.cfg.BasicBlock;
 import org.jd.core.v1.service.converter.classfiletojavasyntax.model.cfg.ControlFlowGraph;
 import org.jd.core.v1.util.DefaultList;
@@ -29,7 +28,7 @@ public class ControlFlowGraphMaker {
 	protected static final CodeExceptionComparator CODE_EXCEPTION_COMPARATOR = new CodeExceptionComparator();
 
 	/**
-	 * Parse bytecode, create an object ControlFlowGraph with code structure
+	 * Parse bytecode, create an object ControlFlowGraph with code structure.
 	 */
 	public static ControlFlowGraph make(Method method) {
 		AttributeCode attributeCode = method.getAttribute("Code");
@@ -138,9 +137,7 @@ public class ControlFlowGraphMaker {
 				case 184: // INVOKEVIRTUAL, INVOKESPECIAL, INVOKESTATIC
 					ConstantMemberRef constantMemberRef = constants
 							.getConstant(((code[++offset] & 255) << 8) | (code[++offset] & 255));
-					ConstantNameAndType constantNameAndType = constants
-							.getConstant(constantMemberRef.getNameAndTypeIndex());
-					String descriptor = constants.getConstantUtf8(constantNameAndType.getDescriptorIndex());
+					String descriptor = constantMemberRef.getDescriptor(constants);
 					if (descriptor.charAt(descriptor.length() - 1) == 'V') {
 						lastStatementOffset = offset;
 					}
@@ -148,9 +145,7 @@ public class ControlFlowGraphMaker {
 				case 185:
 				case 186: // INVOKEINTERFACE, INVOKEDYNAMIC
 					constantMemberRef = constants.getConstant(((code[++offset] & 255) << 8) | (code[++offset] & 255));
-					constantNameAndType = constants.getConstant(constantMemberRef.getNameAndTypeIndex());
-					descriptor = constants.getConstantUtf8(constantNameAndType.getDescriptorIndex());
-					// TODO replace with constantMemberRef.getDescriptor(constants)
+					descriptor = constantMemberRef.getDescriptor(constants);
 					offset += 2; // Skip 2 bytes
 					if (descriptor.charAt(descriptor.length() - 1) == 'V') {
 						lastStatementOffset = offset;

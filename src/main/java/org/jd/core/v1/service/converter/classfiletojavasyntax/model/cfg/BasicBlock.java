@@ -18,12 +18,12 @@ import java.util.Set;
  * A block of code
  */
 public class BasicBlock {
-    public static final int TYPE_DELETED                         = 0;
-    public static final int TYPE_START                           = (1 << 0);
-    public static final int TYPE_END                             = (1 << 1);
-    public static final int TYPE_STATEMENTS                      = (1 << 2);
+    public static final int TYPE_DELETED                         = 0;			// a block can be deleted during graph reduction
+    public static final int TYPE_START                           = (1 << 0);	// initial block
+    public static final int TYPE_END                             = (1 << 1);	// terminal block
+    public static final int TYPE_STATEMENTS                      = (1 << 2);	// a linear block of code
     public static final int TYPE_THROW                           = (1 << 3);
-    public static final int TYPE_RETURN                          = (1 << 4);
+    public static final int TYPE_RETURN                          = (1 << 4);	// a single RETURN instruction
     public static final int TYPE_RETURN_VALUE                    = (1 << 5);
     public static final int TYPE_SWITCH_DECLARATION              = (1 << 6);
     public static final int TYPE_SWITCH                          = (1 << 7);
@@ -32,7 +32,7 @@ public class BasicBlock {
     public static final int TYPE_TRY                             = (1 << 10);
     public static final int TYPE_TRY_JSR                         = (1 << 11);
     public static final int TYPE_TRY_ECLIPSE                     = (1 << 12);
-    public static final int TYPE_JSR                             = (1 << 13);
+    public static final int TYPE_JSR                             = (1 << 13);	// JSR = Jump to subroutine
     public static final int TYPE_RET                             = (1 << 14);
     public static final int TYPE_CONDITIONAL_BRANCH              = (1 << 15);
     public static final int TYPE_IF                              = (1 << 16);

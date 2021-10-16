@@ -63,7 +63,7 @@ public class ControlFlowGraph {
 	}
 
 	/**
-	 * Add a new BasicBlock in the graph
+	 * Add a new BasicBlock in the graph, with default type DELETED
 	 */
 	public BasicBlock newBasicBlock(int fromOffset, int toOffset) {
 		return newBasicBlock(0, fromOffset, toOffset);
