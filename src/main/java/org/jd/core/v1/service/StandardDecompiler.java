@@ -55,6 +55,7 @@ public class StandardDecompiler implements Decompiler {
 	}
 
 	protected void decompile(Message message) throws IOException {
+		// message.getConfiguration().setDumpOpcode(true);
 		this.deserializer.process(message);
 		this.converter.process(message);
 		this.fragmenter.process(message);
