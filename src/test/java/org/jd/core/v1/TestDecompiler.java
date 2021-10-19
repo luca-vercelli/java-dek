@@ -25,7 +25,9 @@ public class TestDecompiler extends StandardDecompiler {
 		super.decompile(message);
 
 		String source = message.getPrinter().toString();
-		assertTrue(source.indexOf("// Byte code:") == -1);
+		if (!message.getConfiguration().isDumpOpcode()) {
+			assertTrue(source.indexOf("// Byte code:") == -1);
+		}
 		printSource(source);
 	}
 
