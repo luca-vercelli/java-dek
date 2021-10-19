@@ -36,15 +36,20 @@ public class SuperMemberAccessTest {
 			// bytecode has a constructor
 			// public Child(SuperMemberAccessTest.TestClass this$0)
 
-			public int a;
+			public String a;
 
 			public String test() {
 				return "b";
 			}
 
 			String doSomething() {
-				super.test();
-				return super.a;
+				super.test(); // invokespecial test : ()Ljava/lang/String;
+				return super.a; // getfield a : Ljava/lang/String;			?!?
+			}
+
+			String doSomeMore() {
+				test(); // invokevirtual test : ()Ljava/lang/String;
+				return a; // getfield a : Ljava/lang/String;				?!?
 			}
 		}
 	}
@@ -70,13 +75,15 @@ public class SuperMemberAccessTest {
 
 			public int a;
 
-			public String test() {
-				return "b";
+			public int test() {
+				return 1;
 			}
 
 			String doSomething() {
-				super.test(); // referenced as access$0
-				return super.a; // referenced as access$1
+				super.test(); // invokestatic access$0 :
+								// (Lorg/jd/core/v1/decompile/SuperMemberAccessTest$TestPrivateMembers;)Ljava/lang/String;
+				return super.a; // invokestatic access$1 :
+								// (Lorg/jd/core/v1/decompile/SuperMemberAccessTest$TestPrivateMembers;)Ljava/lang/String;
 			}
 		}
 	}
@@ -90,6 +97,8 @@ public class SuperMemberAccessTest {
 		// Check decompiled source code
 		assertMatch(source, "super.test();", 46);
 		assertMatch(source, "return super.a;", 47);
+		assertMatch(source, "test();", 51);
+		assertMatch(source, "return this.a;", 52);
 
 		// Recompile decompiled source code and check errors
 		assertTrue(CompilerUtil.compile("1.8", new JavaSourceFileObject(internalClassName, source)));
@@ -99,12 +108,12 @@ public class SuperMemberAccessTest {
 	// https://github.com/java-decompiler/jd-core/issues/20 // FIXME
 	public void testPrivateSuperMembersAccess() throws Exception {
 
-		String internalClassName = TestPublicMembers.class.getName().replace('.', '/');
+		String internalClassName = TestPrivateMembers.class.getName().replace('.', '/');
 		String source = decompiler.decompile(internalClassName);
 
 		// Check decompiled source code
-		assertMatch(source, "super.test();", 78);
-		assertMatch(source, "return super.a;", 79);
+		assertMatch(source, "super.test();", 83);
+		assertMatch(source, "return super.a;", 85);
 
 		// Recompile decompiled source code and check errors
 		assertTrue(CompilerUtil.compile("1.8", new JavaSourceFileObject(internalClassName, source)));
