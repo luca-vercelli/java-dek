@@ -44,6 +44,11 @@ import org.jd.core.v1.service.converter.classfiletojavasyntax.model.javasyntax.e
 import org.jd.core.v1.service.converter.classfiletojavasyntax.util.TypeMaker;
 import org.jd.core.v1.util.DefaultList;
 
+/**
+ * Bridge methods are required by generics type erasure
+ * 
+ * @see https://docs.oracle.com/javase/tutorial/java/generics/bridgeMethods.html
+ */
 public class UpdateBridgeMethodVisitor extends AbstractUpdateExpressionVisitor {
 	protected BodyDeclarationsVisitor bodyDeclarationsVisitor = new BodyDeclarationsVisitor();
 	protected Map<String, Map<String, ClassFileMethodDeclaration>> bridgeMethodDeclarations = new HashMap<>();
