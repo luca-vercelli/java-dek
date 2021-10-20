@@ -44,21 +44,25 @@ public class SuperMemberAccessTest {
 
 			String doSomething() {
 				super.test(); // invokespecial test : ()Ljava/lang/String;
-				return super.a; // getfield a : Ljava/lang/String;			?!?
+				return super.a; // getfield a : Ljava/lang/String; ?!?
 			}
 
 			String doSomeMore() {
 				test(); // invokevirtual test : ()Ljava/lang/String;
-				return a; // getfield a : Ljava/lang/String;				?!?
+				return a; // getfield a : Ljava/lang/String; ?!?
 			}
 		}
 	}
 
 	class TestPrivateMembers {
 
-		// bytecode has a constructor
-		// TestClass(SuperMemberAccessTest paramSuperMemberAccessTest)
-		// referencing "this" as this$0
+		// methods in bytecode:
+		//
+		// <init> (Lorg/jd/core/v1/decompile/SuperMemberAccessTest;)V
+		// test ()Ljava/lang/String;
+		// access$0 (Lorg/jd/core/v1/decompile/SuperMemberAccessTest$TestPrivateMembers;)Ljava/lang/String;
+		// access$1 (Lorg/jd/core/v1/decompile/SuperMemberAccessTest$TestPrivateMembers;)Ljava/lang/String;
+		// access$2 (Lorg/jd/core/v1/decompile/SuperMemberAccessTest$TestPrivateMembers;)Lorg/jd/core/v1/decompile/SuperMemberAccessTest
 
 		private String a;
 
@@ -68,10 +72,11 @@ public class SuperMemberAccessTest {
 
 		public class Child extends TestPrivateMembers {
 
-			// bytecode has a constructor
-			// public Child(SuperMemberAccessTest.TestClass this$0)
-			// there are 2 synthetic methods access$0 and access$1 referencing private super
-			// fields
+			// methods in bytecode:
+			//
+			// <init> (Lorg/jd/core/v1/decompile/SuperMemberAccessTest$TestPrivateMembers;)V
+			// test ()I
+			// doSomething ()Ljava/lang/String;
 
 			public int a;
 
