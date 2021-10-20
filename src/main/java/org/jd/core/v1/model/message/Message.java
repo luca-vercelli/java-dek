@@ -26,8 +26,6 @@ public class Message {
 	private Integer maxLineNumber;
 	private Integer majorVersion;
 	private Integer minorVersion;
-	private Boolean containsByteCode;
-	private Boolean showBridgeAndSynthetic;
 	private TypeMaker typeMaker;
 	private ClassFile classFile;
 	private CompilationUnit compilationUnit;
@@ -102,30 +100,6 @@ public class Message {
 
 	public void setTypeMaker(TypeMaker typeMaker) {
 		this.typeMaker = typeMaker;
-	}
-
-	public Boolean getContainsByteCode() {
-		return containsByteCode;
-	}
-
-	public Boolean getContainsByteCode(Boolean defVal) {
-		return containsByteCode != null ? containsByteCode : defVal;
-	}
-
-	public void setContainsByteCode(Boolean containsByteCode) {
-		this.containsByteCode = containsByteCode;
-	}
-
-	public Boolean getShowBridgeAndSynthetic() {
-		return showBridgeAndSynthetic;
-	}
-
-	public Boolean getShowBridgeAndSynthetic(Boolean defVal) {
-		return showBridgeAndSynthetic != null ? showBridgeAndSynthetic : defVal;
-	}
-
-	public void setShowBridgeAndSynthetic(Boolean showBridgeAndSynthetic) {
-		this.showBridgeAndSynthetic = showBridgeAndSynthetic;
 	}
 
 	public List<JavaFragment> getFragments() {

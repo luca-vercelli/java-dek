@@ -40,10 +40,10 @@ public class LayoutFragmentProcessor implements Processor {
 	 */
 	@Override
 	public void process(Message message) {
-		int maxLineNumber = message.getMaxLineNumber(UNKNOWN_LINE_NUMBER);
-		boolean containsByteCode = message.getContainsByteCode(Boolean.FALSE);
-		boolean showBridgeAndSynthetic = message.getShowBridgeAndSynthetic(Boolean.FALSE);
 		CompileConfiguration configuration = message.getConfiguration();
+		int maxLineNumber = message.getMaxLineNumber(UNKNOWN_LINE_NUMBER);
+		boolean containsByteCode = configuration.getContainsByteCode(Boolean.FALSE);
+		boolean showBridgeAndSynthetic = configuration.getShowBridgeAndSynthetic(Boolean.FALSE);
 		boolean realignLineNumbers = configuration.isRealignLineNumbers();
 
 		List<JavaFragment> fragments = message.getFragments();
