@@ -227,11 +227,12 @@ public class ByteCodeWriter {
                     break;
                 case 180: case 181: case 182: case 183: case 184: // GETFIELD, PUTFIELD, INVOKEVIRTUAL, INVOKESPECIAL, INVOKESTATIC
                     constantMemberRef = constants.getConstant(((code[++offset] & 255) << 8) | (code[++offset] & 255));
-                    constantNameAndType = constants.getConstant(constantMemberRef.getNameAndTypeIndex());
-                    name = constants.getConstantUtf8(constantNameAndType.getNameIndex());
-                    descriptor = constants.getConstantUtf8(constantNameAndType.getDescriptorIndex());
+                    String clazz = constantMemberRef.getTypeName(constants);
+                    // constantNameAndType = constants.getConstant(constantMemberRef.getNameAndTypeIndex());
+                    name = constantMemberRef.getName(constants); //constants.getConstantUtf8(constantNameAndType.getNameIndex());
+                    descriptor = constantMemberRef.getDescriptor(constants); //constants.getConstantUtf8(constantNameAndType.getDescriptorIndex());
 
-                    sb.append(" ").append(name).append(" : ").append(descriptor);
+                    sb.append(" ").append(name).append(" : ").append(clazz).append(" : ").append(descriptor);
                     break;
                 case 185: case 186: // INVOKEINTERFACE, INVOKEDYNAMIC
                     constantMemberRef = constants.getConstant(((code[++offset] & 255) << 8) | (code[++offset] & 255));
