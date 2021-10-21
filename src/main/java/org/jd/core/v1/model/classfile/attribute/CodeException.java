@@ -11,7 +11,7 @@ package org.jd.core.v1.model.classfile.attribute;
  * Information stored in Code attributes
  */
 public class CodeException {
-	protected int index;
+	protected int index; // progressive index, not present in bytecode
 	protected int startPc;
 	protected int endPc;
 	protected int handlerPc;
