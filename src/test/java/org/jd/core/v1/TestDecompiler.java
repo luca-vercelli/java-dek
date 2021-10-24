@@ -39,8 +39,10 @@ public class TestDecompiler extends StandardDecompiler {
 
 	/**
 	 * Convenience method for tests
+	 * 
+	 * @throws IOException
 	 */
-	public String decompile(String internalName) throws Exception {
+	public String decompile(String internalName) throws IOException {
 		Printer printer = new PlainTextPrinter();
 		decompile(new ClassPathLoader(), printer, internalName);
 		return printer.toString();
@@ -48,8 +50,10 @@ public class TestDecompiler extends StandardDecompiler {
 
 	/**
 	 * Convenience method for tests
+	 * 
+	 * @throws IOException
 	 */
-	public String decompile(String internalName, CompileConfiguration configuration) throws Exception {
+	public String decompile(String internalName, CompileConfiguration configuration) throws IOException {
 		Printer printer = new PlainTextPrinter();
 		decompile(new ClassPathLoader(), printer, internalName, configuration);
 		return printer.toString();
