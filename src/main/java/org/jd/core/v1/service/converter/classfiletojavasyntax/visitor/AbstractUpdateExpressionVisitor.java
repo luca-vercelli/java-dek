@@ -22,6 +22,15 @@ import java.util.ListIterator;
  * <code>updateExpression</code> method by subclasses.
  */
 public abstract class AbstractUpdateExpressionVisitor extends AbstractJavaSyntaxVisitor {
+
+	/**
+	 * Declare the update that must be performed on expressions.
+	 * 
+	 * @param expression
+	 * @param context    Expression that contains expression. Subclasses may ignore
+	 *                   it, if update is not context sensitive
+	 * @return
+	 */
 	protected abstract Expression updateExpression(Expression expression);
 
 	protected BaseExpression updateBaseExpression(BaseExpression baseExpression) {

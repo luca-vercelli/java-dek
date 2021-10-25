@@ -117,8 +117,8 @@ public class SuperMemberAccessTest {
 		String source = decompiler.decompile(internalClassName);
 
 		// Check decompiled source code
-		assertMatch(source, "super.test();", 83);
-		assertMatch(source, "return super.a;", 85);
+		assertMatch(source, "super.test();", 88);
+		assertMatch(source, "return super.a;", 90);
 
 		// Recompile decompiled source code and check errors
 		assertTrue(CompilerUtil.compile("1.8", new JavaSourceFileObject(internalClassName, source)));
