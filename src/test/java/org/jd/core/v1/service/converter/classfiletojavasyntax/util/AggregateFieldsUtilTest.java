@@ -5,7 +5,7 @@
  * copy and modify the code freely for non-commercial purposes.
  */
 
-package org.jd.core.v1;
+package org.jd.core.v1.service.converter.classfiletojavasyntax.util;
 
 import static org.junit.Assert.assertEquals;
 
@@ -13,7 +13,6 @@ import org.jd.core.v1.model.javasyntax.declaration.FieldDeclarator;
 import org.jd.core.v1.model.javasyntax.declaration.FieldDeclarators;
 import org.jd.core.v1.model.javasyntax.type.PrimitiveType;
 import org.jd.core.v1.service.converter.classfiletojavasyntax.model.javasyntax.declaration.ClassFileFieldDeclaration;
-import org.jd.core.v1.service.converter.classfiletojavasyntax.util.AggregateFieldsUtil;
 import org.jd.core.v1.util.DefaultList;
 import org.junit.Test;
 

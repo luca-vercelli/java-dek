@@ -5,12 +5,13 @@
  * copy and modify the code freely for non-commercial purposes.
  */
 
-package org.jd.core.v1;
+package org.jd.core.v1.decompile;
 
 import static org.junit.Assert.assertTrue;
 
 import java.io.InputStream;
 
+import org.jd.core.v1.TestDecompiler;
 import org.jd.core.v1.api.Loader;
 import org.jd.core.v1.compiler.CompilerUtil;
 import org.jd.core.v1.compiler.JavaSourceFileObject;

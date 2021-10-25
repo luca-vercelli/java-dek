@@ -5,7 +5,7 @@
  * copy and modify the code freely for non-commercial purposes.
  */
 
-package org.jd.core.v1;
+package org.jd.core.v1.service.writer;
 
 import static org.jd.core.v1.model.token.KeywordToken.*;
 
@@ -22,7 +22,6 @@ import org.jd.core.v1.model.token.StringConstantToken;
 import org.jd.core.v1.model.token.TextToken;
 import org.jd.core.v1.model.token.Token;
 import org.jd.core.v1.service.printer.PlainTextMetaPrinter;
-import org.jd.core.v1.service.writer.WriteTokenProcessor;
 import org.jd.core.v1.util.DefaultList;
 import org.junit.Assert;
 import org.junit.Test;
