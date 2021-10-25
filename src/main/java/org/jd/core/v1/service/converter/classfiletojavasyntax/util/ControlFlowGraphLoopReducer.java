@@ -754,10 +754,7 @@ public class ControlFlowGraphLoopReducer {
 	}
 
 	/**
-	 * Perform graph reduction of a ControlFlowGraph.
-	 * 
-	 * @param cfg
-	 * @see e.g. https://en.wikipedia.org/wiki/Graph_reduction
+	 * Add LOOP blocks to cfg
 	 */
 	public static void reduce(ControlFlowGraph cfg) {
 		BitSet[] arrayOfDominatorIndexes = buildDominatorIndexes(cfg);

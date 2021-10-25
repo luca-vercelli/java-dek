@@ -590,6 +590,9 @@ public class ControlFlowGraphMaker {
 		return basicBlocks;
 	}
 
+	/**
+	 * Add BasicBlock's of type TRY_DECLARATION
+	 */
 	private static void checkTryCatchBlocks(Method method, BasicBlock[] map, char[] types, int[] branchOffsets,
 			CodeException[] codeExceptions, ControlFlowGraph cfg) {
 		if (codeExceptions != null) {
