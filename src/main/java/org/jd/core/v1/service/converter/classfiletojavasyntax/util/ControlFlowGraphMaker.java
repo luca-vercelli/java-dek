@@ -420,19 +420,8 @@ public class ControlFlowGraphMaker {
 			createLineNumbers(attributeCode, length, map, cfg);
 
 			// --- Create basic blocks --- //
-			lastOffset = 0;
 
-			// Add 'start'
-			BasicBlock startBasicBlock = cfg.newBasicBlock(TYPE_START, 0, 0);
-
-			for (int offset = nextOffsets[0]; offset < length; offset = nextOffsets[offset]) {
-				if (map[offset] != null) {
-					map[lastOffset] = cfg.newBasicBlock(lastOffset, offset);
-					lastOffset = offset;
-				}
-			}
-
-			map[lastOffset] = cfg.newBasicBlock(lastOffset, length);
+			BasicBlock startBasicBlock = createEmptyBasicBlocks(length, map, nextOffsets, cfg);
 
 			// --- Set type, successors and predecessors --- //
 			List<BasicBlock> basicBlocks = setTypeAndSuccessors(map, types, branchOffsets, switchValues, switchOffsets,
@@ -448,6 +437,9 @@ public class ControlFlowGraphMaker {
 		}
 	}
 
+	/**
+	 * Set cfg.offsetToLineNumbers
+	 */
 	private static void createLineNumbers(AttributeCode attributeCode, int length, BasicBlock[] map,
 			ControlFlowGraph cfg) {
 		AttributeLineNumberTable attributeLineNumberTable = attributeCode.getAttribute("LineNumberTable");
@@ -481,6 +473,30 @@ public class ControlFlowGraphMaker {
 		}
 	}
 
+	/**
+	 * Create new START and DELETED blocks inside cfg, one per each leader
+	 * @return 
+	 */
+	private static BasicBlock createEmptyBasicBlocks(int length, BasicBlock[] map, int[] nextOffsets, ControlFlowGraph cfg) {
+		BasicBlock startBasicBlock = cfg.newBasicBlock(TYPE_START, 0, 0);
+		
+		int lastOffset;
+		lastOffset = 0;
+		for (int offset = nextOffsets[0]; offset < length; offset = nextOffsets[offset]) {
+			if (map[offset] != null) {
+				map[lastOffset] = cfg.newBasicBlock(lastOffset, offset);
+				lastOffset = offset;
+			}
+		}
+
+		map[lastOffset] = cfg.newBasicBlock(lastOffset, length);
+		
+		return startBasicBlock;
+	}
+
+	/**
+	 * Set correct type, successors, predecessors to cfg nodes
+	 */
 	private static List<BasicBlock> setTypeAndSuccessors(BasicBlock[] map, char[] types, int[] branchOffsets,
 			int[][] switchValues, int[][] switchOffsets, ControlFlowGraph cfg, BasicBlock startBasicBlock) {
 		List<BasicBlock> list = cfg.getBasicBlocks();
@@ -574,6 +590,9 @@ public class ControlFlowGraphMaker {
 		return basicBlocks;
 	}
 
+	/**
+	 * Add BasicBlock's of type TRY_DECLARATION
+	 */
 	private static void checkTryCatchBlocks(Method method, BasicBlock[] map, char[] types, int[] branchOffsets,
 			CodeException[] codeExceptions, ControlFlowGraph cfg) {
 		if (codeExceptions != null) {

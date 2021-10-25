@@ -108,7 +108,11 @@ public class ControlFlowGraph {
 	public String toString() {
 		String s = "ControlFlowGraph for " + method + ":\r\n";
 		for (BasicBlock l : list) {
-			s += l.getTypeName() + "(" + l.getIndex() + ") " + l.getFromOffset() + "-" + l.getToOffset() + "\r\n";
+			int toOffset = l.getToOffset();
+			if (toOffset > 0) {
+				--toOffset;
+			}
+			s += l.getTypeName() + "(" + l.getIndex() + ") " + l.getFromOffset() + "-" + toOffset + "\r\n";
 		}
 		return s;
 	}
