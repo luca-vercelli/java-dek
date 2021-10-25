@@ -851,8 +851,8 @@ public class TypeMaker {
 	}
 
 	/**
-	 * Create an ObjectType with given internalTypeName. First, thry to load class
-	 * using loadType(); then, if not found, create the ObjectType using create().
+	 * Create an ObjectType with given internalTypeName. First, try to load class
+	 * using <code>loadType()</code>; then, if not found, create the ObjectType using create().
 	 * 
 	 */
 	public ObjectType makeFromInternalTypeName(String internalTypeName) {
