@@ -10,6 +10,8 @@ package org.jd.core.v1.decompile;
 import static org.jd.core.v1.regex.PatternMaker.assertMatch;
 import static org.junit.Assert.assertTrue;
 
+import java.io.IOException;
+
 import org.jd.core.v1.TestDecompiler;
 import org.jd.core.v1.compiler.CompilerUtil;
 import org.jd.core.v1.compiler.JavaSourceFileObject;
@@ -60,9 +62,12 @@ public class SuperMemberAccessTest {
 		//
 		// <init> (Lorg/jd/core/v1/decompile/SuperMemberAccessTest;)V
 		// test ()Ljava/lang/String;
-		// access$0 (Lorg/jd/core/v1/decompile/SuperMemberAccessTest$TestPrivateMembers;)Ljava/lang/String;
-		// access$1 (Lorg/jd/core/v1/decompile/SuperMemberAccessTest$TestPrivateMembers;)Ljava/lang/String;
-		// access$2 (Lorg/jd/core/v1/decompile/SuperMemberAccessTest$TestPrivateMembers;)Lorg/jd/core/v1/decompile/SuperMemberAccessTest
+		// access$0
+		// (Lorg/jd/core/v1/decompile/SuperMemberAccessTest$TestPrivateMembers;)Ljava/lang/String;
+		// access$1
+		// (Lorg/jd/core/v1/decompile/SuperMemberAccessTest$TestPrivateMembers;)Ljava/lang/String;
+		// access$2
+		// (Lorg/jd/core/v1/decompile/SuperMemberAccessTest$TestPrivateMembers;)Lorg/jd/core/v1/decompile/SuperMemberAccessTest
 
 		private String a;
 
@@ -100,25 +105,36 @@ public class SuperMemberAccessTest {
 		String source = decompiler.decompile(internalClassName);
 
 		// Check decompiled source code
-		assertMatch(source, "super.test();", 46);
-		assertMatch(source, "return super.a;", 47);
-		assertMatch(source, "test();", 51);
-		assertMatch(source, "return this.a;", 52);
+		assertMatch(source, "super.test();", 48);
+		assertMatch(source, "return super.a;", 49);
+		assertMatch(source, "test();", 53);
+		assertMatch(source, "return this.a;", 54);
 
 		// Recompile decompiled source code and check errors
 		assertTrue(CompilerUtil.compile("1.8", new JavaSourceFileObject(internalClassName, source)));
 	}
 
 	@Test
-	// https://github.com/java-decompiler/jd-core/issues/20 // FIXME
+	// https://github.com/java-decompiler/jd-core/issues/20
 	public void testPrivateSuperMembersAccess() throws Exception {
 
 		String internalClassName = TestPrivateMembers.class.getName().replace('.', '/');
 		String source = decompiler.decompile(internalClassName);
 
 		// Check decompiled source code
-		assertMatch(source, "super.test();", 88);
-		assertMatch(source, "return super.a;", 90);
+		assertMatch(source, "super.test();", 93);
+		assertMatch(source, "return super.a;", 95);
+
+		// Recompile decompiled source code and check errors
+		assertTrue(CompilerUtil.compile("1.8", new JavaSourceFileObject(internalClassName, source)));
+	}
+
+	@Test
+	// compilation failed at row 110
+	public void testJsoup() throws IOException {
+
+		String internalClassName = "org/jsoup/safety/Cleaner";
+		String source = decompiler.decompile(internalClassName);
 
 		// Recompile decompiled source code and check errors
 		assertTrue(CompilerUtil.compile("1.8", new JavaSourceFileObject(internalClassName, source)));

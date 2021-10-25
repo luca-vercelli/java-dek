@@ -7,11 +7,14 @@
 
 package org.jd.core.v1.service.converter.classfiletojavasyntax.visitor;
 
-import static org.jd.core.v1.model.classfile.AccessType.*;
+import static org.jd.core.v1.model.classfile.AccessType.ACC_STATIC;
 
+import java.util.Collections;
+import java.util.EmptyStackException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Stack;
 
 import org.jd.core.v1.model.javasyntax.AbstractJavaSyntaxVisitor;
 import org.jd.core.v1.model.javasyntax.declaration.AnnotationDeclaration;
@@ -31,9 +34,11 @@ import org.jd.core.v1.model.javasyntax.expression.MethodInvocationExpression;
 import org.jd.core.v1.model.javasyntax.expression.ObjectTypeReferenceExpression;
 import org.jd.core.v1.model.javasyntax.expression.PostOperatorExpression;
 import org.jd.core.v1.model.javasyntax.expression.PreOperatorExpression;
+import org.jd.core.v1.model.javasyntax.expression.SuperExpression;
 import org.jd.core.v1.model.javasyntax.statement.BaseStatement;
 import org.jd.core.v1.model.javasyntax.statement.Statement;
 import org.jd.core.v1.model.javasyntax.type.BaseType;
+import org.jd.core.v1.model.javasyntax.type.ObjectType;
 import org.jd.core.v1.model.javasyntax.type.PrimitiveType;
 import org.jd.core.v1.model.javasyntax.type.Type;
 import org.jd.core.v1.service.converter.classfiletojavasyntax.model.javasyntax.declaration.ClassFileBodyDeclaration;
@@ -47,12 +52,18 @@ import org.jd.core.v1.util.DefaultList;
 /**
  * Bridge methods are required by generics type erasure
  * 
+ * However, this class does a bit of confusion between synthetic and bridge
+ * methods.
+ * 
  * @see https://docs.oracle.com/javase/tutorial/java/generics/bridgeMethods.html
+ * 
+ * 
  */
 public class UpdateBridgeMethodVisitor extends AbstractUpdateExpressionVisitor {
 	protected BodyDeclarationsVisitor bodyDeclarationsVisitor = new BodyDeclarationsVisitor();
 	protected Map<String, Map<String, ClassFileMethodDeclaration>> bridgeMethodDeclarations = new HashMap<>();
 	protected TypeMaker typeMaker;
+	protected Stack<ClassFileMethodDeclaration> context = new Stack<>();
 
 	public UpdateBridgeMethodVisitor(TypeMaker typeMaker) {
 		this.typeMaker = typeMaker;
@@ -65,17 +76,13 @@ public class UpdateBridgeMethodVisitor extends AbstractUpdateExpressionVisitor {
 	}
 
 	@Override
-	public void visit(MethodInvocationExpression expression) {
-		expression.setExpression(updateExpression(expression.getExpression()));
-
-		if (expression.getParameters() != null) {
-			expression.setParameters(updateBaseExpression(expression.getParameters()));
-			expression.getParameters().accept(this);
-		}
-
-		expression.getExpression().accept(this);
+	public void visit(MethodDeclaration declaration) {
+		context.push((ClassFileMethodDeclaration) declaration);
+		super.visit(declaration);
+		context.pop();
 	}
 
+	@Override
 	protected Expression updateExpression(Expression expression) {
 		if (!expression.isMethodInvocationExpression()) {
 			return expression;
@@ -95,6 +102,7 @@ public class UpdateBridgeMethodVisitor extends AbstractUpdateExpressionVisitor {
 			return expression;
 		}
 
+		// here, expression is an invocation of a bridge method
 		Statement statement = bridgeMethodDeclaration.getStatements().getFirst();
 		Expression exp;
 
@@ -114,8 +122,16 @@ public class UpdateBridgeMethodVisitor extends AbstractUpdateExpressionVisitor {
 
 			expression = (parameterTypesCount == 0) ? fre.getExpression() : mie1.getParameters().getFirst();
 
-			return new FieldReferenceExpression(mie1.getLineNumber(), fre.getType(), expression,
-					fre.getInternalTypeName(), fre.getName(), fre.getDescriptor());
+			FieldReferenceExpression returnExpression = new FieldReferenceExpression(mie1.getLineNumber(),
+					fre.getType(), expression, fre.getInternalTypeName(), fre.getName(), fre.getDescriptor());
+
+			// LV 2021 now check if SuperExpression required
+			Expression superExpression = getSuperExpressionIfRequired(bridgeMethodDeclaration);
+			if (superExpression != null) {
+				returnExpression.setExpression(superExpression);
+			}
+			return returnExpression;
+
 		} else if (exp.isMethodInvocationExpression()) {
 			MethodInvocationExpression mie2 = (MethodInvocationExpression) exp;
 			TypeMaker.MethodTypes methodTypes = typeMaker.makeMethodTypes(mie2.getInternalTypeName(), mie2.getName(),
@@ -144,9 +160,16 @@ public class UpdateBridgeMethodVisitor extends AbstractUpdateExpressionVisitor {
 						break;
 					}
 
-					return new ClassFileMethodInvocationExpression(mie1.getLineNumber(), null, methodTypes.returnedType,
-							mie1Parameters.getFirst(), mie2.getInternalTypeName(), mie2.getName(), mie2.getDescriptor(),
+					ClassFileMethodInvocationExpression returnExpression = new ClassFileMethodInvocationExpression(
+							mie1.getLineNumber(), null, methodTypes.returnedType, mie1Parameters.getFirst(),
+							mie2.getInternalTypeName(), mie2.getName(), mie2.getDescriptor(),
 							methodTypes.parameterTypes, newParameters);
+					// LV 2021 now check if SuperExpression required
+					Expression superExpression = getSuperExpressionIfRequired(bridgeMethodDeclaration);
+					if (superExpression != null) {
+						returnExpression.setExpression(superExpression);
+					}
+					return returnExpression;
 				}
 			}
 		} else if (exp.isBinaryOperatorExpression()) {
@@ -186,6 +209,32 @@ public class UpdateBridgeMethodVisitor extends AbstractUpdateExpressionVisitor {
 		return expression;
 	}
 
+	/**
+	 * If bridgeMethodDeclaration is in a class different from context, add "super"
+	 * expression
+	 */
+	private Expression getSuperExpressionIfRequired(ClassFileMethodDeclaration bridgeMethodDeclaration) {
+		Expression superExpression = null;
+		try {
+			ClassFileMethodDeclaration ctx = context.peek();
+			if (!ctx.getBodyDeclaration().getInternalTypeName()
+					.equals(bridgeMethodDeclaration.getBodyDeclaration().getInternalTypeName())) {
+				
+				ObjectType typeCtx = typeMaker.makeFromInternalTypeName(ctx.getBodyDeclaration().getInternalTypeName());
+				ObjectType typeBridge = typeMaker.makeFromInternalTypeName(bridgeMethodDeclaration.getBodyDeclaration().getInternalTypeName());
+				if (typeMaker.isAssignable(Collections.emptyMap(), typeBridge, typeCtx)) {
+
+					// I guess it's the supertype
+					// could it be the supertype of the supertype?! FIXME
+					superExpression = new SuperExpression(typeCtx);
+				}
+			}
+		} catch (EmptyStackException exc) {
+			// do nothing
+		}
+		return superExpression;
+	}
+
 	protected static FieldReferenceExpression getFieldReferenceExpression(Expression expression) {
 		FieldReferenceExpression fre = (FieldReferenceExpression) expression;
 		Expression freExpression = fre.getExpression();
@@ -197,6 +246,10 @@ public class UpdateBridgeMethodVisitor extends AbstractUpdateExpressionVisitor {
 		return fre;
 	}
 
+	/**
+	 * Load bridge (or synthetic?!) methods into
+	 * <code>bridgeMethodDeclarations</code> during visit.
+	 */
 	protected class BodyDeclarationsVisitor extends AbstractJavaSyntaxVisitor {
 		protected Map<String, ClassFileMethodDeclaration> map = null;
 
@@ -253,6 +306,7 @@ public class UpdateBridgeMethodVisitor extends AbstractUpdateExpressionVisitor {
 
 		@Override
 		public void visit(MethodDeclaration declaration) {
+			// consider static methods only
 			if ((declaration.getFlags() & ACC_STATIC) == 0) {
 				return;
 			}
@@ -265,6 +319,7 @@ public class UpdateBridgeMethodVisitor extends AbstractUpdateExpressionVisitor {
 
 			String name = declaration.getName();
 
+			// consider methods starting with access$ only
 			if (!name.startsWith("access$")) {
 				return;
 			}
