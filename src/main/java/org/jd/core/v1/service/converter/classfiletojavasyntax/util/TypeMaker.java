@@ -10,9 +10,6 @@ package org.jd.core.v1.service.converter.classfiletojavasyntax.util;
 import static org.jd.core.v1.model.javasyntax.type.ObjectType.TYPE_OBJECT;
 import static org.jd.core.v1.model.javasyntax.type.ObjectType.TYPE_UNDEFINED_OBJECT;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -48,6 +45,7 @@ import org.jd.core.v1.model.javasyntax.type.WildcardTypeArgument;
 import org.jd.core.v1.service.converter.classfiletojavasyntax.visitor.BindTypesToTypesVisitor;
 import org.jd.core.v1.service.deserializer.classfile.ClassFileFormatException;
 import org.jd.core.v1.service.deserializer.classfile.ClassFileReader;
+import org.jd.core.v1.service.loader.ClassPathLoader;
 
 /**
  * @see https://jcp.org/aboutJava/communityprocess/maintenance/jsr924/JVMS-SE5.0-Ch4-ClassFile.pdf
@@ -1750,35 +1748,6 @@ public class TypeMaker {
 			int attributeLength = reader.readInt();
 
 			reader.skip(attributeLength);
-		}
-	}
-
-	private static class ClassPathLoader implements Loader {
-		protected byte[] buffer = new byte[1024 * 5];
-
-		@Override
-		public byte[] load(String internalName) throws IOException {
-			InputStream is = this.getClass().getResourceAsStream("/" + internalName + ".class");
-
-			if (is == null) {
-				return null;
-			} else {
-				try (InputStream in = is; ByteArrayOutputStream out = new ByteArrayOutputStream()) {
-					int read = in.read(buffer);
-
-					while (read > 0) {
-						out.write(buffer, 0, read);
-						read = in.read(buffer);
-					}
-
-					return out.toByteArray();
-				}
-			}
-		}
-
-		@Override
-		public boolean canLoad(String internalName) {
-			return this.getClass().getResource("/" + internalName + ".class") != null;
 		}
 	}
 
