@@ -112,7 +112,7 @@ public class ControlFlowGraph {
 			if (toOffset > 0) {
 				--toOffset;
 			}
-			s += l.getTypeName() + "(" + l.getIndex() + ") " + l.getFromOffset() + "-" + toOffset + "\r\n";
+			s += String.format("%03d-%03d %s\r\n", l.getFromOffset(), toOffset, l.getTypeName());
 		}
 		return s;
 	}
