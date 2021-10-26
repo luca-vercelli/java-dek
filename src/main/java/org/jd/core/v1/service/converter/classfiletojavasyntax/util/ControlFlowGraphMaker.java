@@ -25,6 +25,9 @@ import static org.jd.core.v1.service.converter.classfiletojavasyntax.model.cfg.B
 public class ControlFlowGraphMaker {
 	protected static final BasicBlock MARK = END;
 
+	/**
+	 * 1) Smaller 'startPc' first 2) Smaller 'endPc' first
+	 */
 	protected static final CodeExceptionComparator CODE_EXCEPTION_COMPARATOR = new CodeExceptionComparator();
 
 	/**
@@ -596,7 +599,7 @@ public class ControlFlowGraphMaker {
 	private static void checkTryCatchBlocks(Method method, BasicBlock[] map, char[] types, int[] branchOffsets,
 			CodeException[] codeExceptions, ControlFlowGraph cfg) {
 		if (codeExceptions != null) {
-			HashMap<CodeException, BasicBlock> cache = new HashMap<>();
+			Map<CodeException, BasicBlock> cache = new HashMap<>();
 			ConstantPool constantPool = method.getConstants();
 			// Reuse arrays
 			int[] handlePcToStartPc = branchOffsets;
