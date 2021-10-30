@@ -18,6 +18,13 @@ import static org.jd.core.v1.service.converter.classfiletojavasyntax.model.cfg.B
 
 public class ControlFlowGraphReducer {
 
+	/**
+	 * Reduce the graph, i.e. tries to match opcodes with Java statements blocks.
+	 * 
+	 * Existing blocks are replaced with others, more high level.
+	 * 
+	 * @return false if decompilation failed
+	 */
 	public static boolean reduce(ControlFlowGraph cfg) {
 		BasicBlock start = cfg.getStart();
 		BitSet jsrTargets = new BitSet();
@@ -31,11 +38,9 @@ public class ControlFlowGraphReducer {
 	 * 
 	 * Existing blocks are replaced with others, more high level.
 	 * 
-	 *
-	 * @param visited
-	 * @param basicBlock
-	 * @param jsrTargets
-	 * @return
+	 * Call recursively itself
+	 * 
+	 * @return false if decompilation failed
 	 */
 	public static boolean reduce(BitSet visited, BasicBlock basicBlock, BitSet jsrTargets) {
 		if (!basicBlock.matchType(GROUP_END) && (!visited.get(basicBlock.getIndex()))) {
@@ -72,6 +77,10 @@ public class ControlFlowGraphReducer {
 		return true;
 	}
 
+	/**
+	 * Replace TYPE_CONDITIONAL_BRANCH blocks with TYPE_CONDITION, TYPE_IF,
+	 * TYPE_IF_ELSE, ...
+	 */
 	protected static boolean reduceConditionalBranch(BitSet visited, BasicBlock basicBlock, BitSet jsrTargets) {
 		while (aggregateConditionalBranches(basicBlock))
 			;
@@ -612,6 +621,9 @@ public class ControlFlowGraphReducer {
 		return false;
 	}
 
+	/**
+	 * Replace TYPE_SWITCH_DECLARATION blocks with TYPE_SWITCH
+	 */
 	protected static boolean reduceSwitchDeclaration(BitSet visited, BasicBlock basicBlock, BitSet jsrTargets) {
 		SwitchCase defaultSC = null;
 		SwitchCase lastSC = null;
@@ -635,7 +647,7 @@ public class ControlFlowGraphReducer {
 
 		BasicBlock lastSwitchCaseBasicBlock = null;
 		BitSet v = new BitSet();
-		HashSet<BasicBlock> ends = new HashSet<>();
+		Set<BasicBlock> ends = new HashSet<>();
 
 		for (SwitchCase switchCase : basicBlock.getSwitchCases()) {
 			BasicBlock bb = switchCase.getBasicBlock();
@@ -774,6 +786,10 @@ public class ControlFlowGraphReducer {
 		return false;
 	}
 
+	/**
+	 * Replace TYPE_TRY_DECLARATION blocks with TYPE_TRY, TYPE_TRY_ECLIPSE,
+	 * TYPE_TRY_JSR
+	 */
 	protected static boolean reduceTryDeclaration(BitSet visited, BasicBlock basicBlock, BitSet jsrTargets) {
 		boolean reduced = true;
 		BasicBlock finallyBB = null;
@@ -1288,7 +1304,13 @@ public class ControlFlowGraphReducer {
 		return null;
 	}
 
-	protected static void visit(BitSet visited, BasicBlock basicBlock, int maxOffset, HashSet<BasicBlock> ends) {
+	/**
+	 * Search for blocks with fromOffset &gt;= maxOffset.
+	 * 
+	 * Visit recursively graph nodes. During visit, such nodes are accumulated in
+	 * <code>ends</code> Set.
+	 */
+	protected static void visit(BitSet visited, BasicBlock basicBlock, int maxOffset, Set<BasicBlock> ends) {
 		if (basicBlock.getFromOffset() >= maxOffset) {
 			ends.add(basicBlock);
 		} else if ((basicBlock.getIndex() >= 0) && (visited.get(basicBlock.getIndex()) == false)) {
