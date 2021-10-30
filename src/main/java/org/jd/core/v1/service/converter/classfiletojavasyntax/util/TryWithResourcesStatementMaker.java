@@ -26,11 +26,15 @@ public class TryWithResourcesStatementMaker {
 			List<TryStatement.CatchClause> catchClauses, Statements finallyStatements) {
 		int size = statements.size();
 
+		// LV 2021-10
+		// Original code assumed that finallyStatements.size() == 1 and this had a particular shape
+		// this is not true nowadays
 		if ((size < 2) || (finallyStatements == null) || (finallyStatements.size() != 1)
 				|| !checkThrowable(catchClauses)) {
 			return null;
 		}
 
+		// Retrieve first Exception variable from first of statements
 		Statement statement = statements.get(size - 2);
 
 		if (!statement.isExpressionStatement()) {
@@ -53,6 +57,7 @@ public class TryWithResourcesStatementMaker {
 
 		AbstractLocalVariable lv1 = ((ClassFileLocalVariableReferenceExpression) expression).getLocalVariable();
 
+		// Retrieve second Exception variable from second of statements
 		statement = statements.get(size - 1);
 
 		if (!statement.isExpressionStatement()) {
@@ -73,7 +78,8 @@ public class TryWithResourcesStatementMaker {
 
 		AbstractLocalVariable lv2 = ((ClassFileLocalVariableReferenceExpression) expression).getLocalVariable();
 
-		statement = finallyStatements.getFirst();
+		// Now parse finally statement(s)
+		statement = finallyStatements.getLast();
 
 		if (statement.isIfStatement() && (lv1 == getLocalVariable(statement.getCondition()))) {
 			statement = statement.getStatements().getFirst();
@@ -258,7 +264,7 @@ public class TryWithResourcesStatementMaker {
 		localVariableMaker.removeLocalVariable(lv2);
 
 		// Create try-with-resources statement
-		DefaultList<TryStatement.Resource> resources = new DefaultList<>();
+		List<TryStatement.Resource> resources = new DefaultList<>();
 
 		resources.add(new TryStatement.Resource((ObjectType) lv1.getType(), lv1.getName(), boe.getRightExpression()));
 
