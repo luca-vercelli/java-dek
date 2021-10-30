@@ -5,7 +5,7 @@
  * copy and modify the code freely for non-commercial purposes.
  */
 
-package org.jd.core.v1;
+package org.jd.core.v1.service.converter.classfiletojavasyntax.util;
 
 import static org.junit.Assert.assertEquals;
 
@@ -23,8 +23,6 @@ import org.jd.core.v1.service.converter.classfiletojavasyntax.model.javasyntax.d
 import org.jd.core.v1.service.converter.classfiletojavasyntax.model.javasyntax.declaration.ClassFileFieldDeclaration;
 import org.jd.core.v1.service.converter.classfiletojavasyntax.model.javasyntax.declaration.ClassFileMemberDeclaration;
 import org.jd.core.v1.service.converter.classfiletojavasyntax.model.javasyntax.declaration.ClassFileMethodDeclaration;
-import org.jd.core.v1.service.converter.classfiletojavasyntax.util.JavaVersion;
-import org.jd.core.v1.service.converter.classfiletojavasyntax.util.MergeMembersUtil;
 import org.jd.core.v1.util.DefaultList;
 import org.junit.Test;
 

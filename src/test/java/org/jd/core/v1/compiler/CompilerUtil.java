@@ -8,6 +8,7 @@
 package org.jd.core.v1.compiler;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.StringWriter;
 import java.util.Arrays;
 import java.util.List;
@@ -26,7 +27,7 @@ public class CompilerUtil {
 	protected static final File DESTINATION_DIRECTORY = new File("build/test-recompiled");
 	protected static final String DESTINATION_DIRECTORY_PATH = DESTINATION_DIRECTORY.getAbsolutePath();
 
-	public static boolean compile(String preferredJavaVersion, JavaFileObject... javaFileObjects) throws Exception {
+	public static boolean compile(String preferredJavaVersion, JavaFileObject... javaFileObjects) throws IOException  {
 		boolean compilationSuccess = false;
 		String javaVersion = getJavaVersion(preferredJavaVersion);
 

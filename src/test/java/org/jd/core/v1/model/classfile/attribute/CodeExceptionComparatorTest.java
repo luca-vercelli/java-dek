@@ -5,13 +5,12 @@
  * copy and modify the code freely for non-commercial purposes.
  */
 
-package org.jd.core.v1;
+package org.jd.core.v1.model.classfile.attribute;
 
 import static org.junit.Assert.assertEquals;
 
 import java.util.Arrays;
 
-import org.jd.core.v1.model.classfile.attribute.CodeException;
 import org.jd.core.v1.service.converter.classfiletojavasyntax.util.ControlFlowGraphMaker;
 import org.junit.Test;
 

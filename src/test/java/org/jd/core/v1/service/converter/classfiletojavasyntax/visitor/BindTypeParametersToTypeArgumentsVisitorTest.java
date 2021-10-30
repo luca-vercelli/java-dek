@@ -5,7 +5,7 @@
  * copy and modify the code freely for non-commercial purposes.
  */
 
-package org.jd.core.v1;
+package org.jd.core.v1.service.converter.classfiletojavasyntax.visitor;
 
 import static org.jd.core.v1.model.javasyntax.type.ObjectType.TYPE_INTEGER;
 import static org.junit.Assert.assertEquals;
@@ -16,7 +16,6 @@ import java.util.HashMap;
 import org.jd.core.v1.model.javasyntax.type.BaseType;
 import org.jd.core.v1.model.javasyntax.type.GenericType;
 import org.jd.core.v1.model.javasyntax.type.TypeArgument;
-import org.jd.core.v1.service.converter.classfiletojavasyntax.visitor.BindTypesToTypesVisitor;
 import org.junit.Test;
 
 public class BindTypeParametersToTypeArgumentsVisitorTest {

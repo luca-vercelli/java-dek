@@ -5,7 +5,7 @@
  * copy and modify the code freely for non-commercial purposes.
  */
 
-package org.jd.core.v1;
+package org.jd.core.v1.service.layouter.visitor;
 
 import static org.jd.core.v1.model.javafragment.EndMovableJavaBlockFragment.END_MOVABLE_BLOCK;
 import static org.jd.core.v1.model.javafragment.StartMovableJavaBlockFragment.START_MOVABLE_FIELD_BLOCK;
@@ -17,7 +17,6 @@ import org.jd.core.v1.model.fragment.FlexibleFragment;
 import org.jd.core.v1.model.fragment.Fragment;
 import org.jd.core.v1.model.fragment.SpacerBetweenMovableBlocksFragment;
 import org.jd.core.v1.model.javafragment.JavaFragmentVisitor;
-import org.jd.core.v1.service.layouter.visitor.UpdateSpacerBetweenMovableBlocksVisitor;
 import org.jd.core.v1.util.DefaultList;
 import org.junit.Test;
 

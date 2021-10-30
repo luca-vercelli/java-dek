@@ -5,22 +5,27 @@
  * copy and modify the code freely for non-commercial purposes.
  */
 
-package org.jd.core.v1;
-
-import junit.framework.TestCase;
-
-import org.jd.core.v1.model.javasyntax.type.*;
-import org.jd.core.v1.service.converter.classfiletojavasyntax.util.TypeMaker;
-import org.jd.core.v1.service.converter.classfiletojavasyntax.visitor.PopulateBindingsWithTypeArgumentVisitor;
-import org.jd.core.v1.service.loader.ClassPathLoader;
-import org.junit.Test;
-
-import java.util.Arrays;
-import java.util.HashMap;
+package org.jd.core.v1.service.converter.classfiletojavasyntax.visitor;
 
 import static org.jd.core.v1.model.javasyntax.type.ObjectType.TYPE_INTEGER;
 import static org.jd.core.v1.model.javasyntax.type.ObjectType.TYPE_STRING;
 import static org.jd.core.v1.model.javasyntax.type.PrimitiveType.TYPE_INT;
+
+import java.util.Arrays;
+import java.util.HashMap;
+
+import org.jd.core.v1.model.javasyntax.type.BaseType;
+import org.jd.core.v1.model.javasyntax.type.BaseTypeArgument;
+import org.jd.core.v1.model.javasyntax.type.GenericType;
+import org.jd.core.v1.model.javasyntax.type.ObjectType;
+import org.jd.core.v1.model.javasyntax.type.TypeArgument;
+import org.jd.core.v1.model.javasyntax.type.TypeArguments;
+import org.jd.core.v1.model.javasyntax.type.WildcardExtendsTypeArgument;
+import org.jd.core.v1.service.converter.classfiletojavasyntax.util.TypeMaker;
+import org.jd.core.v1.service.loader.ClassPathLoader;
+import org.junit.Test;
+
+import junit.framework.TestCase;
 
 public class PopulateBindingsForStaticMethodVisitorTest extends TestCase {
 	@Test
