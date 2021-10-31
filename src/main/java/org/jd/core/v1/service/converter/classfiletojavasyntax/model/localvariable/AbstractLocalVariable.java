@@ -88,10 +88,12 @@ public abstract class AbstractLocalVariable {
     }
 
     public void setToOffset(int offset) {
-        if (this.fromOffset > offset)
+        if (this.fromOffset > offset) {
             this.fromOffset = offset;
-        if (this.toOffset < offset)
+        }
+        if (this.toOffset < offset) {
             this.toOffset = offset;
+        }
     }
 
     public void setToOffset(int offset, boolean force) {
@@ -127,11 +129,11 @@ public abstract class AbstractLocalVariable {
      */
     public abstract boolean isAssignableFrom(Map<String, BaseType> typeBounds, Type type);
 
+    public abstract boolean isAssignableFrom(Map<String, BaseType> typeBounds, AbstractLocalVariable variable);
+
     public abstract void typeOnRight(Map<String, BaseType> typeBounds, Type type);
 
     public abstract void typeOnLeft(Map<String, BaseType> typeBounds, Type type);
-
-    public abstract boolean isAssignableFrom(Map<String, BaseType> typeBounds, AbstractLocalVariable variable);
 
     public abstract void variableOnRight(Map<String, BaseType> typeBounds, AbstractLocalVariable variable);
 

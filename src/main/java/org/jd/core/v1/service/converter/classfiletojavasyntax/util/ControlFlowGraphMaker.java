@@ -7,6 +7,17 @@
 
 package org.jd.core.v1.service.converter.classfiletojavasyntax.util;
 
+import static org.jd.core.v1.service.converter.classfiletojavasyntax.model.cfg.BasicBlock.*;
+
+import static org.jd.core.v1.service.converter.classfiletojavasyntax.util.ByteCodeConstants.*;
+
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+
 import org.jd.core.v1.model.classfile.ConstantPool;
 import org.jd.core.v1.model.classfile.Method;
 import org.jd.core.v1.model.classfile.attribute.AttributeCode;
@@ -15,12 +26,9 @@ import org.jd.core.v1.model.classfile.attribute.CodeException;
 import org.jd.core.v1.model.classfile.attribute.LineNumber;
 import org.jd.core.v1.model.classfile.constant.ConstantMemberRef;
 import org.jd.core.v1.service.converter.classfiletojavasyntax.model.cfg.BasicBlock;
+import org.jd.core.v1.service.converter.classfiletojavasyntax.model.cfg.BasicBlock.SwitchCase;
 import org.jd.core.v1.service.converter.classfiletojavasyntax.model.cfg.ControlFlowGraph;
 import org.jd.core.v1.util.DefaultList;
-
-import java.util.*;
-
-import static org.jd.core.v1.service.converter.classfiletojavasyntax.model.cfg.BasicBlock.*;
 
 public class ControlFlowGraphMaker {
     protected static final BasicBlock MARK = END;
@@ -478,7 +486,7 @@ public class ControlFlowGraphMaker {
      * @return 
      */
     private static BasicBlock createEmptyBasicBlocks(int length, BasicBlock[] map, int[] nextOffsets, ControlFlowGraph cfg) {
-        BasicBlock startBasicBlock = cfg.newBasicBlock(TYPE_START, 0, 0);
+        final BasicBlock startBasicBlock = cfg.newBasicBlock(TYPE_START, 0, 0);
         
         int lastOffset;
         lastOffset = 0;
@@ -717,8 +725,9 @@ public class ControlFlowGraphMaker {
         @Override
         public int compare(CodeException ce1, CodeException ce2) {
             int comp = ce1.getStartPc() - ce2.getStartPc();
-            if (comp == 0)
+            if (comp == 0) {
                 comp = ce1.getEndPc() - ce2.getEndPc();
+            }
             return comp;
         }
     }

@@ -16,7 +16,8 @@ public class ClassFileForStatement extends ForStatement {
     protected int fromOffset;
     protected int toOffset;
 
-    public ClassFileForStatement(int fromOffset, int toOffset, BaseExpression init, Expression condition, BaseExpression update, BaseStatement statements) {
+    public ClassFileForStatement(int fromOffset, int toOffset, BaseExpression init, Expression condition,
+            BaseExpression update, BaseStatement statements) {
         super(init, condition, update, statements);
         this.fromOffset = fromOffset;
         this.toOffset = toOffset;
@@ -31,7 +32,9 @@ public class ClassFileForStatement extends ForStatement {
     }
 
     @Override
-    public boolean isForStatement() { return true; }
+    public boolean isForStatement() {
+        return true;
+    }
 
     @Override
     public String toString() {

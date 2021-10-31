@@ -14,22 +14,9 @@ import static org.jd.core.v1.model.javasyntax.statement.ReturnStatement.RETURN;
 import static org.jd.core.v1.model.javasyntax.type.ObjectType.TYPE_CLASS;
 import static org.jd.core.v1.model.javasyntax.type.ObjectType.TYPE_OBJECT;
 import static org.jd.core.v1.model.javasyntax.type.ObjectType.TYPE_UNDEFINED_OBJECT;
-import static org.jd.core.v1.model.javasyntax.type.PrimitiveType.FLAG_BOOLEAN;
-import static org.jd.core.v1.model.javasyntax.type.PrimitiveType.FLAG_DOUBLE;
-import static org.jd.core.v1.model.javasyntax.type.PrimitiveType.FLAG_FLOAT;
-import static org.jd.core.v1.model.javasyntax.type.PrimitiveType.FLAG_LONG;
-import static org.jd.core.v1.model.javasyntax.type.PrimitiveType.MAYBE_BOOLEAN_TYPE;
-import static org.jd.core.v1.model.javasyntax.type.PrimitiveType.MAYBE_BYTE_TYPE;
-import static org.jd.core.v1.model.javasyntax.type.PrimitiveType.MAYBE_NEGATIVE_BYTE_TYPE;
-import static org.jd.core.v1.model.javasyntax.type.PrimitiveType.TYPE_BOOLEAN;
-import static org.jd.core.v1.model.javasyntax.type.PrimitiveType.TYPE_BYTE;
-import static org.jd.core.v1.model.javasyntax.type.PrimitiveType.TYPE_CHAR;
-import static org.jd.core.v1.model.javasyntax.type.PrimitiveType.TYPE_DOUBLE;
-import static org.jd.core.v1.model.javasyntax.type.PrimitiveType.TYPE_FLOAT;
-import static org.jd.core.v1.model.javasyntax.type.PrimitiveType.TYPE_INT;
-import static org.jd.core.v1.model.javasyntax.type.PrimitiveType.TYPE_LONG;
-import static org.jd.core.v1.model.javasyntax.type.PrimitiveType.TYPE_SHORT;
-import static org.jd.core.v1.model.javasyntax.type.PrimitiveType.TYPE_VOID;
+import static org.jd.core.v1.model.javasyntax.type.PrimitiveType.*;
+
+import static org.jd.core.v1.service.converter.classfiletojavasyntax.util.ByteCodeConstants.*;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -161,7 +148,8 @@ public class ByteCodeParser {
     }
 
     /**
-     * Create statements from bytecode contained in <code>basicBlock.cfg.method</code>.
+     * Create statements from bytecode contained in
+     * <code>basicBlock.cfg.method</code>.
      *
      * @param basicBlock
      * @param statements new statements are added to this list
@@ -177,13 +165,24 @@ public class ByteCodeParser {
         byte[] code = method.<AttributeCode>getAttribute("Code").getCode();
         boolean syntheticFlag = (method.getAccessFlags() & ACC_SYNTHETIC) != 0;
 
-        Expression indexRef, arrayRef, valueRef, expression1, expression2, expression3;
-        Type type1, type2, type3;
+        Expression indexRef;
+        Expression arrayRef;
+        Expression valueRef;
+        Expression expression1;
+        Expression expression2;
+        Expression expression3;
+        Type type1;
+        Type type2;
+        Type type3;
         ConstantMemberRef constantMemberRef;
         ConstantNameAndType constantNameAndType;
-        String typeName, name, descriptor;
+        String typeName;
+        String name;
+        String descriptor;
         ObjectType ot;
-        int i, count, value;
+        int i;
+        int count;
+        int value;
         AbstractLocalVariable localVariable;
 
         for (int offset = fromOffset; offset < toOffset; offset++) {
@@ -1590,7 +1589,7 @@ public class ByteCodeParser {
         String indyMethodName = constantMemberRef.getName(constants);
         String indyDescriptor = constantMemberRef.getDescriptor(constants);
         TypeMaker.MethodTypes indyMethodTypes = typeMaker.makeMethodTypes(indyDescriptor);
-        
+
         BaseExpression indyParameters = extractParametersFromStack(statements, stack, indyMethodTypes.parameterTypes);
         BootstrapMethod bootstrapMethod = attributeBootstrapMethods.getBootstrapMethods()[constantMemberRef
                 .getClassIndex()];
@@ -2456,7 +2455,7 @@ public class ByteCodeParser {
         int opcode = code[offset] & 255;
 
         switch (opcode) {
-        case 58: // ASTORE
+        case ASTORE: // ASTORE
             return code[++offset] & 255;
         case 75:
         case 76:

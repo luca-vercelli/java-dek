@@ -62,6 +62,7 @@ public class ObjectType implements Type {
 
     public static final Map<String, String> PRIMITIVE_TO_BOX_MAP = new HashMap<>();
     public static final Map<String, String> BOX_TO_PRIMITIVE_MAP = new HashMap<>();
+
     static {
         PRIMITIVE_TO_BOX_MAP.put("Z", "java/lang/Boolean");
         PRIMITIVE_TO_BOX_MAP.put("B", "java/lang/Byte");

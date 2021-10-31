@@ -126,7 +126,10 @@ public class ConvertClassFileProcessor implements Processor {
 
     public void fillCompilationUnit(TypeMaker typeMaker, CompilationUnit compilationUnit, boolean dumpOpcode) {
         new UpdateJavaSyntaxTreeStep0Visitor(typeMaker).visit(compilationUnit);
-        new UpdateJavaSyntaxTreeStep1Visitor(typeMaker, dumpOpcode).visit(compilationUnit); // statements are added in this step
+
+        // statements are added in this step
+        new UpdateJavaSyntaxTreeStep1Visitor(typeMaker, dumpOpcode).visit(compilationUnit);
+
         new UpdateJavaSyntaxTreeStep2Visitor(typeMaker).visit(compilationUnit);
     }
 
@@ -145,7 +148,7 @@ public class ConvertClassFileProcessor implements Processor {
 
                 if (typeMaker == null) {
                     // Store the heavy weight object 'typeMaker' in 'configuration' to reuse it
-                    configuration.setTypeMaker( typeMaker = new TypeMaker(loader));
+                    configuration.setTypeMaker(typeMaker = new TypeMaker(loader));
                 }
             } catch (Exception e) {
                 if (typeMaker == null) {

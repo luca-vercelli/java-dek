@@ -71,16 +71,16 @@ public class GenericLocalVariable extends AbstractLocalVariable {
     }
 
     @Override
+    public boolean isAssignableFrom(Map<String, BaseType> typeBounds, AbstractLocalVariable variable) {
+        return isAssignableFrom(typeBounds, variable.getType());
+    }
+
+    @Override
     public void typeOnRight(Map<String, BaseType> typeBounds, Type type) {
     }
 
     @Override
     public void typeOnLeft(Map<String, BaseType> typeBounds, Type type) {
-    }
-
-    @Override
-    public boolean isAssignableFrom(Map<String, BaseType> typeBounds, AbstractLocalVariable variable) {
-        return isAssignableFrom(typeBounds, variable.getType());
     }
 
     @Override

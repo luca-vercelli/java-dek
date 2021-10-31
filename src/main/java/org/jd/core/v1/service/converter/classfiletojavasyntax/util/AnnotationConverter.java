@@ -7,7 +7,8 @@
 
 package org.jd.core.v1.service.converter.classfiletojavasyntax.util;
 
-import org.jd.core.v1.model.classfile.attribute.*;
+import org.jd.core.v1.model.classfile.attribute.Annotation;
+import org.jd.core.v1.model.classfile.attribute.Annotations;
 import org.jd.core.v1.model.classfile.attribute.elementValue.ElementValue;
 import org.jd.core.v1.model.classfile.attribute.elementValue.ElementValueAnnotationValue;
 import org.jd.core.v1.model.classfile.attribute.elementValue.ElementValueArrayValue;
@@ -16,9 +17,27 @@ import org.jd.core.v1.model.classfile.attribute.elementValue.ElementValueEnumCon
 import org.jd.core.v1.model.classfile.attribute.elementValue.ElementValuePair;
 import org.jd.core.v1.model.classfile.attribute.elementValue.ElementValuePrimitiveType;
 import org.jd.core.v1.model.classfile.attribute.elementValue.ElementValueVisitor;
-import org.jd.core.v1.model.classfile.constant.*;
-import org.jd.core.v1.model.javasyntax.expression.*;
-import org.jd.core.v1.model.javasyntax.reference.*;
+import org.jd.core.v1.model.classfile.constant.ConstantDouble;
+import org.jd.core.v1.model.classfile.constant.ConstantFloat;
+import org.jd.core.v1.model.classfile.constant.ConstantInteger;
+import org.jd.core.v1.model.classfile.constant.ConstantLong;
+import org.jd.core.v1.model.classfile.constant.ConstantUtf8;
+import org.jd.core.v1.model.javasyntax.expression.DoubleConstantExpression;
+import org.jd.core.v1.model.javasyntax.expression.FieldReferenceExpression;
+import org.jd.core.v1.model.javasyntax.expression.FloatConstantExpression;
+import org.jd.core.v1.model.javasyntax.expression.IntegerConstantExpression;
+import org.jd.core.v1.model.javasyntax.expression.LongConstantExpression;
+import org.jd.core.v1.model.javasyntax.expression.ObjectTypeReferenceExpression;
+import org.jd.core.v1.model.javasyntax.expression.StringConstantExpression;
+import org.jd.core.v1.model.javasyntax.expression.TypeReferenceDotClassExpression;
+import org.jd.core.v1.model.javasyntax.reference.AnnotationElementValue;
+import org.jd.core.v1.model.javasyntax.reference.AnnotationReference;
+import org.jd.core.v1.model.javasyntax.reference.AnnotationReferences;
+import org.jd.core.v1.model.javasyntax.reference.BaseAnnotationReference;
+import org.jd.core.v1.model.javasyntax.reference.ElementValueArrayInitializerElementValue;
+import org.jd.core.v1.model.javasyntax.reference.ElementValuePairs;
+import org.jd.core.v1.model.javasyntax.reference.ElementValues;
+import org.jd.core.v1.model.javasyntax.reference.ExpressionElementValue;
 import org.jd.core.v1.model.javasyntax.type.ObjectType;
 import org.jd.core.v1.model.javasyntax.type.PrimitiveType;
 

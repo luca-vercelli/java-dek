@@ -24,12 +24,9 @@ public enum ConstantPoolTag {
     ;
 
     protected byte tag;
-    private static final ConstantPoolTag[] TAGS = new ConstantPoolTag[21];
+    private static final ConstantPoolTag[] TAGS = new ConstantPoolTag[CONSTANT_Package.tag + 1];
 
     static {
-        for (int i = 0; i < TAGS.length; ++i) {
-            TAGS[i] = null;
-        }
         for (ConstantPoolTag constant : ConstantPoolTag.values()) {
             TAGS[constant.tag] = constant;
         }

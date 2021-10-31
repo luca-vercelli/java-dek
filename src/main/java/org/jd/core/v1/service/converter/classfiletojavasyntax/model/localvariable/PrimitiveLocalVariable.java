@@ -86,6 +86,8 @@ public class PrimitiveLocalVariable extends AbstractLocalVariable {
             return TYPE_LONG;
         case FLAG_VOID:
             return TYPE_VOID;
+        default:
+            break;
         }
 
         if (flags == (FLAG_CHAR | FLAG_INT)) {
@@ -180,6 +182,22 @@ public class PrimitiveLocalVariable extends AbstractLocalVariable {
     }
 
     @Override
+    public boolean isAssignableFrom(Map<String, BaseType> typeBounds, AbstractLocalVariable variable) {
+        if (variable.isPrimitiveLocalVariable()) {
+            int variableFlags = ((PrimitiveLocalVariable) variable).flags;
+            PrimitiveType type = PrimitiveTypeUtil.getPrimitiveTypeFromFlags(variableFlags);
+
+            if (type != null) {
+                variableFlags = type.getRightFlags();
+            }
+
+            return (flags & variableFlags) != 0;
+        }
+
+        return false;
+    }
+
+    @Override
     public void typeOnRight(Map<String, BaseType> typeBounds, Type type) {
         if (type.isPrimitiveType()) {
             assert (type.getDimension() == 0);
@@ -215,22 +233,6 @@ public class PrimitiveLocalVariable extends AbstractLocalVariable {
                 }
             }
         }
-    }
-
-    @Override
-    public boolean isAssignableFrom(Map<String, BaseType> typeBounds, AbstractLocalVariable variable) {
-        if (variable.isPrimitiveLocalVariable()) {
-            int variableFlags = ((PrimitiveLocalVariable) variable).flags;
-            PrimitiveType type = PrimitiveTypeUtil.getPrimitiveTypeFromFlags(variableFlags);
-
-            if (type != null) {
-                variableFlags = type.getRightFlags();
-            }
-
-            return (flags & variableFlags) != 0;
-        }
-
-        return false;
     }
 
     @Override

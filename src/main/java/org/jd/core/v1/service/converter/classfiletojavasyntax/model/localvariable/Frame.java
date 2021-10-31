@@ -74,7 +74,8 @@ public class Frame {
             "Try", "Char", "Final", "Interface", "Static", "Void", "Class", "Finally", "Long", "Strictfp", "Volatile",
             "Const", "Float", "Native", "Super", "While"));
 
-    protected AbstractLocalVariable[] localVariableArray = new AbstractLocalVariable[10];
+    static final int INITIAL_CAPACITY = 10;
+    protected AbstractLocalVariable[] localVariableArray = new AbstractLocalVariable[INITIAL_CAPACITY];
     protected Map<NewExpression, AbstractLocalVariable> newExpressions = null;
     protected DefaultList<Frame> children = null;
     protected Frame parent;
@@ -370,7 +371,8 @@ public class Frame {
                     for (AbstractLocalVariable lv : searchUndeclaredLocalVariableVisitor.getVariables()) {
                         List<ClassFileForStatement> list = undeclaredInForStatements.get(lv);
                         if (list == null) {
-                            undeclaredInForStatements.put(lv, list = new ArrayList<>());
+                            list = new ArrayList<>();
+                            undeclaredInForStatements.put(lv, list);
                         }
                         list.add(fs);
                     }
@@ -519,28 +521,6 @@ public class Frame {
         }
     }
 
-    protected Map<Frame, Set<AbstractLocalVariable>> createMapForInlineDeclarations() {
-        Map<Frame, Set<AbstractLocalVariable>> map = new HashMap<>();
-        int i = localVariableArray.length;
-
-        while (i-- > 0) {
-            AbstractLocalVariable lv = localVariableArray[i];
-
-            while (lv != null) {
-                if ((this == lv.getFrame()) && !lv.isDeclared()) {
-                    Set<AbstractLocalVariable> variablesToDeclare = map.get(this);
-                    if (variablesToDeclare == null) {
-                        map.put(this, variablesToDeclare = new HashSet<>());
-                    }
-                    variablesToDeclare.add(lv);
-                }
-                lv = lv.getNext();
-            }
-        }
-
-        return map;
-    }
-
     protected void createInlineDeclarations(Set<AbstractLocalVariable> undeclaredLocalVariables,
             Set<AbstractLocalVariable> undeclaredLocalVariablesInStatement, ListIterator<Statement> iterator,
             ExpressionStatement es) {
@@ -564,6 +544,29 @@ public class Frame {
                 }
             }
         }
+    }
+
+    protected Map<Frame, Set<AbstractLocalVariable>> createMapForInlineDeclarations() {
+        Map<Frame, Set<AbstractLocalVariable>> map = new HashMap<>();
+        int i = localVariableArray.length;
+
+        while (i-- > 0) {
+            AbstractLocalVariable lv = localVariableArray[i];
+
+            while (lv != null) {
+                if ((this == lv.getFrame()) && !lv.isDeclared()) {
+                    Set<AbstractLocalVariable> variablesToDeclare = map.get(this);
+                    if (variablesToDeclare == null) {
+                        variablesToDeclare = new HashSet<>();
+                        map.put(this, variablesToDeclare);
+                    }
+                    variablesToDeclare.add(lv);
+                }
+                lv = lv.getNext();
+            }
+        }
+
+        return map;
     }
 
     protected Expression splitMultiAssignment(int toOffset,

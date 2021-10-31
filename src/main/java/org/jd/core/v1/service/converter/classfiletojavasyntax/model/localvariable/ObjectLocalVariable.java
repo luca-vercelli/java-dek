@@ -103,6 +103,11 @@ public class ObjectLocalVariable extends AbstractLocalVariable {
     }
 
     @Override
+    public boolean isAssignableFrom(Map<String, BaseType> typeBounds, AbstractLocalVariable variable) {
+        return isAssignableFrom(typeBounds, variable.getType());
+    }
+
+    @Override
     public void typeOnRight(Map<String, BaseType> typeBounds, Type type) {
         if (type != TYPE_UNDEFINED_OBJECT) {
             if (this.type == TYPE_UNDEFINED_OBJECT) {
@@ -172,11 +177,6 @@ public class ObjectLocalVariable extends AbstractLocalVariable {
                 }
             }
         }
-    }
-
-    @Override
-    public boolean isAssignableFrom(Map<String, BaseType> typeBounds, AbstractLocalVariable variable) {
-        return isAssignableFrom(typeBounds, variable.getType());
     }
 
     @Override

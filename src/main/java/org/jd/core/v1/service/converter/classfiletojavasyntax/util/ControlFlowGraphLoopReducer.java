@@ -9,6 +9,8 @@ package org.jd.core.v1.service.converter.classfiletojavasyntax.util;
 
 import static org.jd.core.v1.service.converter.classfiletojavasyntax.model.cfg.BasicBlock.*;
 
+import static org.jd.core.v1.service.converter.classfiletojavasyntax.util.ByteCodeConstants.*;
+
 import java.util.BitSet;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -138,6 +140,8 @@ public class ControlFlowGraphLoopReducer {
                                 current, switchCase.getBasicBlock());
                     }
                 }
+                break;
+            default:
                 break;
             }
         }
@@ -271,7 +275,7 @@ public class ControlFlowGraphLoopReducer {
 
     protected static void recursiveBackwardSearchLoopMemberIndexes(BitSet visited, BasicBlock current,
             BasicBlock start) {
-        if (visited.get(current.getIndex()) == false) {
+        if (!visited.get(current.getIndex())) {
             visited.set(current.getIndex());
 
             if (current != start) {
@@ -314,11 +318,11 @@ public class ControlFlowGraphLoopReducer {
         if (start.getType() == TYPE_CONDITIONAL_BRANCH) {
             // First, check natural 'end' blocks
             int index = start.getBranch().getIndex();
-            if (memberIndexes.get(index) == false) {
+            if (!memberIndexes.get(index)) {
                 end = start.getBranch();
             } else {
                 index = start.getNext().getIndex();
-                if (memberIndexes.get(index) == false) {
+                if (!memberIndexes.get(index)) {
                     end = start.getNext();
                 }
             }
@@ -414,6 +418,8 @@ public class ControlFlowGraphLoopReducer {
                     }
                 }
                 break;
+            default:
+                break;
             }
         }
 
@@ -460,7 +466,7 @@ public class ControlFlowGraphLoopReducer {
 
     private static int checkSynchronizedBlockOffset(BasicBlock basicBlock) {
         if ((basicBlock.getNext().getType() == TYPE_TRY_DECLARATION)
-                && (ByteCodeUtil.getLastOpcode(basicBlock) == 194)) { // MONITORENTER
+                && (ByteCodeUtil.getLastOpcode(basicBlock) == MONITORENTER)) {
             return checkThrowBlockOffset(basicBlock.getNext().getExceptionHandlers().get(0).getBasicBlock());
         }
 
@@ -485,8 +491,8 @@ public class ControlFlowGraphLoopReducer {
 
     protected static void recursiveForwardSearchLoopMemberIndexes(BitSet visited, BitSet searchZoneIndexes,
             BasicBlock current, BasicBlock target) {
-        if (!current.matchType(GROUP_END) && (visited.get(current.getIndex()) == false)
-                && (searchZoneIndexes.get(current.getIndex()) == true)) {
+        if (!current.matchType(GROUP_END) && (!visited.get(current.getIndex()))
+                && (searchZoneIndexes.get(current.getIndex()))) {
             visited.set(current.getIndex());
 
             if (current != target) {
@@ -513,7 +519,7 @@ public class ControlFlowGraphLoopReducer {
     protected static void recursiveForwardSearchLoopMemberIndexes(BitSet visited, BitSet searchZoneIndexes,
             BasicBlock current, int maxOffset) {
         if (!current.matchType(TYPE_END | TYPE_LOOP_START | TYPE_LOOP_CONTINUE | TYPE_LOOP_END | TYPE_SWITCH_BREAK)
-                && (visited.get(current.getIndex()) == false) && (searchZoneIndexes.get(current.getIndex()) == true)
+                && (!visited.get(current.getIndex())) && (searchZoneIndexes.get(current.getIndex()))
                 && (current.getFromOffset() <= maxOffset)) {
             visited.set(current.getIndex());
 
