@@ -253,7 +253,7 @@ public class SwitchStatementMaker {
                 break;
             }
 
-            Integer index = expression.getIntegerValue();
+            final Integer index = expression.getIntegerValue();
 
             expression = boe.getLeftExpression();
 

@@ -96,6 +96,43 @@ public class ClassFileDeserializer implements Processor {
         }
     }
 
+    /**
+     * Load main type (not inner types)
+     * 
+     * @param data
+     * @return
+     * @throws UTFDataFormatException
+     */
+    protected ClassFile loadClassFile(byte[] data) throws UTFDataFormatException {
+
+        ClassFileReader reader = new ClassFileReader(data);
+
+        int magic = reader.readInt();
+
+        if (magic != ClassFileReader.JAVA_MAGIC_NUMBER) {
+            throw new ClassFileFormatException("Invalid CLASS file");
+        }
+
+        int minorVersion = reader.readUnsignedShort();
+        int majorVersion = reader.readUnsignedShort();
+
+        ConstantPool constants = new ConstantPool(loadConstants(reader));
+
+        int accessFlags = reader.readUnsignedShort();
+        int thisClassIndex = reader.readUnsignedShort();
+        int superClassIndex = reader.readUnsignedShort();
+
+        String internalTypeName = constants.getConstantTypeName(thisClassIndex);
+        String superTypeName = (superClassIndex == 0) ? null : constants.getConstantTypeName(superClassIndex);
+        String[] interfaceTypeNames = loadInterfaces(reader, constants);
+        Field[] fields = loadFields(reader, constants);
+        Method[] methods = loadMethods(reader, constants);
+        Map<String, Attribute> attributes = loadAttributes(reader, constants);
+
+        return new ClassFile(majorVersion, minorVersion, accessFlags, internalTypeName, superTypeName,
+                interfaceTypeNames, fields, methods, attributes);
+    }
+
     protected ClassFile innerLoadClassFile(Loader loader, String internalTypeName) throws IOException {
         if (!loader.canLoad(internalTypeName)) {
             return null;
@@ -155,42 +192,6 @@ public class ClassFileDeserializer implements Processor {
         }
 
         return classFile;
-    }
-
-    /**
-     * Load main type (not inner types)
-     * 
-     * @param data
-     * @return
-     * @throws UTFDataFormatException
-     */
-    protected ClassFile loadClassFile(byte[] data) throws UTFDataFormatException {
-
-        ClassFileReader reader = new ClassFileReader(data);
-
-        int magic = reader.readInt();
-
-        if (magic != ClassFileReader.JAVA_MAGIC_NUMBER)
-            throw new ClassFileFormatException("Invalid CLASS file");
-
-        int minorVersion = reader.readUnsignedShort();
-        int majorVersion = reader.readUnsignedShort();
-
-        ConstantPool constants = new ConstantPool(loadConstants(reader));
-
-        int accessFlags = reader.readUnsignedShort();
-        int thisClassIndex = reader.readUnsignedShort();
-        int superClassIndex = reader.readUnsignedShort();
-
-        String internalTypeName = constants.getConstantTypeName(thisClassIndex);
-        String superTypeName = (superClassIndex == 0) ? null : constants.getConstantTypeName(superClassIndex);
-        String[] interfaceTypeNames = loadInterfaces(reader, constants);
-        Field[] fields = loadFields(reader, constants);
-        Method[] methods = loadMethods(reader, constants);
-        Map<String, Attribute> attributes = loadAttributes(reader, constants);
-
-        return new ClassFile(majorVersion, minorVersion, accessFlags, internalTypeName, superTypeName,
-                interfaceTypeNames, fields, methods, attributes);
     }
 
     /**
@@ -306,9 +307,9 @@ public class ClassFileDeserializer implements Processor {
 
     protected Method[] loadMethods(ClassFileReader reader, ConstantPool constants) {
         int count = reader.readUnsignedShort();
-        if (count == 0)
+        if (count == 0) {
             return null;
-
+        }
         Method[] methods = new Method[count];
 
         for (int i = 0; i < count; i++) {
@@ -366,8 +367,9 @@ public class ClassFileDeserializer implements Processor {
                             loadCode(reader), loadCodeExceptions(reader), loadAttributes(reader, constants)));
                     break;
                 case ConstantValue:
-                    if (attributeLength < 2)
+                    if (attributeLength < 2) {
                         throw new ClassFileFormatException("Invalid attribute length");
+                    }
                     attributes.put(name, new AttributeConstantValue(loadConstantValue(reader, constants)));
                     break;
                 case Deprecated:
@@ -381,8 +383,9 @@ public class ClassFileDeserializer implements Processor {
                     break;
                 case LocalVariableTable:
                     LocalVariable[] localVariables = loadLocalVariables(reader, constants);
-                    if (localVariables != null)
+                    if (localVariables != null) {
                         attributes.put(name, new AttributeLocalVariableTable(localVariables));
+                    }
                     break;
                 case LocalVariableTypeTable:
                     attributes.put(name,
@@ -412,8 +415,9 @@ public class ClassFileDeserializer implements Processor {
                 case RuntimeInvisibleAnnotations:
                 case RuntimeVisibleAnnotations:
                     Annotation[] annotations = loadAnnotations(reader, constants);
-                    if (annotations != null)
+                    if (annotations != null) {
                         attributes.put(name, new Annotations(annotations));
+                    }
                     break;
                 case RuntimeInvisibleParameterAnnotations:
                 case RuntimeVisibleParameterAnnotations:
@@ -510,11 +514,11 @@ public class ClassFileDeserializer implements Processor {
 
     protected ElementValue[] loadElementValues(ClassFileReader reader, ConstantPool constants) {
         int count = reader.readUnsignedShort();
-        if (count == 0)
+        if (count == 0) {
             return null;
+        }
 
         ElementValue[] values = new ElementValue[count];
-
         for (int i = 0; i < count; i++) {
             values[i] = loadElementValue(reader, constants);
         }
@@ -524,11 +528,11 @@ public class ClassFileDeserializer implements Processor {
 
     protected BootstrapMethod[] loadBootstrapMethods(ClassFileReader reader) {
         int count = reader.readUnsignedShort();
-        if (count == 0)
+        if (count == 0) {
             return null;
+        }
 
         BootstrapMethod[] values = new BootstrapMethod[count];
-
         for (int i = 0; i < count; i++) {
             int bootstrapMethodRef = reader.readUnsignedShort();
             int numBootstrapArguments = reader.readUnsignedShort();

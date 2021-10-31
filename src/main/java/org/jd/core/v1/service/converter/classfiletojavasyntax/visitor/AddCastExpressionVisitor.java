@@ -169,8 +169,8 @@ public class AddCastExpressionVisitor extends AbstractJavaSyntaxVisitor {
             BaseStatement statements = declaration.getStatements();
 
             if (statements != null) {
-                Map<String, BaseType> tb = typeBounds;
-                BaseType et = exceptionTypes;
+                final Map<String, BaseType> tb = typeBounds;
+                final BaseType et = exceptionTypes;
 
                 typeBounds = ((ClassFileConstructorDeclaration) declaration).getTypeBounds();
                 exceptionTypes = declaration.getExceptionTypes();

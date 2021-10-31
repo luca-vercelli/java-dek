@@ -79,7 +79,7 @@ public class BasicBlock {
     public static final BasicBlock LOOP_CONTINUE = new ImmutableBasicBlock(TYPE_LOOP_CONTINUE);
     public static final BasicBlock LOOP_END = new ImmutableBasicBlock(TYPE_LOOP_END);
     public static final BasicBlock END = new ImmutableBasicBlock(TYPE_END);
-    public static final BasicBlock RETURN = new ImmutableBasicBlock(TYPE_RETURN);
+    public static final BasicBlock B_RETURN = new ImmutableBasicBlock(TYPE_RETURN);
 
 
     protected ControlFlowGraph controlFlowGraph;

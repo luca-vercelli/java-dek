@@ -173,7 +173,7 @@ public class ControlFlowGraphPlantUMLWriter {
             writeStateCode(sb, id, method, basicBlock);
             break;
         case TYPE_RETURN:
-            if (basicBlock == RETURN) {
+            if (basicBlock == B_RETURN) {
                 break;
             }
         case TYPE_THROW:
@@ -443,7 +443,7 @@ public class ControlFlowGraphPlantUMLWriter {
         } else if (to == LOOP_END) {
             sb.append("state \"LOOP_END\" as end_loop_").append(fromId).append('\n');
             sb.append(fromId).append(" --> end_loop_").append(fromId).append(" : ").append(label).append('\n');
-        } else if (to == RETURN) {
+        } else if (to == B_RETURN) {
             sb.append("state \"RETURN\" as return_").append(fromId).append('\n');
             sb.append(fromId).append(" --> return_").append(fromId).append(" : ").append(label).append('\n');
         } else if (to != END) {

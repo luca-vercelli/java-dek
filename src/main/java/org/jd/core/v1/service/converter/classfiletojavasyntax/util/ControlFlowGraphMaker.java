@@ -52,7 +52,7 @@ public class ControlFlowGraphMaker {
             BasicBlock[] map = new BasicBlock[length];
 
             char[] types = new char[length]; // 'c' for conditional instruction, 'g' for goto, 't' for throw, 's' for
-                                                // switch, 'r' for return
+                                             // switch, 'r' for return
             int[] nextOffsets = new int[length]; // Next instruction offsets
             int[] branchOffsets = new int[length]; // Branch offsets
             int[][] switchValues = new int[length][]; // Default-value and switch-values
@@ -73,59 +73,59 @@ public class ControlFlowGraphMaker {
                 int opcode = code[offset] & 255;
 
                 switch (opcode) {
-                case 16: // BIPUSH
-                case 18: // LDC
-                case 21:
-                case 22:
-                case 23:
-                case 24:
-                case 25: // ILOAD, LLOAD, FLOAD, DLOAD, ALOAD
-                case 188: // NEWARRAY
+                case BIPUSH:
+                case LDC:
+                case ILOAD:
+                case LLOAD:
+                case FLOAD:
+                case DLOAD:
+                case ALOAD:
+                case NEWARRAY:
                     offset++;
                     break;
-                case 54:
-                case 55:
-                case 56:
-                case 57:
-                case 58: // ISTORE, LSTORE, FSTORE, DSTORE, ASTORE
+                case ISTORE:
+                case LSTORE:
+                case FSTORE:
+                case DSTORE:
+                case ASTORE:
                     offset++;
                     lastStatementOffset = offset;
                     break;
-                case 59:
-                case 60:
-                case 61:
-                case 62: // ISTORE_0 .. ISTORE_3
-                case 63:
-                case 64:
-                case 65:
-                case 66: // LSTORE_0 .. LSTORE_3
-                case 67:
-                case 68:
-                case 69:
-                case 70: // FSTORE_0 .. FSTORE_3
-                case 71:
-                case 72:
-                case 73:
-                case 74: // DSTORE_0 .. DSTORE_3
-                case 75:
-                case 76:
-                case 77:
-                case 78: // ASTORE_0 .. ASTORE_3
-                case 79:
-                case 80:
-                case 81:
-                case 82:
-                case 83:
-                case 84:
-                case 85:
-                case 86: // IASTORE, LASTORE, FASTORE, DASTORE, AASTORE, BASTORE, CASTORE, SASTORE
-                case 87:
-                case 88: // POP, POP2
-                case 194:
-                case 195: // MONITORENTER, MONITOREXIT
+                case ISTORE_0:
+                case ISTORE_1:
+                case ISTORE_2:
+                case ISTORE_3:
+                case LSTORE_0:
+                case LSTORE_1:
+                case LSTORE_2:
+                case LSTORE_3:
+                case FSTORE_0:
+                case FSTORE_1:
+                case FSTORE_2:
+                case FSTORE_3:
+                case DSTORE_0:
+                case DSTORE_1:
+                case DSTORE_2:
+                case DSTORE_3:
+                case ASTORE_0:
+                case ASTORE_1:
+                case ASTORE_2:
+                case ASTORE_3:
+                case IASTORE:
+                case LASTORE:
+                case FASTORE:
+                case DASTORE:
+                case AASTORE:
+                case BASTORE:
+                case CASTORE:
+                case SASTORE:
+                case POP:
+                case POP2:
+                case MONITORENTER:
+                case MONITOREXIT:
                     lastStatementOffset = offset;
                     break;
-                case 169: // RET
+                case RET:
                     offset++;
                     // The instruction that immediately follows a conditional or an unconditional
                     // goto/jump instruction is a leader
@@ -135,14 +135,14 @@ public class ControlFlowGraphMaker {
                     }
                     lastStatementOffset = offset;
                     break;
-                case 179:
-                case 181: // PUTSTATIC, PUTFIELD
+                case PUTSTATIC:
+                case PUTFIELD:
                     offset += 2;
                     lastStatementOffset = offset;
                     break;
-                case 182:
-                case 183:
-                case 184: // INVOKEVIRTUAL, INVOKESPECIAL, INVOKESTATIC
+                case INVOKEVIRTUAL:
+                case INVOKESPECIAL:
+                case INVOKESTATIC:
                     ConstantMemberRef constantMemberRef = constants
                             .getConstant(((code[++offset] & 255) << 8) | (code[++offset] & 255));
                     String descriptor = constantMemberRef.getDescriptor(constants);
@@ -150,8 +150,8 @@ public class ControlFlowGraphMaker {
                         lastStatementOffset = offset;
                     }
                     break;
-                case 185:
-                case 186: // INVOKEINTERFACE, INVOKEDYNAMIC
+                case INVOKEINTERFACE:
+                case INVOKEDYNAMIC:
                     constantMemberRef = constants.getConstant(((code[++offset] & 255) << 8) | (code[++offset] & 255));
                     descriptor = constantMemberRef.getDescriptor(constants);
                     offset += 2; // Skip 2 bytes
@@ -159,24 +159,24 @@ public class ControlFlowGraphMaker {
                         lastStatementOffset = offset;
                     }
                     break;
-                case 132: // IINC
+                case IINC:
                     offset += 2;
                     if ((lastStatementOffset + 3 == offset)
-                            && (checkILOADForIINC(code, offset, (code[offset - 1] & 255)) == false)) {
+                            && (!checkILOADForIINC(code, offset, (code[offset - 1] & 255)))) {
                         // Last instruction is a 'statement' & the next instruction is not a matching
                         // ILOAD -> IINC as a statement
                         lastStatementOffset = offset;
                     }
                     break;
-                case 17: // SIPUSH
-                case 19:
-                case 20: // LDC_W, LDC2_W
-                case 178:
-                case 180: // GETSTATIC, GETFIELD
-                case 187:
-                case 189: // NEW, ANEWARRAY
-                case 192: // CHECKCAST
-                case 193: // INSTANCEOF
+                case SIPUSH:
+                case LDC_W:
+                case LDC2_W:
+                case GETSTATIC:
+                case GETFIELD:
+                case NEW:
+                case ANEWARRAY:
+                case CHECKCAST:
+                case INSTANCEOF:
                     offset += 2;
                     break;
                 case 167: // GOTO
@@ -217,23 +217,22 @@ public class ControlFlowGraphMaker {
                     }
                     lastStatementOffset = offset;
                     break;
-                case 153:
-                case 154:
-                case 155:
-                case 156:
-                case 157:
-                case 158: // IFEQ, IFNE, IFLT, IFGE, IFGT, IFLE
-                case 159:
-                case 160:
-                case 161:
-                case 162:
-                case 163:
-                case 164:
-                case 165:
-                case 166: // IF_ICMPEQ, IF_ICMPNE, IF_ICMPLT, IF_ICMPGE, IF_ICMPGT, IF_ICMPLE, IF_ACMPEQ,
-                            // IF_ACMPNE
-                case 198:
-                case 199: // IFNULL, IFNONNULL
+                case IFEQ:
+                case IFNE:
+                case IFLT:
+                case IFGE:
+                case IFGT:
+                case IFLE:
+                case IF_ICMPEQ:
+                case IF_ICMPNE:
+                case IF_ICMPLT:
+                case IF_ICMPGE:
+                case IF_ICMPGT:
+                case IF_ICMPLE:
+                case IF_ACMPEQ:
+                case IF_ACMPNE:
+                case IFNULL:
+                case IFNONNULL:
                     if (lastStatementOffset != -1) {
                         map[lastStatementOffset + 1] = MARK;
                     }
@@ -250,7 +249,7 @@ public class ControlFlowGraphMaker {
                     }
                     lastStatementOffset = offset;
                     break;
-                case 170: // TABLESWITCH
+                case TABLESWITCH:
                     // Skip padding
                     int i = (offset + 4) & 0xFFFC;
                     int defaultOffset = offset + (((code[i++] & 255) << 24) | ((code[i++] & 255) << 16)
@@ -280,7 +279,7 @@ public class ControlFlowGraphMaker {
                     switchOffsets[offset] = offsets;
                     lastStatementOffset = offset;
                     break;
-                case 171: // LOOKUPSWITCH
+                case LOOKUPSWITCH:
                     // Skip padding
                     i = (offset + 4) & 0xFFFC;
                     defaultOffset = offset + (((code[i++] & 255) << 24) | ((code[i++] & 255) << 16)
@@ -310,18 +309,18 @@ public class ControlFlowGraphMaker {
                     switchOffsets[offset] = offsets;
                     lastStatementOffset = offset;
                     break;
-                case 172:
-                case 173:
-                case 174:
-                case 175:
-                case 176: // IRETURN, LRETURN, FRETURN, DRETURN, ARETURN
+                case IRETURN:
+                case LRETURN:
+                case FRETURN:
+                case DRETURN:
+                case ARETURN:
                     types[offset] = 'v';
                     if (offset + 1 < length) {
                         map[offset + 1] = MARK;
                     }
                     lastStatementOffset = offset;
                     break;
-                case 177: // RETURN
+                case RETURN:
                     if (lastStatementOffset != -1) {
                         map[lastStatementOffset + 1] = MARK;
                     }
@@ -331,18 +330,18 @@ public class ControlFlowGraphMaker {
                     }
                     lastStatementOffset = offset;
                     break;
-                case 191: // ATHROW
+                case ATHROW:
                     types[offset] = 't';
                     if (offset + 1 < length) {
                         map[offset + 1] = MARK;
                     }
                     lastStatementOffset = offset;
                     break;
-                case 196: // WIDE
+                case WIDE:
                     opcode = code[++offset] & 255;
 
                     switch (opcode) {
-                    case 132: // IINC
+                    case IINC:
                         offset += 4;
                         if ((lastStatementOffset + 6 == offset) && (checkILOADForIINC(code, offset,
                                 ((code[offset - 3] & 255) << 8) | (code[offset - 2] & 255)) == false)) {
@@ -351,7 +350,7 @@ public class ControlFlowGraphMaker {
                             lastStatementOffset = offset;
                         }
                         break;
-                    case 169: // RET
+                    case RET:
                         offset += 2;
                         // The instruction that immediately follows a conditional or an unconditional
                         // goto/jump instruction is a leader
@@ -361,21 +360,21 @@ public class ControlFlowGraphMaker {
                         }
                         lastStatementOffset = offset;
                         break;
-                    case 54:
-                    case 55:
-                    case 56:
-                    case 57:
-                    case 58: // ISTORE, LSTORE, FSTORE, DSTORE, ASTORE
+                    case ISTORE:
+                    case LSTORE:
+                    case FSTORE:
+                    case DSTORE:
+                    case ASTORE:
                         lastStatementOffset = offset + 2;
                     default:
                         offset += 2;
                         break;
                     }
                     break;
-                case 197: // MULTIANEWARRAY
+                case MULTIANEWARRAY:
                     offset += 3;
                     break;
-                case 200: // GOTO_W
+                case GOTO_W:
                     type = (lastStatementOffset + 1 == offset) ? 'g' : 'G';
 
                     types[offset] = type; // TODO debug, remove this line
@@ -391,7 +390,7 @@ public class ControlFlowGraphMaker {
                     }
                     lastStatementOffset = offset;
                     break;
-                case 201: // JSR_W
+                case JSR_W:
                     if (lastStatementOffset != -1) {
                         map[lastStatementOffset + 1] = MARK;
                     }
@@ -464,8 +463,9 @@ public class ControlFlowGraphMaker {
                 LineNumber lineNumberEntry = lineNumberTable[i];
                 int toIndex = lineNumberEntry.getStartPc();
 
-                while (offset < toIndex)
+                while (offset < toIndex) {
                     offsetToLineNumbers[offset++] = lineNumber;
+                }
 
                 if (lineNumber > lineNumberEntry.getLineNumber()) {
                     map[offset] = MARK;
@@ -474,8 +474,9 @@ public class ControlFlowGraphMaker {
                 lineNumber = lineNumberEntry.getLineNumber();
             }
 
-            while (offset < length)
+            while (offset < length) {
                 offsetToLineNumbers[offset++] = lineNumber;
+            }
 
             cfg.setOffsetToLineNumbers(offsetToLineNumbers);
         }
@@ -483,11 +484,13 @@ public class ControlFlowGraphMaker {
 
     /**
      * Create new START and DELETED blocks inside cfg, one per each leader
-     * @return 
+     * 
+     * @return
      */
-    private static BasicBlock createEmptyBasicBlocks(int length, BasicBlock[] map, int[] nextOffsets, ControlFlowGraph cfg) {
+    private static BasicBlock createEmptyBasicBlocks(int length, BasicBlock[] map, int[] nextOffsets,
+            ControlFlowGraph cfg) {
         final BasicBlock startBasicBlock = cfg.newBasicBlock(TYPE_START, 0, 0);
-        
+
         int lastOffset;
         lastOffset = 0;
         for (int offset = nextOffsets[0]; offset < length; offset = nextOffsets[offset]) {
@@ -498,7 +501,7 @@ public class ControlFlowGraphMaker {
         }
 
         map[lastOffset] = cfg.newBasicBlock(lastOffset, length);
-        
+
         return startBasicBlock;
     }
 
@@ -706,11 +709,11 @@ public class ControlFlowGraphMaker {
         if (++offset < code.length) {
             int nextOpcode = code[offset] & 255;
 
-            if (nextOpcode == 21) { // ILOAD
+            if (nextOpcode == ILOAD) {
                 if (index == (code[offset + 1] & 255)) {
                     return true;
                 }
-            } else if (nextOpcode == 26 + index) { // ILOAD_0 ... ILOAD_3
+            } else if (nextOpcode == ILOAD_0 + index) { // ILOAD_0 ... ILOAD_3
                 return true;
             }
         }

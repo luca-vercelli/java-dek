@@ -109,7 +109,8 @@ public class Section {
 
                     if (targetLineCount > currentLineCount) {
                         // Expands fragments
-                        final int oldDelta = delta = targetLineCount - currentLineCount;
+                        delta = targetLineCount - currentLineCount;
+                        final int oldDelta = delta;
 
                         for (FlexibleFragment flexibleFragment : flexibleFragments) {
                             if (flexibleFragment.getLineCount() < flexibleFragment.getMaximalLineCount()) {

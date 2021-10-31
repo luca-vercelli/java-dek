@@ -78,21 +78,23 @@ public class TypeMaker {
                 ObjectType.TYPE_PRIMITIVE_VOID);
     }
 
-    private Map<String, Type> signatureToType = new HashMap<>(1024);
-    private Map<String, Type> internalTypeNameFieldNameToType = new HashMap<>(1024);
-    private Map<String, ObjectType> descriptorToObjectType = new HashMap<>(1024);
-    private Map<String, ObjectType> internalTypeNameToObjectType = new HashMap<>(1024);
-    private Map<String, TypeTypes> internalTypeNameToTypeTypes = new HashMap<>(1024);
+    private static final int INITIAL_SIZE = 1024;
+    private Map<String, Type> signatureToType = new HashMap<>(INITIAL_SIZE);
+    private Map<String, Type> internalTypeNameFieldNameToType = new HashMap<>(INITIAL_SIZE);
+    private Map<String, ObjectType> descriptorToObjectType = new HashMap<>(INITIAL_SIZE);
+    private Map<String, ObjectType> internalTypeNameToObjectType = new HashMap<>(INITIAL_SIZE);
+    private Map<String, TypeTypes> internalTypeNameToTypeTypes = new HashMap<>(INITIAL_SIZE);
     private Map<String, Set<BaseType>> internalTypeNameMethodNameParameterCountToDeclaredParameterTypes = new HashMap<>(
-            1024);
-    private Map<String, Set<BaseType>> internalTypeNameMethodNameParameterCountToParameterTypes = new HashMap<>(1024);
-    private Map<String, MethodTypes> internalTypeNameMethodNameDescriptorToMethodTypes = new HashMap<>(1024);
-    private Map<String, MethodTypes> signatureToMethodTypes = new HashMap<>(1024);
+            INITIAL_SIZE);
+    private Map<String, Set<BaseType>> internalTypeNameMethodNameParameterCountToParameterTypes = new HashMap<>(
+            INITIAL_SIZE);
+    private Map<String, MethodTypes> internalTypeNameMethodNameDescriptorToMethodTypes = new HashMap<>(INITIAL_SIZE);
+    private Map<String, MethodTypes> signatureToMethodTypes = new HashMap<>(INITIAL_SIZE);
 
-    private Map<Long, Boolean> assignableRawTypes = new HashMap<>(1024);
-    private Map<Long, ObjectType> superParameterizedObjectTypes = new HashMap<>(1024);
+    private Map<Long, Boolean> assignableRawTypes = new HashMap<>(INITIAL_SIZE);
+    private Map<Long, ObjectType> superParameterizedObjectTypes = new HashMap<>(INITIAL_SIZE);
 
-    private Map<String, String[]> hierarchy = new HashMap<>(1024);
+    private Map<String, String[]> hierarchy = new HashMap<>(INITIAL_SIZE);
     private ClassPathLoader classPathLoader = new ClassPathLoader();
     private Loader loader;
 
@@ -218,51 +220,6 @@ public class TypeMaker {
         internalTypeNameMethodNameDescriptorToMethodTypes.put(key, methodTypes);
 
         return methodTypes;
-    }
-
-    private static String[] getExceptionTypeNames(Method method) {
-        if (method != null) {
-            AttributeExceptions attributeExceptions = method.getAttribute("Exceptions");
-
-            if (attributeExceptions != null) {
-                return attributeExceptions.getExceptionTypeNames();
-            }
-        }
-
-        return null;
-    }
-
-    public Type parseFieldSignature(ClassFile classFile, Field field) {
-        String key = classFile.getInternalTypeName() + ':' + field.getName();
-        AttributeSignature attributeSignature = field.getAttribute("Signature");
-        String signature = (attributeSignature == null) ? field.getDescriptor() : attributeSignature.getSignature();
-        Type type = makeFromSignature(signature);
-
-        internalTypeNameFieldNameToType.put(key, type);
-
-        return type;
-    }
-
-    public Type makeFromSignature(String signature) {
-        Type type = signatureToType.get(signature);
-
-        if (type == null) {
-            SignatureReader reader = new SignatureReader(signature);
-            type = parseReferenceTypeSignature(reader);
-            signatureToType.put(signature, type);
-        }
-
-        return type;
-    }
-
-    public static int countDimension(String descriptor) {
-        int count = 0;
-
-        for (int i = 0, len = descriptor.length(); (i < len) && (descriptor.charAt(i) == '['); i++) {
-            count++;
-        }
-
-        return count;
     }
 
     private MethodTypes parseMethodSignature(String descriptor, String signature, String[] exceptionTypeNames) {
@@ -405,6 +362,51 @@ public class TypeMaker {
         return methodTypes;
     }
 
+    private static String[] getExceptionTypeNames(Method method) {
+        if (method != null) {
+            AttributeExceptions attributeExceptions = method.getAttribute("Exceptions");
+
+            if (attributeExceptions != null) {
+                return attributeExceptions.getExceptionTypeNames();
+            }
+        }
+
+        return null;
+    }
+
+    public Type parseFieldSignature(ClassFile classFile, Field field) {
+        String key = classFile.getInternalTypeName() + ':' + field.getName();
+        AttributeSignature attributeSignature = field.getAttribute("Signature");
+        String signature = (attributeSignature == null) ? field.getDescriptor() : attributeSignature.getSignature();
+        Type type = makeFromSignature(signature);
+
+        internalTypeNameFieldNameToType.put(key, type);
+
+        return type;
+    }
+
+    public Type makeFromSignature(String signature) {
+        Type type = signatureToType.get(signature);
+
+        if (type == null) {
+            SignatureReader reader = new SignatureReader(signature);
+            type = parseReferenceTypeSignature(reader);
+            signatureToType.put(signature, type);
+        }
+
+        return type;
+    }
+
+    public static int countDimension(String descriptor) {
+        int count = 0;
+
+        for (int i = 0, len = descriptor.length(); (i < len) && (descriptor.charAt(i) == '['); i++) {
+            count++;
+        }
+
+        return count;
+    }
+
     /**
      * Rules: TypeParameters: '<' TypeParameter+ '>'
      */
@@ -528,8 +530,9 @@ public class TypeMaker {
                 // Skip '<'
                 reader.index++;
                 ot = ot.createType(parseTypeArguments(reader));
-                if (reader.read() != '>')
+                if (reader.read() != '>') {
                     throw new SignatureFormatException(reader.signature);
+                }
             }
 
             // Parse 'ClassTypeSignatureSuffix*'
@@ -643,8 +646,9 @@ public class TypeMaker {
             case 'T':
                 int index = reader.index;
 
-                if (reader.search(';') == false)
+                if (reader.search(';') == false) {
                     return null;
+                }
 
                 String identifier = reader.substring(index);
 
@@ -733,15 +737,17 @@ public class TypeMaker {
             // Parse 'PackageSpecifier* SimpleClassTypeSignature'
             char endMarker = reader.searchEndMarker();
 
-            if (endMarker == 0)
+            if (endMarker == 0) {
                 throw new SignatureFormatException(reader.signature);
+            }
 
             if (endMarker == '<') {
                 // Skip '<'
                 reader.index++;
                 isATypeArguments(reader);
-                if (reader.read() != '>')
+                if (reader.read() != '>') {
                     throw new SignatureFormatException(reader.signature);
+                }
             }
 
             // Parse 'ClassTypeSignatureSuffix*'
@@ -751,15 +757,17 @@ public class TypeMaker {
 
                 endMarker = reader.searchEndMarker();
 
-                if (endMarker == 0)
+                if (endMarker == 0) {
                     throw new SignatureFormatException(reader.signature);
+                }
 
                 if (endMarker == '<') {
                     // Skip '<'
                     reader.index++;
                     isATypeArguments(reader);
-                    if (reader.read() != '>')
+                    if (reader.read() != '>') {
                         throw new SignatureFormatException(reader.signature);
+                    }
                 }
             }
 
@@ -773,8 +781,9 @@ public class TypeMaker {
     }
 
     private static boolean isATypeArguments(SignatureReader reader) {
-        if (isATypeArgument(reader) == false)
+        if (!isATypeArgument(reader)) {
             throw new SignatureFormatException(reader.signature);
+        }
 
         while (isATypeArgument(reader))
             ;
@@ -798,7 +807,8 @@ public class TypeMaker {
 
     private static String extractLocalClassName(String name) {
         if (Character.isDigit(name.charAt(0))) {
-            int i = 0, len = name.length();
+            int i = 0;
+            int len = name.length();
 
             while ((i < len) && Character.isDigit(name.charAt(i))) {
                 i++;
@@ -850,7 +860,8 @@ public class TypeMaker {
 
     /**
      * Create an ObjectType with given internalTypeName. First, try to load class
-     * using <code>loadType()</code>; then, if not found, create the ObjectType using create().
+     * using <code>loadType()</code>; then, if not found, create the ObjectType
+     * using create().
      * 
      */
     public ObjectType makeFromInternalTypeName(String internalTypeName) {
@@ -1221,8 +1232,9 @@ public class TypeMaker {
                             if (typeTypes.interfaces.isList()) {
                                 for (Type interfaze : typeTypes.interfaces) {
                                     type = loadFieldType((ObjectType) interfaze, fieldName, descriptor);
-                                    if (type != null)
+                                    if (type != null) {
                                         break;
+                                    }
                                 }
                             } else {
                                 type = loadFieldType((ObjectType) typeTypes.interfaces.getFirst(), fieldName,
@@ -1289,8 +1301,8 @@ public class TypeMaker {
 
         if (methodTypes == null) {
             String key = internalTypeName + ':' + methodName + descriptor;
-            internalTypeNameMethodNameDescriptorToMethodTypes.put(key,
-                    methodTypes = parseMethodSignature(descriptor, null));
+            methodTypes = parseMethodSignature(descriptor, null);
+            internalTypeNameMethodNameDescriptorToMethodTypes.put(key, methodTypes);
         }
 
         return methodTypes;
@@ -1317,8 +1329,9 @@ public class TypeMaker {
                             if (typeTypes.interfaces.isList()) {
                                 for (Type interfaze : typeTypes.interfaces) {
                                     methodTypes = loadMethodTypes((ObjectType) interfaze, methodName, descriptor);
-                                    if (methodTypes != null)
+                                    if (methodTypes != null) {
                                         break;
+                                    }
                                 }
                             } else {
                                 methodTypes = loadMethodTypes((ObjectType) typeTypes.interfaces.getFirst(), methodName,
@@ -1403,11 +1416,11 @@ public class TypeMaker {
         if (ot == null) {
             try {
                 if (loader.canLoad(internalTypeName)) {
-                    internalTypeNameToObjectType.put(internalTypeName,
-                            ot = loadType(internalTypeName, loader.load(internalTypeName)));
+                    ot = loadType(internalTypeName, loader.load(internalTypeName));
+                    internalTypeNameToObjectType.put(internalTypeName, ot);
                 } else if (classPathLoader.canLoad(internalTypeName)) {
-                    internalTypeNameToObjectType.put(internalTypeName,
-                            ot = loadType(internalTypeName, classPathLoader.load(internalTypeName)));
+                    ot = loadType(internalTypeName, classPathLoader.load(internalTypeName));
+                    internalTypeNameToObjectType.put(internalTypeName, ot);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -1625,8 +1638,8 @@ public class TypeMaker {
 
                 if (parameterCount > 0) {
                     if (set == null) {
-                        internalTypeNameMethodNameParameterCountToDeclaredParameterTypes.put(key,
-                                set = new HashSet<>());
+                        set = new HashSet<>();
+                        internalTypeNameMethodNameParameterCountToDeclaredParameterTypes.put(key, set);
                     }
                     set.add(methodTypes.parameterTypes);
                 } else if (set == null) {
@@ -1691,8 +1704,9 @@ public class TypeMaker {
     private Object[] loadConstants(ClassFileReader reader) throws Exception {
         int count = reader.readUnsignedShort();
 
-        if (count == 0)
+        if (count == 0) {
             return null;
+        }
 
         Object[] constants = new Object[count];
 
@@ -1961,7 +1975,7 @@ public class TypeMaker {
             String ld = leftType.getInternalName();
             String rd = rightType.getDescriptor();
             return rd.equals(ObjectType.BOX_TO_PRIMITIVE_MAP.get(ld)); // int assignable to Integer, not to Double,
-                                                                        // correct?
+                                                                       // correct?
         }
 
         if (leftType.isObjectType() && rightType.isObjectType()) {

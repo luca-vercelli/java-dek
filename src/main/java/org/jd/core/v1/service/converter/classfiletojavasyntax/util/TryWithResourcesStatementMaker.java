@@ -117,7 +117,7 @@ public class TryWithResourcesStatementMaker {
             return null;
         }
 
-        Statement ts = statement;
+        final Statement ts = statement;
 
         statement = ies.getElseStatements().getFirst();
 

@@ -14,6 +14,7 @@ import org.jd.core.v1.model.javasyntax.expression.BaseExpression;
 import org.jd.core.v1.model.javasyntax.expression.BinaryOperatorExpression;
 import org.jd.core.v1.model.javasyntax.expression.Expression;
 import org.jd.core.v1.model.javasyntax.expression.MethodInvocationExpression;
+import org.jd.core.v1.model.javasyntax.expression.PriorityConstants;
 import org.jd.core.v1.model.javasyntax.expression.StringConstantExpression;
 import org.jd.core.v1.model.javasyntax.type.ObjectType;
 import org.jd.core.v1.service.converter.classfiletojavasyntax.model.javasyntax.expression.ClassFileMethodInvocationExpression;
@@ -41,7 +42,7 @@ public class StringConcatenationUtil {
                     firstParameterHaveGenericType = mie.getParameters().getFirst().getType().isGenericType();
                     concatenatedStringExpression = new BinaryOperatorExpression(mie.getLineNumber(),
                             ObjectType.TYPE_STRING, (Expression) mie.getParameters(), "+", concatenatedStringExpression,
-                            4);
+                            PriorityConstants.PLUS4_PRIORITY);
                     expr = mie.getExpression();
                 }
 
@@ -59,7 +60,7 @@ public class StringConcatenationUtil {
 
                             if (ObjectType.TYPE_STRING.equals(expr.getType())) {
                                 return new BinaryOperatorExpression(expr.getLineNumber(), ObjectType.TYPE_STRING, expr,
-                                        "+", concatenatedStringExpression, 4);
+                                        "+", concatenatedStringExpression, PriorityConstants.PLUS4_PRIORITY);
                             }
                         }
                     }
@@ -87,14 +88,14 @@ public class StringConcatenationUtil {
                     token = st.nextToken();
                     Expression e = token.equals("\u0001") ? list.get(index++) : new StringConstantExpression(token);
                     expression = new BinaryOperatorExpression(expression.getLineNumber(), ObjectType.TYPE_STRING,
-                            expression, "+", e, 6);
+                            expression, "+", e, PriorityConstants.PLUS_PRIORITY);
                 }
             } else {
                 while (st.hasMoreTokens()) {
                     token = st.nextToken();
                     Expression e = token.equals("\u0001") ? parameters.getFirst() : new StringConstantExpression(token);
                     expression = new BinaryOperatorExpression(expression.getLineNumber(), ObjectType.TYPE_STRING,
-                            expression, "+", e, 6);
+                            expression, "+", e, PriorityConstants.PLUS_PRIORITY);
                 }
             }
 
@@ -116,7 +117,7 @@ public class StringConcatenationUtil {
 
             while (iterator.hasNext()) {
                 expression = new BinaryOperatorExpression(expression.getLineNumber(), ObjectType.TYPE_STRING,
-                        expression, "+", iterator.next(), 6);
+                        expression, "+", iterator.next(), PriorityConstants.PLUS_PRIORITY);
             }
 
             return expression;
@@ -126,7 +127,7 @@ public class StringConcatenationUtil {
     private static Expression createFirstStringConcatenationItem(Expression expression) {
         if (!expression.getType().equals(ObjectType.TYPE_STRING)) {
             expression = new BinaryOperatorExpression(expression.getLineNumber(), ObjectType.TYPE_STRING,
-                    StringConstantExpression.EMPTY_STRING, "+", expression, 6);
+                    StringConstantExpression.EMPTY_STRING, "+", expression, PriorityConstants.PLUS_PRIORITY);
         }
 
         return expression;

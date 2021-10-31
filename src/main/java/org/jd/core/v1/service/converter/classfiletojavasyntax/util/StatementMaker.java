@@ -64,7 +64,7 @@ public class StatementMaker {
 
     public StatementMaker(TypeMaker typeMaker, LocalVariableMaker localVariableMaker,
             ClassFileConstructorOrMethodDeclaration comd) {
-        ClassFile classFile = comd.getClassFile();
+        final ClassFile classFile = comd.getClassFile();
 
         this.typeMaker = typeMaker;
         this.typeBounds = comd.getTypeBounds();
@@ -1002,7 +1002,8 @@ public class StatementMaker {
     }
 
     /**
-     * Create statements from bytecode contained in <code>basicBlock.cfg.method</code>.
+     * Create statements from bytecode contained in
+     * <code>basicBlock.cfg.method</code>.
      *
      * @param basicBlock
      * @param statements new statements are added to this list
