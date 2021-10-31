@@ -17,36 +17,36 @@ import org.jd.core.v1.model.javasyntax.type.BaseTypeParameter;
  * FIXME: why not Type parameters?
  */
 public class InterfaceDeclaration extends TypeDeclaration {
-	protected BaseTypeParameter typeParameters;
-	protected BaseType interfaces;
+    protected BaseTypeParameter typeParameters;
+    protected BaseType interfaces;
 
-	public InterfaceDeclaration(int flags, String internalName, String name, BaseType interfaces) {
-		super(null, flags, internalName, name, null);
-		this.interfaces = interfaces;
-	}
+    public InterfaceDeclaration(int flags, String internalName, String name, BaseType interfaces) {
+        super(null, flags, internalName, name, null);
+        this.interfaces = interfaces;
+    }
 
-	public InterfaceDeclaration(BaseAnnotationReference annotationReferences, int flags, String internalName,
-			String name, BaseTypeParameter typeParameters, BaseType interfaces, BodyDeclaration bodyDeclaration) {
-		super(annotationReferences, flags, internalName, name, bodyDeclaration);
-		this.typeParameters = typeParameters;
-		this.interfaces = interfaces;
-	}
+    public InterfaceDeclaration(BaseAnnotationReference annotationReferences, int flags, String internalName,
+            String name, BaseTypeParameter typeParameters, BaseType interfaces, BodyDeclaration bodyDeclaration) {
+        super(annotationReferences, flags, internalName, name, bodyDeclaration);
+        this.typeParameters = typeParameters;
+        this.interfaces = interfaces;
+    }
 
-	public BaseTypeParameter getTypeParameters() {
-		return typeParameters;
-	}
+    public BaseTypeParameter getTypeParameters() {
+        return typeParameters;
+    }
 
-	public BaseType getInterfaces() {
-		return interfaces;
-	}
+    public BaseType getInterfaces() {
+        return interfaces;
+    }
 
-	@Override
-	public void accept(DeclarationVisitor visitor) {
-		visitor.visit(this);
-	}
+    @Override
+    public void accept(DeclarationVisitor visitor) {
+        visitor.visit(this);
+    }
 
-	@Override
-	public String toString() {
-		return "InterfaceDeclaration{" + internalTypeName + "}";
-	}
+    @Override
+    public String toString() {
+        return "InterfaceDeclaration{" + internalTypeName + "}";
+    }
 }

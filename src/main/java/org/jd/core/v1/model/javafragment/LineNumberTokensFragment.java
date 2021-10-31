@@ -18,83 +18,83 @@ import java.util.Arrays;
 import java.util.List;
 
 public class LineNumberTokensFragment extends FixedFragment {
-	protected List<Token> tokens;
+    protected List<Token> tokens;
 
-	public LineNumberTokensFragment(Token... tokens) {
-		this(Arrays.asList(tokens));
-	}
+    public LineNumberTokensFragment(Token... tokens) {
+        this(Arrays.asList(tokens));
+    }
 
-	public LineNumberTokensFragment(List<Token> tokens) {
-		super(searchFirstLineNumber(tokens), searchLastLineNumber(tokens));
-		assert firstLineNumber != Printer.UNKNOWN_LINE_NUMBER : "Uses 'TokensFragment' instead";
-		this.tokens = tokens;
-	}
+    public LineNumberTokensFragment(List<Token> tokens) {
+        super(searchFirstLineNumber(tokens), searchLastLineNumber(tokens));
+        assert firstLineNumber != Printer.UNKNOWN_LINE_NUMBER : "Uses 'TokensFragment' instead";
+        this.tokens = tokens;
+    }
 
-	public List<Token> getTokens() {
-		return tokens;
-	}
+    public List<Token> getTokens() {
+        return tokens;
+    }
 
-	protected static int searchFirstLineNumber(List<Token> tokens) {
-		SearchLineNumberVisitor visitor = new SearchLineNumberVisitor();
+    protected static int searchFirstLineNumber(List<Token> tokens) {
+        SearchLineNumberVisitor visitor = new SearchLineNumberVisitor();
 
-		for (Token token : tokens) {
-			token.accept(visitor);
+        for (Token token : tokens) {
+            token.accept(visitor);
 
-			if (visitor.lineNumber != Printer.UNKNOWN_LINE_NUMBER) {
-				return visitor.lineNumber - visitor.newLineCounter;
-			}
-		}
+            if (visitor.lineNumber != Printer.UNKNOWN_LINE_NUMBER) {
+                return visitor.lineNumber - visitor.newLineCounter;
+            }
+        }
 
-		return Printer.UNKNOWN_LINE_NUMBER;
-	}
+        return Printer.UNKNOWN_LINE_NUMBER;
+    }
 
-	protected static int searchLastLineNumber(List<Token> tokens) {
-		SearchLineNumberVisitor visitor = new SearchLineNumberVisitor();
-		int index = tokens.size();
+    protected static int searchLastLineNumber(List<Token> tokens) {
+        SearchLineNumberVisitor visitor = new SearchLineNumberVisitor();
+        int index = tokens.size();
 
-		while (index-- > 0) {
-			tokens.get(index).accept(visitor);
+        while (index-- > 0) {
+            tokens.get(index).accept(visitor);
 
-			if (visitor.lineNumber != Printer.UNKNOWN_LINE_NUMBER) {
-				return visitor.lineNumber + visitor.newLineCounter;
-			}
-		}
+            if (visitor.lineNumber != Printer.UNKNOWN_LINE_NUMBER) {
+                return visitor.lineNumber + visitor.newLineCounter;
+            }
+        }
 
-		return Printer.UNKNOWN_LINE_NUMBER;
-	}
+        return Printer.UNKNOWN_LINE_NUMBER;
+    }
 
-	/**
-	 * A TokeenVisitor that (1) search the LineNumberToken's, and stores the line of
-	 * the last one, (2) counts the NewLineToken's. Both values are stored in public
-	 * attributes. Counters can be reset.
-	 */
-	public static class SearchLineNumberVisitor extends AbstractNopTokenVisitor {
-		public int lineNumber;
-		public int newLineCounter;
+    /**
+     * A TokeenVisitor that (1) search the LineNumberToken's, and stores the line of
+     * the last one, (2) counts the NewLineToken's. Both values are stored in public
+     * attributes. Counters can be reset.
+     */
+    public static class SearchLineNumberVisitor extends AbstractNopTokenVisitor {
+        public int lineNumber;
+        public int newLineCounter;
 
-		public void reset() {
-			this.lineNumber = Printer.UNKNOWN_LINE_NUMBER;
-			this.newLineCounter = 0;
-		}
+        public void reset() {
+            this.lineNumber = Printer.UNKNOWN_LINE_NUMBER;
+            this.newLineCounter = 0;
+        }
 
-		@Override
-		public void visit(LineNumberToken token) {
-			lineNumber = token.getLineNumber();
-		}
+        @Override
+        public void visit(LineNumberToken token) {
+            lineNumber = token.getLineNumber();
+        }
 
-		@Override
-		public void visit(NewLineToken token) {
-			newLineCounter++;
-		}
-	}
+        @Override
+        public void visit(NewLineToken token) {
+            newLineCounter++;
+        }
+    }
 
-	@Override
-	public void accept(JavaFragmentVisitor visitor) {
-		visitor.visit(this);
-	}
+    @Override
+    public void accept(JavaFragmentVisitor visitor) {
+        visitor.visit(this);
+    }
 
-	@Override
-	public String toString() {
-		return super.toString() + " " + tokens;
-	}
+    @Override
+    public String toString() {
+        return super.toString() + " " + tokens;
+    }
 }

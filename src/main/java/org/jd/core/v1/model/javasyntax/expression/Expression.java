@@ -56,11 +56,11 @@ import org.jd.core.v1.model.javasyntax.type.Type;
  * - The Java® Language Specification Java SE 8 Edition, 15.2 Forms of Expressions
  */
 public interface Expression extends BaseExpression {
-	int UNKNOWN_LINE_NUMBER = Printer.UNKNOWN_LINE_NUMBER;
+    int UNKNOWN_LINE_NUMBER = Printer.UNKNOWN_LINE_NUMBER;
 
-	int getLineNumber();
+    int getLineNumber();
 
-	Type getType();
+    Type getType();
 
-	int getPriority();
+    int getPriority();
 }

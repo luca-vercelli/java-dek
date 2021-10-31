@@ -14,14 +14,14 @@ import java.io.IOException;
  */
 public interface Loader {
 
-	/**
-	 * Return true if this Loader can load given class name
-	 */
-	boolean canLoad(String internalName);
+    /**
+     * Return true if this Loader can load given class name
+     */
+    boolean canLoad(String internalName);
 
-	/**
-	 * Load given class bytecode into a byte array
-	 * @throws IOException 
-	 */
-	byte[] load(String internalName) throws IOException;
+    /**
+     * Load given class bytecode into a byte array
+     * @throws IOException 
+     */
+    byte[] load(String internalName) throws IOException;
 }

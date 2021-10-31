@@ -19,124 +19,124 @@ import org.junit.Test;
 
 public class SuperMemberAccessTest {
 
-	protected TestDecompiler decompiler = new TestDecompiler();
+    protected TestDecompiler decompiler = new TestDecompiler();
 
-	class TestPublicMembers {
+    class TestPublicMembers {
 
-		// bytecode has a constructor
-		// TestClass(SuperMemberAccessTest paramSuperMemberAccessTest)
-		// referencing "this" as this$0
+        // bytecode has a constructor
+        // TestClass(SuperMemberAccessTest paramSuperMemberAccessTest)
+        // referencing "this" as this$0
 
-		public String a;
+        public String a;
 
-		public String test() {
-			return "";
-		}
+        public String test() {
+            return "";
+        }
 
-		public class Child extends TestPublicMembers {
+        public class Child extends TestPublicMembers {
 
-			// bytecode has a constructor
-			// public Child(SuperMemberAccessTest.TestClass this$0)
+            // bytecode has a constructor
+            // public Child(SuperMemberAccessTest.TestClass this$0)
 
-			public String a;
+            public String a;
 
-			public String test() {
-				return "b";
-			}
+            public String test() {
+                return "b";
+            }
 
-			String doSomething() {
-				super.test(); // invokespecial test : ()Ljava/lang/String;
-				return super.a; // getfield a : Ljava/lang/String; ?!?
-			}
+            String doSomething() {
+                super.test(); // invokespecial test : ()Ljava/lang/String;
+                return super.a; // getfield a : Ljava/lang/String; ?!?
+            }
 
-			String doSomeMore() {
-				test(); // invokevirtual test : ()Ljava/lang/String;
-				return a; // getfield a : Ljava/lang/String; ?!?
-			}
-		}
-	}
+            String doSomeMore() {
+                test(); // invokevirtual test : ()Ljava/lang/String;
+                return a; // getfield a : Ljava/lang/String; ?!?
+            }
+        }
+    }
 
-	class TestPrivateMembers {
+    class TestPrivateMembers {
 
-		// methods in bytecode:
-		//
-		// <init> (Lorg/jd/core/v1/decompile/SuperMemberAccessTest;)V
-		// test ()Ljava/lang/String;
-		// access$0
-		// (Lorg/jd/core/v1/decompile/SuperMemberAccessTest$TestPrivateMembers;)Ljava/lang/String;
-		// access$1
-		// (Lorg/jd/core/v1/decompile/SuperMemberAccessTest$TestPrivateMembers;)Ljava/lang/String;
-		// access$2
-		// (Lorg/jd/core/v1/decompile/SuperMemberAccessTest$TestPrivateMembers;)Lorg/jd/core/v1/decompile/SuperMemberAccessTest
+        // methods in bytecode:
+        //
+        // <init> (Lorg/jd/core/v1/decompile/SuperMemberAccessTest;)V
+        // test ()Ljava/lang/String;
+        // access$0
+        // (Lorg/jd/core/v1/decompile/SuperMemberAccessTest$TestPrivateMembers;)Ljava/lang/String;
+        // access$1
+        // (Lorg/jd/core/v1/decompile/SuperMemberAccessTest$TestPrivateMembers;)Ljava/lang/String;
+        // access$2
+        // (Lorg/jd/core/v1/decompile/SuperMemberAccessTest$TestPrivateMembers;)Lorg/jd/core/v1/decompile/SuperMemberAccessTest
 
-		private String a;
+        private String a;
 
-		private String test() {
-			return "";
-		}
+        private String test() {
+            return "";
+        }
 
-		public class Child extends TestPrivateMembers {
+        public class Child extends TestPrivateMembers {
 
-			// methods in bytecode:
-			//
-			// <init> (Lorg/jd/core/v1/decompile/SuperMemberAccessTest$TestPrivateMembers;)V
-			// test ()I
-			// doSomething ()Ljava/lang/String;
+            // methods in bytecode:
+            //
+            // <init> (Lorg/jd/core/v1/decompile/SuperMemberAccessTest$TestPrivateMembers;)V
+            // test ()I
+            // doSomething ()Ljava/lang/String;
 
-			public int a;
+            public int a;
 
-			public int test() {
-				return 1;
-			}
+            public int test() {
+                return 1;
+            }
 
-			String doSomething() {
-				super.test(); // invokestatic access$0 :
-								// (Lorg/jd/core/v1/decompile/SuperMemberAccessTest$TestPrivateMembers;)Ljava/lang/String;
-				return super.a; // invokestatic access$1 :
-								// (Lorg/jd/core/v1/decompile/SuperMemberAccessTest$TestPrivateMembers;)Ljava/lang/String;
-			}
-		}
-	}
+            String doSomething() {
+                super.test(); // invokestatic access$0 :
+                                // (Lorg/jd/core/v1/decompile/SuperMemberAccessTest$TestPrivateMembers;)Ljava/lang/String;
+                return super.a; // invokestatic access$1 :
+                                // (Lorg/jd/core/v1/decompile/SuperMemberAccessTest$TestPrivateMembers;)Ljava/lang/String;
+            }
+        }
+    }
 
-	@Test
-	public void testPublicSuperMembersAccess() throws Exception {
+    @Test
+    public void testPublicSuperMembersAccess() throws Exception {
 
-		String internalClassName = TestPublicMembers.class.getName().replace('.', '/');
-		String source = decompiler.decompile(internalClassName);
+        String internalClassName = TestPublicMembers.class.getName().replace('.', '/');
+        String source = decompiler.decompile(internalClassName);
 
-		// Check decompiled source code
-		assertMatch(source, "super.test();", 48);
-		assertMatch(source, "return super.a;", 49);
-		assertMatch(source, "test();", 53);
-		assertMatch(source, "return this.a;", 54);
+        // Check decompiled source code
+        assertMatch(source, "super.test();", 48);
+        assertMatch(source, "return super.a;", 49);
+        assertMatch(source, "test();", 53);
+        assertMatch(source, "return this.a;", 54);
 
-		// Recompile decompiled source code and check errors
-		assertTrue(CompilerUtil.compile("1.8", new JavaSourceFileObject(internalClassName, source)));
-	}
+        // Recompile decompiled source code and check errors
+        assertTrue(CompilerUtil.compile("1.8", new JavaSourceFileObject(internalClassName, source)));
+    }
 
-	@Test
-	// https://github.com/java-decompiler/jd-core/issues/20
-	public void testPrivateSuperMembersAccess() throws Exception {
+    @Test
+    // https://github.com/java-decompiler/jd-core/issues/20
+    public void testPrivateSuperMembersAccess() throws Exception {
 
-		String internalClassName = TestPrivateMembers.class.getName().replace('.', '/');
-		String source = decompiler.decompile(internalClassName);
+        String internalClassName = TestPrivateMembers.class.getName().replace('.', '/');
+        String source = decompiler.decompile(internalClassName);
 
-		// Check decompiled source code
-		assertMatch(source, "super.test();", 93);
-		assertMatch(source, "return super.a;", 95);
+        // Check decompiled source code
+        assertMatch(source, "super.test();", 93);
+        assertMatch(source, "return super.a;", 95);
 
-		// Recompile decompiled source code and check errors
-		assertTrue(CompilerUtil.compile("1.8", new JavaSourceFileObject(internalClassName, source)));
-	}
+        // Recompile decompiled source code and check errors
+        assertTrue(CompilerUtil.compile("1.8", new JavaSourceFileObject(internalClassName, source)));
+    }
 
-	@Test
-	// compilation failed at row 110
-	public void testJsoup() throws IOException {
+    @Test
+    // compilation failed at row 110
+    public void testJsoup() throws IOException {
 
-		String internalClassName = "org/jsoup/safety/Cleaner";
-		String source = decompiler.decompile(internalClassName);
+        String internalClassName = "org/jsoup/safety/Cleaner";
+        String source = decompiler.decompile(internalClassName);
 
-		// Recompile decompiled source code and check errors
-		assertTrue(CompilerUtil.compile("1.8", new JavaSourceFileObject(internalClassName, source)));
-	}
+        // Recompile decompiled source code and check errors
+        assertTrue(CompilerUtil.compile("1.8", new JavaSourceFileObject(internalClassName, source)));
+    }
 }

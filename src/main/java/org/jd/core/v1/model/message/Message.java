@@ -19,119 +19,119 @@ import org.jd.core.v1.service.converter.classfiletojavasyntax.util.TypeMaker;
 
 public class Message {
 
-	private Printer printer;
-	private Loader loader;
-	private CompileConfiguration configuration = new CompileConfiguration();
-	private String mainInternalTypeName;
-	private Integer maxLineNumber;
-	private Integer majorVersion;
-	private Integer minorVersion;
-	private TypeMaker typeMaker;
-	private ClassFile classFile;
-	private CompilationUnit compilationUnit;
-	private List<JavaFragment> fragments;
-	private List<Token> tokens;
+    private Printer printer;
+    private Loader loader;
+    private CompileConfiguration configuration = new CompileConfiguration();
+    private String mainInternalTypeName;
+    private Integer maxLineNumber;
+    private Integer majorVersion;
+    private Integer minorVersion;
+    private TypeMaker typeMaker;
+    private ClassFile classFile;
+    private CompilationUnit compilationUnit;
+    private List<JavaFragment> fragments;
+    private List<Token> tokens;
 
-	public CompileConfiguration getConfiguration() {
-		return configuration;
-	}
+    public CompileConfiguration getConfiguration() {
+        return configuration;
+    }
 
-	public void setConfiguration(CompileConfiguration configuration) {
-		if (configuration != null) {
-			this.configuration = configuration;
-		}
-	}
+    public void setConfiguration(CompileConfiguration configuration) {
+        if (configuration != null) {
+            this.configuration = configuration;
+        }
+    }
 
-	public Integer getMaxLineNumber() {
-		return maxLineNumber;
-	}
+    public Integer getMaxLineNumber() {
+        return maxLineNumber;
+    }
 
-	public Integer getMaxLineNumber(int defVal) {
-		return maxLineNumber != null ? maxLineNumber : defVal;
-	}
+    public Integer getMaxLineNumber(int defVal) {
+        return maxLineNumber != null ? maxLineNumber : defVal;
+    }
 
-	public void setMaxLineNumber(Integer maxLineNumber) {
-		this.maxLineNumber = maxLineNumber;
-	}
+    public void setMaxLineNumber(Integer maxLineNumber) {
+        this.maxLineNumber = maxLineNumber;
+    }
 
-	public Integer getMajorVersion() {
-		return majorVersion;
-	}
+    public Integer getMajorVersion() {
+        return majorVersion;
+    }
 
-	public void setMajorVersion(Integer majorVersion) {
-		this.majorVersion = majorVersion;
-	}
+    public void setMajorVersion(Integer majorVersion) {
+        this.majorVersion = majorVersion;
+    }
 
-	public Integer getMinorVersion() {
-		return minorVersion;
-	}
+    public Integer getMinorVersion() {
+        return minorVersion;
+    }
 
-	public void setMinorVersion(Integer minorVersion) {
-		this.minorVersion = minorVersion;
-	}
+    public void setMinorVersion(Integer minorVersion) {
+        this.minorVersion = minorVersion;
+    }
 
-	public Printer getPrinter() {
-		return printer;
-	}
+    public Printer getPrinter() {
+        return printer;
+    }
 
-	public void setPrinter(Printer printer) {
-		this.printer = printer;
-	}
+    public void setPrinter(Printer printer) {
+        this.printer = printer;
+    }
 
-	public Loader getLoader() {
-		return loader;
-	}
+    public Loader getLoader() {
+        return loader;
+    }
 
-	public void setLoader(Loader loader) {
-		this.loader = loader;
-	}
+    public void setLoader(Loader loader) {
+        this.loader = loader;
+    }
 
-	public String getMainInternalTypeName() {
-		return mainInternalTypeName;
-	}
+    public String getMainInternalTypeName() {
+        return mainInternalTypeName;
+    }
 
-	public void setMainInternalTypeName(String mainInternalTypeName) {
-		this.mainInternalTypeName = mainInternalTypeName;
-	}
+    public void setMainInternalTypeName(String mainInternalTypeName) {
+        this.mainInternalTypeName = mainInternalTypeName;
+    }
 
-	public TypeMaker getTypeMaker() {
-		return typeMaker;
-	}
+    public TypeMaker getTypeMaker() {
+        return typeMaker;
+    }
 
-	public void setTypeMaker(TypeMaker typeMaker) {
-		this.typeMaker = typeMaker;
-	}
+    public void setTypeMaker(TypeMaker typeMaker) {
+        this.typeMaker = typeMaker;
+    }
 
-	public List<JavaFragment> getFragments() {
-		return fragments;
-	}
+    public List<JavaFragment> getFragments() {
+        return fragments;
+    }
 
-	public void setFragments(List<JavaFragment> fragments) {
-		this.fragments = fragments;
-	}
+    public void setFragments(List<JavaFragment> fragments) {
+        this.fragments = fragments;
+    }
 
-	public List<Token> getTokens() {
-		return tokens;
-	}
+    public List<Token> getTokens() {
+        return tokens;
+    }
 
-	public void setTokens(List<Token> tokens) {
-		this.tokens = tokens;
-	}
+    public void setTokens(List<Token> tokens) {
+        this.tokens = tokens;
+    }
 
-	public ClassFile getClassFile() {
-		return classFile;
-	}
+    public ClassFile getClassFile() {
+        return classFile;
+    }
 
-	public void setClassFile(ClassFile classFile) {
-		this.classFile = classFile;
-	}
+    public void setClassFile(ClassFile classFile) {
+        this.classFile = classFile;
+    }
 
-	public CompilationUnit getCompilationUnit() {
-		return compilationUnit;
-	}
+    public CompilationUnit getCompilationUnit() {
+        return compilationUnit;
+    }
 
-	public void setCompilationUnit(CompilationUnit compilationUnit) {
-		this.compilationUnit = compilationUnit;
-	}
+    public void setCompilationUnit(CompilationUnit compilationUnit) {
+        this.compilationUnit = compilationUnit;
+    }
 
 }

@@ -8,23 +8,23 @@
 package org.jd.core.v1.model.fragment;
 
 public abstract class AbstractNopFlexibleFragmentVisitor implements FragmentVisitor {
-	@Override
-	public void visit(EndFlexibleBlockFragment fragment) {
-	}
+    @Override
+    public void visit(EndFlexibleBlockFragment fragment) {
+    }
 
-	@Override
-	public void visit(EndMovableBlockFragment fragment) {
-	}
+    @Override
+    public void visit(EndMovableBlockFragment fragment) {
+    }
 
-	@Override
-	public void visit(StartFlexibleBlockFragment fragment) {
-	}
+    @Override
+    public void visit(StartFlexibleBlockFragment fragment) {
+    }
 
-	@Override
-	public void visit(StartMovableBlockFragment fragment) {
-	}
+    @Override
+    public void visit(StartMovableBlockFragment fragment) {
+    }
 
-	@Override
-	public void visit(FixedFragment fragment) {
-	}
+    @Override
+    public void visit(FixedFragment fragment) {
+    }
 }

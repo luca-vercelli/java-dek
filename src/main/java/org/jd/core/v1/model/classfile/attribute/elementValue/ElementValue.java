@@ -8,5 +8,5 @@
 package org.jd.core.v1.model.classfile.attribute.elementValue;
 
 public interface ElementValue {
-	void accept(ElementValueVisitor attribute);
+    void accept(ElementValueVisitor attribute);
 }

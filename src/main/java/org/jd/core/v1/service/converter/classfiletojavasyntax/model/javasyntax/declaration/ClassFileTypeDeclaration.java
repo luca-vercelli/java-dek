@@ -10,9 +10,9 @@ package org.jd.core.v1.service.converter.classfiletojavasyntax.model.javasyntax.
 import org.jd.core.v1.model.javasyntax.declaration.BodyDeclaration;
 
 public interface ClassFileTypeDeclaration extends ClassFileMemberDeclaration {
-	String getInternalTypeName();
+    String getInternalTypeName();
 
-	int getFirstLineNumber();
+    int getFirstLineNumber();
 
-	BodyDeclaration getBodyDeclaration();
+    BodyDeclaration getBodyDeclaration();
 }

@@ -15,27 +15,27 @@ import java.util.Collection;
  * A list of MemberDeclaration that is itself a BaseMemberDeclaration
  */
 public class MemberDeclarations extends DefaultList<MemberDeclaration> implements BaseMemberDeclaration {
-	private static final long serialVersionUID = -3167598917193171860L;
+    private static final long serialVersionUID = -3167598917193171860L;
 
-	public MemberDeclarations() {
-	}
+    public MemberDeclarations() {
+    }
 
-	public MemberDeclarations(int capacity) {
-		super(capacity);
-	}
+    public MemberDeclarations(int capacity) {
+        super(capacity);
+    }
 
-	public MemberDeclarations(Collection<MemberDeclaration> collection) {
-		super(collection);
-		assert (collection != null) && (collection.size() > 1) : "Uses 'MemberDeclaration' implementation instead";
-	}
+    public MemberDeclarations(Collection<MemberDeclaration> collection) {
+        super(collection);
+        assert (collection != null) && (collection.size() > 1) : "Uses 'MemberDeclaration' implementation instead";
+    }
 
-	public MemberDeclarations(MemberDeclaration declaration, MemberDeclaration... declarations) {
-		super(declaration, declarations);
-		assert (declarations != null) && (declarations.length > 0) : "Uses 'MemberDeclaration' implementation instead";
-	}
+    public MemberDeclarations(MemberDeclaration declaration, MemberDeclaration... declarations) {
+        super(declaration, declarations);
+        assert (declarations != null) && (declarations.length > 0) : "Uses 'MemberDeclaration' implementation instead";
+    }
 
-	@Override
-	public void accept(DeclarationVisitor visitor) {
-		visitor.visit(this);
-	}
+    @Override
+    public void accept(DeclarationVisitor visitor) {
+        visitor.visit(this);
+    }
 }

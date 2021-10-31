@@ -13,5 +13,5 @@ import org.jd.core.v1.model.fragment.Fragment;
  * A Fragment of Java pieces
  */
 public interface JavaFragment extends Fragment {
-	void accept(JavaFragmentVisitor visitor);
+    void accept(JavaFragmentVisitor visitor);
 }

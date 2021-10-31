@@ -14,25 +14,25 @@ package org.jd.core.v1.model.token;
  */
 public class NewLineToken implements Token {
 
-	public static final NewLineToken NEWLINE_1 = new NewLineToken(1);
-	public static final NewLineToken NEWLINE_2 = new NewLineToken(2);
+    public static final NewLineToken NEWLINE_1 = new NewLineToken(1);
+    public static final NewLineToken NEWLINE_2 = new NewLineToken(2);
 
-	protected int count;
+    protected int count;
 
-	public NewLineToken(int count) {
-		this.count = count;
-	}
+    public NewLineToken(int count) {
+        this.count = count;
+    }
 
-	public int getCount() {
-		return count;
-	}
+    public int getCount() {
+        return count;
+    }
 
-	public String toString() {
-		return "NewLineToken{" + count + "}";
-	}
+    public String toString() {
+        return "NewLineToken{" + count + "}";
+    }
 
-	@Override
-	public void accept(TokenVisitor visitor) {
-		visitor.visit(this);
-	}
+    @Override
+    public void accept(TokenVisitor visitor) {
+        visitor.visit(this);
+    }
 }

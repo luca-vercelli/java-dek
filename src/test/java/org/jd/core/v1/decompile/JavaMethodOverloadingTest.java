@@ -17,48 +17,48 @@ import org.junit.Test;
 
 public class JavaMethodOverloadingTest {
 
-	protected TestDecompiler decompiler = new TestDecompiler();
+    protected TestDecompiler decompiler = new TestDecompiler();
 
-	@Test
-	// https://github.com/java-decompiler/jd-core/issues/33
-	public void testArrayMethodOverloading() throws Exception {
+    @Test
+    // https://github.com/java-decompiler/jd-core/issues/33
+    public void testArrayMethodOverloading() throws Exception {
 
-		@SuppressWarnings("unused")
-		class ArrayMethodOverloading {
-			void use(Object[] o) {
-			}
+        @SuppressWarnings("unused")
+        class ArrayMethodOverloading {
+            void use(Object[] o) {
+            }
 
-			void use(Object o) {
-			}
+            void use(Object o) {
+            }
 
-			void test1() {
-				use("string");
-			}
+            void test1() {
+                use("string");
+            }
 
-			void test2() {
-				use((Object) new Object[] { "" });
-			}
+            void test2() {
+                use((Object) new Object[] { "" });
+            }
 
-			void test3() {
-				use(null);
-			}
+            void test3() {
+                use(null);
+            }
 
-			void test4() {
-				use((Object) null);
-			}
-		}
+            void test4() {
+                use((Object) null);
+            }
+        }
 
-		String internalClassName = ArrayMethodOverloading.class.getName().replace('.', '/');
-		String source = decompiler.decompile(internalClassName);
+        String internalClassName = ArrayMethodOverloading.class.getName().replace('.', '/');
+        String source = decompiler.decompile(internalClassName);
 
-		// Check decompiled source code
-		assertTrue(source.matches(PatternMaker.make(": 35 */", "use(\"string\");")));
-		assertTrue(source.matches(PatternMaker.make(": 39 */", "use((Object)new Object[] { \"\" });")));
-		assertTrue(source.matches(PatternMaker.make(": 43 */", "use((Object[])null);")));
-		assertTrue(source.matches(PatternMaker.make(": 47 */", "use((Object)null);")));
+        // Check decompiled source code
+        assertTrue(source.matches(PatternMaker.make(": 35 */", "use(\"string\");")));
+        assertTrue(source.matches(PatternMaker.make(": 39 */", "use((Object)new Object[] { \"\" });")));
+        assertTrue(source.matches(PatternMaker.make(": 43 */", "use((Object[])null);")));
+        assertTrue(source.matches(PatternMaker.make(": 47 */", "use((Object)null);")));
 
-		// Recompile decompiled source code and check errors
-		assertTrue(CompilerUtil.compile("1.8", new JavaSourceFileObject(internalClassName, source)));
-	}
+        // Recompile decompiled source code and check errors
+        assertTrue(CompilerUtil.compile("1.8", new JavaSourceFileObject(internalClassName, source)));
+    }
 
 }

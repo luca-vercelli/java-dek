@@ -25,58 +25,58 @@ import org.jd.core.v1.service.writer.WriteTokenProcessor;
  * This is the main Decompiler implementation
  */
 public class StandardDecompiler implements Decompiler {
-	protected ClassFileDeserializer deserializer = ClassFileDeserializer.getInstance();
-	protected ConvertClassFileProcessor converter = ConvertClassFileProcessor.getInstance();
-	protected JavaSyntaxToJavaFragmentProcessor fragmenter = JavaSyntaxToJavaFragmentProcessor.getInstance();
-	protected LayoutFragmentProcessor layouter = LayoutFragmentProcessor.getInstance();
-	protected JavaFragmentToTokenProcessor tokenizer = JavaFragmentToTokenProcessor.getInstance();
-	protected WriteTokenProcessor writer = WriteTokenProcessor.getInstance();
+    protected ClassFileDeserializer deserializer = ClassFileDeserializer.getInstance();
+    protected ConvertClassFileProcessor converter = ConvertClassFileProcessor.getInstance();
+    protected JavaSyntaxToJavaFragmentProcessor fragmenter = JavaSyntaxToJavaFragmentProcessor.getInstance();
+    protected LayoutFragmentProcessor layouter = LayoutFragmentProcessor.getInstance();
+    protected JavaFragmentToTokenProcessor tokenizer = JavaFragmentToTokenProcessor.getInstance();
+    protected WriteTokenProcessor writer = WriteTokenProcessor.getInstance();
 
-	protected StandardDecompiler() {
-	}
+    protected StandardDecompiler() {
+    }
 
-	@Override
-	public Printer decompile(Loader loader, Printer printer, String internalName) throws IOException {
-		return this.decompile(loader, printer, internalName, null);
-	}
+    @Override
+    public Printer decompile(Loader loader, Printer printer, String internalName) throws IOException {
+        return this.decompile(loader, printer, internalName, null);
+    }
 
-	@Override
-	public Printer decompile(Loader loader, Printer printer, String internalName, CompileConfiguration configuration)
-			throws IOException {
-		Message message = new Message();
+    @Override
+    public Printer decompile(Loader loader, Printer printer, String internalName, CompileConfiguration configuration)
+            throws IOException {
+        Message message = new Message();
 
-		message.setMainInternalTypeName(internalName);
-		message.setConfiguration(configuration);
-		message.setLoader(loader);
-		message.setPrinter(printer);
+        message.setMainInternalTypeName(internalName);
+        message.setConfiguration(configuration);
+        message.setLoader(loader);
+        message.setPrinter(printer);
 
-		decompile(message);
-		return printer;
-	}
+        decompile(message);
+        return printer;
+    }
 
-	protected void decompile(Message message) throws IOException {
-		// message.getConfiguration().setDumpOpcode(true);
-		this.deserializer.process(message);
-		this.converter.process(message);
-		this.fragmenter.process(message);
+    protected void decompile(Message message) throws IOException {
+        // message.getConfiguration().setDumpOpcode(true);
+        this.deserializer.process(message);
+        this.converter.process(message);
+        this.fragmenter.process(message);
 
-		// Maybe you want to debug this:
-		// ((ClassFileClassDeclaration)message.getCompilationUnit().getTypeDeclarations()).getBodyDeclaration().getMemberDeclarations()
+        // Maybe you want to debug this:
+        // ((ClassFileClassDeclaration)message.getCompilationUnit().getTypeDeclarations()).getBodyDeclaration().getMemberDeclarations()
 
-		this.layouter.process(message);
-		this.tokenizer.process(message);
-		this.writer.process(message);
-	}
+        this.layouter.process(message);
+        this.tokenizer.process(message);
+        this.writer.process(message);
+    }
 
-	private static StandardDecompiler instance = null;
+    private static StandardDecompiler instance = null;
 
-	/**
-	 * Get Singleton instance
-	 */
-	public static StandardDecompiler getInstance() {
-		if (instance == null) {
-			instance = new StandardDecompiler();
-		}
-		return instance;
-	}
+    /**
+     * Get Singleton instance
+     */
+    public static StandardDecompiler getInstance() {
+        if (instance == null) {
+            instance = new StandardDecompiler();
+        }
+        return instance;
+    }
 }

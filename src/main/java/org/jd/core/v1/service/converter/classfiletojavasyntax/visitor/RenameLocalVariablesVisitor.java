@@ -40,114 +40,114 @@ import org.jd.core.v1.service.converter.classfiletojavasyntax.model.javasyntax.e
  * Replace all local variables according to given mapping.
  */
 public class RenameLocalVariablesVisitor extends AbstractJavaSyntaxVisitor {
-	protected Map<String, String> nameMapping;
+    protected Map<String, String> nameMapping;
 
-	public void init(Map<String, String> nameMapping) {
-		this.nameMapping = nameMapping;
-	}
+    public void init(Map<String, String> nameMapping) {
+        this.nameMapping = nameMapping;
+    }
 
-	/**
-	 * Replace all local variables according to given mapping.
-	 */
-	@Override
-	public void visit(LocalVariableReferenceExpression expression) {
-		ClassFileLocalVariableReferenceExpression lvre = (ClassFileLocalVariableReferenceExpression) expression;
-		String newName = nameMapping.get(lvre.getName());
+    /**
+     * Replace all local variables according to given mapping.
+     */
+    @Override
+    public void visit(LocalVariableReferenceExpression expression) {
+        ClassFileLocalVariableReferenceExpression lvre = (ClassFileLocalVariableReferenceExpression) expression;
+        String newName = nameMapping.get(lvre.getName());
 
-		if (newName != null) {
-			lvre.getLocalVariable().setName(newName);
-		}
-	}
+        if (newName != null) {
+            lvre.getLocalVariable().setName(newName);
+        }
+    }
 
-	@Override
-	public void visit(FloatConstantExpression expression) {
-	}
+    @Override
+    public void visit(FloatConstantExpression expression) {
+    }
 
-	@Override
-	public void visit(IntegerConstantExpression expression) {
-	}
+    @Override
+    public void visit(IntegerConstantExpression expression) {
+    }
 
-	@Override
-	public void visit(ConstructorReferenceExpression expression) {
-	}
+    @Override
+    public void visit(ConstructorReferenceExpression expression) {
+    }
 
-	@Override
-	public void visit(DoubleConstantExpression expression) {
-	}
+    @Override
+    public void visit(DoubleConstantExpression expression) {
+    }
 
-	@Override
-	public void visit(EnumConstantReferenceExpression expression) {
-	}
+    @Override
+    public void visit(EnumConstantReferenceExpression expression) {
+    }
 
-	@Override
-	public void visit(LongConstantExpression expression) {
-	}
+    @Override
+    public void visit(LongConstantExpression expression) {
+    }
 
-	@Override
-	public void visit(BreakStatement statement) {
-	}
+    @Override
+    public void visit(BreakStatement statement) {
+    }
 
-	@Override
-	public void visit(ByteCodeStatement statement) {
-	}
+    @Override
+    public void visit(ByteCodeStatement statement) {
+    }
 
-	@Override
-	public void visit(ContinueStatement statement) {
-	}
+    @Override
+    public void visit(ContinueStatement statement) {
+    }
 
-	@Override
-	public void visit(NullExpression expression) {
-	}
+    @Override
+    public void visit(NullExpression expression) {
+    }
 
-	@Override
-	public void visit(ObjectTypeReferenceExpression expression) {
-	}
+    @Override
+    public void visit(ObjectTypeReferenceExpression expression) {
+    }
 
-	@Override
-	public void visit(SuperExpression expression) {
-	}
+    @Override
+    public void visit(SuperExpression expression) {
+    }
 
-	@Override
-	public void visit(ThisExpression expression) {
-	}
+    @Override
+    public void visit(ThisExpression expression) {
+    }
 
-	@Override
-	public void visit(TypeReferenceDotClassExpression expression) {
-	}
+    @Override
+    public void visit(TypeReferenceDotClassExpression expression) {
+    }
 
-	@Override
-	public void visit(ObjectReference reference) {
-	}
+    @Override
+    public void visit(ObjectReference reference) {
+    }
 
-	@Override
-	public void visit(InnerObjectReference reference) {
-	}
+    @Override
+    public void visit(InnerObjectReference reference) {
+    }
 
-	@Override
-	public void visit(TypeArguments type) {
-	}
+    @Override
+    public void visit(TypeArguments type) {
+    }
 
-	@Override
-	public void visit(WildcardExtendsTypeArgument type) {
-	}
+    @Override
+    public void visit(WildcardExtendsTypeArgument type) {
+    }
 
-	@Override
-	public void visit(ObjectType type) {
-	}
+    @Override
+    public void visit(ObjectType type) {
+    }
 
-	@Override
-	public void visit(InnerObjectType type) {
-	}
+    @Override
+    public void visit(InnerObjectType type) {
+    }
 
-	@Override
-	public void visit(WildcardSuperTypeArgument type) {
-	}
+    @Override
+    public void visit(WildcardSuperTypeArgument type) {
+    }
 
-	@Override
-	public void visit(Types types) {
-	}
+    @Override
+    public void visit(Types types) {
+    }
 
-	@Override
-	public void visit(TypeParameterWithTypeBounds type) {
-	}
+    @Override
+    public void visit(TypeParameterWithTypeBounds type) {
+    }
 }

@@ -11,65 +11,65 @@ import org.jd.core.v1.model.javasyntax.type.BaseTypeArgument;
 import org.jd.core.v1.model.javasyntax.type.Type;
 
 public class MethodInvocationExpression extends MethodReferenceExpression {
-	protected BaseTypeArgument nonWildcardTypeArguments;
-	protected BaseExpression parameters; // actual parameters passed as arguments
+    protected BaseTypeArgument nonWildcardTypeArguments;
+    protected BaseExpression parameters; // actual parameters passed as arguments
 
-	public MethodInvocationExpression(Type type, Expression expression, String internalTypeName, String name,
-			String descriptor) {
-		super(type, expression, internalTypeName, name, descriptor);
-	}
+    public MethodInvocationExpression(Type type, Expression expression, String internalTypeName, String name,
+            String descriptor) {
+        super(type, expression, internalTypeName, name, descriptor);
+    }
 
-	public MethodInvocationExpression(int lineNumber, Type type, Expression expression, String internalTypeName,
-			String name, String descriptor) {
-		super(lineNumber, type, expression, internalTypeName, name, descriptor);
-	}
+    public MethodInvocationExpression(int lineNumber, Type type, Expression expression, String internalTypeName,
+            String name, String descriptor) {
+        super(lineNumber, type, expression, internalTypeName, name, descriptor);
+    }
 
-	public MethodInvocationExpression(Type type, Expression expression, String internalTypeName, String name,
-			String descriptor, BaseExpression parameters) {
-		super(type, expression, internalTypeName, name, descriptor);
-		this.parameters = parameters;
-	}
+    public MethodInvocationExpression(Type type, Expression expression, String internalTypeName, String name,
+            String descriptor, BaseExpression parameters) {
+        super(type, expression, internalTypeName, name, descriptor);
+        this.parameters = parameters;
+    }
 
-	public MethodInvocationExpression(int lineNumber, Type type, Expression expression, String internalTypeName,
-			String name, String descriptor, BaseExpression parameters) {
-		super(lineNumber, type, expression, internalTypeName, name, descriptor);
-		this.parameters = parameters;
-	}
+    public MethodInvocationExpression(int lineNumber, Type type, Expression expression, String internalTypeName,
+            String name, String descriptor, BaseExpression parameters) {
+        super(lineNumber, type, expression, internalTypeName, name, descriptor);
+        this.parameters = parameters;
+    }
 
-	public BaseTypeArgument getNonWildcardTypeArguments() {
-		return nonWildcardTypeArguments;
-	}
+    public BaseTypeArgument getNonWildcardTypeArguments() {
+        return nonWildcardTypeArguments;
+    }
 
-	public void setNonWildcardTypeArguments(BaseTypeArgument nonWildcardTypeArguments) {
-		this.nonWildcardTypeArguments = nonWildcardTypeArguments;
-	}
+    public void setNonWildcardTypeArguments(BaseTypeArgument nonWildcardTypeArguments) {
+        this.nonWildcardTypeArguments = nonWildcardTypeArguments;
+    }
 
-	@Override
-	public BaseExpression getParameters() {
-		return parameters;
-	}
+    @Override
+    public BaseExpression getParameters() {
+        return parameters;
+    }
 
-	public void setParameters(BaseExpression parameters) {
-		this.parameters = parameters;
-	}
+    public void setParameters(BaseExpression parameters) {
+        this.parameters = parameters;
+    }
 
-	@Override
-	public int getPriority() {
-		return 1;
-	}
+    @Override
+    public int getPriority() {
+        return 1;
+    }
 
-	@Override
-	public boolean isMethodInvocationExpression() {
-		return true;
-	}
+    @Override
+    public boolean isMethodInvocationExpression() {
+        return true;
+    }
 
-	@Override
-	public void accept(ExpressionVisitor visitor) {
-		visitor.visit(this);
-	}
+    @Override
+    public void accept(ExpressionVisitor visitor) {
+        visitor.visit(this);
+    }
 
-	@Override
-	public String toString() {
-		return "MethodInvocationExpression(call " + expression + " . " + name + "(" + descriptor + "))";
-	}
+    @Override
+    public String toString() {
+        return "MethodInvocationExpression(call " + expression + " . " + name + "(" + descriptor + "))";
+    }
 }

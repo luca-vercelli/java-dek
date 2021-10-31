@@ -26,33 +26,33 @@ import org.jd.core.v1.service.converter.classfiletojavasyntax.util.MergeMembersU
  */
 public class SortMembersVisitor extends AbstractJavaSyntaxVisitor {
 
-	@Override
-	public void visit(AnnotationDeclaration declaration) {
-		safeAccept(declaration.getBodyDeclaration());
-	}
+    @Override
+    public void visit(AnnotationDeclaration declaration) {
+        safeAccept(declaration.getBodyDeclaration());
+    }
 
-	@Override
-	public void visit(BodyDeclaration declaration) {
-		ClassFileBodyDeclaration bodyDeclaration = (ClassFileBodyDeclaration) declaration;
-		List<ClassFileTypeDeclaration> innerTypes = bodyDeclaration.getInnerTypeDeclarations();
-		// Merge fields, getters & inner types
-		BaseMemberDeclaration members = MergeMembersUtil.merge(bodyDeclaration.getFieldDeclarations(),
-				bodyDeclaration.getMethodDeclarations(), innerTypes);
-		bodyDeclaration.setMemberDeclarations(members);
-	}
+    @Override
+    public void visit(BodyDeclaration declaration) {
+        ClassFileBodyDeclaration bodyDeclaration = (ClassFileBodyDeclaration) declaration;
+        List<ClassFileTypeDeclaration> innerTypes = bodyDeclaration.getInnerTypeDeclarations();
+        // Merge fields, getters & inner types
+        BaseMemberDeclaration members = MergeMembersUtil.merge(bodyDeclaration.getFieldDeclarations(),
+                bodyDeclaration.getMethodDeclarations(), innerTypes);
+        bodyDeclaration.setMemberDeclarations(members);
+    }
 
-	@Override
-	public void visit(ClassDeclaration declaration) {
-		safeAccept(declaration.getBodyDeclaration());
-	}
+    @Override
+    public void visit(ClassDeclaration declaration) {
+        safeAccept(declaration.getBodyDeclaration());
+    }
 
-	@Override
-	public void visit(EnumDeclaration declaration) {
-		safeAccept(declaration.getBodyDeclaration());
-	}
+    @Override
+    public void visit(EnumDeclaration declaration) {
+        safeAccept(declaration.getBodyDeclaration());
+    }
 
-	@Override
-	public void visit(InterfaceDeclaration declaration) {
-		safeAccept(declaration.getBodyDeclaration());
-	}
+    @Override
+    public void visit(InterfaceDeclaration declaration) {
+        safeAccept(declaration.getBodyDeclaration());
+    }
 }

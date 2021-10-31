@@ -11,25 +11,25 @@ import org.jd.core.v1.model.javasyntax.expression.Expression;
 import org.jd.core.v1.model.javasyntax.statement.CommentStatement;
 
 public class ClassFileMonitorExitStatement extends CommentStatement {
-	protected Expression monitor;
+    protected Expression monitor;
 
-	public ClassFileMonitorExitStatement(Expression monitor) {
-		super("/* monitor exit " + monitor + " */");
-		this.monitor = monitor;
-	}
+    public ClassFileMonitorExitStatement(Expression monitor) {
+        super("/* monitor exit " + monitor + " */");
+        this.monitor = monitor;
+    }
 
-	@Override
-	public Expression getMonitor() {
-		return monitor;
-	}
+    @Override
+    public Expression getMonitor() {
+        return monitor;
+    }
 
-	@Override
-	public boolean isMonitorExitStatement() {
-		return true;
-	}
+    @Override
+    public boolean isMonitorExitStatement() {
+        return true;
+    }
 
-	@Override
-	public String toString() {
-		return "ClassFileMonitorExitStatement{" + monitor + "}";
-	}
+    @Override
+    public String toString() {
+        return "ClassFileMonitorExitStatement{" + monitor + "}";
+    }
 }

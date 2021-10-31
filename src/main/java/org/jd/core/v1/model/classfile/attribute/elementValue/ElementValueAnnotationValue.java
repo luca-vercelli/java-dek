@@ -10,18 +10,18 @@ package org.jd.core.v1.model.classfile.attribute.elementValue;
 import org.jd.core.v1.model.classfile.attribute.Annotation;
 
 public class ElementValueAnnotationValue implements ElementValue {
-	protected Annotation annotationValue;
+    protected Annotation annotationValue;
 
-	public ElementValueAnnotationValue(Annotation annotationValue) {
-		this.annotationValue = annotationValue;
-	}
+    public ElementValueAnnotationValue(Annotation annotationValue) {
+        this.annotationValue = annotationValue;
+    }
 
-	public Annotation getAnnotationValue() {
-		return annotationValue;
-	}
+    public Annotation getAnnotationValue() {
+        return annotationValue;
+    }
 
-	@Override
-	public void accept(ElementValueVisitor visitor) {
-		visitor.visit(this);
-	}
+    @Override
+    public void accept(ElementValueVisitor visitor) {
+        visitor.visit(this);
+    }
 }

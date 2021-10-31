@@ -11,10 +11,10 @@ import org.jd.core.v1.util.Base;
 
 public interface BaseMemberDeclaration extends Declaration, Base<MemberDeclaration> {
 
-	/**
-	 * This is only true in a ClassDeclaration... uhm...
-	 */
-	default boolean isClassDeclaration() {
-		return false;
-	}
+    /**
+     * This is only true in a ClassDeclaration... uhm...
+     */
+    default boolean isClassDeclaration() {
+        return false;
+    }
 }

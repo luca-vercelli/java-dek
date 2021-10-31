@@ -13,19 +13,19 @@ import org.jd.core.v1.model.javasyntax.type.BaseType;
 import org.jd.core.v1.model.javasyntax.type.ObjectType;
 
 public class ClassFileConstructorInvocationExpression extends ConstructorInvocationExpression {
-	protected BaseType parameterTypes;
+    protected BaseType parameterTypes;
 
-	public ClassFileConstructorInvocationExpression(int lineNumber, ObjectType type, String descriptor,
-			BaseType parameterTypes, BaseExpression parameters) {
-		super(lineNumber, type, descriptor, parameters);
-		this.parameterTypes = parameterTypes;
-	}
+    public ClassFileConstructorInvocationExpression(int lineNumber, ObjectType type, String descriptor,
+            BaseType parameterTypes, BaseExpression parameters) {
+        super(lineNumber, type, descriptor, parameters);
+        this.parameterTypes = parameterTypes;
+    }
 
-	public BaseType getParameterTypes() {
-		return parameterTypes;
-	}
+    public BaseType getParameterTypes() {
+        return parameterTypes;
+    }
 
-	public void setParameterTypes(BaseType parameterTypes) {
-		this.parameterTypes = parameterTypes;
-	}
+    public void setParameterTypes(BaseType parameterTypes) {
+        this.parameterTypes = parameterTypes;
+    }
 }

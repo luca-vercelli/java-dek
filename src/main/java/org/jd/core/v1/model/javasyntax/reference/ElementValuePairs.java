@@ -13,26 +13,26 @@ import java.util.Collection;
 
 public class ElementValuePairs extends DefaultList<ElementValuePair> implements BaseElementValuePair {
 
-	private static final long serialVersionUID = 8053697545199717306L;
+    private static final long serialVersionUID = 8053697545199717306L;
 
-	public ElementValuePairs() {
-	}
+    public ElementValuePairs() {
+    }
 
-	public ElementValuePairs(int capacity) {
-		super(capacity);
-	}
+    public ElementValuePairs(int capacity) {
+        super(capacity);
+    }
 
-	public ElementValuePairs(Collection<ElementValuePair> collection) {
-		super(collection);
-	}
+    public ElementValuePairs(Collection<ElementValuePair> collection) {
+        super(collection);
+    }
 
-	@Override
-	public void accept(ReferenceVisitor visitor) {
-		visitor.visit(this);
-	}
+    @Override
+    public void accept(ReferenceVisitor visitor) {
+        visitor.visit(this);
+    }
 
-	@Override
-	public String toString() {
-		return "ElementValuePairs{" + super.toString() + "}";
-	}
+    @Override
+    public String toString() {
+        return "ElementValuePairs{" + super.toString() + "}";
+    }
 }

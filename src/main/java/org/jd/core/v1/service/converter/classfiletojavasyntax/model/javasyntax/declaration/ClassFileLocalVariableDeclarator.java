@@ -13,40 +13,40 @@ import org.jd.core.v1.service.converter.classfiletojavasyntax.model.localvariabl
 import org.jd.core.v1.service.converter.classfiletojavasyntax.model.localvariable.LocalVariableReference;
 
 public class ClassFileLocalVariableDeclarator extends LocalVariableDeclarator implements LocalVariableReference {
-	protected AbstractLocalVariable localVariable;
+    protected AbstractLocalVariable localVariable;
 
-	public ClassFileLocalVariableDeclarator(AbstractLocalVariable localVariable) {
-		super(null);
-		this.localVariable = localVariable;
-	}
+    public ClassFileLocalVariableDeclarator(AbstractLocalVariable localVariable) {
+        super(null);
+        this.localVariable = localVariable;
+    }
 
-	public ClassFileLocalVariableDeclarator(int lineNumber, AbstractLocalVariable localVariable,
-			VariableInitializer variableInitializer) {
-		super(lineNumber, null, variableInitializer);
-		this.localVariable = localVariable;
-	}
+    public ClassFileLocalVariableDeclarator(int lineNumber, AbstractLocalVariable localVariable,
+            VariableInitializer variableInitializer) {
+        super(lineNumber, null, variableInitializer);
+        this.localVariable = localVariable;
+    }
 
-	public String getName() {
-		return localVariable.getName();
-	}
+    public String getName() {
+        return localVariable.getName();
+    }
 
-	public void setName(String name) {
-		localVariable.setName(name);
-	}
+    public void setName(String name) {
+        localVariable.setName(name);
+    }
 
-	@Override
-	public AbstractLocalVariable getLocalVariable() {
-		return localVariable;
-	}
+    @Override
+    public AbstractLocalVariable getLocalVariable() {
+        return localVariable;
+    }
 
-	@Override
-	public void setLocalVariable(AbstractLocalVariable localVariable) {
-		this.localVariable = localVariable;
-	}
+    @Override
+    public void setLocalVariable(AbstractLocalVariable localVariable) {
+        this.localVariable = localVariable;
+    }
 
-	@Override
-	public String toString() {
-		String dim = (dimension > 0) ? "[" + dimension + "]" : "";
-		return "ClassFileLocalVariableDeclarator(" + localVariable.getName() + dim + " = " + variableInitializer + ")";
-	}
+    @Override
+    public String toString() {
+        String dim = (dimension > 0) ? "[" + dimension + "]" : "";
+        return "ClassFileLocalVariableDeclarator(" + localVariable.getName() + dim + " = " + variableInitializer + ")";
+    }
 }

@@ -8,13 +8,13 @@
 package org.jd.core.v1.model.fragment;
 
 public abstract class EndFlexibleBlockFragment extends StartFlexibleBlockFragment {
-	protected EndFlexibleBlockFragment(int minimalLineCount, int lineCount, int maximalLineCount, int weight,
-			String label) {
-		super(minimalLineCount, lineCount, maximalLineCount, weight, label);
-	}
+    protected EndFlexibleBlockFragment(int minimalLineCount, int lineCount, int maximalLineCount, int weight,
+            String label) {
+        super(minimalLineCount, lineCount, maximalLineCount, weight, label);
+    }
 
-	@Override
-	public void accept(FragmentVisitor visitor) {
-		visitor.visit(this);
-	}
+    @Override
+    public void accept(FragmentVisitor visitor) {
+        visitor.visit(this);
+    }
 }

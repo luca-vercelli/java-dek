@@ -20,142 +20,142 @@ import java.util.List;
 import java.util.Map;
 
 public class ClassFileBodyDeclaration extends BodyDeclaration implements ClassFileMemberDeclaration {
-	protected ClassFile classFile;
-	protected List<ClassFileFieldDeclaration> fieldDeclarations;
-	protected List<ClassFileConstructorOrMethodDeclaration> methodDeclarations;
-	protected List<ClassFileTypeDeclaration> innerTypeDeclarations;
-	protected Map<String, ClassFileTypeDeclaration> innerTypeMap = Collections.emptyMap();
-	protected int firstLineNumber;
-	protected String outerTypeFieldName;
-	protected DefaultList<String> syntheticInnerFieldNames;
-	protected ClassFileBodyDeclaration outerBodyDeclaration;
-	protected Map<String, TypeArgument> bindings;
-	protected Map<String, BaseType> typeBounds;
+    protected ClassFile classFile;
+    protected List<ClassFileFieldDeclaration> fieldDeclarations;
+    protected List<ClassFileConstructorOrMethodDeclaration> methodDeclarations;
+    protected List<ClassFileTypeDeclaration> innerTypeDeclarations;
+    protected Map<String, ClassFileTypeDeclaration> innerTypeMap = Collections.emptyMap();
+    protected int firstLineNumber;
+    protected String outerTypeFieldName;
+    protected DefaultList<String> syntheticInnerFieldNames;
+    protected ClassFileBodyDeclaration outerBodyDeclaration;
+    protected Map<String, TypeArgument> bindings;
+    protected Map<String, BaseType> typeBounds;
 
-	public ClassFileBodyDeclaration(ClassFile classFile, Map<String, TypeArgument> bindings,
-			Map<String, BaseType> typeBounds, ClassFileBodyDeclaration outerBodyDeclaration) {
-		super(classFile.getInternalTypeName(), null);
-		this.classFile = classFile;
-		this.bindings = bindings;
-		this.typeBounds = typeBounds;
-		this.outerBodyDeclaration = outerBodyDeclaration;
-	}
+    public ClassFileBodyDeclaration(ClassFile classFile, Map<String, TypeArgument> bindings,
+            Map<String, BaseType> typeBounds, ClassFileBodyDeclaration outerBodyDeclaration) {
+        super(classFile.getInternalTypeName(), null);
+        this.classFile = classFile;
+        this.bindings = bindings;
+        this.typeBounds = typeBounds;
+        this.outerBodyDeclaration = outerBodyDeclaration;
+    }
 
-	public void setMemberDeclarations(BaseMemberDeclaration memberDeclarations) {
-		this.memberDeclarations = memberDeclarations;
-	}
+    public void setMemberDeclarations(BaseMemberDeclaration memberDeclarations) {
+        this.memberDeclarations = memberDeclarations;
+    }
 
-	public List<ClassFileFieldDeclaration> getFieldDeclarations() {
-		return fieldDeclarations;
-	}
+    public List<ClassFileFieldDeclaration> getFieldDeclarations() {
+        return fieldDeclarations;
+    }
 
-	public void setFieldDeclarations(List<ClassFileFieldDeclaration> fieldDeclarations) {
-		if (fieldDeclarations != null) {
-			this.fieldDeclarations = fieldDeclarations;
-			updateFirstLineNumber(fieldDeclarations);
-		}
-	}
+    public void setFieldDeclarations(List<ClassFileFieldDeclaration> fieldDeclarations) {
+        if (fieldDeclarations != null) {
+            this.fieldDeclarations = fieldDeclarations;
+            updateFirstLineNumber(fieldDeclarations);
+        }
+    }
 
-	public List<ClassFileConstructorOrMethodDeclaration> getMethodDeclarations() {
-		return methodDeclarations;
-	}
+    public List<ClassFileConstructorOrMethodDeclaration> getMethodDeclarations() {
+        return methodDeclarations;
+    }
 
-	public void setMethodDeclarations(List<ClassFileConstructorOrMethodDeclaration> methodDeclarations) {
-		if (methodDeclarations != null) {
-			this.methodDeclarations = methodDeclarations;
-			updateFirstLineNumber(methodDeclarations);
-		}
-	}
+    public void setMethodDeclarations(List<ClassFileConstructorOrMethodDeclaration> methodDeclarations) {
+        if (methodDeclarations != null) {
+            this.methodDeclarations = methodDeclarations;
+            updateFirstLineNumber(methodDeclarations);
+        }
+    }
 
-	public List<ClassFileTypeDeclaration> getInnerTypeDeclarations() {
-		return innerTypeDeclarations;
-	}
+    public List<ClassFileTypeDeclaration> getInnerTypeDeclarations() {
+        return innerTypeDeclarations;
+    }
 
-	public void setInnerTypeDeclarations(List<ClassFileTypeDeclaration> innerTypeDeclarations) {
-		if (innerTypeDeclarations != null) {
-			this.innerTypeDeclarations = innerTypeDeclarations;
-			updateFirstLineNumber(innerTypeDeclarations);
+    public void setInnerTypeDeclarations(List<ClassFileTypeDeclaration> innerTypeDeclarations) {
+        if (innerTypeDeclarations != null) {
+            this.innerTypeDeclarations = innerTypeDeclarations;
+            updateFirstLineNumber(innerTypeDeclarations);
 
-			innerTypeMap = new HashMap<>();
+            innerTypeMap = new HashMap<>();
 
-			for (ClassFileTypeDeclaration innerType : innerTypeDeclarations) {
-				innerTypeMap.put(innerType.getInternalTypeName(), innerType);
-			}
-		}
-	}
+            for (ClassFileTypeDeclaration innerType : innerTypeDeclarations) {
+                innerTypeMap.put(innerType.getInternalTypeName(), innerType);
+            }
+        }
+    }
 
-	public ClassFileTypeDeclaration getInnerTypeDeclaration(String internalName) {
-		ClassFileTypeDeclaration declaration = innerTypeMap.get(internalName);
+    public ClassFileTypeDeclaration getInnerTypeDeclaration(String internalName) {
+        ClassFileTypeDeclaration declaration = innerTypeMap.get(internalName);
 
-		if ((declaration == null) && (outerBodyDeclaration != null)) {
-			return outerBodyDeclaration.getInnerTypeDeclaration(internalName);
-		}
+        if ((declaration == null) && (outerBodyDeclaration != null)) {
+            return outerBodyDeclaration.getInnerTypeDeclaration(internalName);
+        }
 
-		return declaration;
-	}
+        return declaration;
+    }
 
-	public ClassFileMemberDeclaration removeInnerType(String internalName) {
-		ClassFileMemberDeclaration removed = innerTypeMap.remove(internalName);
-		innerTypeDeclarations.remove(removed);
-		return removed;
-	}
+    public ClassFileMemberDeclaration removeInnerType(String internalName) {
+        ClassFileMemberDeclaration removed = innerTypeMap.remove(internalName);
+        innerTypeDeclarations.remove(removed);
+        return removed;
+    }
 
-	protected void updateFirstLineNumber(List<? extends ClassFileMemberDeclaration> members) {
-		for (ClassFileMemberDeclaration member : members) {
-			int lineNumber = member.getFirstLineNumber();
+    protected void updateFirstLineNumber(List<? extends ClassFileMemberDeclaration> members) {
+        for (ClassFileMemberDeclaration member : members) {
+            int lineNumber = member.getFirstLineNumber();
 
-			if (lineNumber > 0) {
-				if (firstLineNumber == 0) {
-					firstLineNumber = lineNumber;
-				} else if (firstLineNumber > lineNumber) {
-					firstLineNumber = lineNumber;
-				}
+            if (lineNumber > 0) {
+                if (firstLineNumber == 0) {
+                    firstLineNumber = lineNumber;
+                } else if (firstLineNumber > lineNumber) {
+                    firstLineNumber = lineNumber;
+                }
 
-				break;
-			}
-		}
-	}
+                break;
+            }
+        }
+    }
 
-	public ClassFile getClassFile() {
-		return classFile;
-	}
+    public ClassFile getClassFile() {
+        return classFile;
+    }
 
-	@Override
-	public int getFirstLineNumber() {
-		return firstLineNumber;
-	}
+    @Override
+    public int getFirstLineNumber() {
+        return firstLineNumber;
+    }
 
-	public String getOuterTypeFieldName() {
-		return outerTypeFieldName;
-	}
+    public String getOuterTypeFieldName() {
+        return outerTypeFieldName;
+    }
 
-	public void setOuterTypeFieldName(String outerTypeFieldName) {
-		this.outerTypeFieldName = outerTypeFieldName;
-	}
+    public void setOuterTypeFieldName(String outerTypeFieldName) {
+        this.outerTypeFieldName = outerTypeFieldName;
+    }
 
-	public DefaultList<String> getSyntheticInnerFieldNames() {
-		return syntheticInnerFieldNames;
-	}
+    public DefaultList<String> getSyntheticInnerFieldNames() {
+        return syntheticInnerFieldNames;
+    }
 
-	public void setSyntheticInnerFieldNames(DefaultList<String> syntheticInnerFieldNames) {
-		this.syntheticInnerFieldNames = syntheticInnerFieldNames;
-	}
+    public void setSyntheticInnerFieldNames(DefaultList<String> syntheticInnerFieldNames) {
+        this.syntheticInnerFieldNames = syntheticInnerFieldNames;
+    }
 
-	public ClassFileBodyDeclaration getOuterBodyDeclaration() {
-		return outerBodyDeclaration;
-	}
+    public ClassFileBodyDeclaration getOuterBodyDeclaration() {
+        return outerBodyDeclaration;
+    }
 
-	public Map<String, TypeArgument> getBindings() {
-		return bindings;
-	}
+    public Map<String, TypeArgument> getBindings() {
+        return bindings;
+    }
 
-	public Map<String, BaseType> getTypeBounds() {
-		return typeBounds;
-	}
+    public Map<String, BaseType> getTypeBounds() {
+        return typeBounds;
+    }
 
-	@Override
-	public String toString() {
-		return "ClassFileBodyDeclaration{fields=" + fieldDeclarations + ", methods=" + methodDeclarations
-				+ ", innerTypes=" + innerTypeDeclarations + "}";
-	}
+    @Override
+    public String toString() {
+        return "ClassFileBodyDeclaration{fields=" + fieldDeclarations + ", methods=" + methodDeclarations
+                + ", innerTypes=" + innerTypeDeclarations + "}";
+    }
 }

@@ -8,18 +8,18 @@
 package org.jd.core.v1.model.classfile.attribute;
 
 public class AttributeSourceFile implements Attribute {
-	protected String sourceFile;
+    protected String sourceFile;
 
-	public AttributeSourceFile(String sourceFile) {
-		this.sourceFile = sourceFile;
-	}
+    public AttributeSourceFile(String sourceFile) {
+        this.sourceFile = sourceFile;
+    }
 
-	public String getSourceFile() {
-		return sourceFile;
-	}
+    public String getSourceFile() {
+        return sourceFile;
+    }
 
-	@Override
-	public String toString() {
-		return getClass().getSimpleName() + " " + sourceFile;
-	}
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + " " + sourceFile;
+    }
 }

@@ -24,43 +24,43 @@ import org.jd.core.v1.service.tokenizer.javafragmenttotoken.visitor.TokenizeJava
  */
 public class JavaFragmentToTokenProcessor implements Processor {
 
-	protected JavaFragmentToTokenProcessor() {
-	}
+    protected JavaFragmentToTokenProcessor() {
+    }
 
-	/**
-	 * Convert a list of JavaFragment's to a list of tokens
-	 */
-	@Override
-	public void process(Message message) {
-		List<JavaFragment> fragments = message.getFragments();
-		List<Token> list = process(fragments);
-		message.setTokens(list);
-	}
+    /**
+     * Convert a list of JavaFragment's to a list of tokens
+     */
+    @Override
+    public void process(Message message) {
+        List<JavaFragment> fragments = message.getFragments();
+        List<Token> list = process(fragments);
+        message.setTokens(list);
+    }
 
-	/**
-	 * Convert a list of JavaFragment's to a list of tokens
-	 */
-	public List<Token> process(List<JavaFragment> fragments) {
-		final int GUESS = 3;
-		TokenizeJavaFragmentVisitor visitor = new TokenizeJavaFragmentVisitor(fragments.size() * GUESS);
+    /**
+     * Convert a list of JavaFragment's to a list of tokens
+     */
+    public List<Token> process(List<JavaFragment> fragments) {
+        final int GUESS = 3;
+        TokenizeJavaFragmentVisitor visitor = new TokenizeJavaFragmentVisitor(fragments.size() * GUESS);
 
-		// Create tokens
-		for (JavaFragment fragment : fragments) {
-			fragment.accept(visitor);
-		}
+        // Create tokens
+        for (JavaFragment fragment : fragments) {
+            fragment.accept(visitor);
+        }
 
-		return visitor.getTokens();
-	}
+        return visitor.getTokens();
+    }
 
-	private static JavaFragmentToTokenProcessor instance = null;
+    private static JavaFragmentToTokenProcessor instance = null;
 
-	/**
-	 * Get Singleton instance
-	 */
-	public static JavaFragmentToTokenProcessor getInstance() {
-		if (instance == null) {
-			instance = new JavaFragmentToTokenProcessor();
-		}
-		return instance;
-	}
+    /**
+     * Get Singleton instance
+     */
+    public static JavaFragmentToTokenProcessor getInstance() {
+        if (instance == null) {
+            instance = new JavaFragmentToTokenProcessor();
+        }
+        return instance;
+    }
 }

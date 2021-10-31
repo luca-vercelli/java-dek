@@ -10,34 +10,34 @@ package org.jd.core.v1.model.javasyntax.expression;
 import org.jd.core.v1.model.javasyntax.type.Type;
 
 public class SuperExpression extends AbstractLineNumberExpression {
-	protected Type type;
+    protected Type type;
 
-	public SuperExpression(Type type) {
-		this.type = type;
-	}
+    public SuperExpression(Type type) {
+        this.type = type;
+    }
 
-	public SuperExpression(int lineNumber, Type type) {
-		super(lineNumber);
-		this.type = type;
-	}
+    public SuperExpression(int lineNumber, Type type) {
+        super(lineNumber);
+        this.type = type;
+    }
 
-	@Override
-	public Type getType() {
-		return type;
-	}
+    @Override
+    public Type getType() {
+        return type;
+    }
 
-	@Override
-	public boolean isSuperExpression() {
-		return true;
-	}
+    @Override
+    public boolean isSuperExpression() {
+        return true;
+    }
 
-	@Override
-	public void accept(ExpressionVisitor visitor) {
-		visitor.visit(this);
-	}
+    @Override
+    public void accept(ExpressionVisitor visitor) {
+        visitor.visit(this);
+    }
 
-	@Override
-	public String toString() {
-		return "SuperExpression(" + type + ")";
-	}
+    @Override
+    public String toString() {
+        return "SuperExpression(" + type + ")";
+    }
 }

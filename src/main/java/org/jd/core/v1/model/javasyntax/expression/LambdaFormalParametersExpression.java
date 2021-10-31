@@ -12,34 +12,34 @@ import org.jd.core.v1.model.javasyntax.statement.BaseStatement;
 import org.jd.core.v1.model.javasyntax.type.Type;
 
 public class LambdaFormalParametersExpression extends AbstractLambdaExpression {
-	protected BaseFormalParameter formalParameters;
+    protected BaseFormalParameter formalParameters;
 
-	public LambdaFormalParametersExpression(Type type, BaseFormalParameter formalParameters, BaseStatement statements) {
-		super(type, statements);
-		this.formalParameters = formalParameters;
-	}
+    public LambdaFormalParametersExpression(Type type, BaseFormalParameter formalParameters, BaseStatement statements) {
+        super(type, statements);
+        this.formalParameters = formalParameters;
+    }
 
-	public LambdaFormalParametersExpression(int lineNumber, Type type, BaseFormalParameter formalParameters,
-			BaseStatement statements) {
-		super(lineNumber, type, statements);
-		this.formalParameters = formalParameters;
-	}
+    public LambdaFormalParametersExpression(int lineNumber, Type type, BaseFormalParameter formalParameters,
+            BaseStatement statements) {
+        super(lineNumber, type, statements);
+        this.formalParameters = formalParameters;
+    }
 
-	public BaseFormalParameter getFormalParameters() {
-		return formalParameters;
-	}
+    public BaseFormalParameter getFormalParameters() {
+        return formalParameters;
+    }
 
-	public void setParameters(BaseFormalParameter formalParameters) {
-		this.formalParameters = formalParameters;
-	}
+    public void setParameters(BaseFormalParameter formalParameters) {
+        this.formalParameters = formalParameters;
+    }
 
-	@Override
-	public void accept(ExpressionVisitor visitor) {
-		visitor.visit(this);
-	}
+    @Override
+    public void accept(ExpressionVisitor visitor) {
+        visitor.visit(this);
+    }
 
-	@Override
-	public String toString() {
-		return "LambdaFormalParametersExpression(" + formalParameters + " -> " + statements + ")";
-	}
+    @Override
+    public String toString() {
+        return "LambdaFormalParametersExpression(" + formalParameters + " -> " + statements + ")";
+    }
 }

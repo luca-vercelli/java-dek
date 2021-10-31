@@ -8,18 +8,18 @@
 package org.jd.core.v1.model.classfile.attribute.elementValue;
 
 public class ElementValueArrayValue implements ElementValue {
-	protected ElementValue[] values;
+    protected ElementValue[] values;
 
-	public ElementValueArrayValue(ElementValue[] values) {
-		this.values = values;
-	}
+    public ElementValueArrayValue(ElementValue[] values) {
+        this.values = values;
+    }
 
-	public ElementValue[] getValues() {
-		return values;
-	}
+    public ElementValue[] getValues() {
+        return values;
+    }
 
-	@Override
-	public void accept(ElementValueVisitor visitor) {
-		visitor.visit(this);
-	}
+    @Override
+    public void accept(ElementValueVisitor visitor) {
+        visitor.visit(this);
+    }
 }

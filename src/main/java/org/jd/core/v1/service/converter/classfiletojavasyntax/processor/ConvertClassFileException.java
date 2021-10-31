@@ -9,13 +9,13 @@ package org.jd.core.v1.service.converter.classfiletojavasyntax.processor;
 
 public class ConvertClassFileException extends RuntimeException {
 
-	private static final long serialVersionUID = -4238199040703885410L;
+    private static final long serialVersionUID = -4238199040703885410L;
 
-	public ConvertClassFileException() {
-		super();
-	}
+    public ConvertClassFileException() {
+        super();
+    }
 
-	public ConvertClassFileException(String s) {
-		super(s);
-	}
+    public ConvertClassFileException(String s) {
+        super(s);
+    }
 }

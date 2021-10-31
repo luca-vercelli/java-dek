@@ -10,18 +10,18 @@ package org.jd.core.v1.model.classfile.attribute;
 import org.jd.core.v1.model.classfile.constant.ConstantValue;
 
 public class AttributeConstantValue implements Attribute {
-	protected ConstantValue constantValue;
+    protected ConstantValue constantValue;
 
-	public AttributeConstantValue(ConstantValue constantValue) {
-		this.constantValue = constantValue;
-	}
+    public AttributeConstantValue(ConstantValue constantValue) {
+        this.constantValue = constantValue;
+    }
 
-	public ConstantValue getConstantValue() {
-		return constantValue;
-	}
+    public ConstantValue getConstantValue() {
+        return constantValue;
+    }
 
-	@Override
-	public String toString() {
-		return getClass().getSimpleName() + " " + constantValue;
-	}
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + " " + constantValue;
+    }
 }

@@ -10,27 +10,27 @@ package org.jd.core.v1.model.javasyntax.reference;
 import org.jd.core.v1.model.javasyntax.expression.Expression;
 
 public class ExpressionElementValue implements ElementValue {
-	protected Expression expression;
+    protected Expression expression;
 
-	public ExpressionElementValue(Expression expression) {
-		this.expression = expression;
-	}
+    public ExpressionElementValue(Expression expression) {
+        this.expression = expression;
+    }
 
-	public Expression getExpression() {
-		return expression;
-	}
+    public Expression getExpression() {
+        return expression;
+    }
 
-	public void setExpression(Expression expression) {
-		this.expression = expression;
-	}
+    public void setExpression(Expression expression) {
+        this.expression = expression;
+    }
 
-	@Override
-	public void accept(ReferenceVisitor visitor) {
-		visitor.visit(this);
-	}
+    @Override
+    public void accept(ReferenceVisitor visitor) {
+        visitor.visit(this);
+    }
 
-	@Override
-	public String toString() {
-		return "ExpressionElementValue(" + expression + ")";
-	}
+    @Override
+    public String toString() {
+        return "ExpressionElementValue(" + expression + ")";
+    }
 }

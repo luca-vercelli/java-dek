@@ -13,55 +13,55 @@ package org.jd.core.v1.api;
  */
 public interface Printer {
 
-	/**
-	 * Emits a String representation of decompiled source code
-	 */
-	@Override
-	public String toString();
+    /**
+     * Emits a String representation of decompiled source code
+     */
+    @Override
+    public String toString();
 
-	void start(int maxLineNumber, int majorVersion, int minorVersion);
+    void start(int maxLineNumber, int majorVersion, int minorVersion);
 
-	void end();
+    void end();
 
-	void printText(String text);
+    void printText(String text);
 
-	void printNumericConstant(String constant);
+    void printNumericConstant(String constant);
 
-	void printStringConstant(String constant, String ownerInternalName);
+    void printStringConstant(String constant, String ownerInternalName);
 
-	void printKeyword(String keyword);
+    void printKeyword(String keyword);
 
-	// Declaration & reference types
-	int TYPE = 1;
-	int FIELD = 2;
-	int METHOD = 3;
-	int CONSTRUCTOR = 4;
-	int PACKAGE = 5;
-	int MODULE = 6;
+    // Declaration & reference types
+    int TYPE = 1;
+    int FIELD = 2;
+    int METHOD = 3;
+    int CONSTRUCTOR = 4;
+    int PACKAGE = 5;
+    int MODULE = 6;
 
-	void printDeclaration(int type, String internalTypeName, String name, String descriptor);
+    void printDeclaration(int type, String internalTypeName, String name, String descriptor);
 
-	void printReference(int type, String internalTypeName, String name, String descriptor, String ownerInternalName);
+    void printReference(int type, String internalTypeName, String name, String descriptor, String ownerInternalName);
 
-	void indent();
+    void indent();
 
-	void unindent();
+    void unindent();
 
-	int UNKNOWN_LINE_NUMBER = 0;
+    int UNKNOWN_LINE_NUMBER = 0;
 
-	void startLine(int lineNumber);
+    void startLine(int lineNumber);
 
-	void endLine();
+    void endLine();
 
-	void extraLine(int count);
+    void extraLine(int count);
 
-	// Marker types
-	int COMMENT = 1;
-	int JAVADOC = 2;
-	int ERROR = 3;
-	int IMPORT_STATEMENTS = 4;
+    // Marker types
+    int COMMENT = 1;
+    int JAVADOC = 2;
+    int ERROR = 3;
+    int IMPORT_STATEMENTS = 4;
 
-	void startMarker(int type);
+    void startMarker(int type);
 
-	void endMarker(int type);
+    void endMarker(int type);
 }

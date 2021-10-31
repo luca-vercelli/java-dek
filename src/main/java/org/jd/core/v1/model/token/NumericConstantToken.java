@@ -9,22 +9,22 @@ package org.jd.core.v1.model.token;
 
 public class NumericConstantToken implements Token {
 
-	protected String text;
+    protected String text;
 
-	public NumericConstantToken(String text) {
-		this.text = text;
-	}
+    public NumericConstantToken(String text) {
+        this.text = text;
+    }
 
-	public String getText() {
-		return text;
-	}
+    public String getText() {
+        return text;
+    }
 
-	public String toString() {
-		return "NumericConstantToken{'" + text + "'}";
-	}
+    public String toString() {
+        return "NumericConstantToken{'" + text + "'}";
+    }
 
-	@Override
-	public void accept(TokenVisitor visitor) {
-		visitor.visit(this);
-	}
+    @Override
+    public void accept(TokenVisitor visitor) {
+        visitor.visit(this);
+    }
 }

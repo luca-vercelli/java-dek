@@ -13,17 +13,17 @@ package org.jd.core.v1.model.fragment;
  * There should be one visit() method for every possible Fragment subclass.
  */
 public interface FragmentVisitor {
-	void visit(FlexibleFragment fragment);
+    void visit(FlexibleFragment fragment);
 
-	void visit(EndFlexibleBlockFragment fragment);
+    void visit(EndFlexibleBlockFragment fragment);
 
-	void visit(EndMovableBlockFragment fragment);
+    void visit(EndMovableBlockFragment fragment);
 
-	void visit(SpacerBetweenMovableBlocksFragment fragment);
+    void visit(SpacerBetweenMovableBlocksFragment fragment);
 
-	void visit(StartFlexibleBlockFragment fragment);
+    void visit(StartFlexibleBlockFragment fragment);
 
-	void visit(StartMovableBlockFragment fragment);
+    void visit(StartMovableBlockFragment fragment);
 
-	void visit(FixedFragment fragment);
+    void visit(FixedFragment fragment);
 }

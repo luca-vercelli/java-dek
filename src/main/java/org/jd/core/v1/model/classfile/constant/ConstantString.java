@@ -10,18 +10,18 @@ package org.jd.core.v1.model.classfile.constant;
 import org.jd.core.v1.model.classfile.ConstantPool;
 
 public class ConstantString extends Constant {
-	protected int stringIndex;
+    protected int stringIndex;
 
-	public ConstantString(int stringIndex) {
-		super(ConstantPoolTag.CONSTANT_String);
-		this.stringIndex = stringIndex;
-	}
+    public ConstantString(int stringIndex) {
+        super(ConstantPoolTag.CONSTANT_String);
+        this.stringIndex = stringIndex;
+    }
 
-	public int getStringIndex() {
-		return stringIndex;
-	}
-	
-	public String getString(ConstantPool constants) {
-		return constants.getConstantUtf8(stringIndex);
-	}
+    public int getStringIndex() {
+        return stringIndex;
+    }
+    
+    public String getString(ConstantPool constants) {
+        return constants.getConstantUtf8(stringIndex);
+    }
 }

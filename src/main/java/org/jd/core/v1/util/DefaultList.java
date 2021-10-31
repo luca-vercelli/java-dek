@@ -19,115 +19,115 @@ import java.util.NoSuchElementException;
  */
 public class DefaultList<E> extends ArrayList<E> implements Base<E> {
 
-	private static final long serialVersionUID = 6867881864799620874L;
+    private static final long serialVersionUID = 6867881864799620874L;
 
-	protected static final EmptyList<?> EMPTY_LIST = new EmptyList<>();
+    protected static final EmptyList<?> EMPTY_LIST = new EmptyList<>();
 
-	public DefaultList() {
-	}
+    public DefaultList() {
+    }
 
-	public DefaultList(int capacity) {
-		super(capacity);
-	}
+    public DefaultList(int capacity) {
+        super(capacity);
+    }
 
-	public DefaultList(Collection<E> collection) {
-		super(collection);
-	}
+    public DefaultList(Collection<E> collection) {
+        super(collection);
+    }
 
-	@SafeVarargs
-	public DefaultList(E element, E... elements) {
-		ensureCapacity(elements.length + 1);
+    @SafeVarargs
+    public DefaultList(E element, E... elements) {
+        ensureCapacity(elements.length + 1);
 
-		add(element);
+        add(element);
 
-		for (E e : elements) {
-			add(e);
-		}
-	}
+        for (E e : elements) {
+            add(e);
+        }
+    }
 
-	public DefaultList(E[] elements) {
-		if ((elements != null) && (elements.length > 0)) {
-			ensureCapacity(elements.length);
+    public DefaultList(E[] elements) {
+        if ((elements != null) && (elements.length > 0)) {
+            ensureCapacity(elements.length);
 
-			for (E e : elements) {
-				add(e);
-			}
-		}
-	}
+            for (E e : elements) {
+                add(e);
+            }
+        }
+    }
 
-	@Override
-	public E getFirst() {
-		return (E) get(0);
-	}
+    @Override
+    public E getFirst() {
+        return (E) get(0);
+    }
 
-	@Override
-	public E getLast() {
-		return (E) get(size() - 1);
-	}
+    @Override
+    public E getLast() {
+        return (E) get(size() - 1);
+    }
 
-	public E removeFirst() {
-		return (E) remove(0);
-	}
+    public E removeFirst() {
+        return (E) remove(0);
+    }
 
-	public E removeLast() {
-		return (E) remove(size() - 1);
-	}
+    public E removeLast() {
+        return (E) remove(size() - 1);
+    }
 
-	@Override
-	public boolean isList() {
-		return true;
-	}
+    @Override
+    public boolean isList() {
+        return true;
+    }
 
-	@Override
-	public DefaultList<E> getList() {
-		return this;
-	}
+    @Override
+    public DefaultList<E> getList() {
+        return this;
+    }
 
-	@SuppressWarnings("unchecked")
-	public static <T> DefaultList<T> emptyList() {
-		return (DefaultList<T>) EMPTY_LIST;
-	}
+    @SuppressWarnings("unchecked")
+    public static <T> DefaultList<T> emptyList() {
+        return (DefaultList<T>) EMPTY_LIST;
+    }
 
-	protected static class EmptyList<E> extends DefaultList<E> implements Iterator<E> {
-		private static final long serialVersionUID = -1611271037753076432L;
+    protected static class EmptyList<E> extends DefaultList<E> implements Iterator<E> {
+        private static final long serialVersionUID = -1611271037753076432L;
 
-		public EmptyList() {
-			super(0);
-		}
+        public EmptyList() {
+            super(0);
+        }
 
-		@Override
-		public E set(int index, E e) {
-			throw new UnsupportedOperationException();
-		}
+        @Override
+        public E set(int index, E e) {
+            throw new UnsupportedOperationException();
+        }
 
-		@Override
-		public void add(int index, E e) {
-			throw new UnsupportedOperationException();
-		}
+        @Override
+        public void add(int index, E e) {
+            throw new UnsupportedOperationException();
+        }
 
-		@Override
-		public E remove(int index) {
-			throw new UnsupportedOperationException();
-		}
+        @Override
+        public E remove(int index) {
+            throw new UnsupportedOperationException();
+        }
 
-		@Override
-		public void remove() {
-			throw new UnsupportedOperationException();
-		}
+        @Override
+        public void remove() {
+            throw new UnsupportedOperationException();
+        }
 
-		@Override
-		public Iterator<E> iterator() {
-			return this;
-		}
+        @Override
+        public Iterator<E> iterator() {
+            return this;
+        }
 
-		@Override
-		public boolean hasNext() {
-			return false;
-		}
+        @Override
+        public boolean hasNext() {
+            return false;
+        }
 
-		@Override
-		public E next() {
-			throw new NoSuchElementException();
-		}
-	}
+        @Override
+        public E next() {
+            throw new NoSuchElementException();
+        }
+    }
 }

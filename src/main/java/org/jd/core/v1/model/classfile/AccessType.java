@@ -4,12 +4,12 @@ package org.jd.core.v1.model.classfile;
  * Access flags can be added bitwise
  *
  * @see https://docs.oracle.com/javase/specs/jvms/se14/html/jvms-4.html#jvms-4.1
- * 	    https://docs.oracle.com/javase/specs/jvms/se14/html/jvms-4.html#jvms-4.5
- * 	    https://docs.oracle.com/javase/specs/jvms/se14/html/jvms-4.html#jvms-4.6
+ *         https://docs.oracle.com/javase/specs/jvms/se14/html/jvms-4.html#jvms-4.5
+ *         https://docs.oracle.com/javase/specs/jvms/se14/html/jvms-4.html#jvms-4.6
  *      https://docs.oracle.com/javase/specs/jvms/se14/html/jvms-4.html#jvms-4.7.24
  */
 public class AccessType {
-	
+    
     // Access flags for Class, Field, Method, Nested class, Module, Module Requires, Module Exports, Module Opens
     
     public static final int ACC_PUBLIC       = 0x0001;  // C  F  M  N  .  .  .  .

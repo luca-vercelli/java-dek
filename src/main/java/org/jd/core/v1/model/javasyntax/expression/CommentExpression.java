@@ -11,38 +11,38 @@ import org.jd.core.v1.model.javasyntax.type.PrimitiveType;
 import org.jd.core.v1.model.javasyntax.type.Type;
 
 public class CommentExpression implements Expression {
-	protected String text;
+    protected String text;
 
-	public CommentExpression(String text) {
-		this.text = text;
-	}
+    public CommentExpression(String text) {
+        this.text = text;
+    }
 
-	@Override
-	public int getLineNumber() {
-		return UNKNOWN_LINE_NUMBER;
-	}
+    @Override
+    public int getLineNumber() {
+        return UNKNOWN_LINE_NUMBER;
+    }
 
-	@Override
-	public Type getType() {
-		return PrimitiveType.TYPE_VOID;
-	}
+    @Override
+    public Type getType() {
+        return PrimitiveType.TYPE_VOID;
+    }
 
-	public String getText() {
-		return text;
-	}
+    public String getText() {
+        return text;
+    }
 
-	@Override
-	public int getPriority() {
-		return 0;
-	}
+    @Override
+    public int getPriority() {
+        return 0;
+    }
 
-	@Override
-	public void accept(ExpressionVisitor visitor) {
-		visitor.visit(this);
-	}
+    @Override
+    public void accept(ExpressionVisitor visitor) {
+        visitor.visit(this);
+    }
 
-	@Override
-	public String toString() {
-		return "CommentExpression(" + text + ")";
-	}
+    @Override
+    public String toString() {
+        return "CommentExpression(" + text + ")";
+    }
 }

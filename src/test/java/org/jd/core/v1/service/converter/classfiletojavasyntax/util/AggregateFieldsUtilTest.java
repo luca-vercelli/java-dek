@@ -18,121 +18,121 @@ import org.junit.Test;
 
 public class AggregateFieldsUtilTest {
 
-	@Test
-	public void test1() {
-		DefaultList<ClassFileFieldDeclaration> fields = new DefaultList<>();
+    @Test
+    public void test1() {
+        DefaultList<ClassFileFieldDeclaration> fields = new DefaultList<>();
 
-		fields.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("b"), 10));
-		fields.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("c"), 10));
+        fields.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("b"), 10));
+        fields.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("c"), 10));
 
-		DefaultList<ClassFileFieldDeclaration> expected = new DefaultList<>();
+        DefaultList<ClassFileFieldDeclaration> expected = new DefaultList<>();
 
-		expected.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT,
-				new FieldDeclarators(new FieldDeclarator("b"), new FieldDeclarator("c")), 10));
+        expected.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT,
+                new FieldDeclarators(new FieldDeclarator("b"), new FieldDeclarator("c")), 10));
 
-		AggregateFieldsUtil.aggregate(fields);
+        AggregateFieldsUtil.aggregate(fields);
 
-		assertEquals(expected, fields);
-	}
+        assertEquals(expected, fields);
+    }
 
-	@Test
-	public void test2() {
-		DefaultList<ClassFileFieldDeclaration> fields = new DefaultList<>();
+    @Test
+    public void test2() {
+        DefaultList<ClassFileFieldDeclaration> fields = new DefaultList<>();
 
-		fields.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("a")));
-		fields.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("b"), 10));
-		fields.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("c"), 10));
+        fields.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("a")));
+        fields.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("b"), 10));
+        fields.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("c"), 10));
 
-		DefaultList<ClassFileFieldDeclaration> expected = new DefaultList<>();
+        DefaultList<ClassFileFieldDeclaration> expected = new DefaultList<>();
 
-		expected.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("a")));
-		expected.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT,
-				new FieldDeclarators(new FieldDeclarator("b"), new FieldDeclarator("c")), 10));
+        expected.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("a")));
+        expected.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT,
+                new FieldDeclarators(new FieldDeclarator("b"), new FieldDeclarator("c")), 10));
 
-		AggregateFieldsUtil.aggregate(fields);
+        AggregateFieldsUtil.aggregate(fields);
 
-		assertEquals(expected, fields);
-	}
+        assertEquals(expected, fields);
+    }
 
-	@Test
-	public void test3() {
-		DefaultList<ClassFileFieldDeclaration> fields = new DefaultList<>();
+    @Test
+    public void test3() {
+        DefaultList<ClassFileFieldDeclaration> fields = new DefaultList<>();
 
-		fields.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("a")));
-		fields.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("b"), 10));
-		fields.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("c"), 10));
-		fields.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("d")));
+        fields.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("a")));
+        fields.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("b"), 10));
+        fields.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("c"), 10));
+        fields.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("d")));
 
-		DefaultList<ClassFileFieldDeclaration> expected = new DefaultList<>();
+        DefaultList<ClassFileFieldDeclaration> expected = new DefaultList<>();
 
-		expected.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("a")));
-		expected.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT,
-				new FieldDeclarators(new FieldDeclarator("b"), new FieldDeclarator("c")), 10));
-		expected.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("d")));
+        expected.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("a")));
+        expected.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT,
+                new FieldDeclarators(new FieldDeclarator("b"), new FieldDeclarator("c")), 10));
+        expected.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("d")));
 
-		AggregateFieldsUtil.aggregate(fields);
+        AggregateFieldsUtil.aggregate(fields);
 
-		assertEquals(expected, fields);
-	}
+        assertEquals(expected, fields);
+    }
 
-	@Test
-	public void test4() {
-		DefaultList<ClassFileFieldDeclaration> fields = new DefaultList<>();
+    @Test
+    public void test4() {
+        DefaultList<ClassFileFieldDeclaration> fields = new DefaultList<>();
 
-		fields.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("a")));
-		fields.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("b"), 10));
-		fields.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("c")));
-		fields.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("d"), 10));
-		fields.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("e")));
-		fields.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("f"), 10));
-		fields.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("g")));
-		fields.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("h"), 15));
-		fields.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("i")));
+        fields.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("a")));
+        fields.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("b"), 10));
+        fields.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("c")));
+        fields.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("d"), 10));
+        fields.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("e")));
+        fields.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("f"), 10));
+        fields.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("g")));
+        fields.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("h"), 15));
+        fields.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("i")));
 
-		DefaultList<ClassFileFieldDeclaration> expected = new DefaultList<>();
+        DefaultList<ClassFileFieldDeclaration> expected = new DefaultList<>();
 
-		expected.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("a")));
-		expected.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT,
-				new FieldDeclarators(new FieldDeclarator("b"), new FieldDeclarator("c"), new FieldDeclarator("d"),
-						new FieldDeclarator("e"), new FieldDeclarator("f")),
-				10));
-		expected.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("g")));
-		expected.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("h"), 15));
-		expected.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("i")));
+        expected.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("a")));
+        expected.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT,
+                new FieldDeclarators(new FieldDeclarator("b"), new FieldDeclarator("c"), new FieldDeclarator("d"),
+                        new FieldDeclarator("e"), new FieldDeclarator("f")),
+                10));
+        expected.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("g")));
+        expected.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("h"), 15));
+        expected.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("i")));
 
-		AggregateFieldsUtil.aggregate(fields);
+        AggregateFieldsUtil.aggregate(fields);
 
-		assertEquals(expected, fields);
-	}
+        assertEquals(expected, fields);
+    }
 
-	@Test
-	public void test5() {
-		DefaultList<ClassFileFieldDeclaration> fields = new DefaultList<>();
+    @Test
+    public void test5() {
+        DefaultList<ClassFileFieldDeclaration> fields = new DefaultList<>();
 
-		fields.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("a")));
-		fields.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("b"), 10));
-		fields.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("c")));
-		fields.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_LONG, new FieldDeclarator("d"), 10));
-		fields.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("e")));
-		fields.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("f"), 10));
-		fields.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("g")));
-		fields.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("h"), 15));
-		fields.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("i")));
+        fields.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("a")));
+        fields.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("b"), 10));
+        fields.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("c")));
+        fields.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_LONG, new FieldDeclarator("d"), 10));
+        fields.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("e")));
+        fields.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("f"), 10));
+        fields.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("g")));
+        fields.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("h"), 15));
+        fields.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("i")));
 
-		DefaultList<ClassFileFieldDeclaration> expected = new DefaultList<>();
+        DefaultList<ClassFileFieldDeclaration> expected = new DefaultList<>();
 
-		expected.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("a")));
-		expected.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("b"), 10));
-		expected.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("c")));
-		expected.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_LONG, new FieldDeclarator("d"), 10));
-		expected.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("e")));
-		expected.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("f"), 10));
-		expected.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("g")));
-		expected.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("h"), 15));
-		expected.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("i")));
+        expected.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("a")));
+        expected.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("b"), 10));
+        expected.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("c")));
+        expected.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_LONG, new FieldDeclarator("d"), 10));
+        expected.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("e")));
+        expected.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("f"), 10));
+        expected.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("g")));
+        expected.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("h"), 15));
+        expected.add(new ClassFileFieldDeclaration(0, PrimitiveType.TYPE_INT, new FieldDeclarator("i")));
 
-		AggregateFieldsUtil.aggregate(fields);
+        AggregateFieldsUtil.aggregate(fields);
 
-		assertEquals(expected, fields);
-	}
+        assertEquals(expected, fields);
+    }
 }

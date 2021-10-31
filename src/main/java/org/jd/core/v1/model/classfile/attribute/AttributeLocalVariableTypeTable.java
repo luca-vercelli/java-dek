@@ -10,18 +10,18 @@ package org.jd.core.v1.model.classfile.attribute;
 import java.util.Arrays;
 
 public class AttributeLocalVariableTypeTable implements Attribute {
-	protected LocalVariableType[] localVariableTypeTable;
+    protected LocalVariableType[] localVariableTypeTable;
 
-	public AttributeLocalVariableTypeTable(LocalVariableType[] localVariableTypeTable) {
-		this.localVariableTypeTable = localVariableTypeTable;
-	}
+    public AttributeLocalVariableTypeTable(LocalVariableType[] localVariableTypeTable) {
+        this.localVariableTypeTable = localVariableTypeTable;
+    }
 
-	public LocalVariableType[] getLocalVariableTypeTable() {
-		return localVariableTypeTable;
-	}
+    public LocalVariableType[] getLocalVariableTypeTable() {
+        return localVariableTypeTable;
+    }
 
-	@Override
-	public String toString() {
-		return getClass().getSimpleName() + " " + Arrays.asList(localVariableTypeTable);
-	}
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + " " + Arrays.asList(localVariableTypeTable);
+    }
 }

@@ -23,49 +23,49 @@ import org.jd.core.v1.util.DefaultList;
  * FlexibleFragments.
  */
 public class BuildSectionsVisitor implements FragmentVisitor {
-	protected DefaultList<Section> sections = new DefaultList<>();
-	protected DefaultList<FlexibleFragment> flexibleFragments = new DefaultList<>();
-	protected Section previousSection = null;
+    protected DefaultList<Section> sections = new DefaultList<>();
+    protected DefaultList<FlexibleFragment> flexibleFragments = new DefaultList<>();
+    protected Section previousSection = null;
 
-	@Override
-	public void visit(FlexibleFragment fragment) {
-		flexibleFragments.add(fragment);
-	}
+    @Override
+    public void visit(FlexibleFragment fragment) {
+        flexibleFragments.add(fragment);
+    }
 
-	@Override
-	public void visit(EndFlexibleBlockFragment fragment) {
-		flexibleFragments.add(fragment);
-	}
+    @Override
+    public void visit(EndFlexibleBlockFragment fragment) {
+        flexibleFragments.add(fragment);
+    }
 
-	@Override
-	public void visit(EndMovableBlockFragment fragment) {
-		flexibleFragments.add(fragment);
-	}
+    @Override
+    public void visit(EndMovableBlockFragment fragment) {
+        flexibleFragments.add(fragment);
+    }
 
-	@Override
-	public void visit(SpacerBetweenMovableBlocksFragment fragment) {
-		flexibleFragments.add(fragment);
-	}
+    @Override
+    public void visit(SpacerBetweenMovableBlocksFragment fragment) {
+        flexibleFragments.add(fragment);
+    }
 
-	@Override
-	public void visit(StartFlexibleBlockFragment fragment) {
-		flexibleFragments.add(fragment);
-	}
+    @Override
+    public void visit(StartFlexibleBlockFragment fragment) {
+        flexibleFragments.add(fragment);
+    }
 
-	@Override
-	public void visit(StartMovableBlockFragment fragment) {
-		flexibleFragments.add(fragment);
-	}
+    @Override
+    public void visit(StartMovableBlockFragment fragment) {
+        flexibleFragments.add(fragment);
+    }
 
-	@Override
-	public void visit(FixedFragment fragment) {
-		previousSection = new Section(flexibleFragments, fragment, previousSection);
-		sections.add(previousSection);
-		flexibleFragments = new DefaultList<>();
-	}
+    @Override
+    public void visit(FixedFragment fragment) {
+        previousSection = new Section(flexibleFragments, fragment, previousSection);
+        sections.add(previousSection);
+        flexibleFragments = new DefaultList<>();
+    }
 
-	public DefaultList<Section> getSections() {
-		sections.add(new Section(flexibleFragments, null, previousSection));
-		return sections;
-	}
+    public DefaultList<Section> getSections() {
+        sections.add(new Section(flexibleFragments, null, previousSection));
+        return sections;
+    }
 }

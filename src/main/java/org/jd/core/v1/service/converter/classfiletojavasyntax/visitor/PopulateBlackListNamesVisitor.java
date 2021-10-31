@@ -18,24 +18,24 @@ import org.jd.core.v1.model.javasyntax.type.ObjectType;
  * Populate internal <code>blackListNames</code> with names of types visited
  */
 public class PopulateBlackListNamesVisitor extends AbstractNopTypeArgumentVisitor {
-	protected Set<String> blackListNames;
+    protected Set<String> blackListNames;
 
-	public PopulateBlackListNamesVisitor(Set<String> blackListNames) {
-		this.blackListNames = blackListNames;
-	}
+    public PopulateBlackListNamesVisitor(Set<String> blackListNames) {
+        this.blackListNames = blackListNames;
+    }
 
-	@Override
-	public void visit(ObjectType type) {
-		blackListNames.add(type.getName());
-	}
+    @Override
+    public void visit(ObjectType type) {
+        blackListNames.add(type.getName());
+    }
 
-	@Override
-	public void visit(InnerObjectType type) {
-		blackListNames.add(type.getName());
-	}
+    @Override
+    public void visit(InnerObjectType type) {
+        blackListNames.add(type.getName());
+    }
 
-	@Override
-	public void visit(GenericType type) {
-		blackListNames.add(type.getName());
-	}
+    @Override
+    public void visit(GenericType type) {
+        blackListNames.add(type.getName());
+    }
 }

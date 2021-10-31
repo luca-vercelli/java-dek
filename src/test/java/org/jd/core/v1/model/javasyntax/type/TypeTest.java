@@ -15,74 +15,74 @@ import org.jd.core.v1.services.javasyntax.type.visitor.PrintTypeVisitor;
 import org.junit.Test;
 
 public class TypeTest {
-	@Test
-	public void testSimpleClassOrInterfaceType() throws Exception {
-		BaseType scoit = new ObjectType("org/project/Test", "org.project.Test", "Test");
-		PrintTypeVisitor visitor = new PrintTypeVisitor();
+    @Test
+    public void testSimpleClassOrInterfaceType() throws Exception {
+        BaseType scoit = new ObjectType("org/project/Test", "org.project.Test", "Test");
+        PrintTypeVisitor visitor = new PrintTypeVisitor();
 
-		scoit.accept(visitor);
+        scoit.accept(visitor);
 
-		String source = visitor.toString();
+        String source = visitor.toString();
 
-		printSource(source);
+        printSource(source);
 
-		assertEquals("org.project.Test", source);
-	}
+        assertEquals("org.project.Test", source);
+    }
 
-	@Test
-	public void testSimpleClassOrInterfaceType2() throws Exception {
-		Type scoit1 = new ObjectType("org/project/Test", "org.project.Test", "Test");
-		Type scoit2 = new ObjectType("org/project/OtherTest", "org.project.OtherTest", "OtherTest",
-				new TypeArguments(Arrays.asList(scoit1, WildcardTypeArgument.WILDCARD_TYPE_ARGUMENT,
-						new WildcardSuperTypeArgument(scoit1), new WildcardExtendsTypeArgument(scoit1))));
+    @Test
+    public void testSimpleClassOrInterfaceType2() throws Exception {
+        Type scoit1 = new ObjectType("org/project/Test", "org.project.Test", "Test");
+        Type scoit2 = new ObjectType("org/project/OtherTest", "org.project.OtherTest", "OtherTest",
+                new TypeArguments(Arrays.asList(scoit1, WildcardTypeArgument.WILDCARD_TYPE_ARGUMENT,
+                        new WildcardSuperTypeArgument(scoit1), new WildcardExtendsTypeArgument(scoit1))));
 
-		PrintTypeVisitor visitor = new PrintTypeVisitor();
-		BaseType baseType2 = scoit2;
+        PrintTypeVisitor visitor = new PrintTypeVisitor();
+        BaseType baseType2 = scoit2;
 
-		baseType2.accept(visitor);
+        baseType2.accept(visitor);
 
-		String source = visitor.toString();
+        String source = visitor.toString();
 
-		printSource(source);
+        printSource(source);
 
-		assertEquals("org.project.OtherTest<org.project.Test, ?, ? super org.project.Test, ? extends org.project.Test>",
-				source);
-	}
+        assertEquals("org.project.OtherTest<org.project.Test, ?, ? super org.project.Test, ? extends org.project.Test>",
+                source);
+    }
 
-	@Test
-	public void testDiamond() throws Exception {
-		BaseType scoit = new ObjectType("org/project/Test", "org.project.Test", "Test", DiamondTypeArgument.DIAMOND);
+    @Test
+    public void testDiamond() throws Exception {
+        BaseType scoit = new ObjectType("org/project/Test", "org.project.Test", "Test", DiamondTypeArgument.DIAMOND);
 
-		PrintTypeVisitor visitor = new PrintTypeVisitor();
+        PrintTypeVisitor visitor = new PrintTypeVisitor();
 
-		scoit.accept(visitor);
+        scoit.accept(visitor);
 
-		String source = visitor.toString();
+        String source = visitor.toString();
 
-		printSource(source);
+        printSource(source);
 
-		assertEquals("org.project.Test<>", source);
-	}
+        assertEquals("org.project.Test<>", source);
+    }
 
-	@Test
-	public void testInnerClass() throws Exception {
-		BaseType scoit = new InnerObjectType("org/project/Test$InnerTest", "org.project.Test.InnerTest", "InnerTest",
-				new ObjectType("org/project/Test", "org.project.Test", "Test"));
+    @Test
+    public void testInnerClass() throws Exception {
+        BaseType scoit = new InnerObjectType("org/project/Test$InnerTest", "org.project.Test.InnerTest", "InnerTest",
+                new ObjectType("org/project/Test", "org.project.Test", "Test"));
 
-		PrintTypeVisitor visitor = new PrintTypeVisitor();
+        PrintTypeVisitor visitor = new PrintTypeVisitor();
 
-		scoit.accept(visitor);
+        scoit.accept(visitor);
 
-		String source = visitor.toString();
+        String source = visitor.toString();
 
-		printSource(source);
+        printSource(source);
 
-		assertEquals("org.project.Test.InnerTest", source);
-	}
+        assertEquals("org.project.Test.InnerTest", source);
+    }
 
-	protected void printSource(String source) {
-		System.out.println("- - - - - - - - ");
-		System.out.println(source);
-		System.out.println("- - - - - - - - ");
-	}
+    protected void printSource(String source) {
+        System.out.println("- - - - - - - - ");
+        System.out.println(source);
+        System.out.println("- - - - - - - - ");
+    }
 }

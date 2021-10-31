@@ -13,27 +13,27 @@ import java.util.Collection;
 
 public class Expressions extends DefaultList<Expression> implements BaseExpression {
 
-	private static final long serialVersionUID = 4024409139685987591L;
+    private static final long serialVersionUID = 4024409139685987591L;
 
-	public Expressions() {
-	}
+    public Expressions() {
+    }
 
-	public Expressions(int capacity) {
-		super(capacity);
-	}
+    public Expressions(int capacity) {
+        super(capacity);
+    }
 
-	public Expressions(Collection<Expression> collection) {
-		super(collection);
-		assert (collection != null) && (collection.size() > 1) : "Uses 'Expression' or sub class instead";
-	}
+    public Expressions(Collection<Expression> collection) {
+        super(collection);
+        assert (collection != null) && (collection.size() > 1) : "Uses 'Expression' or sub class instead";
+    }
 
-	public Expressions(Expression expression, Expression... expressions) {
-		super(expression, expressions);
-		assert (expressions != null) && (expressions.length > 0) : "Uses 'Expression' or sub class instead";
-	}
+    public Expressions(Expression expression, Expression... expressions) {
+        super(expression, expressions);
+        assert (expressions != null) && (expressions.length > 0) : "Uses 'Expression' or sub class instead";
+    }
 
-	@Override
-	public void accept(ExpressionVisitor visitor) {
-		visitor.visit(this);
-	}
+    @Override
+    public void accept(ExpressionVisitor visitor) {
+        visitor.visit(this);
+    }
 }

@@ -14,29 +14,29 @@ import org.jd.core.v1.util.DefaultList;
  * A list of VariableInitializer that is itself a VariableInitializer
  */
 public class ArrayVariableInitializer extends DefaultList<VariableInitializer> implements VariableInitializer {
-	private static final long serialVersionUID = -1523085302512613624L;
-	protected Type type;
+    private static final long serialVersionUID = -1523085302512613624L;
+    protected Type type;
 
-	public ArrayVariableInitializer(Type type) {
-		this.type = type;
-	}
+    public ArrayVariableInitializer(Type type) {
+        this.type = type;
+    }
 
-	public Type getType() {
-		return type;
-	}
+    public Type getType() {
+        return type;
+    }
 
-	@Override
-	public int getLineNumber() {
-		return isEmpty() ? 0 : get(0).getLineNumber();
-	}
+    @Override
+    public int getLineNumber() {
+        return isEmpty() ? 0 : get(0).getLineNumber();
+    }
 
-	@Override
-	public void accept(DeclarationVisitor visitor) {
-		visitor.visit(this);
-	}
+    @Override
+    public void accept(DeclarationVisitor visitor) {
+        visitor.visit(this);
+    }
 
-	@Override
-	public String toString() {
-		return "ArrayVariableInitializer(" + type + ")";
-	}
+    @Override
+    public String toString() {
+        return "ArrayVariableInitializer(" + type + ")";
+    }
 }

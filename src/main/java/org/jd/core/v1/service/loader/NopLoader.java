@@ -13,13 +13,13 @@ import org.jd.core.v1.api.Loader;
  * A Loader that loads nothing
  */
 public class NopLoader implements Loader {
-	@Override
-	public byte[] load(String internalName) {
-		return null;
-	}
+    @Override
+    public byte[] load(String internalName) {
+        return null;
+    }
 
-	@Override
-	public boolean canLoad(String internalName) {
-		return false;
-	}
+    @Override
+    public boolean canLoad(String internalName) {
+        return false;
+    }
 }

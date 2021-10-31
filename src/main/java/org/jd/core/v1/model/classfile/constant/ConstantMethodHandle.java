@@ -10,35 +10,35 @@ package org.jd.core.v1.model.classfile.constant;
 import org.jd.core.v1.model.classfile.ConstantPool;
 
 public class ConstantMethodHandle extends Constant {
-	protected int referenceKind;
-	protected int referenceIndex;
+    protected int referenceKind;
+    protected int referenceIndex;
 
-	public ConstantMethodHandle(int referenceKind, int referenceIndex) {
-		super(ConstantPoolTag.CONSTANT_MethodHandle);
-		this.referenceKind = referenceKind;
-		this.referenceIndex = referenceIndex;
-	}
+    public ConstantMethodHandle(int referenceKind, int referenceIndex) {
+        super(ConstantPoolTag.CONSTANT_MethodHandle);
+        this.referenceKind = referenceKind;
+        this.referenceIndex = referenceIndex;
+    }
 
-	public int getReferenceKind() {
-		return referenceKind;
-	}
+    public int getReferenceKind() {
+        return referenceKind;
+    }
 
-	public int getReferenceIndex() {
-		return referenceIndex;
-	}
+    public int getReferenceIndex() {
+        return referenceIndex;
+    }
 
-	public String getTypeName(ConstantPool constants) {
-		ConstantMemberRef cmr = constants.getConstant(referenceIndex);
-		return cmr.getTypeName(constants);
-	}
+    public String getTypeName(ConstantPool constants) {
+        ConstantMemberRef cmr = constants.getConstant(referenceIndex);
+        return cmr.getTypeName(constants);
+    }
 
-	public String getName(ConstantPool constants) {
-		ConstantMemberRef cmr = constants.getConstant(referenceIndex);
-		return cmr.getName(constants);
-	}
+    public String getName(ConstantPool constants) {
+        ConstantMemberRef cmr = constants.getConstant(referenceIndex);
+        return cmr.getName(constants);
+    }
 
-	public String getDescriptor(ConstantPool constants) {
-		ConstantMemberRef cmr = constants.getConstant(referenceIndex);
-		return cmr.getDescriptor(constants);
-	}
+    public String getDescriptor(ConstantPool constants) {
+        ConstantMemberRef cmr = constants.getConstant(referenceIndex);
+        return cmr.getDescriptor(constants);
+    }
 }

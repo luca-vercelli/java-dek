@@ -14,18 +14,18 @@ import org.jd.core.v1.model.javasyntax.declaration.BaseTypeDeclaration;
  * in a tree of declarations, statements, expressions.
  */
 public class CompilationUnit {
-	protected BaseTypeDeclaration typeDeclarations;
+    protected BaseTypeDeclaration typeDeclarations;
 
-	public CompilationUnit(BaseTypeDeclaration typeDeclarations) {
-		this.typeDeclarations = typeDeclarations;
-	}
+    public CompilationUnit(BaseTypeDeclaration typeDeclarations) {
+        this.typeDeclarations = typeDeclarations;
+    }
 
-	public BaseTypeDeclaration getTypeDeclarations() {
-		return typeDeclarations;
-	}
+    public BaseTypeDeclaration getTypeDeclarations() {
+        return typeDeclarations;
+    }
 
-	@Override
-	public String toString() {
-		return "CompilationUnit(" + (this.typeDeclarations != null ? typeDeclarations.toString() : "null") + ")";
-	}
+    @Override
+    public String toString() {
+        return "CompilationUnit(" + (this.typeDeclarations != null ? typeDeclarations.toString() : "null") + ")";
+    }
 }

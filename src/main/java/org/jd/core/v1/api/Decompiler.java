@@ -18,8 +18,8 @@ import org.jd.core.v1.model.message.CompileConfiguration;
  */
 public interface Decompiler {
 
-	Printer decompile(Loader loader, Printer printer, String internalName) throws IOException;
+    Printer decompile(Loader loader, Printer printer, String internalName) throws IOException;
 
-	Printer decompile(Loader loader, Printer printer, String internalName, CompileConfiguration configuration)
-			throws IOException;
+    Printer decompile(Loader loader, Printer printer, String internalName, CompileConfiguration configuration)
+            throws IOException;
 }

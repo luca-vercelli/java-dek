@@ -16,47 +16,47 @@ import java.util.Collection;
  */
 public class TypeParameters extends DefaultList<TypeParameter> implements BaseTypeParameter {
 
-	private static final long serialVersionUID = -8767639569113902100L;
+    private static final long serialVersionUID = -8767639569113902100L;
 
-	public TypeParameters() {
-	}
+    public TypeParameters() {
+    }
 
-	public TypeParameters(int capacity) {
-		super(capacity);
-	}
+    public TypeParameters(int capacity) {
+        super(capacity);
+    }
 
-	public TypeParameters(Collection<TypeParameter> collection) {
-		super(collection);
-		assert (collection != null) && (collection.size() > 1) : "Uses 'TypeParameter' instead";
-	}
+    public TypeParameters(Collection<TypeParameter> collection) {
+        super(collection);
+        assert (collection != null) && (collection.size() > 1) : "Uses 'TypeParameter' instead";
+    }
 
-	public TypeParameters(TypeParameter type, TypeParameter... types) {
-		super(types.length + 1);
-		assert (types != null) && (types.length > 0) : "Uses 'TypeParameter' instead";
+    public TypeParameters(TypeParameter type, TypeParameter... types) {
+        super(types.length + 1);
+        assert (types != null) && (types.length > 0) : "Uses 'TypeParameter' instead";
 
-		add(type);
+        add(type);
 
-		for (TypeParameter t : types) {
-			add(t);
-		}
-	}
+        for (TypeParameter t : types) {
+            add(t);
+        }
+    }
 
-	@Override
-	public void accept(TypeParameterVisitor visitor) {
-		visitor.visit(this);
-	}
+    @Override
+    public void accept(TypeParameterVisitor visitor) {
+        visitor.visit(this);
+    }
 
-	@Override
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
 
-		sb.append(get(0).toString());
+        sb.append(get(0).toString());
 
-		for (int i = 1; i < size(); i++) {
-			sb.append(" & ");
-			sb.append(get(i).toString());
-		}
+        for (int i = 1; i < size(); i++) {
+            sb.append(" & ");
+            sb.append(get(i).toString());
+        }
 
-		return sb.toString();
-	}
+        return sb.toString();
+    }
 }

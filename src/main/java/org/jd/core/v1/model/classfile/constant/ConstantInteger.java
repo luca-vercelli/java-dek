@@ -8,19 +8,19 @@
 package org.jd.core.v1.model.classfile.constant;
 
 public class ConstantInteger extends ConstantValue {
-	protected int value;
+    protected int value;
 
-	public ConstantInteger(int value) {
-		super(ConstantPoolTag.CONSTANT_Integer);
-		this.value = value;
-	}
+    public ConstantInteger(int value) {
+        super(ConstantPoolTag.CONSTANT_Integer);
+        this.value = value;
+    }
 
-	public int getValue() {
-		return value;
-	}
+    public int getValue() {
+        return value;
+    }
 
-	@Override
-	public String toString() {
-		return getClass().getSimpleName() + " " + value;
-	}
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + " " + value;
+    }
 }

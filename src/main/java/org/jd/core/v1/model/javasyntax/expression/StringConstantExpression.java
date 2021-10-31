@@ -11,41 +11,41 @@ import org.jd.core.v1.model.javasyntax.type.ObjectType;
 import org.jd.core.v1.model.javasyntax.type.Type;
 
 public class StringConstantExpression extends AbstractLineNumberExpression {
-	public static final StringConstantExpression EMPTY_STRING = new StringConstantExpression("");
+    public static final StringConstantExpression EMPTY_STRING = new StringConstantExpression("");
 
-	protected String string;
+    protected String string;
 
-	public StringConstantExpression(String string) {
-		this.string = string;
-	}
+    public StringConstantExpression(String string) {
+        this.string = string;
+    }
 
-	public StringConstantExpression(int lineNumber, String string) {
-		super(lineNumber);
-		this.string = string;
-	}
+    public StringConstantExpression(int lineNumber, String string) {
+        super(lineNumber);
+        this.string = string;
+    }
 
-	@Override
-	public String getStringValue() {
-		return string;
-	}
+    @Override
+    public String getStringValue() {
+        return string;
+    }
 
-	@Override
-	public Type getType() {
-		return ObjectType.TYPE_STRING;
-	}
+    @Override
+    public Type getType() {
+        return ObjectType.TYPE_STRING;
+    }
 
-	@Override
-	public boolean isStringConstantExpression() {
-		return true;
-	}
+    @Override
+    public boolean isStringConstantExpression() {
+        return true;
+    }
 
-	@Override
-	public void accept(ExpressionVisitor visitor) {
-		visitor.visit(this);
-	}
+    @Override
+    public void accept(ExpressionVisitor visitor) {
+        visitor.visit(this);
+    }
 
-	@Override
-	public String toString() {
-		return "StringConstantExpression(\"" + string + "\")";
-	}
+    @Override
+    public String toString() {
+        return "StringConstantExpression(\"" + string + "\")";
+    }
 }

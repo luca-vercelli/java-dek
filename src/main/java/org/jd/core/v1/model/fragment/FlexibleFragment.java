@@ -13,84 +13,84 @@ import org.jd.core.v1.model.javafragment.JavaFragment;
  * A Fragment that can be moved
  */
 public abstract class FlexibleFragment implements Fragment, JavaFragment {
-	protected final int minimalLineCount;
-	protected int maximalLineCount;
-	protected int initialLineCount;
-	protected int lineCount;
-	protected final int weight;
-	protected final String label;
+    protected final int minimalLineCount;
+    protected int maximalLineCount;
+    protected int initialLineCount;
+    protected int lineCount;
+    protected final int weight;
+    protected final String label;
 
-	public FlexibleFragment(int minimalLineCount, int lineCount, int maximalLineCount, int weight, String label) {
-		this.minimalLineCount = minimalLineCount;
-		this.maximalLineCount = maximalLineCount;
-		this.initialLineCount = this.lineCount = lineCount;
-		this.weight = weight;
-		this.label = label;
-	}
+    public FlexibleFragment(int minimalLineCount, int lineCount, int maximalLineCount, int weight, String label) {
+        this.minimalLineCount = minimalLineCount;
+        this.maximalLineCount = maximalLineCount;
+        this.initialLineCount = this.lineCount = lineCount;
+        this.weight = weight;
+        this.label = label;
+    }
 
-	public void resetLineCount() {
-		lineCount = initialLineCount;
-	}
+    public void resetLineCount() {
+        lineCount = initialLineCount;
+    }
 
-	public int getMinimalLineCount() {
-		return minimalLineCount;
-	}
+    public int getMinimalLineCount() {
+        return minimalLineCount;
+    }
 
-	public int getMaximalLineCount() {
-		return maximalLineCount;
-	}
+    public int getMaximalLineCount() {
+        return maximalLineCount;
+    }
 
-	public int getInitialLineCount() {
-		return initialLineCount;
-	}
+    public int getInitialLineCount() {
+        return initialLineCount;
+    }
 
-	public int getLineCount() {
-		return lineCount;
-	}
+    public int getLineCount() {
+        return lineCount;
+    }
 
-	public int getWeight() {
-		return weight;
-	}
+    public int getWeight() {
+        return weight;
+    }
 
-	public String getLabel() {
-		return label;
-	}
+    public String getLabel() {
+        return label;
+    }
 
-	/**
-	 * Increment line count, within maximalLineCount
-	 * 
-	 * @param force here it is ignored, it may be used in subclasses
-	 */
-	public boolean incLineCount(boolean force) {
-		if (lineCount < maximalLineCount) {
-			lineCount++;
-			return true;
-		} else {
-			return false;
-		}
-	}
+    /**
+     * Increment line count, within maximalLineCount
+     * 
+     * @param force here it is ignored, it may be used in subclasses
+     */
+    public boolean incLineCount(boolean force) {
+        if (lineCount < maximalLineCount) {
+            lineCount++;
+            return true;
+        } else {
+            return false;
+        }
+    }
 
-	/**
-	 * Decrement line count, if not below minimalLineCount
-	 * 
-	 * @param force here it is ignored, it may be used in subclasses
-	 */
-	public boolean decLineCount(boolean force) {
-		if (lineCount > minimalLineCount) {
-			lineCount--;
-			return true;
-		} else {
-			return false;
-		}
-	}
+    /**
+     * Decrement line count, if not below minimalLineCount
+     * 
+     * @param force here it is ignored, it may be used in subclasses
+     */
+    public boolean decLineCount(boolean force) {
+        if (lineCount > minimalLineCount) {
+            lineCount--;
+            return true;
+        } else {
+            return false;
+        }
+    }
 
-	@Override
-	public String toString() {
-		return getClass().getSimpleName() + "(" + minimalLineCount + "-" + maximalLineCount + ")";
-	}
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + "(" + minimalLineCount + "-" + maximalLineCount + ")";
+    }
 
-	@Override
-	public void accept(FragmentVisitor visitor) {
-		visitor.visit(this);
-	}
+    @Override
+    public void accept(FragmentVisitor visitor) {
+        visitor.visit(this);
+    }
 }

@@ -12,7 +12,7 @@ import org.jd.core.v1.model.javasyntax.expression.Expression;
 import org.jd.core.v1.model.javasyntax.type.PrimitiveType;
 
 public class ClassFileCmpExpression extends BinaryOperatorExpression {
-	public ClassFileCmpExpression(int lineNumber, Expression leftExpression, Expression rightExpression) {
-		super(lineNumber, PrimitiveType.TYPE_INT, leftExpression, "cmp", rightExpression, 7);
-	}
+    public ClassFileCmpExpression(int lineNumber, Expression leftExpression, Expression rightExpression) {
+        super(lineNumber, PrimitiveType.TYPE_INT, leftExpression, "cmp", rightExpression, 7);
+    }
 }

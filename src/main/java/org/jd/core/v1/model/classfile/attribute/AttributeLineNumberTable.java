@@ -10,18 +10,18 @@ package org.jd.core.v1.model.classfile.attribute;
 import java.util.Arrays;
 
 public class AttributeLineNumberTable implements Attribute {
-	protected LineNumber[] lineNumberTable;
+    protected LineNumber[] lineNumberTable;
 
-	public AttributeLineNumberTable(LineNumber[] lineNumberTable) {
-		this.lineNumberTable = lineNumberTable;
-	}
+    public AttributeLineNumberTable(LineNumber[] lineNumberTable) {
+        this.lineNumberTable = lineNumberTable;
+    }
 
-	public LineNumber[] getLineNumberTable() {
-		return lineNumberTable;
-	}
+    public LineNumber[] getLineNumberTable() {
+        return lineNumberTable;
+    }
 
-	@Override
-	public String toString() {
-		return getClass().getSimpleName() + " " + Arrays.asList(lineNumberTable);
-	}
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + " " + Arrays.asList(lineNumberTable);
+    }
 }

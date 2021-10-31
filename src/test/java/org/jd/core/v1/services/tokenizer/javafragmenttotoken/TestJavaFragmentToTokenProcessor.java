@@ -19,16 +19,16 @@ import org.jd.core.v1.services.tokenizer.javafragmenttotoken.visitor.TokenizeJav
  */
 public class TestJavaFragmentToTokenProcessor implements Processor {
 
-	@Override
-	public void process(Message message) {
-		List<JavaFragment> fragments = message.getFragments();
-		TokenizeJavaFragmentTestVisitor visitor = new TokenizeJavaFragmentTestVisitor(fragments.size() * 3);
+    @Override
+    public void process(Message message) {
+        List<JavaFragment> fragments = message.getFragments();
+        TokenizeJavaFragmentTestVisitor visitor = new TokenizeJavaFragmentTestVisitor(fragments.size() * 3);
 
-		// Create tokens
-		for (JavaFragment fragment : fragments) {
-			fragment.accept(visitor);
-		}
+        // Create tokens
+        for (JavaFragment fragment : fragments) {
+            fragment.accept(visitor);
+        }
 
-		message.setTokens(visitor.getTokens());
-	}
+        message.setTokens(visitor.getTokens());
+    }
 }

@@ -13,27 +13,27 @@ import java.util.Collection;
 
 public class ElementValues extends DefaultList<ElementValue> implements BaseElementValue {
 
-	private static final long serialVersionUID = -2069769574865217316L;
+    private static final long serialVersionUID = -2069769574865217316L;
 
-	public ElementValues() {
-	}
+    public ElementValues() {
+    }
 
-	public ElementValues(int capacity) {
-		super(capacity);
-	}
+    public ElementValues(int capacity) {
+        super(capacity);
+    }
 
-	public ElementValues(Collection<ElementValue> collection) {
-		super(collection);
-		assert (collection != null) && (collection.size() > 1) : "Uses 'ElementValue' or sub class instead";
-	}
+    public ElementValues(Collection<ElementValue> collection) {
+        super(collection);
+        assert (collection != null) && (collection.size() > 1) : "Uses 'ElementValue' or sub class instead";
+    }
 
-	@Override
-	public void accept(ReferenceVisitor visitor) {
-		visitor.visit(this);
-	}
+    @Override
+    public void accept(ReferenceVisitor visitor) {
+        visitor.visit(this);
+    }
 
-	@Override
-	public String toString() {
-		return "ElementValues(" + super.toString() + ")";
-	}
+    @Override
+    public String toString() {
+        return "ElementValues(" + super.toString() + ")";
+    }
 }

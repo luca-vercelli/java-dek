@@ -11,25 +11,25 @@ import org.jd.core.v1.model.javasyntax.expression.Expression;
 import org.jd.core.v1.model.javasyntax.statement.CommentStatement;
 
 public class ClassFileMonitorEnterStatement extends CommentStatement {
-	protected Expression monitor;
+    protected Expression monitor;
 
-	public ClassFileMonitorEnterStatement(Expression monitor) {
-		super("/* monitor enter " + monitor + " */");
-		this.monitor = monitor;
-	}
+    public ClassFileMonitorEnterStatement(Expression monitor) {
+        super("/* monitor enter " + monitor + " */");
+        this.monitor = monitor;
+    }
 
-	@Override
-	public Expression getMonitor() {
-		return monitor;
-	}
+    @Override
+    public Expression getMonitor() {
+        return monitor;
+    }
 
-	@Override
-	public boolean isMonitorEnterStatement() {
-		return true;
-	}
+    @Override
+    public boolean isMonitorEnterStatement() {
+        return true;
+    }
 
-	@Override
-	public String toString() {
-		return "ClassFileMonitorEnterStatement{" + monitor + "}";
-	}
+    @Override
+    public String toString() {
+        return "ClassFileMonitorEnterStatement{" + monitor + "}";
+    }
 }

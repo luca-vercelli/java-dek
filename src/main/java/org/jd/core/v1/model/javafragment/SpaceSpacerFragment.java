@@ -9,12 +9,12 @@ package org.jd.core.v1.model.javafragment;
 
 public class SpaceSpacerFragment extends SpacerFragment {
 
-	public SpaceSpacerFragment(int minimalLineCount, int lineCount, int maximalLineCount, int weight, String label) {
-		super(minimalLineCount, lineCount, maximalLineCount, weight, label);
-	}
+    public SpaceSpacerFragment(int minimalLineCount, int lineCount, int maximalLineCount, int weight, String label) {
+        super(minimalLineCount, lineCount, maximalLineCount, weight, label);
+    }
 
-	@Override
-	public void accept(JavaFragmentVisitor visitor) {
-		visitor.visit(this);
-	}
+    @Override
+    public void accept(JavaFragmentVisitor visitor) {
+        visitor.visit(this);
+    }
 }

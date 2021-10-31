@@ -8,18 +8,18 @@
 package org.jd.core.v1.model.classfile.attribute.elementValue;
 
 public class ElementValueClassInfo implements ElementValue {
-	protected String classInfo;
+    protected String classInfo;
 
-	public ElementValueClassInfo(String classInfo) {
-		this.classInfo = classInfo;
-	}
+    public ElementValueClassInfo(String classInfo) {
+        this.classInfo = classInfo;
+    }
 
-	public String getClassInfo() {
-		return classInfo;
-	}
+    public String getClassInfo() {
+        return classInfo;
+    }
 
-	@Override
-	public void accept(ElementValueVisitor visitor) {
-		visitor.visit(this);
-	}
+    @Override
+    public void accept(ElementValueVisitor visitor) {
+        visitor.visit(this);
+    }
 }

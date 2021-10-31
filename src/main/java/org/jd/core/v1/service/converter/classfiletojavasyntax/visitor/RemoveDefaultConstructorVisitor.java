@@ -32,110 +32,110 @@ import org.jd.core.v1.service.converter.classfiletojavasyntax.model.javasyntax.d
 import org.jd.core.v1.service.converter.classfiletojavasyntax.model.javasyntax.declaration.ClassFileMemberDeclaration;
 
 public class RemoveDefaultConstructorVisitor extends AbstractJavaSyntaxVisitor {
-	protected int constructorCounter;
-	protected ClassFileMemberDeclaration constructor;
+    protected int constructorCounter;
+    protected ClassFileMemberDeclaration constructor;
 
-	@Override
-	public void visit(AnnotationDeclaration declaration) {
-		safeAccept(declaration.getBodyDeclaration());
-	}
+    @Override
+    public void visit(AnnotationDeclaration declaration) {
+        safeAccept(declaration.getBodyDeclaration());
+    }
 
-	/**
-	 * Visit methods, then if there is only 1 constructor and it is empty, remove
-	 * it.
-	 */
-	@Override
-	public void visit(BodyDeclaration declaration) {
-		ClassFileBodyDeclaration bodyDeclaration = (ClassFileBodyDeclaration) declaration;
-		List<ClassFileConstructorOrMethodDeclaration> methods = bodyDeclaration.getMethodDeclarations();
+    /**
+     * Visit methods, then if there is only 1 constructor and it is empty, remove
+     * it.
+     */
+    @Override
+    public void visit(BodyDeclaration declaration) {
+        ClassFileBodyDeclaration bodyDeclaration = (ClassFileBodyDeclaration) declaration;
+        List<ClassFileConstructorOrMethodDeclaration> methods = bodyDeclaration.getMethodDeclarations();
 
-		constructor = null;
-		constructorCounter = 0;
-		safeAcceptListDeclaration(methods);
+        constructor = null;
+        constructorCounter = 0;
+        safeAcceptListDeclaration(methods);
 
-		if ((constructorCounter == 1) && (constructor != null)) {
-			// Remove empty default constructor
-			methods.remove(constructor);
-		}
-	}
+        if ((constructorCounter == 1) && (constructor != null)) {
+            // Remove empty default constructor
+            methods.remove(constructor);
+        }
+    }
 
-	@Override
-	public void visit(FieldDeclaration declaration) {
-	}
+    @Override
+    public void visit(FieldDeclaration declaration) {
+    }
 
-	/**
-	 * Increment constructorCounter for every found constructor.
-	 * 
-	 * If empty constructor is given, store it.
-	 * 
-	 * Remove no-parameter super constructor call and anonymous class super
-	 * constructor call.
-	 */
-	@Override
-	public void visit(ConstructorDeclaration declaration) {
-		if ((declaration.getFlags() & ACC_ABSTRACT) == 0) {
-			ClassFileConstructorDeclaration cfcd = (ClassFileConstructorDeclaration) declaration;
+    /**
+     * Increment constructorCounter for every found constructor.
+     * 
+     * If empty constructor is given, store it.
+     * 
+     * Remove no-parameter super constructor call and anonymous class super
+     * constructor call.
+     */
+    @Override
+    public void visit(ConstructorDeclaration declaration) {
+        if ((declaration.getFlags() & ACC_ABSTRACT) == 0) {
+            ClassFileConstructorDeclaration cfcd = (ClassFileConstructorDeclaration) declaration;
 
-			if ((cfcd.getStatements() != null) && cfcd.getStatements().isStatements()) {
-				Statements statements = (Statements) cfcd.getStatements();
+            if ((cfcd.getStatements() != null) && cfcd.getStatements().isStatements()) {
+                Statements statements = (Statements) cfcd.getStatements();
 
-				// Remove no-parameter super constructor call and anonymous class super
-				// constructor call
-				Iterator<Statement> iterator = statements.iterator();
+                // Remove no-parameter super constructor call and anonymous class super
+                // constructor call
+                Iterator<Statement> iterator = statements.iterator();
 
-				while (iterator.hasNext()) {
-					Expression es = iterator.next().getExpression();
+                while (iterator.hasNext()) {
+                    Expression es = iterator.next().getExpression();
 
-					if (es.isSuperConstructorInvocationExpression()) {
-						if ((declaration.getFlags() & ACC_ANONYMOUS) == 0) {
-							BaseExpression parameters = es.getParameters();
+                    if (es.isSuperConstructorInvocationExpression()) {
+                        if ((declaration.getFlags() & ACC_ANONYMOUS) == 0) {
+                            BaseExpression parameters = es.getParameters();
 
-							if ((parameters == null) || (parameters.size() == 0)) {
-								// Remove 'super();'
-								iterator.remove();
-								break;
-							}
-						} else {
-							// Remove anonymous class super constructor call
-							iterator.remove();
-							break;
-						}
-					}
-				}
+                            if ((parameters == null) || (parameters.size() == 0)) {
+                                // Remove 'super();'
+                                iterator.remove();
+                                break;
+                            }
+                        } else {
+                            // Remove anonymous class super constructor call
+                            iterator.remove();
+                            break;
+                        }
+                    }
+                }
 
-				// Store empty default constructor
-				if (statements.isEmpty()) {
-					if ((cfcd.getFormalParameters() == null) || (cfcd.getFormalParameters().size() == 0)) {
-						constructor = cfcd;
-					}
-				}
-			}
+                // Store empty default constructor
+                if (statements.isEmpty()) {
+                    if ((cfcd.getFormalParameters() == null) || (cfcd.getFormalParameters().size() == 0)) {
+                        constructor = cfcd;
+                    }
+                }
+            }
 
-			// Inc constructor counter
-			constructorCounter++;
-		}
-	}
+            // Inc constructor counter
+            constructorCounter++;
+        }
+    }
 
-	@Override
-	public void visit(MethodDeclaration declaration) {
-	}
+    @Override
+    public void visit(MethodDeclaration declaration) {
+    }
 
-	@Override
-	public void visit(StaticInitializerDeclaration declaration) {
-	}
+    @Override
+    public void visit(StaticInitializerDeclaration declaration) {
+    }
 
-	@Override
-	public void visit(ClassDeclaration declaration) {
-		safeAccept(declaration.getBodyDeclaration());
-	}
+    @Override
+    public void visit(ClassDeclaration declaration) {
+        safeAccept(declaration.getBodyDeclaration());
+    }
 
-	@Override
-	public void visit(EnumDeclaration declaration) {
-		safeAccept(declaration.getBodyDeclaration());
-	}
+    @Override
+    public void visit(EnumDeclaration declaration) {
+        safeAccept(declaration.getBodyDeclaration());
+    }
 
-	@Override
-	public void visit(InterfaceDeclaration declaration) {
-		safeAccept(declaration.getBodyDeclaration());
-	}
+    @Override
+    public void visit(InterfaceDeclaration declaration) {
+        safeAccept(declaration.getBodyDeclaration());
+    }
 }

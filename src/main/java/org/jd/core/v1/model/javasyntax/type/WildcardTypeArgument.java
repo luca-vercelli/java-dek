@@ -13,28 +13,28 @@ import java.util.Map;
  * This is the wildcard type "?"
  */
 public class WildcardTypeArgument implements TypeArgument {
-	public static final WildcardTypeArgument WILDCARD_TYPE_ARGUMENT = new WildcardTypeArgument();
+    public static final WildcardTypeArgument WILDCARD_TYPE_ARGUMENT = new WildcardTypeArgument();
 
-	private WildcardTypeArgument() {
-	}
+    private WildcardTypeArgument() {
+    }
 
-	@Override
-	public boolean isTypeArgumentAssignableFrom(Map<String, BaseType> typeBounds, BaseTypeArgument typeArgument) {
-		return true;
-	}
+    @Override
+    public boolean isTypeArgumentAssignableFrom(Map<String, BaseType> typeBounds, BaseTypeArgument typeArgument) {
+        return true;
+    }
 
-	@Override
-	public void accept(TypeArgumentVisitor visitor) {
-		visitor.visit(this);
-	}
+    @Override
+    public void accept(TypeArgumentVisitor visitor) {
+        visitor.visit(this);
+    }
 
-	@Override
-	public boolean isWildcardTypeArgument() {
-		return true;
-	}
+    @Override
+    public boolean isWildcardTypeArgument() {
+        return true;
+    }
 
-	@Override
-	public String toString() {
-		return "Wildcard{?}";
-	}
+    @Override
+    public String toString() {
+        return "Wildcard{?}";
+    }
 }

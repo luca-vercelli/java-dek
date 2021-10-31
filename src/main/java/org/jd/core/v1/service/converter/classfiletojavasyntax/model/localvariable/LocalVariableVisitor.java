@@ -8,9 +8,9 @@
 package org.jd.core.v1.service.converter.classfiletojavasyntax.model.localvariable;
 
 public interface LocalVariableVisitor {
-	void visit(GenericLocalVariable localVariable);
+    void visit(GenericLocalVariable localVariable);
 
-	void visit(ObjectLocalVariable localVariable);
+    void visit(ObjectLocalVariable localVariable);
 
-	void visit(PrimitiveLocalVariable localVariable);
+    void visit(PrimitiveLocalVariable localVariable);
 }

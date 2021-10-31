@@ -11,22 +11,22 @@ import org.jd.core.v1.model.javasyntax.declaration.AnnotationDeclaration;
 import org.jd.core.v1.model.javasyntax.reference.BaseAnnotationReference;
 
 public class ClassFileAnnotationDeclaration extends AnnotationDeclaration implements ClassFileTypeDeclaration {
-	protected int firstLineNumber;
+    protected int firstLineNumber;
 
-	public ClassFileAnnotationDeclaration(BaseAnnotationReference annotationReferences, int flags, String internalName,
-			String name, ClassFileBodyDeclaration bodyDeclaration) {
-		super(annotationReferences, flags, internalName, name, null, bodyDeclaration);
-		this.firstLineNumber = bodyDeclaration == null ? 0 : bodyDeclaration.getFirstLineNumber();
-	}
+    public ClassFileAnnotationDeclaration(BaseAnnotationReference annotationReferences, int flags, String internalName,
+            String name, ClassFileBodyDeclaration bodyDeclaration) {
+        super(annotationReferences, flags, internalName, name, null, bodyDeclaration);
+        this.firstLineNumber = bodyDeclaration == null ? 0 : bodyDeclaration.getFirstLineNumber();
+    }
 
-	@Override
-	public int getFirstLineNumber() {
-		return firstLineNumber;
-	}
+    @Override
+    public int getFirstLineNumber() {
+        return firstLineNumber;
+    }
 
-	@Override
-	public String toString() {
-		return "ClassFileAnnotationDeclaration{" + internalTypeName + ", annotations=(" + annotationReferences
-				+ "), body=" + bodyDeclaration + "}";
-	}
+    @Override
+    public String toString() {
+        return "ClassFileAnnotationDeclaration{" + internalTypeName + ", annotations=(" + annotationReferences
+                + "), body=" + bodyDeclaration + "}";
+    }
 }

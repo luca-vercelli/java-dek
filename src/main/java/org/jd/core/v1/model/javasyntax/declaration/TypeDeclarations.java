@@ -17,15 +17,15 @@ import java.util.Collection;
  */
 public class TypeDeclarations extends DefaultList<MemberDeclaration> implements BaseTypeDeclaration {
 
-	private static final long serialVersionUID = -2290938091904810647L;
+    private static final long serialVersionUID = -2290938091904810647L;
 
-	public TypeDeclarations(Collection<MemberDeclaration> collection) {
-		super(collection);
-		assert (collection != null) && (collection.size() > 1) : "Uses 'TypeDeclaration' or sub class instead";
-	}
+    public TypeDeclarations(Collection<MemberDeclaration> collection) {
+        super(collection);
+        assert (collection != null) && (collection.size() > 1) : "Uses 'TypeDeclaration' or sub class instead";
+    }
 
-	@Override
-	public void accept(DeclarationVisitor visitor) {
-		visitor.visit(this);
-	}
+    @Override
+    public void accept(DeclarationVisitor visitor) {
+        visitor.visit(this);
+    }
 }

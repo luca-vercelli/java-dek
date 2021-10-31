@@ -8,15 +8,15 @@
 package org.jd.core.v1.service.converter.classfiletojavasyntax.model.localvariable;
 
 public abstract class AbstractNopLocalVariableVisitor implements LocalVariableVisitor {
-	@Override
-	public void visit(GenericLocalVariable localVariable) {
-	}
+    @Override
+    public void visit(GenericLocalVariable localVariable) {
+    }
 
-	@Override
-	public void visit(ObjectLocalVariable localVariable) {
-	}
+    @Override
+    public void visit(ObjectLocalVariable localVariable) {
+    }
 
-	@Override
-	public void visit(PrimitiveLocalVariable localVariable) {
-	}
+    @Override
+    public void visit(PrimitiveLocalVariable localVariable) {
+    }
 }

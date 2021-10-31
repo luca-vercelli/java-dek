@@ -25,133 +25,133 @@ import org.junit.Test;
 
 public class JavaTryWithResourcesTest {
 
-	protected TestDecompiler decompiler = new TestDecompiler();
+    protected TestDecompiler decompiler = new TestDecompiler();
 
-	@Test
-	public void testJdk170TryWithResources() throws Exception {
-		String internalClassName = "org/jd/core/test/TryWithResources";
-		InputStream is = this.getClass().getResourceAsStream("/zip/data-java-jdk-1.7.0.zip");
-		Loader loader = new ZipLoader(is);
-		CompileConfiguration configuration = new CompileConfiguration().setRealignLineNumbers(true);
-		String source = decompiler.decompile(loader, internalClassName, configuration);
+    @Test
+    public void testJdk170TryWithResources() throws Exception {
+        String internalClassName = "org/jd/core/test/TryWithResources";
+        InputStream is = this.getClass().getResourceAsStream("/zip/data-java-jdk-1.7.0.zip");
+        Loader loader = new ZipLoader(is);
+        CompileConfiguration configuration = new CompileConfiguration().setRealignLineNumbers(true);
+        String source = decompiler.decompile(loader, internalClassName, configuration);
 
-		// Check decompiled source code
-		assertMatch(source, "try (FileInputStream input = new FileInputStream(path))", 12);
+        // Check decompiled source code
+        assertMatch(source, "try (FileInputStream input = new FileInputStream(path))", 12);
 
-		assertMatch(source, "try (FileInputStream input = new FileInputStream(path))", 49);
-		assertMatch(source, "e.printStackTrace();", 57);
-		assertMatch(source, "System.out.println(\"finally\");", 59);
+        assertMatch(source, "try (FileInputStream input = new FileInputStream(path))", 49);
+        assertMatch(source, "e.printStackTrace();", 57);
+        assertMatch(source, "System.out.println(\"finally\");", 59);
 
-		assertMatch(source, "try(FileInputStream input = new FileInputStream(pathIn);", 121);
-		assertMatch(source, "BufferedInputStream bufferedInput = new BufferedInputStream(input);", 122);
-		assertMatch(source, "FileOutputStream output = new FileOutputStream(pathOut);", 123);
-		assertMatch(source, "BufferedOutputStream bufferedOutput = new BufferedOutputStream(output))", 124);
-		assertMatch(source, "if (data == -7)", 132);
-		assertMatch(source, "return 1;", 133);
-		assertMatch(source, "return 2;", 142);
-		assertMatch(source, "e.printStackTrace();", 144);
-		assertMatch(source, "e.printStackTrace();", 150);
-		assertMatch(source, "System.out.println(\"finally, before loop\");", 152);
-		assertMatch(source, "System.out.println(\"finally, after loop\");", 156);
-		assertMatch(source, "System.out.println(\"finally\");", 159);
-		assertMatch(source, "return 3;", 162);
+        assertMatch(source, "try(FileInputStream input = new FileInputStream(pathIn);", 121);
+        assertMatch(source, "BufferedInputStream bufferedInput = new BufferedInputStream(input);", 122);
+        assertMatch(source, "FileOutputStream output = new FileOutputStream(pathOut);", 123);
+        assertMatch(source, "BufferedOutputStream bufferedOutput = new BufferedOutputStream(output))", 124);
+        assertMatch(source, "if (data == -7)", 132);
+        assertMatch(source, "return 1;", 133);
+        assertMatch(source, "return 2;", 142);
+        assertMatch(source, "e.printStackTrace();", 144);
+        assertMatch(source, "e.printStackTrace();", 150);
+        assertMatch(source, "System.out.println(\"finally, before loop\");", 152);
+        assertMatch(source, "System.out.println(\"finally, after loop\");", 156);
+        assertMatch(source, "System.out.println(\"finally\");", 159);
+        assertMatch(source, "return 3;", 162);
 
-		assertMatch(source, "/* 162: 162 */");
+        assertMatch(source, "/* 162: 162 */");
 
-		// Recompile decompiled source code and check errors
-		assertTrue(CompilerUtil.compile("1.7", new JavaSourceFileObject(internalClassName, source)));
-	}
+        // Recompile decompiled source code and check errors
+        assertTrue(CompilerUtil.compile("1.7", new JavaSourceFileObject(internalClassName, source)));
+    }
 
-	@Test
-	public void testJdk180TryWithResources() throws Exception {
-		String internalClassName = "org/jd/core/test/TryWithResources";
-		InputStream is = this.getClass().getResourceAsStream("/zip/data-java-jdk-1.8.0.zip");
-		Loader loader = new ZipLoader(is);
-		CompileConfiguration configuration = new CompileConfiguration().setRealignLineNumbers(true);
-		String source = decompiler.decompile(loader, internalClassName, configuration);
+    @Test
+    public void testJdk180TryWithResources() throws Exception {
+        String internalClassName = "org/jd/core/test/TryWithResources";
+        InputStream is = this.getClass().getResourceAsStream("/zip/data-java-jdk-1.8.0.zip");
+        Loader loader = new ZipLoader(is);
+        CompileConfiguration configuration = new CompileConfiguration().setRealignLineNumbers(true);
+        String source = decompiler.decompile(loader, internalClassName, configuration);
 
-		// Check decompiled source code
-		assertMatch(source, "try (FileInputStream input = new FileInputStream(path))", 12);
+        // Check decompiled source code
+        assertMatch(source, "try (FileInputStream input = new FileInputStream(path))", 12);
 
-		assertMatch(source, "try (FileInputStream input = new FileInputStream(path))", 49);
-		assertMatch(source, "e.printStackTrace();", 57);
-		assertMatch(source, "System.out.println(\"finally\");", 59);
+        assertMatch(source, "try (FileInputStream input = new FileInputStream(path))", 49);
+        assertMatch(source, "e.printStackTrace();", 57);
+        assertMatch(source, "System.out.println(\"finally\");", 59);
 
-		assertMatch(source, "try(FileInputStream input = new FileInputStream(pathIn);", 121);
-		assertMatch(source, "BufferedInputStream bufferedInput = new BufferedInputStream(input);", 122);
-		assertMatch(source, "FileOutputStream output = new FileOutputStream(pathOut);", 123);
-		assertMatch(source, "BufferedOutputStream bufferedOutput = new BufferedOutputStream(output))", 124);
-		assertMatch(source, "if (data == -7)", 132);
-		assertMatch(source, "return 1;", 133);
-		assertMatch(source, "return 2;", 142);
-		assertMatch(source, "e.printStackTrace();", 144);
-		assertMatch(source, "e.printStackTrace();", 150);
-		assertMatch(source, "System.out.println(\"finally, before loop\");", 152);
-		assertMatch(source, "System.out.println(\"finally, after loop\");", 156);
-		assertMatch(source, "System.out.println(\"finally\");", 159);
-		assertMatch(source, "return 3;", 162);
+        assertMatch(source, "try(FileInputStream input = new FileInputStream(pathIn);", 121);
+        assertMatch(source, "BufferedInputStream bufferedInput = new BufferedInputStream(input);", 122);
+        assertMatch(source, "FileOutputStream output = new FileOutputStream(pathOut);", 123);
+        assertMatch(source, "BufferedOutputStream bufferedOutput = new BufferedOutputStream(output))", 124);
+        assertMatch(source, "if (data == -7)", 132);
+        assertMatch(source, "return 1;", 133);
+        assertMatch(source, "return 2;", 142);
+        assertMatch(source, "e.printStackTrace();", 144);
+        assertMatch(source, "e.printStackTrace();", 150);
+        assertMatch(source, "System.out.println(\"finally, before loop\");", 152);
+        assertMatch(source, "System.out.println(\"finally, after loop\");", 156);
+        assertMatch(source, "System.out.println(\"finally\");", 159);
+        assertMatch(source, "return 3;", 162);
 
-		assertMatch(source, "/* 162: 162 */");
+        assertMatch(source, "/* 162: 162 */");
 
-		// Recompile decompiled source code and check errors
-		assertTrue(CompilerUtil.compile("1.8", new JavaSourceFileObject(internalClassName, source)));
-	}
+        // Recompile decompiled source code and check errors
+        assertTrue(CompilerUtil.compile("1.8", new JavaSourceFileObject(internalClassName, source)));
+    }
 
-	// derived from org/jd/core/test/TryWithResources
-	static class TestClass1 {
+    // derived from org/jd/core/test/TryWithResources
+    static class TestClass1 {
 
-		public void t(String pathIn, String pathOut) {
-			try (FileInputStream input = new FileInputStream(pathIn);
-					FileOutputStream output = new FileOutputStream(pathOut)) {
-				System.out.println("inside try");
-			} catch (IOException e) {
-				System.out.println("inside catch");
-			} finally {
-				System.out.println("inside finally");
-			}
-		}
-	}
+        public void t(String pathIn, String pathOut) {
+            try (FileInputStream input = new FileInputStream(pathIn);
+                    FileOutputStream output = new FileOutputStream(pathOut)) {
+                System.out.println("inside try");
+            } catch (IOException e) {
+                System.out.println("inside catch");
+            } finally {
+                System.out.println("inside finally");
+            }
+        }
+    }
 
-	@Test
-	public void testTryWithResourceBasic() throws Exception {
+    @Test
+    public void testTryWithResourceBasic() throws Exception {
 
-		String internalClassName = TestClass1.class.getName().replace('.', '/');
-		String source = decompiler.decompile(internalClassName);
+        String internalClassName = TestClass1.class.getName().replace('.', '/');
+        String source = decompiler.decompile(internalClassName);
 
-		// Check decompiled source code
-		assertMatch(source, "try (FileInputStream input = new FileInputStream(pathIn);");
-		assertMatch(source, "FileOutputStream output = new FileOutputStream(pathOut)) {");
-		assertMatch(source, "} catch (IOException e) {");
-		assertMatch(source, "} finally {");
+        // Check decompiled source code
+        assertMatch(source, "try (FileInputStream input = new FileInputStream(pathIn);");
+        assertMatch(source, "FileOutputStream output = new FileOutputStream(pathOut)) {");
+        assertMatch(source, "} catch (IOException e) {");
+        assertMatch(source, "} finally {");
 
-		// Recompile decompiled source code and check errors
-		assertTrue(CompilerUtil.compile("1.8", new JavaSourceFileObject(internalClassName, source)));
-	}
+        // Recompile decompiled source code and check errors
+        assertTrue(CompilerUtil.compile("1.8", new JavaSourceFileObject(internalClassName, source)));
+    }
 
-	static class TestClass implements AutoCloseable {
-		@Override
-		public void close() {
-		}
+    static class TestClass implements AutoCloseable {
+        @Override
+        public void close() {
+        }
 
-		static int test() {
-			try (TestClass obj = new TestClass()) {
-				return 1;
-			}
-		}
-	}
+        static int test() {
+            try (TestClass obj = new TestClass()) {
+                return 1;
+            }
+        }
+    }
 
-	@Test
-	// https://github.com/java-decompiler/jd-core/issues/23 // FIXME
-	public void testTryWithResource() throws Exception {
+    @Test
+    // https://github.com/java-decompiler/jd-core/issues/23 // FIXME
+    public void testTryWithResource() throws Exception {
 
-		String internalClassName = TestClass.class.getName().replace('.', '/');
-		String source = decompiler.decompile(internalClassName);
+        String internalClassName = TestClass.class.getName().replace('.', '/');
+        String source = decompiler.decompile(internalClassName);
 
-		// Check decompiled source code
-		assertMatch(source, "try (TestClass obj = new TestClass()) {", 138);
-		assertMatch(source, "return 1;", 139);
+        // Check decompiled source code
+        assertMatch(source, "try (TestClass obj = new TestClass()) {", 138);
+        assertMatch(source, "return 1;", 139);
 
-		// Recompile decompiled source code and check errors
-		assertTrue(CompilerUtil.compile("1.8", new JavaSourceFileObject(internalClassName, source)));
-	}
+        // Recompile decompiled source code and check errors
+        assertTrue(CompilerUtil.compile("1.8", new JavaSourceFileObject(internalClassName, source)));
+    }
 }
