@@ -112,9 +112,10 @@ public class Application {
 	 */
 	protected List<String> getClassesInZip(ZipLoader loader) {
 		List<String> ret = new ArrayList<>();
+		final int LEN = ".class".length();
 		for (String fileName : loader.getMap().keySet()) {
 			if (fileName.endsWith(".class") && !fileName.contains("$")) {
-				ret.add(fileName.substring(0, fileName.length() - 6));
+				ret.add(fileName.substring(0, fileName.length() - LEN));
 			}
 		}
 		return ret;

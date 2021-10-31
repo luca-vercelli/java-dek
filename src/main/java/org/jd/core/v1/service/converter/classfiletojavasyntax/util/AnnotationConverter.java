@@ -152,6 +152,8 @@ public class AnnotationConverter implements ElementValueVisitor {
 			elementValue = new ExpressionElementValue(
 					new StringConstantExpression(elementValuePrimitiveType.<ConstantUtf8>getConstValue().getValue()));
 			break;
+		default:
+			break;
 		}
 	}
 

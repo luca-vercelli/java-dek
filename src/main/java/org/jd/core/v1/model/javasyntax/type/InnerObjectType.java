@@ -59,17 +59,21 @@ public class InnerObjectType extends ObjectType {
 
 	@Override
 	public boolean equals(Object o) {
-		if (this == o)
+		if (this == o) {
 			return true;
-		if (!(o instanceof InnerObjectType))
+		}
+		if (!(o instanceof InnerObjectType)) {
 			return false;
-		if (!super.equals(o))
+		}
+		if (!super.equals(o)) {
 			return false;
+		}
 
 		InnerObjectType that = (InnerObjectType) o;
 
-		if (!outerType.equals(that.outerType))
+		if (!outerType.equals(that.outerType)) {
 			return false;
+		}
 
 		return true;
 	}

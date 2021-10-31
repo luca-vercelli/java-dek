@@ -9,16 +9,16 @@ package org.jd.core.v1.model.token;
 
 public class CharacterConstantToken implements Token {
 
-	protected String c;
+	protected String ch;
 	protected String ownerInternalName;
 
-	public CharacterConstantToken(String c, String ownerInternalName) {
-		this.c = c;
+	public CharacterConstantToken(String ch, String ownerInternalName) {
+		this.ch = ch;
 		this.ownerInternalName = ownerInternalName;
 	}
 
 	public String getCharacter() {
-		return c;
+		return ch;
 	}
 
 	public String getOwnerInternalName() {
@@ -26,7 +26,7 @@ public class CharacterConstantToken implements Token {
 	}
 
 	public String toString() {
-		return "CharacterConstantToken{'" + c + "'}";
+		return "CharacterConstantToken{'" + ch + "'}";
 	}
 
 	@Override

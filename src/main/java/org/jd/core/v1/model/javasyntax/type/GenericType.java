@@ -41,25 +41,30 @@ public class GenericType implements Type {
 	@Override
 	public Type createType(int dimension) {
 		assert dimension >= 0;
-		if (this.dimension == dimension)
+		if (this.dimension == dimension) {
 			return this;
-		else
+		} else {
 			return new GenericType(name, dimension);
+		}
 	}
 
 	@Override
 	public boolean equals(Object o) {
-		if (this == o)
+		if (this == o) {
 			return true;
-		if (o == null || getClass() != o.getClass())
+		}
+		if (o == null || getClass() != o.getClass()) {
 			return false;
+		}
 
 		GenericType that = (GenericType) o;
 
-		if (dimension != that.dimension)
+		if (dimension != that.dimension) {
 			return false;
-		if (!name.equals(that.name))
+		}
+		if (!name.equals(that.name)) {
 			return false;
+		}
 
 		return true;
 	}

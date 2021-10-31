@@ -15,54 +15,58 @@ import org.jd.core.v1.model.javasyntax.type.ObjectType;
 import org.jd.core.v1.service.converter.classfiletojavasyntax.model.localvariable.AbstractLocalVariable;
 
 public class ClassFileTryStatement extends TryStatement {
-    protected boolean jsr;
-    protected boolean eclipse;
+	protected boolean jsr;
+	protected boolean eclipse;
 
-    public ClassFileTryStatement(BaseStatement tryStatements, List<TryStatement.CatchClause> catchClauses, BaseStatement finallyStatements, boolean jsr, boolean eclipse) {
-        super(tryStatements, catchClauses, finallyStatements);
-        this.jsr = jsr;
-        this.eclipse = eclipse;
-    }
+	public ClassFileTryStatement(BaseStatement tryStatements, List<TryStatement.CatchClause> catchClauses,
+			BaseStatement finallyStatements, boolean jsr, boolean eclipse) {
+		super(tryStatements, catchClauses, finallyStatements);
+		this.jsr = jsr;
+		this.eclipse = eclipse;
+	}
 
-    public ClassFileTryStatement(List<Resource> resources, BaseStatement tryStatements, List<TryStatement.CatchClause> catchClauses, BaseStatement finallyStatements, boolean jsr, boolean eclipse) {
-        super(resources, tryStatements, catchClauses, finallyStatements);
-        this.jsr = jsr;
-        this.eclipse = eclipse;
-    }
+	public ClassFileTryStatement(List<Resource> resources, BaseStatement tryStatements,
+			List<TryStatement.CatchClause> catchClauses, BaseStatement finallyStatements, boolean jsr,
+			boolean eclipse) {
+		super(resources, tryStatements, catchClauses, finallyStatements);
+		this.jsr = jsr;
+		this.eclipse = eclipse;
+	}
 
-    public void addResources(List<Resource> resources) {
-        if (resources != null) {
-            if (this.resources == null) {
-                this.resources = resources;
-            } else {
-                this.resources.addAll(resources);
-            }
-        }
-    }
+	public void addResources(List<Resource> resources) {
+		if (resources != null) {
+			if (this.resources == null) {
+				this.resources = resources;
+			} else {
+				this.resources.addAll(resources);
+			}
+		}
+	}
 
-    public boolean isJsr() {
-        return jsr;
-    }
+	public boolean isJsr() {
+		return jsr;
+	}
 
-    public boolean isEclipse() {
-        return eclipse;
-    }
-	
-    public static class CatchClause extends TryStatement.CatchClause {
-        protected AbstractLocalVariable localVariable;
+	public boolean isEclipse() {
+		return eclipse;
+	}
 
-        public CatchClause(int lineNumber, ObjectType type, AbstractLocalVariable localVariable, BaseStatement statements) {
-            super(lineNumber, type, null, statements);
-            this.localVariable = localVariable;
-        }
+	public static class CatchClause extends TryStatement.CatchClause {
+		protected AbstractLocalVariable localVariable;
 
-        public AbstractLocalVariable getLocalVariable() {
-            return localVariable;
-        }
+		public CatchClause(int lineNumber, ObjectType type, AbstractLocalVariable localVariable,
+				BaseStatement statements) {
+			super(lineNumber, type, null, statements);
+			this.localVariable = localVariable;
+		}
 
-        @Override
-        public String getName() {
-            return localVariable.getName();
-        }
-    }
+		public AbstractLocalVariable getLocalVariable() {
+			return localVariable;
+		}
+
+		@Override
+		public String getName() {
+			return localVariable.getName();
+		}
+	}
 }

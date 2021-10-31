@@ -71,23 +71,23 @@ public class PrimitiveType implements Type {
         this.rightFlags = rightFlags;
 
         StringBuilder sb = new StringBuilder();
-
-        if ((flags & FLAG_DOUBLE) != 0)
-            sb.append('D');
-        else if ((flags & FLAG_FLOAT) != 0)
-            sb.append('F');
-        else if ((flags & FLAG_LONG) != 0)
-            sb.append('J');
-        else if ((flags & FLAG_BOOLEAN) != 0)
-            sb.append('Z');
-        else if ((flags & FLAG_BYTE) != 0)
-            sb.append('B');
-        else if ((flags & FLAG_CHAR) != 0)
-            sb.append('C');
-        else if ((flags & FLAG_SHORT) != 0)
-            sb.append('S');
-        else
-            sb.append('I');
+		if ((flags & FLAG_DOUBLE) != 0) {
+			sb.append('D');
+		} else if ((flags & FLAG_FLOAT) != 0) {
+			sb.append('F');
+		} else if ((flags & FLAG_LONG) != 0) {
+			sb.append('J');
+		} else if ((flags & FLAG_BOOLEAN) != 0) {
+			sb.append('Z');
+		} else if ((flags & FLAG_BYTE) != 0) {
+			sb.append('B');
+		} else if ((flags & FLAG_CHAR) != 0) {
+			sb.append('C');
+		} else if ((flags & FLAG_SHORT) != 0) {
+			sb.append('S');
+		} else {
+			sb.append('I');
+		}
 
         this.descriptor = sb.toString();
     }

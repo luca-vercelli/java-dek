@@ -51,11 +51,18 @@ public class BasicBlock {
     public static final int TYPE_TERNARY_OPERATOR                = (1 << 29);
     public static final int TYPE_JUMP                            = (1 << 30);
 
-    public static final int GROUP_SINGLE_SUCCESSOR  = TYPE_START|TYPE_STATEMENTS|TYPE_TRY_DECLARATION|TYPE_JSR|TYPE_LOOP|TYPE_IF|TYPE_IF_ELSE|TYPE_SWITCH|TYPE_TRY|TYPE_TRY_JSR|TYPE_TRY_ECLIPSE|TYPE_GOTO|TYPE_GOTO_IN_TERNARY_OPERATOR|TYPE_TERNARY_OPERATOR;
-    public static final int GROUP_SYNTHETIC         = TYPE_START|TYPE_END|TYPE_CONDITIONAL_BRANCH|TYPE_SWITCH_DECLARATION|TYPE_TRY_DECLARATION|TYPE_RET|TYPE_GOTO|TYPE_JUMP;
-    public static final int GROUP_CODE              = TYPE_STATEMENTS|TYPE_THROW|TYPE_RETURN|TYPE_RETURN_VALUE|TYPE_SWITCH_DECLARATION|TYPE_CONDITIONAL_BRANCH|TYPE_JSR|TYPE_RET|TYPE_SWITCH|TYPE_GOTO|TYPE_INFINITE_GOTO|TYPE_GOTO_IN_TERNARY_OPERATOR|TYPE_CONDITION|TYPE_CONDITION_TERNARY_OPERATOR;
-    public static final int GROUP_END               = TYPE_END|TYPE_THROW|TYPE_RETURN|TYPE_RETURN_VALUE|TYPE_RET|TYPE_SWITCH_BREAK|TYPE_LOOP_START|TYPE_LOOP_CONTINUE|TYPE_LOOP_END|TYPE_INFINITE_GOTO|TYPE_JUMP;
-    public static final int GROUP_CONDITION         = TYPE_CONDITION|TYPE_CONDITION_OR|TYPE_CONDITION_AND|TYPE_CONDITION_TERNARY_OPERATOR;
+	public static final int GROUP_SINGLE_SUCCESSOR = TYPE_START | TYPE_STATEMENTS | TYPE_TRY_DECLARATION | TYPE_JSR
+			| TYPE_LOOP | TYPE_IF | TYPE_IF_ELSE | TYPE_SWITCH | TYPE_TRY | TYPE_TRY_JSR | TYPE_TRY_ECLIPSE | TYPE_GOTO
+			| TYPE_GOTO_IN_TERNARY_OPERATOR | TYPE_TERNARY_OPERATOR;
+	public static final int GROUP_SYNTHETIC = TYPE_START | TYPE_END | TYPE_CONDITIONAL_BRANCH | TYPE_SWITCH_DECLARATION
+			| TYPE_TRY_DECLARATION | TYPE_RET | TYPE_GOTO | TYPE_JUMP;
+	public static final int GROUP_CODE = TYPE_STATEMENTS | TYPE_THROW | TYPE_RETURN | TYPE_RETURN_VALUE
+			| TYPE_SWITCH_DECLARATION | TYPE_CONDITIONAL_BRANCH | TYPE_JSR | TYPE_RET | TYPE_SWITCH | TYPE_GOTO
+			| TYPE_INFINITE_GOTO | TYPE_GOTO_IN_TERNARY_OPERATOR | TYPE_CONDITION | TYPE_CONDITION_TERNARY_OPERATOR;
+	public static final int GROUP_END = TYPE_END | TYPE_THROW | TYPE_RETURN | TYPE_RETURN_VALUE | TYPE_RET
+			| TYPE_SWITCH_BREAK | TYPE_LOOP_START | TYPE_LOOP_CONTINUE | TYPE_LOOP_END | TYPE_INFINITE_GOTO | TYPE_JUMP;
+	public static final int GROUP_CONDITION = TYPE_CONDITION | TYPE_CONDITION_OR | TYPE_CONDITION_AND
+			| TYPE_CONDITION_TERNARY_OPERATOR;
 
     protected static final String[] TYPE_NAMES = {
         "DELETED", "START", "END", "STATEMENTS", "THROW", "RETURN", "RETURN_VALUE", "SWITCH_DECLARATION", "SWITCH",
@@ -129,21 +136,22 @@ public class BasicBlock {
 		this.predecessors = predecessors;
 	}
 
-    public BasicBlock(ControlFlowGraph controlFlowGraph, int index, int type, int fromOffset, int toOffset, boolean inverseCondition) {
-        this(controlFlowGraph, index, type, fromOffset, toOffset, inverseCondition, new HashSet<>());
-    }
+	public BasicBlock(ControlFlowGraph controlFlowGraph, int index, int type, int fromOffset, int toOffset,
+			boolean inverseCondition) {
+		this(controlFlowGraph, index, type, fromOffset, toOffset, inverseCondition, new HashSet<>());
+	}
 
-    
-    public BasicBlock(ControlFlowGraph controlFlowGraph, int index, int type, int fromOffset, int toOffset, boolean inverseCondition, Set<BasicBlock> predecessors) {
-        this.controlFlowGraph = controlFlowGraph;
-        this.index = index;
-        this.type = type;
-        this.fromOffset = fromOffset;
-        this.toOffset = toOffset;
-        this.next = this.branch = this.condition = this.sub1 = this.sub2 = END;
-        this.predecessors = predecessors;
-        this.inverseCondition = inverseCondition;
-    }
+	public BasicBlock(ControlFlowGraph controlFlowGraph, int index, int type, int fromOffset, int toOffset,
+			boolean inverseCondition, Set<BasicBlock> predecessors) {
+		this.controlFlowGraph = controlFlowGraph;
+		this.index = index;
+		this.type = type;
+		this.fromOffset = fromOffset;
+		this.toOffset = toOffset;
+		this.next = this.branch = this.condition = this.sub1 = this.sub2 = END;
+		this.predecessors = predecessors;
+		this.inverseCondition = inverseCondition;
+	}
 
     public ControlFlowGraph getControlFlowGraph() {
         return controlFlowGraph;
@@ -283,62 +291,71 @@ public class BasicBlock {
 	 * Replace given block with a new one, wherever inside this block (in next,
 	 * branch, exceptionHandlers, switchCases, sub1, sub2, predecessors).
 	 */
-    public void replace(BasicBlock old, BasicBlock nevv) {
-        if (next == old)
-            next = nevv;
+	public void replace(BasicBlock old, BasicBlock nevv) {
+		if (next == old) {
+			next = nevv;
+		}
 
-        if (branch == old)
-            branch = nevv;
+		if (branch == old) {
+			branch = nevv;
+		}
 
-        for (ExceptionHandler exceptionHandler : exceptionHandlers) {
-            exceptionHandler.replace(old, nevv);
-        }
+		for (ExceptionHandler exceptionHandler : exceptionHandlers) {
+			exceptionHandler.replace(old, nevv);
+		}
 
-        for (SwitchCase switchCase : switchCases) {
-            switchCase.replace(old, nevv);
-        }
+		for (SwitchCase switchCase : switchCases) {
+			switchCase.replace(old, nevv);
+		}
 
-        if (sub1 == old)
-            sub1 = nevv;
+		if (sub1 == old) {
+			sub1 = nevv;
+		}
 
-        if (sub2 == old)
-            sub2 = nevv;
+		if (sub2 == old) {
+			sub2 = nevv;
+		}
 
-        if (predecessors.contains(old)) {
-            predecessors.remove(old);
-            if (nevv != BasicBlock.END)
-                predecessors.add(nevv);
-        }
-    }
+		if (predecessors.contains(old)) {
+			predecessors.remove(old);
+			if (nevv != BasicBlock.END) {
+				predecessors.add(nevv);
+			}
+		}
+	}
 
 	/**
 	 * Replace all given blocks with a new one, wherever inside this block (in next,
 	 * branch, exceptionHandlers, switchCases, sub1, sub2, predecessors).
 	 */
-    public void replace(Set<BasicBlock> olds, BasicBlock nevv) {
-        if (olds.contains(next))
-            next = nevv;
+	public void replace(Set<BasicBlock> olds, BasicBlock nevv) {
+		if (olds.contains(next)) {
+			next = nevv;
+		}
 
-        if (olds.contains(branch))
-            branch = nevv;
+		if (olds.contains(branch)) {
+			branch = nevv;
+		}
 
-        for (ExceptionHandler exceptionHandler : exceptionHandlers) {
-            exceptionHandler.replace(olds, nevv);
-        }
+		for (ExceptionHandler exceptionHandler : exceptionHandlers) {
+			exceptionHandler.replace(olds, nevv);
+		}
 
-        for (SwitchCase switchCase : switchCases) {
-            switchCase.replace(olds, nevv);
-        }
+		for (SwitchCase switchCase : switchCases) {
+			switchCase.replace(olds, nevv);
+		}
 
-        if (olds.contains(sub1))
-            sub1 = nevv;
+		if (olds.contains(sub1)) {
+			sub1 = nevv;
+		}
 
-        if (olds.contains(sub2))
-            sub2 = nevv;
+		if (olds.contains(sub2)) {
+			sub2 = nevv;
+		}
 
-        predecessors.removeAll(olds);
-        predecessors.add(nevv);
-    }
+		predecessors.removeAll(olds);
+		predecessors.add(nevv);
+	}
 
     public void addExceptionHandler(String internalThrowableName, BasicBlock basicBlock) {
         if (exceptionHandlers == EMPTY_EXCEPTION_HANDLERS) {
@@ -391,7 +408,8 @@ public class BasicBlock {
 
     @Override
     public String toString() {
-        String s = "BasicBlock{index=" + index + ", from=" + fromOffset + ", to=" + toOffset + ", type=" + getTypeName() + ", inverseCondition=" + inverseCondition;
+		String s = "BasicBlock{index=" + index + ", from=" + fromOffset + ", to=" + toOffset + ", type=" + getTypeName()
+				+ ", inverseCondition=" + inverseCondition;
 
         if (!predecessors.isEmpty()) {
             s += ", predecessors=[";
@@ -448,35 +466,40 @@ public class BasicBlock {
         }
 
         public void addInternalThrowableName(String internalThrowableName) {
-            if (otherInternalThrowableNames == null)
-                otherInternalThrowableNames = new DefaultList<>();
-            otherInternalThrowableNames.add(internalThrowableName);
+			if (otherInternalThrowableNames == null) {
+				otherInternalThrowableNames = new DefaultList<>();
+			}
+			otherInternalThrowableNames.add(internalThrowableName);
         }
 
 		/**
 		 * If <code>this.basicBlock</code> was <code>old</code>, then replace it with
 		 * <code>nevv</code>
 		 */
-        public void replace(BasicBlock old, BasicBlock nevv) {
-            if (basicBlock == old)
-                basicBlock = nevv;
-        }
+		public void replace(BasicBlock old, BasicBlock nevv) {
+			if (basicBlock == old) {
+				basicBlock = nevv;
+			}
+		}
 
 		/**
-		 * If <code>this.basicBlock</code> was in <code>olds</code>, then replace it with
-		 * <code>nevv</code>
+		 * If <code>this.basicBlock</code> was in <code>olds</code>, then replace it
+		 * with <code>nevv</code>
 		 */
-        public void replace(Set<BasicBlock> olds, BasicBlock nevv) {
-            if (olds.contains(basicBlock))
-                basicBlock = nevv;
-        }
+		public void replace(Set<BasicBlock> olds, BasicBlock nevv) {
+			if (olds.contains(basicBlock)) {
+				basicBlock = nevv;
+			}
+		}
 
         @Override
         public String toString() {
-            if (otherInternalThrowableNames == null)
-                return "BasicBlock.Handler{" + internalThrowableName + " -> " + basicBlock + "}";
-            else
-                return "BasicBlock.Handler{" + internalThrowableName + ", " + otherInternalThrowableNames + " -> " + basicBlock + "}";
+			if (otherInternalThrowableNames == null) {
+				return "BasicBlock.Handler{" + internalThrowableName + " -> " + basicBlock + "}";
+			} else {
+				return "BasicBlock.Handler{" + internalThrowableName + ", " + otherInternalThrowableNames + " -> "
+						+ basicBlock + "}";
+			}
         }
     }
 
@@ -519,28 +542,31 @@ public class BasicBlock {
             return defaultCase;
         }
 
-        public void replace(BasicBlock old, BasicBlock nevv) {
-            if (basicBlock == old)
-                basicBlock = nevv;
-        }
+		public void replace(BasicBlock old, BasicBlock nevv) {
+			if (basicBlock == old) {
+				basicBlock = nevv;
+			}
+		}
 
-        public void replace(Set<BasicBlock> olds, BasicBlock nevv) {
-            if (olds.contains(basicBlock))
-                basicBlock = nevv;
-        }
+		public void replace(Set<BasicBlock> olds, BasicBlock nevv) {
+			if (olds.contains(basicBlock)) {
+				basicBlock = nevv;
+			}
+		}
 
-        @Override
-        public String toString() {
-            if (defaultCase)
-                return "BasicBlock.SwitchCase{default: " + basicBlock + "}";
-            else
-                return "BasicBlock.SwitchCase{'" + value + "': " + basicBlock + "}";
-        }
+		@Override
+		public String toString() {
+			if (defaultCase) {
+				return "BasicBlock.SwitchCase{default: " + basicBlock + "}";
+			} else {
+				return "BasicBlock.SwitchCase{'" + value + "': " + basicBlock + "}";
+			}
+		}
     }
 
-    /**
-     * A constant BasicBlock, identified by its <code>type</code>
-     */
+	/**
+	 * A constant BasicBlock, identified by its <code>type</code>
+	 */
 	protected static class ImmutableBasicBlock extends BasicBlock {
 		public ImmutableBasicBlock(int type) {
 			super(null, -1, type, 0, 0, true, new HashSet<BasicBlock>() {

@@ -198,32 +198,39 @@ public class ObjectType implements Type {
 	}
 
 	public boolean rawEquals(Object o) {
-		if (this == o)
+		if (this == o) {
 			return true;
-		if (o == null || getClass() != o.getClass())
+		}
+		if (o == null || getClass() != o.getClass()) {
 			return false;
+		}
 
 		ObjectType that = (ObjectType) o;
 
-		if (dimension != that.dimension)
+		if (dimension != that.dimension) {
 			return false;
+		}
 
 		return internalName.equals(that.internalName);
 	}
 
 	@Override
 	public boolean equals(Object o) {
-		if (this == o)
+		if (this == o) {
 			return true;
-		if (o == null || getClass() != o.getClass())
+		}
+		if (o == null || getClass() != o.getClass()) {
 			return false;
+		}
 
 		ObjectType that = (ObjectType) o;
 
-		if (dimension != that.dimension)
+		if (dimension != that.dimension) {
 			return false;
-		if (!internalName.equals(that.internalName))
+		}
+		if (!internalName.equals(that.internalName)) {
 			return false;
+		}
 
 		if ("java/lang/Class".equals(internalName)) {
 			boolean wildcard1 = (typeArguments == null) || (typeArguments.getClass() == WildcardTypeArgument.class);

@@ -15,7 +15,8 @@ import org.jd.core.v1.model.javasyntax.type.ObjectType;
  * and offset
  */
 public class LocalVariableSet {
-	protected AbstractLocalVariable[] array = new AbstractLocalVariable[10];
+	static final int DEFAULT_NUM_ITEMS = 10;
+	protected AbstractLocalVariable[] array = new AbstractLocalVariable[DEFAULT_NUM_ITEMS];
 	protected int size = 0;
 
 	public void add(int index, AbstractLocalVariable newLV) {

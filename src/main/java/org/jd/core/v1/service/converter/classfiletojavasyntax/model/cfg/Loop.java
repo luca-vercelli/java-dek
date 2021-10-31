@@ -43,17 +43,21 @@ public class Loop {
 
 	@Override
 	public boolean equals(Object o) {
-		if (this == o)
+		if (this == o) {
 			return true;
-		if (o == null || getClass() != o.getClass())
+		}
+		if (o == null || getClass() != o.getClass()) {
 			return false;
+		}
 
 		Loop loop = (Loop) o;
 
-		if (!start.equals(loop.start))
+		if (!start.equals(loop.start)) {
 			return false;
-		if (!members.equals(loop.members))
+		}
+		if (!members.equals(loop.members)) {
 			return false;
+		}
 		return !(end != null ? !end.equals(loop.end) : loop.end != null);
 
 	}
@@ -74,8 +78,9 @@ public class Loop {
 			Iterator<BasicBlock> iterator = members.iterator();
 			str += iterator.next().getIndex();
 
-			while (iterator.hasNext())
+			while (iterator.hasNext()) {
 				str += ", " + iterator.next().getIndex();
+			}
 		}
 
 		return str + "], end=" + (end == null ? "" : end.getIndex()) + "}";

@@ -7,9 +7,11 @@
 
 package org.jd.core.v1.model.javasyntax.type;
 
-import org.jd.core.v1.util.DefaultList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Map;
 
-import java.util.*;
+import org.jd.core.v1.util.DefaultList;
 
 /**
  * A list of TypeArgument that is itself a BaseTypeArgument

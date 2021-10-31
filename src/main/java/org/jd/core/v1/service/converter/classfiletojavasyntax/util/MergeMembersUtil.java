@@ -22,17 +22,17 @@ public class MergeMembersUtil {
 			List<? extends ClassFileMemberDeclaration> methods, List<? extends ClassFileMemberDeclaration> innerTypes) {
 		int size;
 
-		if (fields != null)
+		if (fields != null) {
 			size = fields.size();
-		else
+		} else {
 			size = 0;
-
-		if (methods != null)
+		}
+		if (methods != null) {
 			size += methods.size();
-
-		if (innerTypes != null)
+		}
+		if (innerTypes != null) {
 			size += innerTypes.size();
-
+		}
 		MemberDeclarations result = new MemberDeclarations(size);
 
 		merge(result, fields);
@@ -49,15 +49,20 @@ public class MergeMembersUtil {
 			if (result.isEmpty()) {
 				result.addAll(members);
 			} else {
-				int resultIndex = 0, resultLength = result.size();
-				int listStartIndex = 0, listEndIndex = 0, listLength = members.size(), listLineNumber = 0;
+				int resultIndex = 0;
+				int resultLength = result.size();
+				int listStartIndex = 0;
+				int listEndIndex = 0;
+				int listLength = members.size();
+				int listLineNumber = 0;
 
 				while (listEndIndex < listLength) {
 					// Search first line number > 0
 					while (listEndIndex < listLength) {
 						listLineNumber = members.get(listEndIndex++).getFirstLineNumber();
-						if (listLineNumber > 0)
+						if (listLineNumber > 0) {
 							break;
+						}
 					}
 
 					if (listLineNumber == 0) {
@@ -68,8 +73,9 @@ public class MergeMembersUtil {
 						while (resultIndex < resultLength) {
 							ClassFileMemberDeclaration member = (ClassFileMemberDeclaration) result.get(resultIndex);
 							int resultLineNumber = member.getFirstLineNumber();
-							if (resultLineNumber > listLineNumber)
+							if (resultLineNumber > listLineNumber) {
 								break;
+							}
 							resultIndex++;
 						}
 
@@ -86,8 +92,16 @@ public class MergeMembersUtil {
 		}
 	}
 
+	/**
+	 * Sort declarations according to their line number, if any
+	 */
 	protected static void sort(List<? extends ClassFileMemberDeclaration> members) {
-		int order = 0;
+		final int UNKNOWN = 0;
+		final int ASC = 1;
+		final int DESC = 2;
+		final int RANDOM = 3;
+
+		int order = UNKNOWN;
 		int lastLineNumber = 0;
 
 		// Detect order type
@@ -96,16 +110,16 @@ public class MergeMembersUtil {
 
 			if ((lineNumber > 0) && (lineNumber != lastLineNumber)) {
 				if (lastLineNumber > 0) {
-					if (order == 0) { // Unknown order
-						order = (lineNumber > lastLineNumber) ? 1 : 2;
-					} else if (order == 1) { // Ascendant order
+					if (order == UNKNOWN) {
+						order = (lineNumber > lastLineNumber) ? ASC : DESC;
+					} else if (order == ASC) {
 						if (lineNumber < lastLineNumber) {
-							order = 3; // Random order
+							order = RANDOM;
 							break;
 						}
-					} else if (order == 2) { // Descendant order
+					} else if (order == DESC) {
 						if (lineNumber > lastLineNumber) {
-							order = 3; // Random order
+							order = RANDOM;
 							break;
 						}
 					}
@@ -117,11 +131,13 @@ public class MergeMembersUtil {
 
 		// Sort
 		switch (order) {
-		case 2: // Descendant order
+		case DESC:
 			Collections.reverse(members);
 			break;
-		case 3: // Random order : ascendant sort and set unknown line number members at the end
+		case RANDOM: // Random order : ascendant sort and set unknown line number members at the end
 			members.sort(MEMBER_DECLARATION_COMPARATOR);
+			break;
+		default:
 			break;
 		}
 	}

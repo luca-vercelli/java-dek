@@ -410,7 +410,8 @@ public class Frame {
 
 	protected void createNewLocalVariable(CreateLocalVariableVisitor createLocalVariableVisitor,
 			ClassFileForStatement fs, AbstractLocalVariable lv) {
-		int fromOffset = fs.getFromOffset(), toOffset = fs.getToOffset();
+		int fromOffset = fs.getFromOffset();
+		int toOffset = fs.getToOffset();
 		createLocalVariableVisitor.init(lv.getIndex(), fromOffset);
 		lv.accept(createLocalVariableVisitor);
 		AbstractLocalVariable newLV = createLocalVariableVisitor.getLocalVariable();

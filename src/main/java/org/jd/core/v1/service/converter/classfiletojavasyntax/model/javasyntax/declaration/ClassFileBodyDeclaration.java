@@ -51,7 +51,8 @@ public class ClassFileBodyDeclaration extends BodyDeclaration implements ClassFi
 
 	public void setFieldDeclarations(List<ClassFileFieldDeclaration> fieldDeclarations) {
 		if (fieldDeclarations != null) {
-			updateFirstLineNumber(this.fieldDeclarations = fieldDeclarations);
+			this.fieldDeclarations = fieldDeclarations;
+			updateFirstLineNumber(fieldDeclarations);
 		}
 	}
 
@@ -61,7 +62,8 @@ public class ClassFileBodyDeclaration extends BodyDeclaration implements ClassFi
 
 	public void setMethodDeclarations(List<ClassFileConstructorOrMethodDeclaration> methodDeclarations) {
 		if (methodDeclarations != null) {
-			updateFirstLineNumber(this.methodDeclarations = methodDeclarations);
+			this.methodDeclarations = methodDeclarations;
+			updateFirstLineNumber(methodDeclarations);
 		}
 	}
 
@@ -71,7 +73,8 @@ public class ClassFileBodyDeclaration extends BodyDeclaration implements ClassFi
 
 	public void setInnerTypeDeclarations(List<ClassFileTypeDeclaration> innerTypeDeclarations) {
 		if (innerTypeDeclarations != null) {
-			updateFirstLineNumber(this.innerTypeDeclarations = innerTypeDeclarations);
+			this.innerTypeDeclarations = innerTypeDeclarations;
+			updateFirstLineNumber(innerTypeDeclarations);
 
 			innerTypeMap = new HashMap<>();
 

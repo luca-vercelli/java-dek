@@ -88,20 +88,27 @@ public class PrimitiveLocalVariable extends AbstractLocalVariable {
 			return TYPE_VOID;
 		}
 
-		if (flags == (FLAG_CHAR | FLAG_INT))
+		if (flags == (FLAG_CHAR | FLAG_INT)) {
 			return MAYBE_CHAR_TYPE;
-		if (flags == (FLAG_CHAR | FLAG_SHORT | FLAG_INT))
+		}
+		if (flags == (FLAG_CHAR | FLAG_SHORT | FLAG_INT)) {
 			return MAYBE_SHORT_TYPE;
-		if (flags == (FLAG_BYTE | FLAG_CHAR | FLAG_SHORT | FLAG_INT))
+		}
+		if (flags == (FLAG_BYTE | FLAG_CHAR | FLAG_SHORT | FLAG_INT)) {
 			return MAYBE_BYTE_TYPE;
-		if (flags == (FLAG_BOOLEAN | FLAG_BYTE | FLAG_CHAR | FLAG_SHORT | FLAG_INT))
+		}
+		if (flags == (FLAG_BOOLEAN | FLAG_BYTE | FLAG_CHAR | FLAG_SHORT | FLAG_INT)) {
 			return MAYBE_BOOLEAN_TYPE;
-		if (flags == (FLAG_BYTE | FLAG_SHORT | FLAG_INT))
+		}
+		if (flags == (FLAG_BYTE | FLAG_SHORT | FLAG_INT)) {
 			return MAYBE_NEGATIVE_BYTE_TYPE;
-		if (flags == (FLAG_SHORT | FLAG_INT))
+		}
+		if (flags == (FLAG_SHORT | FLAG_INT)) {
 			return MAYBE_NEGATIVE_SHORT_TYPE;
-		if (flags == (FLAG_BOOLEAN | FLAG_BYTE | FLAG_SHORT | FLAG_INT))
+		}
+		if (flags == (FLAG_BOOLEAN | FLAG_BYTE | FLAG_SHORT | FLAG_INT)) {
 			return MAYBE_NEGATIVE_BOOLEAN_TYPE;
+		}
 
 		return TYPE_INT;
 	}
@@ -126,24 +133,33 @@ public class PrimitiveLocalVariable extends AbstractLocalVariable {
 
 		sb.append("PrimitiveLocalVariable{");
 
-		if ((flags & FLAG_BOOLEAN) != 0)
+		if ((flags & FLAG_BOOLEAN) != 0) {
 			sb.append("boolean ");
-		if ((flags & FLAG_CHAR) != 0)
+		}
+		if ((flags & FLAG_CHAR) != 0) {
 			sb.append("char ");
-		if ((flags & FLAG_FLOAT) != 0)
+		}
+		if ((flags & FLAG_FLOAT) != 0) {
 			sb.append("float ");
-		if ((flags & FLAG_DOUBLE) != 0)
+		}
+		if ((flags & FLAG_DOUBLE) != 0) {
 			sb.append("double ");
-		if ((flags & FLAG_BYTE) != 0)
+		}
+		if ((flags & FLAG_BYTE) != 0) {
 			sb.append("byte ");
-		if ((flags & FLAG_SHORT) != 0)
+		}
+		if ((flags & FLAG_SHORT) != 0) {
 			sb.append("short ");
-		if ((flags & FLAG_INT) != 0)
+		}
+		if ((flags & FLAG_INT) != 0) {
 			sb.append("int ");
-		if ((flags & FLAG_LONG) != 0)
+		}
+		if ((flags & FLAG_LONG) != 0) {
 			sb.append("long ");
-		if ((flags & FLAG_VOID) != 0)
+		}
+		if ((flags & FLAG_VOID) != 0) {
 			sb.append("void ");
+		}
 
 		sb.append(name).append(", index=").append(index);
 
@@ -223,7 +239,7 @@ public class PrimitiveLocalVariable extends AbstractLocalVariable {
 
 		addVariableOnRight(variable);
 
-		int old = flags;
+		final int old = flags;
 		int variableFlags = ((PrimitiveLocalVariable) variable).flags;
 		PrimitiveType type = PrimitiveTypeUtil.getPrimitiveTypeFromFlags(variableFlags);
 
@@ -245,7 +261,7 @@ public class PrimitiveLocalVariable extends AbstractLocalVariable {
 
 		addVariableOnLeft(variable);
 
-		int old = flags;
+		final int old = flags;
 		int variableFlags = ((PrimitiveLocalVariable) variable).flags;
 		PrimitiveType type = PrimitiveTypeUtil.getPrimitiveTypeFromFlags(variableFlags);
 

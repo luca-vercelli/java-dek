@@ -7,7 +7,8 @@
 
 package org.jd.core.v1.model.javasyntax.type;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.ListIterator;
 import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
 

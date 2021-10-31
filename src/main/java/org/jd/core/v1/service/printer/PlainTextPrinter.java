@@ -16,7 +16,7 @@ import org.jd.core.v1.api.Printer;
 public class PlainTextPrinter implements Printer {
 	protected static final String TAB = "  ";
 	protected static final String NEWLINE = "\n";
-	protected static final int TEN = 10;
+	protected static final int BASE = 10;
 
 	protected int indentationCount;
 	protected StringBuilder sb = new StringBuilder();
@@ -58,9 +58,9 @@ public class PlainTextPrinter implements Printer {
 		} else {
 			int width = 2;
 
-			while (maxLineNumber >= TEN) {
+			while (maxLineNumber >= BASE) {
 				width++;
-				maxLineNumber /= TEN;
+				maxLineNumber /= BASE;
 			}
 
 			format = "%" + width + "d";
