@@ -61,7 +61,7 @@ public class SingleFileLoader implements Loader {
 				return load(file);
 			}
 			if (internalName.startsWith(this.innerTypesPrefix)) {
-				String fname = internalName.substring(internalName.lastIndexOf("/")+1) + ".class";
+				String fname = internalName.substring(internalName.lastIndexOf("/") + 1) + ".class";
 				File innerTypeFile = new File(file.getParent(), fname);
 				return load(innerTypeFile);
 			}

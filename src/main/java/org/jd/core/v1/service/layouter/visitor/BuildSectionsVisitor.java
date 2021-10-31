@@ -59,7 +59,8 @@ public class BuildSectionsVisitor implements FragmentVisitor {
 
 	@Override
 	public void visit(FixedFragment fragment) {
-		sections.add(previousSection = new Section(flexibleFragments, fragment, previousSection));
+		previousSection = new Section(flexibleFragments, fragment, previousSection);
+		sections.add(previousSection);
 		flexibleFragments = new DefaultList<>();
 	}
 

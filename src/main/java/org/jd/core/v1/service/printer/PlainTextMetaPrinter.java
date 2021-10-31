@@ -93,6 +93,8 @@ public class PlainTextMetaPrinter extends PlainTextPrinter {
 		case MODULE:
 			sb.append("MODULE");
 			break;
+		default:
+			break;
 		}
 	}
 
@@ -109,6 +111,8 @@ public class PlainTextMetaPrinter extends PlainTextPrinter {
 			break;
 		case IMPORT_STATEMENTS:
 			sb.append("IMPORT_STATEMENTS");
+			break;
+		default:
 			break;
 		}
 	}

@@ -95,32 +95,39 @@ public class DefaultList<E> extends ArrayList<E> implements Base<E> {
 			super(0);
 		}
 
+		@Override
 		public E set(int index, E e) {
 			throw new UnsupportedOperationException();
 		}
 
+		@Override
 		public void add(int index, E e) {
 			throw new UnsupportedOperationException();
 		}
 
+		@Override
 		public E remove(int index) {
 			throw new UnsupportedOperationException();
 		}
 
+		@Override
+		public void remove() {
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
 		public Iterator<E> iterator() {
 			return this;
 		}
 
+		@Override
 		public boolean hasNext() {
 			return false;
 		}
 
+		@Override
 		public E next() {
 			throw new NoSuchElementException();
-		}
-
-		public void remove() {
-			throw new UnsupportedOperationException();
 		}
 	}
 }

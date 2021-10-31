@@ -7,17 +7,32 @@
 
 package org.jd.core.v1.service.writer.visitor;
 
+import java.util.List;
+
 import org.jd.core.v1.api.Printer;
 import org.jd.core.v1.model.javafragment.LineNumberTokensFragment.SearchLineNumberVisitor;
-import org.jd.core.v1.model.token.*;
-
-import java.util.List;
+import org.jd.core.v1.model.token.BooleanConstantToken;
+import org.jd.core.v1.model.token.CharacterConstantToken;
+import org.jd.core.v1.model.token.DeclarationToken;
+import org.jd.core.v1.model.token.EndBlockToken;
+import org.jd.core.v1.model.token.EndMarkerToken;
+import org.jd.core.v1.model.token.KeywordToken;
+import org.jd.core.v1.model.token.LineNumberToken;
+import org.jd.core.v1.model.token.NewLineToken;
+import org.jd.core.v1.model.token.NumericConstantToken;
+import org.jd.core.v1.model.token.ReferenceToken;
+import org.jd.core.v1.model.token.StartBlockToken;
+import org.jd.core.v1.model.token.StartMarkerToken;
+import org.jd.core.v1.model.token.StringConstantToken;
+import org.jd.core.v1.model.token.TextToken;
+import org.jd.core.v1.model.token.Token;
+import org.jd.core.v1.model.token.TokenVisitor;
 
 /**
  * Print a list of tokens to a Printer.
  */
 public class PrintTokenVisitor implements TokenVisitor {
-	public final static int UNKNOWN_LINE_NUMBER = Printer.UNKNOWN_LINE_NUMBER;
+	public static final int UNKNOWN_LINE_NUMBER = Printer.UNKNOWN_LINE_NUMBER;
 
 	protected SearchLineNumberVisitor searchLineNumberVisitor = new SearchLineNumberVisitor();
 
@@ -174,10 +189,12 @@ public class PrintTokenVisitor implements TokenVisitor {
 		for (int i = index; i >= 0; i--) {
 			tokens.get(i).accept(searchLineNumberVisitor);
 
-			if (searchLineNumberVisitor.lineNumber != UNKNOWN_LINE_NUMBER)
+			if (searchLineNumberVisitor.lineNumber != UNKNOWN_LINE_NUMBER) {
 				return searchLineNumberVisitor.lineNumber;
-			if (searchLineNumberVisitor.newLineCounter > 0)
+			}
+			if (searchLineNumberVisitor.newLineCounter > 0) {
 				break;
+			}
 		}
 
 		// Forward search
@@ -188,10 +205,12 @@ public class PrintTokenVisitor implements TokenVisitor {
 		for (int i = index; i < size; i++) {
 			tokens.get(i).accept(searchLineNumberVisitor);
 
-			if (searchLineNumberVisitor.lineNumber != UNKNOWN_LINE_NUMBER)
+			if (searchLineNumberVisitor.lineNumber != UNKNOWN_LINE_NUMBER) {
 				return searchLineNumberVisitor.lineNumber;
-			if (searchLineNumberVisitor.newLineCounter > 0)
+			}
+			if (searchLineNumberVisitor.newLineCounter > 0) {
 				break;
+			}
 		}
 
 		return UNKNOWN_LINE_NUMBER;

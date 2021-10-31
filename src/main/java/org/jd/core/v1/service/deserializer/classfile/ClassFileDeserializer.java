@@ -198,7 +198,7 @@ public class ClassFileDeserializer implements Processor {
 	 * 
 	 * @param data
 	 * @return
-	 * @throws UTFDataFormatException 
+	 * @throws UTFDataFormatException
 	 */
 	public String getMainTypeName(byte[] data) throws UTFDataFormatException {
 		ClassFile classFile = loadClassFile(data);
@@ -208,8 +208,9 @@ public class ClassFileDeserializer implements Processor {
 	protected Constant[] loadConstants(ClassFileReader reader) throws UTFDataFormatException {
 		int count = reader.readUnsignedShort();
 
-		if (count == 0)
+		if (count == 0) {
 			return null;
+		}
 
 		Constant[] constants = new Constant[count];
 
@@ -266,8 +267,9 @@ public class ClassFileDeserializer implements Processor {
 
 	protected String[] loadInterfaces(ClassFileReader reader, ConstantPool constants) {
 		int count = reader.readUnsignedShort();
-		if (count == 0)
+		if (count == 0) {
 			return null;
+		}
 
 		String[] interfaceTypeNames = new String[count];
 
@@ -281,8 +283,9 @@ public class ClassFileDeserializer implements Processor {
 
 	protected Field[] loadFields(ClassFileReader reader, ConstantPool constants) {
 		int count = reader.readUnsignedShort();
-		if (count == 0)
+		if (count == 0) {
 			return null;
+		}
 
 		Field[] fields = new Field[count];
 
@@ -326,8 +329,9 @@ public class ClassFileDeserializer implements Processor {
 	// Warning: we are assuming 1 attribute only of each type
 	protected Map<String, Attribute> loadAttributes(ClassFileReader reader, ConstantPool constants) {
 		int count = reader.readUnsignedShort();
-		if (count == 0)
+		if (count == 0) {
 			return null;
+		}
 
 		Map<String, Attribute> attributes = new HashMap<>();
 
@@ -417,13 +421,15 @@ public class ClassFileDeserializer implements Processor {
 							new AttributeParameterAnnotations(loadParameterAnnotations(reader, constants)));
 					break;
 				case Signature:
-					if (attributeLength < 2)
+					if (attributeLength < 2) {
 						throw new ClassFileFormatException("Invalid attribute length");
+					}
 					attributes.put(name, new AttributeSignature(constants.getConstantUtf8(reader.readUnsignedShort())));
 					break;
 				case SourceFile:
-					if (attributeLength < 2)
+					if (attributeLength < 2) {
 						throw new ClassFileFormatException("Invalid attribute length");
+					}
 					attributes.put(name,
 							new AttributeSourceFile(constants.getConstantUtf8(reader.readUnsignedShort())));
 					break;
@@ -487,8 +493,9 @@ public class ClassFileDeserializer implements Processor {
 
 	protected ElementValuePair[] loadElementValuePairs(ClassFileReader reader, ConstantPool constants) {
 		int count = reader.readUnsignedShort();
-		if (count == 0)
+		if (count == 0) {
 			return null;
+		}
 
 		ElementValuePair[] pairs = new ElementValuePair[count];
 
@@ -543,11 +550,12 @@ public class ClassFileDeserializer implements Processor {
 	}
 
 	protected byte[] loadCode(ClassFileReader reader) {
-		int code_length = reader.readInt();
-		if (code_length == 0)
+		int codeLength = reader.readInt();
+		if (codeLength == 0) {
 			return null;
+		}
 
-		byte[] code = new byte[code_length];
+		byte[] code = new byte[codeLength];
 		reader.readFully(code);
 
 		return code;
@@ -555,8 +563,9 @@ public class ClassFileDeserializer implements Processor {
 
 	protected CodeException[] loadCodeExceptions(ClassFileReader reader) {
 		int count = reader.readUnsignedShort();
-		if (count == 0)
+		if (count == 0) {
 			return null;
+		}
 
 		CodeException[] codeExceptions = new CodeException[count];
 
@@ -576,8 +585,9 @@ public class ClassFileDeserializer implements Processor {
 
 	protected String[] loadExceptionTypeNames(ClassFileReader reader, ConstantPool constants) {
 		int count = reader.readUnsignedShort();
-		if (count == 0)
+		if (count == 0) {
 			return null;
+		}
 
 		String[] exceptionTypeNames = new String[count];
 
@@ -591,8 +601,9 @@ public class ClassFileDeserializer implements Processor {
 
 	protected InnerClass[] loadInnerClasses(ClassFileReader reader, ConstantPool constants) {
 		int count = reader.readUnsignedShort();
-		if (count == 0)
+		if (count == 0) {
 			return null;
+		}
 
 		InnerClass[] innerClasses = new InnerClass[count];
 
@@ -614,8 +625,9 @@ public class ClassFileDeserializer implements Processor {
 
 	protected LocalVariable[] loadLocalVariables(ClassFileReader reader, ConstantPool constants) {
 		int count = reader.readUnsignedShort();
-		if (count == 0)
+		if (count == 0) {
 			return null;
+		}
 
 		LocalVariable[] localVariables = new LocalVariable[count];
 
@@ -637,8 +649,9 @@ public class ClassFileDeserializer implements Processor {
 
 	protected LocalVariableType[] loadLocalVariableTypes(ClassFileReader reader, ConstantPool constants) {
 		int count = reader.readUnsignedShort();
-		if (count == 0)
+		if (count == 0) {
 			return null;
+		}
 
 		LocalVariableType[] localVariables = new LocalVariableType[count];
 
@@ -660,8 +673,9 @@ public class ClassFileDeserializer implements Processor {
 
 	protected LineNumber[] loadLineNumbers(ClassFileReader reader) {
 		int count = reader.readUnsignedShort();
-		if (count == 0)
+		if (count == 0) {
 			return null;
+		}
 
 		LineNumber[] lineNumbers = new LineNumber[count];
 
@@ -674,8 +688,9 @@ public class ClassFileDeserializer implements Processor {
 
 	protected MethodParameter[] loadParameters(ClassFileReader reader, ConstantPool constants) {
 		int count = reader.readUnsignedByte();
-		if (count == 0)
+		if (count == 0) {
 			return null;
+		}
 
 		MethodParameter[] parameters = new MethodParameter[count];
 
@@ -692,8 +707,9 @@ public class ClassFileDeserializer implements Processor {
 
 	protected ModuleInfo[] loadModuleInfos(ClassFileReader reader, ConstantPool constants) {
 		int count = reader.readUnsignedShort();
-		if (count == 0)
+		if (count == 0) {
 			return null;
+		}
 
 		ModuleInfo[] moduleInfos = new ModuleInfo[count];
 
@@ -713,8 +729,9 @@ public class ClassFileDeserializer implements Processor {
 
 	protected PackageInfo[] loadPackageInfos(ClassFileReader reader, ConstantPool constants) {
 		int count = reader.readUnsignedShort();
-		if (count == 0)
+		if (count == 0) {
 			return null;
+		}
 
 		PackageInfo[] packageInfos = new PackageInfo[count];
 
@@ -732,8 +749,9 @@ public class ClassFileDeserializer implements Processor {
 
 	protected String[] loadConstantClassNames(ClassFileReader reader, ConstantPool constants) {
 		int count = reader.readUnsignedShort();
-		if (count == 0)
+		if (count == 0) {
 			return null;
+		}
 
 		String[] names = new String[count];
 
@@ -746,8 +764,9 @@ public class ClassFileDeserializer implements Processor {
 
 	protected ServiceInfo[] loadServiceInfos(ClassFileReader reader, ConstantPool constants) {
 		int count = reader.readUnsignedShort();
-		if (count == 0)
+		if (count == 0) {
 			return null;
+		}
 
 		ServiceInfo[] services = new ServiceInfo[count];
 
@@ -761,8 +780,9 @@ public class ClassFileDeserializer implements Processor {
 
 	protected Annotation[] loadAnnotations(ClassFileReader reader, ConstantPool constants) {
 		int count = reader.readUnsignedShort();
-		if (count == 0)
+		if (count == 0) {
 			return null;
+		}
 
 		Annotation[] annotations = new Annotation[count];
 
@@ -777,15 +797,17 @@ public class ClassFileDeserializer implements Processor {
 
 	protected Annotations[] loadParameterAnnotations(ClassFileReader reader, ConstantPool constants) {
 		int count = reader.readUnsignedByte();
-		if (count == 0)
+		if (count == 0) {
 			return null;
+		}
 
 		Annotations[] parameterAnnotations = new Annotations[count];
 
 		for (int i = 0; i < count; i++) {
 			Annotation[] annotations = loadAnnotations(reader, constants);
-			if (annotations != null)
+			if (annotations != null) {
 				parameterAnnotations[i] = new Annotations(annotations);
+			}
 		}
 
 		return parameterAnnotations;

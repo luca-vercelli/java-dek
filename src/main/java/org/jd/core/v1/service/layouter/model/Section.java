@@ -109,7 +109,7 @@ public class Section {
 
 					if (targetLineCount > currentLineCount) {
 						// Expands fragments
-						int oldDelta = delta = targetLineCount - currentLineCount;
+						final int oldDelta = delta = targetLineCount - currentLineCount;
 
 						for (FlexibleFragment flexibleFragment : flexibleFragments) {
 							if (flexibleFragment.getLineCount() < flexibleFragment.getMaximalLineCount()) {
@@ -130,16 +130,18 @@ public class Section {
 							}
 
 							expand(constrainedFlexibleFragments, force);
-							if (delta == 0)
+							if (delta == 0) {
 								break;
+							}
 						}
 
 						// Next, expand all
 						if (delta > 0) {
 							for (DefaultList<FlexibleFragment> flexibleFragments : filteredFlexibleFragments) {
 								expand(flexibleFragments, force);
-								if (delta == 0)
+								if (delta == 0) {
 									break;
+								}
 							}
 						}
 
@@ -147,7 +149,8 @@ public class Section {
 						return oldDelta != delta;
 					} else {
 						// Compacts fragments
-						int oldDelta = delta = currentLineCount - targetLineCount;
+						delta = currentLineCount - targetLineCount;
+						final int oldDelta = delta;
 
 						for (FlexibleFragment flexibleFragment : flexibleFragments) {
 							if (flexibleFragment.getMinimalLineCount() < flexibleFragment.getLineCount()) {
@@ -168,16 +171,18 @@ public class Section {
 							}
 
 							compact(constrainedFlexibleFragments, force);
-							if (delta == 0)
+							if (delta == 0) {
 								break;
+							}
 						}
 
 						// Next, compact all
 						if (delta > 0) {
 							for (DefaultList<FlexibleFragment> flexibleFragments : filteredFlexibleFragments) {
 								compact(flexibleFragments, force);
-								if (delta == 0)
+								if (delta == 0) {
 									break;
+								}
 							}
 						}
 
@@ -242,8 +247,9 @@ public class Section {
 
 		for (FlexibleFragment flexibleFragment : flexibleFragments) {
 			flexibleFragment.accept(forwardSearchEndIndexesVisitor);
-			if (!forwardSearchEndIndexesVisitor.isEnabled())
+			if (!forwardSearchEndIndexesVisitor.isEnabled()) {
 				break;
+			}
 		}
 
 		int size = backwardSearchStartIndexesVisitor.getSize();
@@ -301,8 +307,9 @@ public class Section {
 
 			for (FlexibleFragment flexibleFragment : section.getFlexibleFragments()) {
 				flexibleFragment.accept(visitor);
-				if (visitor.getDepth() == 0)
+				if (visitor.getDepth() == 0) {
 					return section;
+				}
 			}
 
 			section = section.getNextSection();
@@ -324,8 +331,9 @@ public class Section {
 
 			while (iterator.hasPrevious()) {
 				iterator.previous().accept(visitor);
-				if (visitor.getDepth() == 0)
+				if (visitor.getDepth() == 0) {
 					return section;
+				}
 			}
 
 			section = section.getPreviousSection();
@@ -343,8 +351,9 @@ public class Section {
 
 		while (iterator.hasPrevious()) {
 			iterator.previous().accept(visitor);
-			if (visitor.getDepth() == 0)
+			if (visitor.getDepth() == 0) {
 				break;
+			}
 		}
 
 		assert (visitor.getIndex() < flexibleFragments.size()) && (visitor.getIndex() > 1);
@@ -368,8 +377,9 @@ public class Section {
 
 		for (FlexibleFragment flexibleFragment : flexibleFragments) {
 			flexibleFragment.accept(visitor);
-			if (visitor.getDepth() == 2)
+			if (visitor.getDepth() == 2) {
 				break;
+			}
 		}
 
 		assert (visitor.getIndex() < flexibleFragments.size()) && (visitor.getIndex() > 1);
@@ -410,7 +420,11 @@ public class Section {
 	@SuppressWarnings("unchecked")
 	protected class AutoGrowthList
 			implements Iterable<DefaultList<FlexibleFragment>>, Iterator<DefaultList<FlexibleFragment>> {
-		protected DefaultList<FlexibleFragment>[] elements = new DefaultList[21];
+
+		static final int INITIAL_SIZE = 21;
+		static final int INCREMENT_STEP = 10;
+
+		protected DefaultList<FlexibleFragment>[] elements = new DefaultList[INITIAL_SIZE];
 		protected int iteratorIndex;
 
 		public void set(int index, DefaultList<FlexibleFragment> element) {
@@ -424,7 +438,8 @@ public class Section {
 			DefaultList<FlexibleFragment> element = elements[index];
 
 			if (element == null) {
-				elements[index] = element = new DefaultList<>(flexibleFragments.size());
+				element = new DefaultList<>(flexibleFragments.size());
+				elements[index] = element;
 			}
 
 			return element;
@@ -440,7 +455,7 @@ public class Section {
 
 		protected void ensureCapacity(int minCapacity) {
 			if (elements.length <= minCapacity) {
-				DefaultList<FlexibleFragment>[] tmp = new DefaultList[minCapacity + 10];
+				DefaultList<FlexibleFragment>[] tmp = new DefaultList[minCapacity + INCREMENT_STEP];
 				System.arraycopy(elements, 0, tmp, 0, elements.length);
 				elements = tmp;
 			}

@@ -41,7 +41,8 @@ public class JavaFragmentToTokenProcessor implements Processor {
 	 * Convert a list of JavaFragment's to a list of tokens
 	 */
 	public List<Token> process(List<JavaFragment> fragments) {
-		TokenizeJavaFragmentVisitor visitor = new TokenizeJavaFragmentVisitor(fragments.size() * 3);
+		final int GUESS = 3;
+		TokenizeJavaFragmentVisitor visitor = new TokenizeJavaFragmentVisitor(fragments.size() * GUESS);
 
 		// Create tokens
 		for (JavaFragment fragment : fragments) {
