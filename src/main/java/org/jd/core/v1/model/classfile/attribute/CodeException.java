@@ -43,15 +43,18 @@ public class CodeException {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o)
+        if (this == o) {
             return true;
-        if (o == null || getClass() != o.getClass())
+        }
+        if (o == null || getClass() != o.getClass()) {
             return false;
+        }
 
         CodeException that = (CodeException) o;
 
-        if (startPc != that.startPc)
+        if (startPc != that.startPc) {
             return false;
+        }
         return endPc == that.endPc;
     }
 

@@ -12,13 +12,16 @@ import org.jd.core.v1.util.DefaultList;
 import java.util.Collection;
 
 /**
- * A list of LocalVariableDeclarator that is itself a BaseLocalVariableDeclarator
+ * A list of LocalVariableDeclarator that is itself a
+ * BaseLocalVariableDeclarator
  */
-public class LocalVariableDeclarators extends DefaultList<LocalVariableDeclarator> implements BaseLocalVariableDeclarator {
+public class LocalVariableDeclarators extends DefaultList<LocalVariableDeclarator>
+        implements BaseLocalVariableDeclarator {
 
     private static final long serialVersionUID = -4198956216516647193L;
 
-    public LocalVariableDeclarators() {}
+    public LocalVariableDeclarators() {
+    }
 
     public LocalVariableDeclarators(int capacity) {
         super(capacity);

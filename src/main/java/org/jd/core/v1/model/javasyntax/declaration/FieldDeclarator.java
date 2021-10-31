@@ -55,21 +55,25 @@ public class FieldDeclarator implements BaseFieldDeclarator {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o)
+        if (this == o) {
             return true;
-        if (!(o instanceof FieldDeclarator))
+        }
+        if (!(o instanceof FieldDeclarator)) {
             return false;
+        }
 
         FieldDeclarator that = (FieldDeclarator) o;
 
-        if (dimension != that.dimension)
+        if (dimension != that.dimension) {
             return false;
-        if (!name.equals(that.name))
+        }
+        if (!name.equals(that.name)) {
             return false;
+        }
         if (variableInitializer != null ? !variableInitializer.equals(that.variableInitializer)
-                : that.variableInitializer != null)
+                : that.variableInitializer != null) {
             return false;
-
+        }
         return true;
     }
 

@@ -7,7 +7,12 @@
 
 package org.jd.core.v1.model.classfile;
 
-import org.jd.core.v1.model.classfile.constant.*;
+import org.jd.core.v1.model.classfile.constant.Constant;
+import org.jd.core.v1.model.classfile.constant.ConstantClass;
+import org.jd.core.v1.model.classfile.constant.ConstantPoolTag;
+import org.jd.core.v1.model.classfile.constant.ConstantString;
+import org.jd.core.v1.model.classfile.constant.ConstantUtf8;
+import org.jd.core.v1.model.classfile.constant.ConstantValue;
 
 /**
  * Store constant value. This table is stored at the beginning of the class
@@ -32,8 +37,8 @@ public class ConstantPool {
     }
 
     public String getConstantString(int index) {
-        ConstantString cString = (ConstantString) constants[index];
-        ConstantUtf8 cutf8 = (ConstantUtf8) constants[cString.getStringIndex()];
+        ConstantString constString = (ConstantString) constants[index];
+        ConstantUtf8 cutf8 = (ConstantUtf8) constants[constString.getStringIndex()];
         return cutf8.getValue();
     }
 

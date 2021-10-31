@@ -58,7 +58,7 @@ public class TernaryOperatorExpression extends AbstractLineNumberTypeExpression 
 
     @Override
     public int getPriority() {
-        return 15;
+        return PriorityConstants.TERNARY_OP_PRIORITY;
     }
 
     @Override

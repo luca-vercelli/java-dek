@@ -115,7 +115,8 @@ public class ObjectType implements Type {
 
     public ObjectType(String primitiveDescriptor, int dimension) {
         this.internalName = primitiveDescriptor;
-        this.qualifiedName = this.name = PrimitiveType.getPrimitiveType(primitiveDescriptor.charAt(0)).getName();
+        this.name = PrimitiveType.getPrimitiveType(primitiveDescriptor.charAt(0)).getName();
+        this.qualifiedName = this.name;
         this.dimension = dimension;
         this.descriptor = createDescriptor(primitiveDescriptor, dimension);
     }

@@ -23,7 +23,8 @@ public abstract class FlexibleFragment implements Fragment, JavaFragment {
     public FlexibleFragment(int minimalLineCount, int lineCount, int maximalLineCount, int weight, String label) {
         this.minimalLineCount = minimalLineCount;
         this.maximalLineCount = maximalLineCount;
-        this.initialLineCount = this.lineCount = lineCount;
+        this.lineCount = lineCount;
+        this.initialLineCount = lineCount;
         this.weight = weight;
         this.label = label;
     }

@@ -40,18 +40,18 @@ public class PrimitiveType implements Type {
     public static final PrimitiveType MAYBE_INT_TYPE              = new PrimitiveType("maybe_int",              FLAG_INT,                                             FLAG_INT,                                             FLAG_INT);                                             // Otherwise
     public static final PrimitiveType MAYBE_NEGATIVE_BOOLEAN_TYPE = new PrimitiveType("maybe_negative_boolean", FLAG_BOOLEAN|FLAG_BYTE|FLAG_SHORT|FLAG_INT,           FLAG_BOOLEAN|FLAG_BYTE|FLAG_SHORT|FLAG_INT,           FLAG_BOOLEAN|FLAG_BYTE|FLAG_SHORT|FLAG_INT);           // Boolean or negative
 
-    protected static final PrimitiveType[] descriptorToType = new PrimitiveType['Z' - 'B' + 1];
+    protected static final PrimitiveType[] DESCRIPTOR_TO_TYPE = new PrimitiveType['Z' - 'B' + 1];
 
     static {
-        descriptorToType['B' - 'B'] = TYPE_BYTE;
-        descriptorToType['C' - 'B'] = TYPE_CHAR;
-        descriptorToType['D' - 'B'] = TYPE_DOUBLE;
-        descriptorToType['F' - 'B'] = TYPE_FLOAT;
-        descriptorToType['I' - 'B'] = TYPE_INT;
-        descriptorToType['J' - 'B'] = TYPE_LONG;
-        descriptorToType['S' - 'B'] = TYPE_SHORT;
-        descriptorToType['V' - 'B'] = TYPE_VOID;
-        descriptorToType['Z' - 'B'] = TYPE_BOOLEAN;
+        DESCRIPTOR_TO_TYPE['B' - 'B'] = TYPE_BYTE;
+        DESCRIPTOR_TO_TYPE['C' - 'B'] = TYPE_CHAR;
+        DESCRIPTOR_TO_TYPE['D' - 'B'] = TYPE_DOUBLE;
+        DESCRIPTOR_TO_TYPE['F' - 'B'] = TYPE_FLOAT;
+        DESCRIPTOR_TO_TYPE['I' - 'B'] = TYPE_INT;
+        DESCRIPTOR_TO_TYPE['J' - 'B'] = TYPE_LONG;
+        DESCRIPTOR_TO_TYPE['S' - 'B'] = TYPE_SHORT;
+        DESCRIPTOR_TO_TYPE['V' - 'B'] = TYPE_VOID;
+        DESCRIPTOR_TO_TYPE['Z' - 'B'] = TYPE_BOOLEAN;
     }
 
     protected final String name;
@@ -96,7 +96,7 @@ public class PrimitiveType implements Type {
      * Get Type with given character description (e.g.'B' -> byte)
      */
     public static PrimitiveType getPrimitiveType(char primitiveDescriptor) {
-        return descriptorToType[primitiveDescriptor - 'B'];
+        return DESCRIPTOR_TO_TYPE[primitiveDescriptor - 'B'];
     }
 
     @Override
@@ -138,12 +138,18 @@ public class PrimitiveType implements Type {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         PrimitiveType that = (PrimitiveType) o;
 
-        if (flags != that.flags) return false;
+        if (flags != that.flags) {
+            return false;
+        }
 
         return true;
     }
@@ -184,16 +190,17 @@ public class PrimitiveType implements Type {
     }
 
     public int getJavaPrimitiveFlags() {
-        if ((flags & FLAG_BOOLEAN) != 0)
+        if ((flags & FLAG_BOOLEAN) != 0) {
             return FLAG_BOOLEAN;
-        else if ((flags & FLAG_INT) != 0)
+        } else if ((flags & FLAG_INT) != 0) {
             return FLAG_INT;
-        else if ((flags & FLAG_CHAR) != 0)
+        } else if ((flags & FLAG_CHAR) != 0) {
             return FLAG_CHAR;
-        else if ((flags & FLAG_SHORT) != 0)
+        } else if ((flags & FLAG_SHORT) != 0) {
             return FLAG_SHORT;
-        else if ((flags & FLAG_BYTE) != 0)
+        } else if ((flags & FLAG_BYTE) != 0) {
             return FLAG_BYTE;
+        }
 
         return flags;
     }

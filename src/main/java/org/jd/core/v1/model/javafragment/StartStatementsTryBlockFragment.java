@@ -8,11 +8,13 @@
 package org.jd.core.v1.model.javafragment;
 
 public class StartStatementsTryBlockFragment extends StartStatementsBlockFragment {
-    public StartStatementsTryBlockFragment(int minimalLineCount, int lineCount, int maximalLineCount, int weight, String label) {
+    public StartStatementsTryBlockFragment(int minimalLineCount, int lineCount, int maximalLineCount, int weight,
+            String label) {
         super(minimalLineCount, lineCount, maximalLineCount, weight, label);
     }
 
-    public StartStatementsTryBlockFragment(int minimalLineCount, int lineCount, int maximalLineCount, int weight, String label, Group group) {
+    public StartStatementsTryBlockFragment(int minimalLineCount, int lineCount, int maximalLineCount, int weight,
+            String label, Group group) {
         super(minimalLineCount, lineCount, maximalLineCount, weight, label, group);
     }
 

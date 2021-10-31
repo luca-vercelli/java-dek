@@ -60,6 +60,7 @@ public class LocalVariableDeclarator implements BaseLocalVariableDeclarator {
 
     @Override
     public String toString() {
-        return "LocalVariableDeclarator{name=" + name + ", dimension" + dimension + ", variableInitializer=" + variableInitializer + "}";
+        return "LocalVariableDeclarator{name=" + name + ", dimension" + dimension + ", variableInitializer="
+                + variableInitializer + "}";
     }
 }

@@ -78,14 +78,14 @@ public class FormalParameter implements BaseFormalParameter {
     public String toString() {
         String s = "FormalParameter(";
 
-        if (annotationReferences != null)
+        if (annotationReferences != null) {
             s += annotationReferences + " ";
-
-        if (varargs)
+        }
+        if (varargs) {
             s += type.createType(type.getDimension() - 1) + "... ";
-        else
+        } else {
             s += type + " ";
-
+        }
         return s + name + ")";
     }
 }

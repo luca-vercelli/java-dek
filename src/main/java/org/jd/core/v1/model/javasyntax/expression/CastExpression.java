@@ -54,7 +54,7 @@ public class CastExpression extends AbstractLineNumberTypeExpression {
 
     @Override
     public int getPriority() {
-        return 3;
+        return PriorityConstants.CAST_PRIORITY;
     }
 
     @Override

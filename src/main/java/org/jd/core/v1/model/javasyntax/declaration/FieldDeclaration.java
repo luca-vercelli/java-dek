@@ -23,7 +23,8 @@ public class FieldDeclaration implements MemberDeclaration {
         fieldDeclarators.setFieldDeclaration(this);
     }
 
-    public FieldDeclaration(BaseAnnotationReference annotationReferences, int flags, Type type, BaseFieldDeclarator fieldDeclarators) {
+    public FieldDeclaration(BaseAnnotationReference annotationReferences, int flags, Type type,
+            BaseFieldDeclarator fieldDeclarators) {
         this.flags = flags;
         this.annotationReferences = annotationReferences;
         this.type = type;
@@ -61,17 +62,28 @@ public class FieldDeclaration implements MemberDeclaration {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof FieldDeclaration)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof FieldDeclaration)) {
+            return false;
+        }
 
         FieldDeclaration that = (FieldDeclaration) o;
 
-        if (flags != that.flags) return false;
-        if (annotationReferences != null ? !annotationReferences.equals(that.annotationReferences) : that.annotationReferences != null)
+        if (flags != that.flags) {
             return false;
-        if (!fieldDeclarators.equals(that.fieldDeclarators)) return false;
-        if (!type.equals(that.type)) return false;
-
+        }
+        if (annotationReferences != null ? !annotationReferences.equals(that.annotationReferences)
+                : that.annotationReferences != null) {
+            return false;
+        }
+        if (!fieldDeclarators.equals(that.fieldDeclarators)) {
+            return false;
+        }
+        if (!type.equals(that.type)) {
+            return false;
+        }
         return true;
     }
 

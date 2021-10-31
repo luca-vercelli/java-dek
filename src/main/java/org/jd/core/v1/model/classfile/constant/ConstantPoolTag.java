@@ -24,14 +24,14 @@ public enum ConstantPoolTag {
     ;
 
     protected byte tag;
-    private static final ConstantPoolTag[] array = new ConstantPoolTag[21];
+    private static final ConstantPoolTag[] TAGS = new ConstantPoolTag[21];
 
     static {
-        for (int i = 0; i < array.length; ++i) {
-            array[i] = null;
+        for (int i = 0; i < TAGS.length; ++i) {
+            TAGS[i] = null;
         }
         for (ConstantPoolTag constant : ConstantPoolTag.values()) {
-            array[constant.tag] = constant;
+            TAGS[constant.tag] = constant;
         }
     }
 
@@ -44,6 +44,6 @@ public enum ConstantPoolTag {
     }
 
     public static ConstantPoolTag valueOf(byte readByte) {
-        return array[readByte];
+        return TAGS[readByte];
     }
 }

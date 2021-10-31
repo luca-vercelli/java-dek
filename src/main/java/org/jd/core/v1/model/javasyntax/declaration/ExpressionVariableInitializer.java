@@ -32,15 +32,18 @@ public class ExpressionVariableInitializer implements VariableInitializer {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o)
+        if (this == o) {
             return true;
-        if (!(o instanceof ExpressionVariableInitializer))
+        }
+        if (!(o instanceof ExpressionVariableInitializer)) {
             return false;
+        }
 
         ExpressionVariableInitializer that = (ExpressionVariableInitializer) o;
 
-        if (expression != null ? !expression.equals(that.expression) : that.expression != null)
+        if (expression != null ? !expression.equals(that.expression) : that.expression != null) {
             return false;
+        }
 
         return true;
     }

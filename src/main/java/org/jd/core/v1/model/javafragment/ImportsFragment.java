@@ -54,7 +54,9 @@ public class ImportsFragment extends FlexibleFragment {
     }
 
     public void initLineCounts() {
-        maximalLineCount = initialLineCount = lineCount = importMap.size();
+        lineCount = importMap.size();
+        initialLineCount = lineCount;
+        maximalLineCount = lineCount;
     }
 
     public boolean contains(String internalName) {

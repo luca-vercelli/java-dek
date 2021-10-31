@@ -46,7 +46,7 @@ public class InstanceOfExpression extends AbstractLineNumberExpression {
 
     @Override
     public int getPriority() {
-        return 8;
+        return PriorityConstants.INSTANCEOF_PRIORITY;
     }
 
     @Override

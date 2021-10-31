@@ -25,6 +25,6 @@ public abstract class AbstractLineNumberExpression implements Expression {
 
     @Override
     public int getPriority() {
-        return 0;
+        return PriorityConstants.LINE_NUMBER_PRIORITY;
     }
 }
