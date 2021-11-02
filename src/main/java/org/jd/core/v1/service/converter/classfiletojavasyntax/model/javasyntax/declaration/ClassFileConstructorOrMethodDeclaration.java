@@ -23,29 +23,29 @@ import java.util.Map;
  * ClassFileConstructorDeclaration, ClassFileStaticInitializerDeclaration
  */
 public interface ClassFileConstructorOrMethodDeclaration extends ClassFileMemberDeclaration {
-	int getFlags();
+    int getFlags();
 
-	void setFlags(int flags);
+    void setFlags(int flags);
 
-	ClassFile getClassFile();
+    ClassFile getClassFile();
 
-	Method getMethod();
+    Method getMethod();
 
-	BaseTypeParameter getTypeParameters();
+    BaseTypeParameter getTypeParameters();
 
-	BaseType getParameterTypes();
+    BaseType getParameterTypes();
 
-	Type getReturnedType();
+    Type getReturnedType();
 
-	ClassFileBodyDeclaration getBodyDeclaration();
+    ClassFileBodyDeclaration getBodyDeclaration();
 
-	Map<String, TypeArgument> getBindings();
+    Map<String, TypeArgument> getBindings();
 
-	Map<String, BaseType> getTypeBounds();
+    Map<String, BaseType> getTypeBounds();
 
-	void setFormalParameters(BaseFormalParameter formalParameters);
+    void setFormalParameters(BaseFormalParameter formalParameters);
 
-	BaseStatement getStatements();
+    BaseStatement getStatements();
 
-	void setStatements(BaseStatement statements);
+    void setStatements(BaseStatement statements);
 }

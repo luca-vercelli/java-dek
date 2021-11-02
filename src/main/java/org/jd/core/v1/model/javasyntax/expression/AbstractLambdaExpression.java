@@ -25,7 +25,7 @@ public abstract class AbstractLambdaExpression extends AbstractLineNumberTypeExp
 
     @Override
     public int getPriority() {
-        return 17;
+        return PriorityConstants.DEFAULT_PRIORITY;
     }
 
     public BaseStatement getStatements() {

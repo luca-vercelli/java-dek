@@ -20,122 +20,124 @@ import java.util.Map;
  * Fragment of import statements
  */
 public class ImportsFragment extends FlexibleFragment {
-	protected static final ImportCountComparator COUNT_COMPARATOR = new ImportCountComparator();
+    protected static final ImportCountComparator COUNT_COMPARATOR = new ImportCountComparator();
 
-	protected final Map<String, ImportsFragment.Import> importMap = new HashMap<>();
+    protected final Map<String, ImportsFragment.Import> importMap = new HashMap<>();
 
-	public ImportsFragment(int weight) {
-		super(0, -1, -1, weight, "Imports");
-	}
+    public ImportsFragment(int weight) {
+        super(0, -1, -1, weight, "Imports");
+    }
 
-	public void addImport(String internalName, String qualifiedName) {
-		Import imp = importMap.get(internalName);
+    public void addImport(String internalName, String qualifiedName) {
+        Import imp = importMap.get(internalName);
 
-		if (imp == null) {
-			importMap.put(internalName, new Import(internalName, qualifiedName));
-		} else {
-			imp.incCounter();
-		}
-	}
+        if (imp == null) {
+            importMap.put(internalName, new Import(internalName, qualifiedName));
+        } else {
+            imp.incCounter();
+        }
+    }
 
-	public boolean incCounter(String internalName) {
-		Import imp = importMap.get(internalName);
+    public boolean incCounter(String internalName) {
+        Import imp = importMap.get(internalName);
 
-		if (imp == null) {
-			return false;
-		} else {
-			imp.incCounter();
-			return true;
-		}
-	}
+        if (imp == null) {
+            return false;
+        } else {
+            imp.incCounter();
+            return true;
+        }
+    }
 
-	public boolean isEmpty() {
-		return importMap.isEmpty();
-	}
+    public boolean isEmpty() {
+        return importMap.isEmpty();
+    }
 
-	public void initLineCounts() {
-		maximalLineCount = initialLineCount = lineCount = importMap.size();
-	}
+    public void initLineCounts() {
+        lineCount = importMap.size();
+        initialLineCount = lineCount;
+        maximalLineCount = lineCount;
+    }
 
-	public boolean contains(String internalName) {
-		return importMap.containsKey(internalName);
-	}
+    public boolean contains(String internalName) {
+        return importMap.containsKey(internalName);
+    }
 
-	@Override
-	public int getLineCount() {
-		assert (lineCount != -1) : "Call initLineCounts() before";
-		return lineCount;
-	}
+    @Override
+    public int getLineCount() {
+        assert (lineCount != -1) : "Call initLineCounts() before";
+        return lineCount;
+    }
 
-	public Collection<Import> getImports() {
-		int lineCount = getLineCount();
-		int size = importMap.size();
+    public Collection<Import> getImports() {
+        int lineCount = getLineCount();
+        int size = importMap.size();
 
-		if (lineCount < size) {
-			DefaultList<Import> imports = new DefaultList<>(importMap.values());
+        if (lineCount < size) {
+            DefaultList<Import> imports = new DefaultList<>(importMap.values());
 
-			imports.sort(COUNT_COMPARATOR);
+            imports.sort(COUNT_COMPARATOR);
 
-			// Remove less used imports
-			List<Import> subList = imports.subList(lineCount, size);
+            // Remove less used imports
+            List<Import> subList = imports.subList(lineCount, size);
 
-			for (Import imp0rt : subList) {
-				importMap.remove(imp0rt.getInternalName());
-			}
+            for (Import imp0rt : subList) {
+                importMap.remove(imp0rt.getInternalName());
+            }
 
-			subList.clear();
+            subList.clear();
 
-			return imports;
-		} else {
-			return importMap.values();
-		}
-	}
+            return imports;
+        } else {
+            return importMap.values();
+        }
+    }
 
-	public static class Import {
-		protected String internalName;
-		protected String qualifiedName;
-		protected int counter; // how many times is this import used
+    public static class Import {
+        protected String internalName;
+        protected String qualifiedName;
+        protected int counter; // how many times is this import used
 
-		public Import(String internalName, String qualifiedName) {
-			this.internalName = internalName;
-			this.qualifiedName = qualifiedName;
-			this.counter = 1;
-		}
+        public Import(String internalName, String qualifiedName) {
+            this.internalName = internalName;
+            this.qualifiedName = qualifiedName;
+            this.counter = 1;
+        }
 
-		public String getInternalName() {
-			return internalName;
-		}
+        public String getInternalName() {
+            return internalName;
+        }
 
-		public String getQualifiedName() {
-			return qualifiedName;
-		}
+        public String getQualifiedName() {
+            return qualifiedName;
+        }
 
-		public int getCounter() {
-			return counter;
-		}
+        public int getCounter() {
+            return counter;
+        }
 
-		public void incCounter() {
-			counter++;
-		}
-	}
+        public void incCounter() {
+            counter++;
+        }
+    }
 
-	@Override
-	public void accept(JavaFragmentVisitor visitor) {
-		visitor.visit(this);
-	}
+    @Override
+    public void accept(JavaFragmentVisitor visitor) {
+        visitor.visit(this);
+    }
 
-	@Override
-	public String toString() {
-		return super.toString() + " " + importMap;
-	}
+    @Override
+    public String toString() {
+        return super.toString() + " " + importMap;
+    }
 
-	/**
-	 * Order Import's by their counter
-	 */
-	protected static class ImportCountComparator implements Comparator<Import> {
-		@Override
-		public int compare(Import tr1, Import tr2) {
-			return tr2.getCounter() - tr1.getCounter();
-		}
-	}
+    /**
+     * Order Import's by their counter
+     */
+    protected static class ImportCountComparator implements Comparator<Import> {
+        @Override
+        public int compare(Import tr1, Import tr2) {
+            return tr2.getCounter() - tr1.getCounter();
+        }
+    }
 }

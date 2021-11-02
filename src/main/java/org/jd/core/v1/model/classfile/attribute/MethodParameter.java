@@ -11,29 +11,29 @@ package org.jd.core.v1.model.classfile.attribute;
  * Information stored in MethodParameter attributes
  */
 public class MethodParameter {
-	protected String name;
-	protected int access;
+    protected String name;
+    protected int access;
 
-	public MethodParameter(String name, int access) {
-		this.name = name;
-		this.access = access;
-	}
+    public MethodParameter(String name, int access) {
+        this.name = name;
+        this.access = access;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public int getAccess() {
-		return access;
-	}
+    public int getAccess() {
+        return access;
+    }
 
-	@Override
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
 
-		sb.append("Parameter{name=").append(name);
-		sb.append(", access=").append(access);
+        sb.append("Parameter{name=").append(name);
+        sb.append(", access=").append(access);
 
-		return sb.append("}").toString();
-	}
+        return sb.append("}").toString();
+    }
 }

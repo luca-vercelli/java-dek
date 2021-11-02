@@ -12,23 +12,23 @@ import org.jd.core.v1.util.DefaultList;
 import java.util.Collection;
 
 public class AnnotationReferences extends DefaultList<AnnotationReference>
-		implements BaseAnnotationReference {
+        implements BaseAnnotationReference {
 
-	private static final long serialVersionUID = 9031417743809162767L;
+    private static final long serialVersionUID = 9031417743809162767L;
 
-	public AnnotationReferences() {
-	}
+    public AnnotationReferences() {
+    }
 
-	public AnnotationReferences(int capacity) {
-		super(capacity);
-	}
+    public AnnotationReferences(int capacity) {
+        super(capacity);
+    }
 
-	public AnnotationReferences(Collection<AnnotationReference> collection) {
-		super(collection);
-	}
+    public AnnotationReferences(Collection<AnnotationReference> collection) {
+        super(collection);
+    }
 
-	@Override
-	public void accept(ReferenceVisitor visitor) {
-		visitor.visit(this);
-	}
+    @Override
+    public void accept(ReferenceVisitor visitor) {
+        visitor.visit(this);
+    }
 }

@@ -8,19 +8,19 @@
 package org.jd.core.v1.model.classfile.constant;
 
 public class ConstantUtf8 extends ConstantValue {
-	protected String value;
+    protected String value;
 
-	public ConstantUtf8(String value) {
-		super(ConstantPoolTag.CONSTANT_Utf8);
-		this.value = value;
-	}
+    public ConstantUtf8(String value) {
+        super(ConstantPoolTag.CONSTANT_Utf8);
+        this.value = value;
+    }
 
-	public String getValue() {
-		return value;
-	}
+    public String getValue() {
+        return value;
+    }
 
-	@Override
-	public String toString() {
-		return getClass().getSimpleName() + " " + value;
-	}
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + " " + value;
+    }
 }

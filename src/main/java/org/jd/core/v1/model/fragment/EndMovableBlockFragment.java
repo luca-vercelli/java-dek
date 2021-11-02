@@ -8,17 +8,17 @@
 package org.jd.core.v1.model.fragment;
 
 public abstract class EndMovableBlockFragment extends FlexibleFragment {
-	public EndMovableBlockFragment() {
-		super(0, 0, 0, 0, "End movable block");
-	}
+    public EndMovableBlockFragment() {
+        super(0, 0, 0, 0, "End movable block");
+    }
 
-	@Override
-	public String toString() {
-		return "{end-movable-block}";
-	}
+    @Override
+    public String toString() {
+        return "{end-movable-block}";
+    }
 
-	@Override
-	public void accept(FragmentVisitor visitor) {
-		visitor.visit(this);
-	}
+    @Override
+    public void accept(FragmentVisitor visitor) {
+        visitor.visit(this);
+    }
 }

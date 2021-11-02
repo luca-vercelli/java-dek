@@ -22,106 +22,106 @@ import org.jd.core.v1.model.javasyntax.type.TypeArgument;
 import java.util.Map;
 
 public class ClassFileMethodDeclaration extends MethodDeclaration implements ClassFileConstructorOrMethodDeclaration {
-	protected ClassFileBodyDeclaration bodyDeclaration; // parent object
-	protected ClassFile classFile;
-	protected Method method;
-	protected BaseType parameterTypes;
-	protected Map<String, TypeArgument> bindings;
-	protected Map<String, BaseType> typeBounds;
-	protected int firstLineNumber;
+    protected ClassFileBodyDeclaration bodyDeclaration; // parent object
+    protected ClassFile classFile;
+    protected Method method;
+    protected BaseType parameterTypes;
+    protected Map<String, TypeArgument> bindings;
+    protected Map<String, BaseType> typeBounds;
+    protected int firstLineNumber;
 
-	public ClassFileMethodDeclaration(ClassFileBodyDeclaration bodyDeclaration, ClassFile classFile, Method method,
-			String name, Type returnedType, BaseType parameterTypes, Map<String, TypeArgument> bindings,
-			Map<String, BaseType> typeBounds) {
-		super(null, method.getAccessFlags(), name, null, returnedType, null, null, method.getDescriptor(), null, null);
-		this.bodyDeclaration = bodyDeclaration;
-		this.classFile = classFile;
-		this.parameterTypes = parameterTypes;
-		this.method = method;
-		this.bindings = bindings;
-		this.typeBounds = typeBounds;
-	}
+    public ClassFileMethodDeclaration(ClassFileBodyDeclaration bodyDeclaration, ClassFile classFile, Method method,
+            String name, Type returnedType, BaseType parameterTypes, Map<String, TypeArgument> bindings,
+            Map<String, BaseType> typeBounds) {
+        super(null, method.getAccessFlags(), name, null, returnedType, null, null, method.getDescriptor(), null, null);
+        this.bodyDeclaration = bodyDeclaration;
+        this.classFile = classFile;
+        this.parameterTypes = parameterTypes;
+        this.method = method;
+        this.bindings = bindings;
+        this.typeBounds = typeBounds;
+    }
 
-	public ClassFileMethodDeclaration(ClassFileBodyDeclaration bodyDeclaration, ClassFile classFile, Method method,
-			String name, Type returnedType, BaseType parameterTypes, Map<String, TypeArgument> bindings,
-			Map<String, BaseType> typeBounds, int firstLineNumber) {
-		super(null, method.getAccessFlags(), name, null, returnedType, null, null, method.getDescriptor(), null, null);
-		this.bodyDeclaration = bodyDeclaration;
-		this.classFile = classFile;
-		this.method = method;
-		this.parameterTypes = parameterTypes;
-		this.bindings = bindings;
-		this.typeBounds = typeBounds;
-		this.firstLineNumber = firstLineNumber;
-	}
+    public ClassFileMethodDeclaration(ClassFileBodyDeclaration bodyDeclaration, ClassFile classFile, Method method,
+            String name, Type returnedType, BaseType parameterTypes, Map<String, TypeArgument> bindings,
+            Map<String, BaseType> typeBounds, int firstLineNumber) {
+        super(null, method.getAccessFlags(), name, null, returnedType, null, null, method.getDescriptor(), null, null);
+        this.bodyDeclaration = bodyDeclaration;
+        this.classFile = classFile;
+        this.method = method;
+        this.parameterTypes = parameterTypes;
+        this.bindings = bindings;
+        this.typeBounds = typeBounds;
+        this.firstLineNumber = firstLineNumber;
+    }
 
-	public ClassFileMethodDeclaration(ClassFileBodyDeclaration bodyDeclaration, ClassFile classFile, Method method,
-			BaseAnnotationReference annotationReferences, String name, BaseTypeParameter typeParameters,
-			Type returnedType, BaseType parameterTypes, BaseType exceptionTypes, ElementValue defaultAnnotationValue,
-			Map<String, TypeArgument> bindings, Map<String, BaseType> typeBounds, int firstLineNumber) {
-		super(annotationReferences, method.getAccessFlags(), name, typeParameters, returnedType, null, exceptionTypes,
-				method.getDescriptor(), null, defaultAnnotationValue);
-		this.bodyDeclaration = bodyDeclaration;
-		this.classFile = classFile;
-		this.method = method;
-		this.parameterTypes = parameterTypes;
-		this.bindings = bindings;
-		this.typeBounds = typeBounds;
-		this.firstLineNumber = firstLineNumber;
-	}
+    public ClassFileMethodDeclaration(ClassFileBodyDeclaration bodyDeclaration, ClassFile classFile, Method method,
+            BaseAnnotationReference annotationReferences, String name, BaseTypeParameter typeParameters,
+            Type returnedType, BaseType parameterTypes, BaseType exceptionTypes, ElementValue defaultAnnotationValue,
+            Map<String, TypeArgument> bindings, Map<String, BaseType> typeBounds, int firstLineNumber) {
+        super(annotationReferences, method.getAccessFlags(), name, typeParameters, returnedType, null, exceptionTypes,
+                method.getDescriptor(), null, defaultAnnotationValue);
+        this.bodyDeclaration = bodyDeclaration;
+        this.classFile = classFile;
+        this.method = method;
+        this.parameterTypes = parameterTypes;
+        this.bindings = bindings;
+        this.typeBounds = typeBounds;
+        this.firstLineNumber = firstLineNumber;
+    }
 
-	@Override
-	public void setFlags(int flags) {
-		this.flags = flags;
-	}
+    @Override
+    public void setFlags(int flags) {
+        this.flags = flags;
+    }
 
-	@Override
-	public void setFormalParameters(BaseFormalParameter formalParameters) {
-		this.formalParameters = formalParameters;
-	}
+    @Override
+    public void setFormalParameters(BaseFormalParameter formalParameters) {
+        this.formalParameters = formalParameters;
+    }
 
-	@Override
-	public void setStatements(BaseStatement statements) {
-		this.statements = statements;
-	}
+    @Override
+    public void setStatements(BaseStatement statements) {
+        this.statements = statements;
+    }
 
-	@Override
-	public ClassFileBodyDeclaration getBodyDeclaration() {
-		return bodyDeclaration;
-	}
+    @Override
+    public ClassFileBodyDeclaration getBodyDeclaration() {
+        return bodyDeclaration;
+    }
 
-	@Override
-	public ClassFile getClassFile() {
-		return classFile;
-	}
+    @Override
+    public ClassFile getClassFile() {
+        return classFile;
+    }
 
-	@Override
-	public Method getMethod() {
-		return method;
-	}
+    @Override
+    public Method getMethod() {
+        return method;
+    }
 
-	@Override
-	public BaseType getParameterTypes() {
-		return parameterTypes;
-	}
+    @Override
+    public BaseType getParameterTypes() {
+        return parameterTypes;
+    }
 
-	@Override
-	public Map<String, TypeArgument> getBindings() {
-		return bindings;
-	}
+    @Override
+    public Map<String, TypeArgument> getBindings() {
+        return bindings;
+    }
 
-	@Override
-	public Map<String, BaseType> getTypeBounds() {
-		return typeBounds;
-	}
+    @Override
+    public Map<String, BaseType> getTypeBounds() {
+        return typeBounds;
+    }
 
-	@Override
-	public int getFirstLineNumber() {
-		return firstLineNumber;
-	}
+    @Override
+    public int getFirstLineNumber() {
+        return firstLineNumber;
+    }
 
-	@Override
-	public String toString() {
-		return "ClassFileMethodDeclaration{" + name + " " + descriptor + ", firstLineNumber=" + firstLineNumber + "}";
-	}
+    @Override
+    public String toString() {
+        return "ClassFileMethodDeclaration{" + name + " " + descriptor + ", firstLineNumber=" + firstLineNumber + "}";
+    }
 }

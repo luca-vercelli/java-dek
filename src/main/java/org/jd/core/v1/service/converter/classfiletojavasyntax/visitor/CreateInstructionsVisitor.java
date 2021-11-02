@@ -41,159 +41,159 @@ import org.jd.core.v1.service.converter.classfiletojavasyntax.util.TypeMaker;
  * Add FormalParameters, variables, statements
  */
 public class CreateInstructionsVisitor extends AbstractJavaSyntaxVisitor {
-	protected TypeMaker typeMaker;
-	protected boolean dumpOpcode;
+    protected TypeMaker typeMaker;
+    protected boolean dumpOpcode;
 
-	/**
-	 * Constructor
-	 * 
-	 * @param typeMaker
-	 * @param dumpOpcode if true, print opcode instead of statements
-	 */
-	public CreateInstructionsVisitor(TypeMaker typeMaker, boolean dumpOpcode) {
-		this.typeMaker = typeMaker;
-		this.dumpOpcode = dumpOpcode;
-	}
+    /**
+     * Constructor
+     * 
+     * @param typeMaker
+     * @param dumpOpcode if true, print opcode instead of statements
+     */
+    public CreateInstructionsVisitor(TypeMaker typeMaker, boolean dumpOpcode) {
+        this.typeMaker = typeMaker;
+        this.dumpOpcode = dumpOpcode;
+    }
 
-	@Override
-	public void visit(AnnotationDeclaration declaration) {
-		safeAccept(declaration.getBodyDeclaration());
-	}
+    @Override
+    public void visit(AnnotationDeclaration declaration) {
+        safeAccept(declaration.getBodyDeclaration());
+    }
 
-	/**
-	 * Add FormalParameters, variables, statements
-	 */
-	@Override
-	public void visit(BodyDeclaration declaration) {
-		ClassFileBodyDeclaration bodyDeclaration = (ClassFileBodyDeclaration) declaration;
+    /**
+     * Add FormalParameters, variables, statements
+     */
+    @Override
+    public void visit(BodyDeclaration declaration) {
+        ClassFileBodyDeclaration bodyDeclaration = (ClassFileBodyDeclaration) declaration;
 
-		// Parse byte code
-		List<ClassFileConstructorOrMethodDeclaration> methods = bodyDeclaration.getMethodDeclarations();
+        // Parse byte code
+        List<ClassFileConstructorOrMethodDeclaration> methods = bodyDeclaration.getMethodDeclarations();
 
-		if (methods != null) {
+        if (methods != null) {
 
-			// Synthetic and Bridge methods first, in reverse order because of possibly
-			// nested lambdas
-			for (int i = methods.size() - 1; i >= 0; --i) {
-				ClassFileConstructorOrMethodDeclaration method = methods.get(i);
-				acceptSyntheticMethod(method);
-			}
+            // Synthetic and Bridge methods first, in reverse order because of possibly
+            // nested lambdas
+            for (int i = methods.size() - 1; i >= 0; --i) {
+                ClassFileConstructorOrMethodDeclaration method = methods.get(i);
+                acceptSyntheticMethod(method);
+            }
 
-			// Then, all other methods
-			for (ClassFileConstructorOrMethodDeclaration method : methods) {
-				if ((method.getFlags() & (ACC_SYNTHETIC | ACC_BRIDGE)) == 0) {
-					method.accept(this);
-				}
-			}
-		}
-	}
+            // Then, all other methods
+            for (ClassFileConstructorOrMethodDeclaration method : methods) {
+                if ((method.getFlags() & (ACC_SYNTHETIC | ACC_BRIDGE)) == 0) {
+                    method.accept(this);
+                }
+            }
+        }
+    }
 
-	private void acceptSyntheticMethod(ClassFileConstructorOrMethodDeclaration method) {
-		if ((method.getFlags() & (ACC_SYNTHETIC | ACC_BRIDGE)) != 0) {
-			method.accept(this);
-		} else if ((method.getFlags() & (ACC_STATIC | ACC_BRIDGE)) == ACC_STATIC) {
-			if (method.getMethod().getName().startsWith("access$")) {
-				// Accessor -> bridge method
-				method.setFlags(method.getFlags() | ACC_BRIDGE);
-				method.accept(this);
-			}
-		} else if (method.getParameterTypes() != null) {
-			if (method.getParameterTypes().isList()) {
-				for (Type type : method.getParameterTypes()) {
-					if (type.isObjectType() && (type.getName() == null)) {
-						// Synthetic type in parameters -> synthetic method
-						method.setFlags(method.getFlags() | ACC_SYNTHETIC);
-						method.accept(this);
-						break;
-					}
-				}
-			} else {
-				Type type = method.getParameterTypes().getFirst();
-				if (type.isObjectType() && (type.getName() == null)) {
-					// Synthetic type in parameters -> synthetic method
-					method.setFlags(method.getFlags() | ACC_SYNTHETIC);
-					method.accept(this);
-				}
-			}
-		}
-	}
+    private void acceptSyntheticMethod(ClassFileConstructorOrMethodDeclaration method) {
+        if ((method.getFlags() & (ACC_SYNTHETIC | ACC_BRIDGE)) != 0) {
+            method.accept(this);
+        } else if ((method.getFlags() & (ACC_STATIC | ACC_BRIDGE)) == ACC_STATIC) {
+            if (method.getMethod().getName().startsWith("access$")) {
+                // Accessor -> bridge method
+                method.setFlags(method.getFlags() | ACC_BRIDGE);
+                method.accept(this);
+            }
+        } else if (method.getParameterTypes() != null) {
+            if (method.getParameterTypes().isList()) {
+                for (Type type : method.getParameterTypes()) {
+                    if (type.isObjectType() && (type.getName() == null)) {
+                        // Synthetic type in parameters -> synthetic method
+                        method.setFlags(method.getFlags() | ACC_SYNTHETIC);
+                        method.accept(this);
+                        break;
+                    }
+                }
+            } else {
+                Type type = method.getParameterTypes().getFirst();
+                if (type.isObjectType() && (type.getName() == null)) {
+                    // Synthetic type in parameters -> synthetic method
+                    method.setFlags(method.getFlags() | ACC_SYNTHETIC);
+                    method.accept(this);
+                }
+            }
+        }
+    }
 
-	@Override
-	public void visit(FieldDeclaration declaration) {
-	}
+    @Override
+    public void visit(FieldDeclaration declaration) {
+    }
 
-	@Override
-	public void visit(ConstructorDeclaration declaration) {
-		createParametersVariablesAndStatements((ClassFileConstructorOrMethodDeclaration) declaration, true);
-	}
+    @Override
+    public void visit(ConstructorDeclaration declaration) {
+        createParametersVariablesAndStatements((ClassFileConstructorOrMethodDeclaration) declaration, true);
+    }
 
-	@Override
-	public void visit(MethodDeclaration declaration) {
-		createParametersVariablesAndStatements((ClassFileConstructorOrMethodDeclaration) declaration, false);
-	}
+    @Override
+    public void visit(MethodDeclaration declaration) {
+        createParametersVariablesAndStatements((ClassFileConstructorOrMethodDeclaration) declaration, false);
+    }
 
-	@Override
-	public void visit(StaticInitializerDeclaration declaration) {
-		createParametersVariablesAndStatements((ClassFileConstructorOrMethodDeclaration) declaration, false);
-	}
+    @Override
+    public void visit(StaticInitializerDeclaration declaration) {
+        createParametersVariablesAndStatements((ClassFileConstructorOrMethodDeclaration) declaration, false);
+    }
 
-	protected void createParametersVariablesAndStatements(ClassFileConstructorOrMethodDeclaration comd,
-			boolean constructor) {
-		Method method = comd.getMethod();
-		AttributeCode attributeCode = method.getAttribute("Code");
-		LocalVariableMaker localVariableMaker = new LocalVariableMaker(typeMaker, comd, constructor);
+    protected void createParametersVariablesAndStatements(ClassFileConstructorOrMethodDeclaration comd,
+            boolean constructor) {
+        Method method = comd.getMethod();
+        AttributeCode attributeCode = method.getAttribute("Code");
+        LocalVariableMaker localVariableMaker = new LocalVariableMaker(typeMaker, comd, constructor);
 
-		if (attributeCode == null) {
-			localVariableMaker.make(false, typeMaker);
-		} else {
-			StatementMaker statementMaker = new StatementMaker(typeMaker, localVariableMaker, comd);
-			boolean containsLineNumber = (attributeCode.getAttribute("LineNumberTable") != null);
+        if (attributeCode == null) {
+            localVariableMaker.make(false, typeMaker);
+        } else {
+            StatementMaker statementMaker = new StatementMaker(typeMaker, localVariableMaker, comd);
+            boolean containsLineNumber = (attributeCode.getAttribute("LineNumberTable") != null);
 
-			try {
-				boolean decompileSuccess = false;
-				if (!dumpOpcode) {
-					ControlFlowGraph cfg = ControlFlowGraphMaker.make(method);
+            try {
+                boolean decompileSuccess = false;
+                if (!dumpOpcode) {
+                    ControlFlowGraph cfg = ControlFlowGraphMaker.make(method);
 
-					if (cfg != null) {
-						ControlFlowGraphGotoReducer.reduce(cfg);
-						ControlFlowGraphLoopReducer.reduce(cfg);
+                    if (cfg != null) {
+                        ControlFlowGraphGotoReducer.reduce(cfg);
+                        ControlFlowGraphLoopReducer.reduce(cfg);
 
-						if (ControlFlowGraphReducer.reduce(cfg)) {
-							comd.setStatements(statementMaker.make(cfg));
-							decompileSuccess = true;
-						}
-					}
-				}
-				if (!decompileSuccess) {
-					comd.setStatements(new ByteCodeStatement(ByteCodeWriter.write("// ", method)));
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-				comd.setStatements(new ByteCodeStatement(ByteCodeWriter.write("// ", method)));
-			}
+                        if (ControlFlowGraphReducer.reduce(cfg)) {
+                            comd.setStatements(statementMaker.make(cfg));
+                            decompileSuccess = true;
+                        }
+                    }
+                }
+                if (!decompileSuccess) {
+                    comd.setStatements(new ByteCodeStatement(ByteCodeWriter.write("// ", method)));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                comd.setStatements(new ByteCodeStatement(ByteCodeWriter.write("// ", method)));
+            }
 
-			localVariableMaker.make(containsLineNumber, typeMaker);
-		}
+            localVariableMaker.make(containsLineNumber, typeMaker);
+        }
 
-		comd.setFormalParameters(localVariableMaker.getFormalParameters());
+        comd.setFormalParameters(localVariableMaker.getFormalParameters());
 
-		if (comd.getClassFile().isInterface()) {
-			comd.setFlags(comd.getFlags() & ~(ACC_PUBLIC | ACC_ABSTRACT));
-		}
-	}
+        if (comd.getClassFile().isInterface()) {
+            comd.setFlags(comd.getFlags() & ~(ACC_PUBLIC | ACC_ABSTRACT));
+        }
+    }
 
-	@Override
-	public void visit(ClassDeclaration declaration) {
-		safeAccept(declaration.getBodyDeclaration());
-	}
+    @Override
+    public void visit(ClassDeclaration declaration) {
+        safeAccept(declaration.getBodyDeclaration());
+    }
 
-	@Override
-	public void visit(EnumDeclaration declaration) {
-		safeAccept(declaration.getBodyDeclaration());
-	}
+    @Override
+    public void visit(EnumDeclaration declaration) {
+        safeAccept(declaration.getBodyDeclaration());
+    }
 
-	@Override
-	public void visit(InterfaceDeclaration declaration) {
-		safeAccept(declaration.getBodyDeclaration());
-	}
+    @Override
+    public void visit(InterfaceDeclaration declaration) {
+        safeAccept(declaration.getBodyDeclaration());
+    }
 }

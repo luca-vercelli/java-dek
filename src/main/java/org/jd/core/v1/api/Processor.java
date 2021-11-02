@@ -13,11 +13,11 @@ import org.jd.core.v1.model.message.Message;
 
 public interface Processor {
 
-	/**
-	 * Perform an elaboration phase on given Message
-	 * 
-	 * @param message
-	 * @throws IOException
-	 */
-	public void process(Message message) throws IOException;
+    /**
+     * Perform an elaboration phase on given Message
+     * 
+     * @param message
+     * @throws IOException
+     */
+    public void process(Message message) throws IOException;
 }

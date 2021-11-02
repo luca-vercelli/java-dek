@@ -8,34 +8,34 @@
 package org.jd.core.v1.model.javasyntax.statement;
 
 public class LabelStatement implements Statement {
-	protected String label;
-	protected Statement statement;
+    protected String label;
+    protected Statement statement;
 
-	public LabelStatement(String label, Statement statement) {
-		this.label = label;
-		this.statement = statement;
-	}
+    public LabelStatement(String label, Statement statement) {
+        this.label = label;
+        this.statement = statement;
+    }
 
-	public String getLabel() {
-		return label;
-	}
+    public String getLabel() {
+        return label;
+    }
 
-	public Statement getStatement() {
-		return statement;
-	}
+    public Statement getStatement() {
+        return statement;
+    }
 
-	@Override
-	public boolean isLabelStatement() {
-		return true;
-	}
+    @Override
+    public boolean isLabelStatement() {
+        return true;
+    }
 
-	@Override
-	public void accept(StatementVisitor visitor) {
-		visitor.visit(this);
-	}
+    @Override
+    public void accept(StatementVisitor visitor) {
+        visitor.visit(this);
+    }
 
-	@Override
-	public String toString() {
-		return "LabelStatement{" + label + ": " + statement + "}";
-	}
+    @Override
+    public String toString() {
+        return "LabelStatement{" + label + ": " + statement + "}";
+    }
 }

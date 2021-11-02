@@ -16,9 +16,10 @@ import java.util.Collection;
  */
 public class TypeParameters extends DefaultList<TypeParameter> implements BaseTypeParameter {
 
-	private static final long serialVersionUID = -8767639569113902100L;
+    private static final long serialVersionUID = -8767639569113902100L;
 
-	public TypeParameters() {}
+    public TypeParameters() {
+    }
 
     public TypeParameters(int capacity) {
         super(capacity);
@@ -51,7 +52,7 @@ public class TypeParameters extends DefaultList<TypeParameter> implements BaseTy
 
         sb.append(get(0).toString());
 
-        for (int i=1; i<size(); i++) {
+        for (int i = 1; i < size(); i++) {
             sb.append(" & ");
             sb.append(get(i).toString());
         }

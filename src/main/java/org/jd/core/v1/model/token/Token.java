@@ -8,5 +8,5 @@
 package org.jd.core.v1.model.token;
 
 public interface Token {
-	void accept(TokenVisitor visitor);
+    void accept(TokenVisitor visitor);
 }

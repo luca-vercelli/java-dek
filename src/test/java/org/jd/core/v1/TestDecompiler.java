@@ -20,60 +20,60 @@ import org.jd.core.v1.service.printer.PlainTextPrinter;
  */
 public class TestDecompiler extends StandardDecompiler {
 
-	@Override
-	protected void decompile(Message message) throws IOException {
-		super.decompile(message);
+    @Override
+    protected void decompile(Message message) throws IOException {
+        super.decompile(message);
 
-		String source = message.getPrinter().toString();
-		if (!message.getConfiguration().isDumpOpcode()) {
-			assertTrue(source.indexOf("// Byte code:") == -1);
-		}
-		printSource(source);
-	}
+        String source = message.getPrinter().toString();
+        if (!message.getConfiguration().isDumpOpcode()) {
+            assertTrue(source.indexOf("// Byte code:") == -1);
+        }
+        printSource(source);
+    }
 
-	protected void printSource(String source) {
-		System.out.println("- - - - - - - - ");
-		System.out.println(source);
-		System.out.println("- - - - - - - - ");
-	}
+    protected void printSource(String source) {
+        System.out.println("- - - - - - - - ");
+        System.out.println(source);
+        System.out.println("- - - - - - - - ");
+    }
 
-	/**
-	 * Convenience method for tests
-	 * 
-	 * @throws IOException
-	 */
-	public String decompile(String internalName) throws IOException {
-		Printer printer = new PlainTextPrinter();
-		decompile(new ClassPathLoader(), printer, internalName);
-		return printer.toString();
-	}
+    /**
+     * Convenience method for tests
+     * 
+     * @throws IOException
+     */
+    public String decompile(String internalName) throws IOException {
+        Printer printer = new PlainTextPrinter();
+        decompile(new ClassPathLoader(), printer, internalName);
+        return printer.toString();
+    }
 
-	/**
-	 * Convenience method for tests
-	 * 
-	 * @throws IOException
-	 */
-	public String decompile(String internalName, CompileConfiguration configuration) throws IOException {
-		Printer printer = new PlainTextPrinter();
-		decompile(new ClassPathLoader(), printer, internalName, configuration);
-		return printer.toString();
-	}
+    /**
+     * Convenience method for tests
+     * 
+     * @throws IOException
+     */
+    public String decompile(String internalName, CompileConfiguration configuration) throws IOException {
+        Printer printer = new PlainTextPrinter();
+        decompile(new ClassPathLoader(), printer, internalName, configuration);
+        return printer.toString();
+    }
 
-	/**
-	 * Convenience method for tests
-	 */
-	public String decompile(Loader loader, String internalName) throws Exception {
-		Printer printer = new PlainTextPrinter();
-		decompile(loader, printer, internalName);
-		return printer.toString();
-	}
+    /**
+     * Convenience method for tests
+     */
+    public String decompile(Loader loader, String internalName) throws Exception {
+        Printer printer = new PlainTextPrinter();
+        decompile(loader, printer, internalName);
+        return printer.toString();
+    }
 
-	/**
-	 * Convenience method for tests
-	 */
-	public String decompile(Loader loader, String internalName, CompileConfiguration configuration) throws Exception {
-		Printer printer = new PlainTextPrinter();
-		decompile(loader, printer, internalName, configuration);
-		return printer.toString();
-	}
+    /**
+     * Convenience method for tests
+     */
+    public String decompile(Loader loader, String internalName, CompileConfiguration configuration) throws Exception {
+        Printer printer = new PlainTextPrinter();
+        decompile(loader, printer, internalName, configuration);
+        return printer.toString();
+    }
 }

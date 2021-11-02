@@ -10,18 +10,18 @@ package org.jd.core.v1.model.classfile.attribute;
 import java.util.Arrays;
 
 public class AttributeModulePackages implements Attribute {
-	protected String[] packageNames;
+    protected String[] packageNames;
 
-	public AttributeModulePackages(String[] packageNames) {
-		this.packageNames = packageNames;
-	}
+    public AttributeModulePackages(String[] packageNames) {
+        this.packageNames = packageNames;
+    }
 
-	public String[] getPackageNames() {
-		return packageNames;
-	}
+    public String[] getPackageNames() {
+        return packageNames;
+    }
 
-	@Override
-	public String toString() {
-		return getClass().getSimpleName() + " " + Arrays.asList(packageNames);
-	}
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + " " + Arrays.asList(packageNames);
+    }
 }

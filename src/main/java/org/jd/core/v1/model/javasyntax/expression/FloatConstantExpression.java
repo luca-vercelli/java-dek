@@ -27,7 +27,9 @@ public class FloatConstantExpression extends AbstractLineNumberTypeExpression {
     }
 
     @Override
-    public boolean isFloatConstantExpression() { return true; }
+    public boolean isFloatConstantExpression() {
+        return true;
+    }
 
     @Override
     public void accept(ExpressionVisitor visitor) {

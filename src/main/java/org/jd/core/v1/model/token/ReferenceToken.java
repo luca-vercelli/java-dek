@@ -9,31 +9,31 @@ package org.jd.core.v1.model.token;
 
 public class ReferenceToken extends DeclarationToken {
 
-	protected String ownerInternalName;
+    protected String ownerInternalName;
 
-	/**
-	 * @param type              @see org.jd.core.v1.model.token.DeclarationToken
-	 * @param internalTypeName
-	 * @param name
-	 * @param descriptor
-	 * @param ownerInternalName
-	 */
-	public ReferenceToken(int type, String internalTypeName, String name, String descriptor, String ownerInternalName) {
-		super(type, internalTypeName, name, descriptor);
-		this.ownerInternalName = ownerInternalName;
-	}
+    /**
+     * @param type              @see org.jd.core.v1.model.token.DeclarationToken
+     * @param internalTypeName
+     * @param name
+     * @param descriptor
+     * @param ownerInternalName
+     */
+    public ReferenceToken(int type, String internalTypeName, String name, String descriptor, String ownerInternalName) {
+        super(type, internalTypeName, name, descriptor);
+        this.ownerInternalName = ownerInternalName;
+    }
 
-	public String getOwnerInternalName() {
-		return ownerInternalName;
-	}
+    public String getOwnerInternalName() {
+        return ownerInternalName;
+    }
 
-	@Override
-	public String toString() {
-		return "ReferenceToken{'" + name + "'}";
-	}
+    @Override
+    public String toString() {
+        return "ReferenceToken{'" + name + "'}";
+    }
 
-	@Override
-	public void accept(TokenVisitor visitor) {
-		visitor.visit(this);
-	}
+    @Override
+    public void accept(TokenVisitor visitor) {
+        visitor.visit(this);
+    }
 }

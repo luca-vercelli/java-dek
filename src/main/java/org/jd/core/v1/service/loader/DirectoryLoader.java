@@ -18,42 +18,42 @@ import org.jd.core.v1.api.Loader;
  * A loader that loads classes from a given filesystem folder.
  */
 public class DirectoryLoader implements Loader {
-	protected File base;
+    protected File base;
 
-	public static final int BUFFER_SIZE = 1024;
+    public static final int BUFFER_SIZE = 1024;
 
-	public DirectoryLoader(File base) {
-		this.base = base;
-	}
+    public DirectoryLoader(File base) {
+        this.base = base;
+    }
 
-	@Override
-	public byte[] load(String internalName) throws IOException {
-		File file = newFile(internalName);
+    @Override
+    public byte[] load(String internalName) throws IOException {
+        File file = newFile(internalName);
 
-		if (file.exists()) {
-			try (FileInputStream in = new FileInputStream(file);
-					ByteArrayOutputStream out = new ByteArrayOutputStream()) {
-				byte[] buffer = new byte[BUFFER_SIZE];
-				int read = in.read(buffer);
+        if (file.exists()) {
+            try (FileInputStream in = new FileInputStream(file);
+                    ByteArrayOutputStream out = new ByteArrayOutputStream()) {
+                byte[] buffer = new byte[BUFFER_SIZE];
+                int read = in.read(buffer);
 
-				while (read > 0) {
-					out.write(buffer, 0, read);
-					read = in.read(buffer);
-				}
+                while (read > 0) {
+                    out.write(buffer, 0, read);
+                    read = in.read(buffer);
+                }
 
-				return out.toByteArray();
-			}
-		} else {
-			return null;
-		}
-	}
+                return out.toByteArray();
+            }
+        } else {
+            return null;
+        }
+    }
 
-	@Override
-	public boolean canLoad(String internalName) {
-		return newFile(internalName).exists();
-	}
+    @Override
+    public boolean canLoad(String internalName) {
+        return newFile(internalName).exists();
+    }
 
-	protected File newFile(String internalName) {
-		return new File(base, internalName.replace('/', File.separatorChar) + ".class");
-	}
+    protected File newFile(String internalName) {
+        return new File(base, internalName.replace('/', File.separatorChar) + ".class");
+    }
 }

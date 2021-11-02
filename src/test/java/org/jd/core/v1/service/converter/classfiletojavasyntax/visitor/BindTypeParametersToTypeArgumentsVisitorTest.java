@@ -19,41 +19,41 @@ import org.jd.core.v1.model.javasyntax.type.TypeArgument;
 import org.junit.Test;
 
 public class BindTypeParametersToTypeArgumentsVisitorTest {
-	@Test
-	public void testGenericTypeI0() throws Exception {
-		HashMap<String, TypeArgument> bindings = new HashMap<>();
+    @Test
+    public void testGenericTypeI0() throws Exception {
+        HashMap<String, TypeArgument> bindings = new HashMap<>();
 
-		bindings.put("I", TYPE_INTEGER);
+        bindings.put("I", TYPE_INTEGER);
 
-		GenericType genericType = new GenericType("I", 0);
+        GenericType genericType = new GenericType("I", 0);
 
-		BindTypesToTypesVisitor visitor = new BindTypesToTypesVisitor();
+        BindTypesToTypesVisitor visitor = new BindTypesToTypesVisitor();
 
-		visitor.setBindings(bindings);
-		visitor.init();
-		genericType.accept(visitor);
-		BaseType baseType = visitor.getType();
+        visitor.setBindings(bindings);
+        visitor.init();
+        genericType.accept(visitor);
+        BaseType baseType = visitor.getType();
 
-		assertNotNull(baseType);
-		assertEquals(baseType, TYPE_INTEGER);
-	}
+        assertNotNull(baseType);
+        assertEquals(baseType, TYPE_INTEGER);
+    }
 
-	@Test
-	public void testGenericTypeI3() throws Exception {
-		HashMap<String, TypeArgument> bindings = new HashMap<>();
+    @Test
+    public void testGenericTypeI3() throws Exception {
+        HashMap<String, TypeArgument> bindings = new HashMap<>();
 
-		bindings.put("I", TYPE_INTEGER);
+        bindings.put("I", TYPE_INTEGER);
 
-		GenericType genericType = new GenericType("I", 3);
+        GenericType genericType = new GenericType("I", 3);
 
-		BindTypesToTypesVisitor visitor = new BindTypesToTypesVisitor();
+        BindTypesToTypesVisitor visitor = new BindTypesToTypesVisitor();
 
-		visitor.setBindings(bindings);
-		visitor.init();
-		genericType.accept(visitor);
-		BaseType baseType = visitor.getType();
+        visitor.setBindings(bindings);
+        visitor.init();
+        genericType.accept(visitor);
+        BaseType baseType = visitor.getType();
 
-		assertNotNull(baseType);
-		assertEquals(baseType, TYPE_INTEGER.createType(3));
-	}
+        assertNotNull(baseType);
+        assertEquals(baseType, TYPE_INTEGER.createType(3));
+    }
 }

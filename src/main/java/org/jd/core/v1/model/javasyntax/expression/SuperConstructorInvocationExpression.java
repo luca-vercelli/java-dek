@@ -18,7 +18,8 @@ public class SuperConstructorInvocationExpression extends ConstructorReferenceEx
         this.parameters = parameters;
     }
 
-    public SuperConstructorInvocationExpression(int lineNumber, ObjectType type, String descriptor, BaseExpression parameters) {
+    public SuperConstructorInvocationExpression(int lineNumber, ObjectType type, String descriptor,
+            BaseExpression parameters) {
         super(lineNumber, PrimitiveType.TYPE_VOID, type, descriptor);
         this.parameters = parameters;
     }
@@ -38,7 +39,9 @@ public class SuperConstructorInvocationExpression extends ConstructorReferenceEx
     }
 
     @Override
-    public boolean isSuperConstructorInvocationExpression() { return true; }
+    public boolean isSuperConstructorInvocationExpression() {
+        return true;
+    }
 
     @Override
     public void accept(ExpressionVisitor visitor) {

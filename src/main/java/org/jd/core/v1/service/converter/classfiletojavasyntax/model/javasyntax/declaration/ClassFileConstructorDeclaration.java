@@ -21,87 +21,87 @@ import org.jd.core.v1.model.javasyntax.type.TypeArgument;
 import java.util.Map;
 
 public class ClassFileConstructorDeclaration extends ConstructorDeclaration
-		implements ClassFileConstructorOrMethodDeclaration {
-	protected ClassFileBodyDeclaration bodyDeclaration;
-	protected ClassFile classFile;
-	protected Method method;
-	protected BaseType parameterTypes;
-	protected Map<String, TypeArgument> bindings;
-	protected Map<String, BaseType> typeBounds;
-	protected int firstLineNumber;
+        implements ClassFileConstructorOrMethodDeclaration {
+    protected ClassFileBodyDeclaration bodyDeclaration;
+    protected ClassFile classFile;
+    protected Method method;
+    protected BaseType parameterTypes;
+    protected Map<String, TypeArgument> bindings;
+    protected Map<String, BaseType> typeBounds;
+    protected int firstLineNumber;
 
-	public ClassFileConstructorDeclaration(ClassFileBodyDeclaration bodyDeclaration, ClassFile classFile, Method method,
-			BaseAnnotationReference annotationReferences, BaseTypeParameter typeParameters, BaseType parameterTypes,
-			BaseType exceptionTypes, Map<String, TypeArgument> bindings, Map<String, BaseType> typeBounds,
-			int firstLineNumber) {
-		super(annotationReferences, method.getAccessFlags(), typeParameters, null, exceptionTypes,
-				method.getDescriptor(), null);
-		this.bodyDeclaration = bodyDeclaration;
-		this.classFile = classFile;
-		this.method = method;
-		this.parameterTypes = parameterTypes;
-		this.bindings = bindings;
-		this.typeBounds = typeBounds;
-		this.firstLineNumber = firstLineNumber;
-	}
+    public ClassFileConstructorDeclaration(ClassFileBodyDeclaration bodyDeclaration, ClassFile classFile, Method method,
+            BaseAnnotationReference annotationReferences, BaseTypeParameter typeParameters, BaseType parameterTypes,
+            BaseType exceptionTypes, Map<String, TypeArgument> bindings, Map<String, BaseType> typeBounds,
+            int firstLineNumber) {
+        super(annotationReferences, method.getAccessFlags(), typeParameters, null, exceptionTypes,
+                method.getDescriptor(), null);
+        this.bodyDeclaration = bodyDeclaration;
+        this.classFile = classFile;
+        this.method = method;
+        this.parameterTypes = parameterTypes;
+        this.bindings = bindings;
+        this.typeBounds = typeBounds;
+        this.firstLineNumber = firstLineNumber;
+    }
 
-	@Override
-	public void setFormalParameters(BaseFormalParameter formalParameters) {
-		this.formalParameters = formalParameters;
-	}
+    @Override
+    public void setFormalParameters(BaseFormalParameter formalParameters) {
+        this.formalParameters = formalParameters;
+    }
 
-	@Override
-	public void setStatements(BaseStatement statements) {
-		this.statements = statements;
-	}
+    @Override
+    public void setStatements(BaseStatement statements) {
+        this.statements = statements;
+    }
 
-	@Override
-	public ClassFileBodyDeclaration getBodyDeclaration() {
-		return bodyDeclaration;
-	}
+    @Override
+    public ClassFileBodyDeclaration getBodyDeclaration() {
+        return bodyDeclaration;
+    }
 
-	@Override
-	public ClassFile getClassFile() {
-		return classFile;
-	}
+    @Override
+    public ClassFile getClassFile() {
+        return classFile;
+    }
 
-	@Override
-	public Method getMethod() {
-		return method;
-	}
+    @Override
+    public Method getMethod() {
+        return method;
+    }
 
-	@Override
-	public BaseType getParameterTypes() {
-		return parameterTypes;
-	}
+    @Override
+    public BaseType getParameterTypes() {
+        return parameterTypes;
+    }
 
-	@Override
-	public Type getReturnedType() {
-		return null;
-	}
+    @Override
+    public Type getReturnedType() {
+        return null;
+    }
 
-	@Override
-	public Map<String, TypeArgument> getBindings() {
-		return bindings;
-	}
+    @Override
+    public Map<String, TypeArgument> getBindings() {
+        return bindings;
+    }
 
-	@Override
-	public Map<String, BaseType> getTypeBounds() {
-		return typeBounds;
-	}
+    @Override
+    public Map<String, BaseType> getTypeBounds() {
+        return typeBounds;
+    }
 
-	@Override
-	public int getFirstLineNumber() {
-		return firstLineNumber;
-	}
+    @Override
+    public int getFirstLineNumber() {
+        return firstLineNumber;
+    }
 
-	public void setFirstLineNumber(int firstLineNumber) {
-		this.firstLineNumber = firstLineNumber;
-	}
+    public void setFirstLineNumber(int firstLineNumber) {
+        this.firstLineNumber = firstLineNumber;
+    }
 
-	@Override
-	public String toString() {
-		return "ClassFileConstructorDeclaration{" + classFile.getInternalTypeName() + ' ' + descriptor
-				+ ", firstLineNumber=" + firstLineNumber + "}";
-	}
+    @Override
+    public String toString() {
+        return "ClassFileConstructorDeclaration{" + classFile.getInternalTypeName() + ' ' + descriptor
+                + ", firstLineNumber=" + firstLineNumber + "}";
+    }
 }

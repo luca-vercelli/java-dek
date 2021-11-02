@@ -25,131 +25,131 @@ import org.jd.core.v1.model.javasyntax.type.WildcardSuperTypeArgument;
 import org.jd.core.v1.model.javasyntax.type.WildcardTypeArgument;
 
 public class UpdateClassTypeArgumentsVisitor extends AbstractTypeArgumentVisitor {
-	protected BaseTypeArgument result;
+    protected BaseTypeArgument result;
 
-	public void init() {
-		this.result = null;
-	}
+    public void init() {
+        this.result = null;
+    }
 
-	public BaseTypeArgument getTypeArgument() {
-		return result;
-	}
+    public BaseTypeArgument getTypeArgument() {
+        return result;
+    }
 
-	@Override
-	public void visit(WildcardExtendsTypeArgument argument) {
-		Type type = argument.getType();
+    @Override
+    public void visit(WildcardExtendsTypeArgument argument) {
+        Type type = argument.getType();
 
-		type.accept(this);
+        type.accept(this);
 
-		result = (result == type) ? argument : new WildcardExtendsTypeArgument((Type) result);
-	}
+        result = (result == type) ? argument : new WildcardExtendsTypeArgument((Type) result);
+    }
 
-	@Override
-	public void visit(WildcardSuperTypeArgument argument) {
-		Type type = argument.getType();
+    @Override
+    public void visit(WildcardSuperTypeArgument argument) {
+        Type type = argument.getType();
 
-		type.accept(this);
+        type.accept(this);
 
-		result = (result == type) ? argument : new WildcardSuperTypeArgument((Type) result);
-	}
+        result = (result == type) ? argument : new WildcardSuperTypeArgument((Type) result);
+    }
 
-	@Override
-	public void visit(DiamondTypeArgument argument) {
-		result = argument;
-	}
+    @Override
+    public void visit(DiamondTypeArgument argument) {
+        result = argument;
+    }
 
-	@Override
-	public void visit(WildcardTypeArgument argument) {
-		result = argument;
-	}
+    @Override
+    public void visit(WildcardTypeArgument argument) {
+        result = argument;
+    }
 
-	@Override
-	public void visit(PrimitiveType type) {
-		result = type;
-	}
+    @Override
+    public void visit(PrimitiveType type) {
+        result = type;
+    }
 
-	@Override
-	public void visit(GenericType type) {
-		result = type;
-	}
+    @Override
+    public void visit(GenericType type) {
+        result = type;
+    }
 
-	@Override
-	public void visit(ObjectType type) {
-		BaseTypeArgument typeArguments = type.getTypeArguments();
+    @Override
+    public void visit(ObjectType type) {
+        BaseTypeArgument typeArguments = type.getTypeArguments();
 
-		if (typeArguments == null) {
-			if (type.getInternalName().equals(TYPE_CLASS.getInternalName())) {
-				result = TYPE_CLASS_WILDCARD;
-			} else {
-				result = type;
-			}
-		} else {
-			typeArguments.accept(this);
+        if (typeArguments == null) {
+            if (type.getInternalName().equals(TYPE_CLASS.getInternalName())) {
+                result = TYPE_CLASS_WILDCARD;
+            } else {
+                result = type;
+            }
+        } else {
+            typeArguments.accept(this);
 
-			if (result == typeArguments) {
-				result = type;
-			} else {
-				result = type.createType(typeArguments);
-			}
-		}
-	}
+            if (result == typeArguments) {
+                result = type;
+            } else {
+                result = type.createType(typeArguments);
+            }
+        }
+    }
 
-	@Override
-	public void visit(InnerObjectType type) {
-		type.getOuterType().accept(this);
+    @Override
+    public void visit(InnerObjectType type) {
+        type.getOuterType().accept(this);
 
-		BaseTypeArgument typeArguments = type.getTypeArguments();
+        BaseTypeArgument typeArguments = type.getTypeArguments();
 
-		if (type.getOuterType() == result) {
-			if (typeArguments == null) {
-				result = type;
-			} else {
-				typeArguments.accept(this);
-				result = (result == typeArguments) ? type : type.createType(result);
-			}
-		} else {
-			ObjectType outerObjectType = (ObjectType) result;
+        if (type.getOuterType() == result) {
+            if (typeArguments == null) {
+                result = type;
+            } else {
+                typeArguments.accept(this);
+                result = (result == typeArguments) ? type : type.createType(result);
+            }
+        } else {
+            ObjectType outerObjectType = (ObjectType) result;
 
-			if (typeArguments != null) {
-				typeArguments.accept(this);
-				typeArguments = result;
-			}
+            if (typeArguments != null) {
+                typeArguments.accept(this);
+                typeArguments = result;
+            }
 
-			result = new InnerObjectType(type.getInternalName(), type.getQualifiedName(), type.getName(), typeArguments,
-					type.getDimension(), outerObjectType);
-		}
-	}
+            result = new InnerObjectType(type.getInternalName(), type.getQualifiedName(), type.getName(), typeArguments,
+                    type.getDimension(), outerObjectType);
+        }
+    }
 
-	@Override
-	public void visit(TypeArguments arguments) {
-		int size = arguments.size();
-		int i;
+    @Override
+    public void visit(TypeArguments arguments) {
+        int size = arguments.size();
+        int i;
 
-		for (i = 0; i < size; i++) {
-			TypeArgument ta = arguments.get(i);
-			ta.accept(this);
-			if (result != ta) {
-				break;
-			}
-		}
+        for (i = 0; i < size; i++) {
+            TypeArgument ta = arguments.get(i);
+            ta.accept(this);
+            if (result != ta) {
+                break;
+            }
+        }
 
-		if (result != null) {
-			if (i == size) {
-				result = arguments;
-			} else {
-				TypeArguments newTypes = new TypeArguments(size);
+        if (result != null) {
+            if (i == size) {
+                result = arguments;
+            } else {
+                TypeArguments newTypes = new TypeArguments(size);
 
-				newTypes.addAll(arguments.subList(0, i));
-				newTypes.add((TypeArgument) result);
+                newTypes.addAll(arguments.subList(0, i));
+                newTypes.add((TypeArgument) result);
 
-				for (i++; i < size; i++) {
-					TypeArgument ta = arguments.get(i);
-					ta.accept(this);
-					newTypes.add((TypeArgument) result);
-				}
+                for (i++; i < size; i++) {
+                    TypeArgument ta = arguments.get(i);
+                    ta.accept(this);
+                    newTypes.add((TypeArgument) result);
+                }
 
-				result = newTypes;
-			}
-		}
-	}
+                result = newTypes;
+            }
+        }
+    }
 }

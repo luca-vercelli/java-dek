@@ -18,7 +18,8 @@ public class BinaryOperatorExpression extends AbstractLineNumberTypeExpression {
     protected Expression rightExpression;
     protected int priority;
 
-    public BinaryOperatorExpression(int lineNumber, Type type, Expression leftExpression, String operator, Expression rightExpression, int priority) {
+    public BinaryOperatorExpression(int lineNumber, Type type, Expression leftExpression, String operator,
+            Expression rightExpression, int priority) {
         super(lineNumber, type);
         this.operator = operator;
         this.leftExpression = leftExpression;
@@ -62,7 +63,9 @@ public class BinaryOperatorExpression extends AbstractLineNumberTypeExpression {
     }
 
     @Override
-    public boolean isBinaryOperatorExpression() { return true; }
+    public boolean isBinaryOperatorExpression() {
+        return true;
+    }
 
     @Override
     public void accept(ExpressionVisitor visitor) {

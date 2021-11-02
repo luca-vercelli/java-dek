@@ -20,70 +20,70 @@ import java.util.NoSuchElementException;
  */
 public interface Base<T> extends Iterable<T> {
 
-	/**
-	 * True if this is a List type.
-	 * 
-	 * List subtypes should redeclare this.
-	 */
-	default boolean isList() {
-		return false;
-	}
+    /**
+     * True if this is a List type.
+     * 
+     * List subtypes should redeclare this.
+     */
+    default boolean isList() {
+        return false;
+    }
 
-	/**
-	 * Get first element
-	 */
-	@SuppressWarnings("unchecked")
-	default T getFirst() {
-		return (T) this;
-	}
+    /**
+     * Get first element
+     */
+    @SuppressWarnings("unchecked")
+    default T getFirst() {
+        return (T) this;
+    }
 
-	/**
-	 * Get last element
-	 */
-	@SuppressWarnings("unchecked")
-	default T getLast() {
-		return (T) this;
-	}
+    /**
+     * Get last element
+     */
+    @SuppressWarnings("unchecked")
+    default T getLast() {
+        return (T) this;
+    }
 
-	/**
-	 * Convert to DefaultList
-	 */
-	default DefaultList<T> getList() {
-		throw new UnsupportedOperationException();
-	}
+    /**
+     * Convert to DefaultList
+     */
+    default DefaultList<T> getList() {
+        throw new UnsupportedOperationException();
+    }
 
-	/**
-	 * Get list size
-	 */
-	default int size() {
-		return 1;
-	}
+    /**
+     * Get list size
+     */
+    default int size() {
+        return 1;
+    }
 
-	/**
-	 * Iterate over this List. Default implementation iterates through this element
-	 * only.
-	 */
-	@Override
-	default Iterator<T> iterator() {
-		return new Iterator<T>() {
-			private boolean hasNext = true;
+    /**
+     * Iterate over this List. Default implementation iterates through this element
+     * only.
+     */
+    @Override
+    default Iterator<T> iterator() {
+        return new Iterator<T>() {
+            private boolean hasNext = true;
 
-			public boolean hasNext() {
-				return hasNext;
-			}
+            public boolean hasNext() {
+                return hasNext;
+            }
 
-			@SuppressWarnings("unchecked")
-			public T next() {
-				if (hasNext) {
-					hasNext = false;
-					return (T) Base.this;
-				}
-				throw new NoSuchElementException();
-			}
+            @SuppressWarnings("unchecked")
+            public T next() {
+                if (hasNext) {
+                    hasNext = false;
+                    return (T) Base.this;
+                }
+                throw new NoSuchElementException();
+            }
 
-			public void remove() {
-				throw new UnsupportedOperationException();
-			}
-		};
-	}
+            public void remove() {
+                throw new UnsupportedOperationException();
+            }
+        };
+    }
 }

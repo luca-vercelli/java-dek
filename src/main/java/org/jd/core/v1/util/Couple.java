@@ -10,20 +10,20 @@ package org.jd.core.v1.util;
  */
 public class Couple<A, B> {
 
-	public A a;
-	public B b;
+    public A a;
+    public B b;
 
-	public Couple() {
-	}
+    public Couple() {
+    }
 
-	public Couple(A a, B b) {
-		this.a = a;
-		this.b = b;
-	}
+    public Couple(A a, B b) {
+        this.a = a;
+        this.b = b;
+    }
 
-	@Override
-	public String toString() {
-		return "(" + (a == null ? "null" : a.toString()) + "," + (b == null ? "null" : b.toString()) + ")";
-	}
+    @Override
+    public String toString() {
+        return "(" + (a == null ? "null" : a.toString()) + "," + (b == null ? "null" : b.toString()) + ")";
+    }
 
 }

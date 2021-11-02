@@ -13,24 +13,24 @@ package org.jd.core.v1.model.classfile.attribute;
  * Information stored in LineNumberTable attributes
  */
 public class LineNumber {
-	protected int startPc;
-	protected int lineNumber;
+    protected int startPc;
+    protected int lineNumber;
 
-	public LineNumber(int startPc, int lineNumber) {
-		this.startPc = startPc;
-		this.lineNumber = lineNumber;
-	}
+    public LineNumber(int startPc, int lineNumber) {
+        this.startPc = startPc;
+        this.lineNumber = lineNumber;
+    }
 
-	public int getStartPc() {
-		return startPc;
-	}
+    public int getStartPc() {
+        return startPc;
+    }
 
-	public int getLineNumber() {
-		return lineNumber;
-	}
+    public int getLineNumber() {
+        return lineNumber;
+    }
 
-	@Override
-	public String toString() {
-		return "LineNumber{startPc=" + startPc + ", lineNumber=" + lineNumber + "}";
-	}
+    @Override
+    public String toString() {
+        return "LineNumber{startPc=" + startPc + ", lineNumber=" + lineNumber + "}";
+    }
 }

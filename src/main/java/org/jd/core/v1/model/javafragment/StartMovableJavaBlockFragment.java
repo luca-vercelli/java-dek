@@ -10,16 +10,16 @@ package org.jd.core.v1.model.javafragment;
 import org.jd.core.v1.model.fragment.StartMovableBlockFragment;
 
 public class StartMovableJavaBlockFragment extends StartMovableBlockFragment {
-	public static final StartMovableJavaBlockFragment START_MOVABLE_TYPE_BLOCK = new StartMovableJavaBlockFragment(1);
-	public static final StartMovableJavaBlockFragment START_MOVABLE_FIELD_BLOCK = new StartMovableJavaBlockFragment(2);
-	public static final StartMovableJavaBlockFragment START_MOVABLE_METHOD_BLOCK = new StartMovableJavaBlockFragment(3);
+    public static final StartMovableJavaBlockFragment START_MOVABLE_TYPE_BLOCK = new StartMovableJavaBlockFragment(1);
+    public static final StartMovableJavaBlockFragment START_MOVABLE_FIELD_BLOCK = new StartMovableJavaBlockFragment(2);
+    public static final StartMovableJavaBlockFragment START_MOVABLE_METHOD_BLOCK = new StartMovableJavaBlockFragment(3);
 
-	protected StartMovableJavaBlockFragment(int type) {
-		super(type);
-	}
+    protected StartMovableJavaBlockFragment(int type) {
+        super(type);
+    }
 
-	@Override
-	public void accept(JavaFragmentVisitor visitor) {
-		visitor.visit(this);
-	}
+    @Override
+    public void accept(JavaFragmentVisitor visitor) {
+        visitor.visit(this);
+    }
 }

@@ -13,49 +13,49 @@ package org.jd.core.v1.model.javasyntax.declaration;
  * There should be one visit() method for every possible Declaration subclass.
  */
 public interface DeclarationVisitor {
-	void visit(AnnotationDeclaration declaration);
+    void visit(AnnotationDeclaration declaration);
 
-	void visit(ArrayVariableInitializer declaration);
+    void visit(ArrayVariableInitializer declaration);
 
-	void visit(BodyDeclaration declaration);
+    void visit(BodyDeclaration declaration);
 
-	void visit(ClassDeclaration declaration);
+    void visit(ClassDeclaration declaration);
 
-	void visit(ConstructorDeclaration declaration);
+    void visit(ConstructorDeclaration declaration);
 
-	void visit(EnumDeclaration declaration);
+    void visit(EnumDeclaration declaration);
 
-	void visit(EnumDeclaration.Constant declaration);
+    void visit(EnumDeclaration.Constant declaration);
 
-	void visit(ExpressionVariableInitializer declaration);
+    void visit(ExpressionVariableInitializer declaration);
 
-	void visit(FieldDeclaration declaration);
+    void visit(FieldDeclaration declaration);
 
-	void visit(FieldDeclarator declaration);
+    void visit(FieldDeclarator declaration);
 
-	void visit(FieldDeclarators declarations);
+    void visit(FieldDeclarators declarations);
 
-	void visit(FormalParameter declaration);
+    void visit(FormalParameter declaration);
 
-	void visit(FormalParameters declarations);
+    void visit(FormalParameters declarations);
 
-	void visit(InstanceInitializerDeclaration declaration);
+    void visit(InstanceInitializerDeclaration declaration);
 
-	void visit(InterfaceDeclaration declaration);
+    void visit(InterfaceDeclaration declaration);
 
-	void visit(LocalVariableDeclaration declaration);
+    void visit(LocalVariableDeclaration declaration);
 
-	void visit(LocalVariableDeclarator declarator);
+    void visit(LocalVariableDeclarator declarator);
 
-	void visit(LocalVariableDeclarators declarators);
+    void visit(LocalVariableDeclarators declarators);
 
-	void visit(MethodDeclaration declaration);
+    void visit(MethodDeclaration declaration);
 
-	void visit(MemberDeclarations declarations);
+    void visit(MemberDeclarations declarations);
 
-	void visit(ModuleDeclaration declarations);
+    void visit(ModuleDeclaration declarations);
 
-	void visit(StaticInitializerDeclaration declaration);
+    void visit(StaticInitializerDeclaration declaration);
 
-	void visit(TypeDeclarations declarations);
+    void visit(TypeDeclarations declarations);
 }

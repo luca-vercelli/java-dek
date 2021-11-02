@@ -13,29 +13,29 @@ import org.jd.core.v1.model.javafragment.JavaFragment;
  * A Fragment that cannot be moved
  */
 public abstract class FixedFragment implements Fragment, JavaFragment {
-	protected final int firstLineNumber;
-	protected final int lastLineNumber;
+    protected final int firstLineNumber;
+    protected final int lastLineNumber;
 
-	public FixedFragment(int firstLineNumber, int lastLineNumber) {
-		this.firstLineNumber = firstLineNumber;
-		this.lastLineNumber = lastLineNumber;
-	}
+    public FixedFragment(int firstLineNumber, int lastLineNumber) {
+        this.firstLineNumber = firstLineNumber;
+        this.lastLineNumber = lastLineNumber;
+    }
 
-	public int getFirstLineNumber() {
-		return firstLineNumber;
-	}
+    public int getFirstLineNumber() {
+        return firstLineNumber;
+    }
 
-	public int getLastLineNumber() {
-		return lastLineNumber;
-	}
+    public int getLastLineNumber() {
+        return lastLineNumber;
+    }
 
-	@Override
-	public String toString() {
-		return getClass().getSimpleName() + "(" + firstLineNumber + "-" + lastLineNumber + ")";
-	}
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + "(" + firstLineNumber + "-" + lastLineNumber + ")";
+    }
 
-	@Override
-	public void accept(FragmentVisitor visitor) {
-		visitor.visit(this);
-	}
+    @Override
+    public void accept(FragmentVisitor visitor) {
+        visitor.visit(this);
+    }
 }

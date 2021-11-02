@@ -26,7 +26,9 @@ public class ExpressionStatement implements Statement {
     }
 
     @Override
-    public boolean isExpressionStatement() { return true; }
+    public boolean isExpressionStatement() {
+        return true;
+    }
 
     @Override
     public void accept(StatementVisitor visitor) {

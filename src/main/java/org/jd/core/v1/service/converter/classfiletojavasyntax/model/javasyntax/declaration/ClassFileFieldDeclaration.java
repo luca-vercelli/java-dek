@@ -24,11 +24,13 @@ public class ClassFileFieldDeclaration extends FieldDeclaration implements Class
         this.firstLineNumber = firstLineNumber;
     }
 
-    public ClassFileFieldDeclaration(BaseAnnotationReference annotationReferences, int flags, Type type, BaseFieldDeclarator fieldDeclarators) {
+    public ClassFileFieldDeclaration(BaseAnnotationReference annotationReferences, int flags, Type type,
+            BaseFieldDeclarator fieldDeclarators) {
         super(annotationReferences, flags, type, fieldDeclarators);
     }
 
-    public ClassFileFieldDeclaration(BaseAnnotationReference annotationReferences, int flags, Type type, BaseFieldDeclarator fieldDeclarators, int firstLineNumber) {
+    public ClassFileFieldDeclaration(BaseAnnotationReference annotationReferences, int flags, Type type,
+            BaseFieldDeclarator fieldDeclarators, int firstLineNumber) {
         super(annotationReferences, flags, type, fieldDeclarators);
         this.firstLineNumber = firstLineNumber;
     }
@@ -44,13 +46,21 @@ public class ClassFileFieldDeclaration extends FieldDeclaration implements Class
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof ClassFileFieldDeclaration)) return false;
-        if (!super.equals(o)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof ClassFileFieldDeclaration)) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
 
         ClassFileFieldDeclaration that = (ClassFileFieldDeclaration) o;
 
-        if (firstLineNumber != that.firstLineNumber) return false;
+        if (firstLineNumber != that.firstLineNumber) {
+            return false;
+        }
 
         return true;
     }
@@ -64,6 +74,7 @@ public class ClassFileFieldDeclaration extends FieldDeclaration implements Class
 
     @Override
     public String toString() {
-        return "ClassFileFieldDeclaration{" + type + " " + fieldDeclarators + ", firstLineNumber=" + firstLineNumber + "}";
+        return "ClassFileFieldDeclaration{" + type + " " + fieldDeclarators + ", firstLineNumber=" + firstLineNumber
+                + "}";
     }
 }

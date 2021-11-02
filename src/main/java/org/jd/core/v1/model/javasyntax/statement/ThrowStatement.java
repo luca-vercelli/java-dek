@@ -26,7 +26,9 @@ public class ThrowStatement implements Statement {
     }
 
     @Override
-    public boolean isThrowStatement() { return true; }
+    public boolean isThrowStatement() {
+        return true;
+    }
 
     @Override
     public void accept(StatementVisitor visitor) {

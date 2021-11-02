@@ -9,18 +9,18 @@ package org.jd.core.v1.model.classfile.constant;
 
 public abstract class Constant {
 
-	protected ConstantPoolTag tag;
+    protected ConstantPoolTag tag;
 
-	public Constant(ConstantPoolTag tag) {
-		this.tag = tag;
-	}
+    public Constant(ConstantPoolTag tag) {
+        this.tag = tag;
+    }
 
-	public ConstantPoolTag getTag() {
-		return tag;
-	}
+    public ConstantPoolTag getTag() {
+        return tag;
+    }
 
-	@Override
-	public String toString() {
-		return getClass().getSimpleName() + " " + tag;
-	}
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + " " + tag;
+    }
 }

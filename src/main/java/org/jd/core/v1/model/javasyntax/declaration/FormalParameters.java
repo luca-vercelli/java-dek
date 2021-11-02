@@ -15,9 +15,9 @@ import java.util.Collection;
  * A list of FormalParameter that is itself a BaseFormalParameter
  */
 public class FormalParameters extends DefaultList<FormalParameter> implements BaseFormalParameter {
-	private static final long serialVersionUID = 2265946916653830173L;
+    private static final long serialVersionUID = 2265946916653830173L;
 
-	public FormalParameters() {}
+    public FormalParameters() {}
 
     public FormalParameters(Collection<FormalParameter> collection) {
         super(collection);

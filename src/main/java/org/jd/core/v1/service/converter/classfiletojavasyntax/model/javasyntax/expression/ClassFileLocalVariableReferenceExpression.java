@@ -13,44 +13,44 @@ import org.jd.core.v1.service.converter.classfiletojavasyntax.model.localvariabl
 import org.jd.core.v1.service.converter.classfiletojavasyntax.model.localvariable.LocalVariableReference;
 
 public class ClassFileLocalVariableReferenceExpression extends LocalVariableReferenceExpression
-		implements LocalVariableReference {
+        implements LocalVariableReference {
 
-	protected int offset;
-	protected AbstractLocalVariable localVariable;
+    protected int offset;
+    protected AbstractLocalVariable localVariable;
 
-	public ClassFileLocalVariableReferenceExpression(int lineNumber, int offset, AbstractLocalVariable localVariable) {
-		super(lineNumber, null, null);
-		this.offset = offset;
-		this.localVariable = localVariable;
-		localVariable.addReference(this);
-	}
+    public ClassFileLocalVariableReferenceExpression(int lineNumber, int offset, AbstractLocalVariable localVariable) {
+        super(lineNumber, null, null);
+        this.offset = offset;
+        this.localVariable = localVariable;
+        localVariable.addReference(this);
+    }
 
-	public int getOffset() {
-		return offset;
-	}
+    public int getOffset() {
+        return offset;
+    }
 
-	@Override
-	public Type getType() {
-		return localVariable.getType();
-	}
+    @Override
+    public Type getType() {
+        return localVariable.getType();
+    }
 
-	@Override
-	public String getName() {
-		return localVariable.getName();
-	}
+    @Override
+    public String getName() {
+        return localVariable.getName();
+    }
 
-	@Override
-	public AbstractLocalVariable getLocalVariable() {
-		return localVariable;
-	}
+    @Override
+    public AbstractLocalVariable getLocalVariable() {
+        return localVariable;
+    }
 
-	@Override
-	public void setLocalVariable(AbstractLocalVariable localVariable) {
-		this.localVariable = localVariable;
-	}
+    @Override
+    public void setLocalVariable(AbstractLocalVariable localVariable) {
+        this.localVariable = localVariable;
+    }
 
-	@Override
-	public String toString() {
-		return "LocalVariable(" + localVariable.getType() + " " + localVariable.getName() + ")";
-	}
+    @Override
+    public String toString() {
+        return "LocalVariable(" + localVariable.getType() + " " + localVariable.getName() + ")";
+    }
 }

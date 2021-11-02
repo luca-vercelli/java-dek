@@ -17,25 +17,25 @@ import org.junit.Test;
 
 public class FilterInputStream extends java.io.FilterInputStream {
 
-	public FilterInputStream() {
-		super(null); // any value
-	}
+    public FilterInputStream() {
+        super(null); // any value
+    }
 
-	protected TestDecompiler decompiler = new TestDecompiler();
+    protected TestDecompiler decompiler = new TestDecompiler();
 
 
-	@Test
-	// https://github.com/java-decompiler/jd-core/issues/38
-	public void testSuperClassCollideName() throws Exception {
+    @Test
+    // https://github.com/java-decompiler/jd-core/issues/38
+    public void testSuperClassCollideName() throws Exception {
 
-		String internalClassName = FilterInputStream.class.getName().replace('.', '/');
-		String source = decompiler.decompile(internalClassName);
+        String internalClassName = FilterInputStream.class.getName().replace('.', '/');
+        String source = decompiler.decompile(internalClassName);
 
-		// Check decompiled source code
-		assertTrue(source.matches(PatternMaker.make(":  0 */", "public class FilterInputStream extends java.io.FilterInputStream {")));
+        // Check decompiled source code
+        assertTrue(source.matches(PatternMaker.make(":  0 */", "public class FilterInputStream extends java.io.FilterInputStream {")));
 
-		// Recompile decompiled source code and check errors
-		assertTrue(CompilerUtil.compile("1.8", new JavaSourceFileObject(internalClassName, source)));
-		
-	}
+        // Recompile decompiled source code and check errors
+        assertTrue(CompilerUtil.compile("1.8", new JavaSourceFileObject(internalClassName, source)));
+        
+    }
 }

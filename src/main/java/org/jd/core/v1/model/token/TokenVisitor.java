@@ -13,31 +13,31 @@ package org.jd.core.v1.model.token;
  * There should be one visit() method for every possible Token subclass.
  */
 public interface TokenVisitor {
-	void visit(BooleanConstantToken token);
+    void visit(BooleanConstantToken token);
 
-	void visit(CharacterConstantToken token);
+    void visit(CharacterConstantToken token);
 
-	void visit(DeclarationToken token);
+    void visit(DeclarationToken token);
 
-	void visit(EndBlockToken token);
+    void visit(EndBlockToken token);
 
-	void visit(EndMarkerToken token);
+    void visit(EndMarkerToken token);
 
-	void visit(KeywordToken token);
+    void visit(KeywordToken token);
 
-	void visit(LineNumberToken token);
+    void visit(LineNumberToken token);
 
-	void visit(NewLineToken token);
+    void visit(NewLineToken token);
 
-	void visit(NumericConstantToken token);
+    void visit(NumericConstantToken token);
 
-	void visit(ReferenceToken token);
+    void visit(ReferenceToken token);
 
-	void visit(StartBlockToken token);
+    void visit(StartBlockToken token);
 
-	void visit(StartMarkerToken token);
+    void visit(StartMarkerToken token);
 
-	void visit(StringConstantToken token);
+    void visit(StringConstantToken token);
 
-	void visit(TextToken token);
+    void visit(TextToken token);
 }

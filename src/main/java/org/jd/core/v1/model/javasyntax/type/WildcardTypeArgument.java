@@ -15,7 +15,8 @@ import java.util.Map;
 public class WildcardTypeArgument implements TypeArgument {
     public static final WildcardTypeArgument WILDCARD_TYPE_ARGUMENT = new WildcardTypeArgument();
 
-    private WildcardTypeArgument() {}
+    private WildcardTypeArgument() {
+    }
 
     @Override
     public boolean isTypeArgumentAssignableFrom(Map<String, BaseType> typeBounds, BaseTypeArgument typeArgument) {
@@ -28,7 +29,9 @@ public class WildcardTypeArgument implements TypeArgument {
     }
 
     @Override
-    public boolean isWildcardTypeArgument() { return true; }
+    public boolean isWildcardTypeArgument() {
+        return true;
+    }
 
     @Override
     public String toString() {

@@ -22,47 +22,47 @@ import org.jd.core.v1.api.Loader;
  * inside zip file are loaded in memory as byte arrays.
  */
 public class ZipLoader implements Loader {
-	protected Map<String, byte[]> map = new HashMap<>();
+    protected Map<String, byte[]> map = new HashMap<>();
 
-	public static final int BUFFER_SIZE = 1024 * 2;
+    public static final int BUFFER_SIZE = 1024 * 2;
 
-	public ZipLoader(InputStream is) throws IOException {
-		byte[] buffer = new byte[BUFFER_SIZE];
+    public ZipLoader(InputStream is) throws IOException {
+        byte[] buffer = new byte[BUFFER_SIZE];
 
-		try (ZipInputStream zis = new ZipInputStream(is)) {
-			ZipEntry ze = zis.getNextEntry();
+        try (ZipInputStream zis = new ZipInputStream(is)) {
+            ZipEntry ze = zis.getNextEntry();
 
-			while (ze != null) {
-				if (!ze.isDirectory()) {
-					ByteArrayOutputStream out = new ByteArrayOutputStream();
-					int read = zis.read(buffer);
+            while (ze != null) {
+                if (!ze.isDirectory()) {
+                    ByteArrayOutputStream out = new ByteArrayOutputStream();
+                    int read = zis.read(buffer);
 
-					while (read > 0) {
-						out.write(buffer, 0, read);
-						read = zis.read(buffer);
-					}
+                    while (read > 0) {
+                        out.write(buffer, 0, read);
+                        read = zis.read(buffer);
+                    }
 
-					map.put(ze.getName(), out.toByteArray());
-				}
+                    map.put(ze.getName(), out.toByteArray());
+                }
 
-				ze = zis.getNextEntry();
-			}
+                ze = zis.getNextEntry();
+            }
 
-			zis.closeEntry();
-		}
-	}
+            zis.closeEntry();
+        }
+    }
 
-	public Map<String, byte[]> getMap() {
-		return map;
-	}
+    public Map<String, byte[]> getMap() {
+        return map;
+    }
 
-	@Override
-	public byte[] load(String internalName) {
-		return map.get(internalName + ".class");
-	}
+    @Override
+    public byte[] load(String internalName) {
+        return map.get(internalName + ".class");
+    }
 
-	@Override
-	public boolean canLoad(String internalName) {
-		return map.containsKey(internalName + ".class");
-	}
+    @Override
+    public boolean canLoad(String internalName) {
+        return map.containsKey(internalName + ".class");
+    }
 }

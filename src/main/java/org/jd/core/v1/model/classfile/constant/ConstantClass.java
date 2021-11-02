@@ -10,18 +10,18 @@ package org.jd.core.v1.model.classfile.constant;
 import org.jd.core.v1.model.classfile.ConstantPool;
 
 public class ConstantClass extends Constant {
-	protected int nameIndex;
+    protected int nameIndex;
 
-	public ConstantClass(ConstantPoolTag tag, int nameIndex) {
-		super(tag);
-		this.nameIndex = nameIndex;
-	}
+    public ConstantClass(ConstantPoolTag tag, int nameIndex) {
+        super(tag);
+        this.nameIndex = nameIndex;
+    }
 
-	public int getNameIndex() {
-		return nameIndex;
-	}
+    public int getNameIndex() {
+        return nameIndex;
+    }
 
-	public String getName(ConstantPool constants) {
-		return constants.getConstantUtf8(nameIndex);
-	}
+    public String getName(ConstantPool constants) {
+        return constants.getConstantUtf8(nameIndex);
+    }
 }

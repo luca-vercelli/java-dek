@@ -24,48 +24,48 @@ import org.jd.core.v1.service.writer.visitor.PrintTokenVisitor;
  */
 public class WriteTokenProcessor implements Processor {
 
-	protected WriteTokenProcessor() {
-	}
+    protected WriteTokenProcessor() {
+    }
 
-	/**
-	 * Write a list of tokens to a Printer
-	 */
-	@Override
-	public void process(Message message) {
-		Printer printer = message.getPrinter();
-		List<Token> tokens = message.getTokens();
-		int maxLineNumber = message.getMaxLineNumber();
-		int majorVersion = message.getMajorVersion();
-		int minorVersion = message.getMinorVersion();
-		process(printer, tokens, maxLineNumber, majorVersion, minorVersion);
-	}
+    /**
+     * Write a list of tokens to a Printer
+     */
+    @Override
+    public void process(Message message) {
+        Printer printer = message.getPrinter();
+        List<Token> tokens = message.getTokens();
+        int maxLineNumber = message.getMaxLineNumber();
+        int majorVersion = message.getMajorVersion();
+        int minorVersion = message.getMinorVersion();
+        process(printer, tokens, maxLineNumber, majorVersion, minorVersion);
+    }
 
-	/**
-	 * Write a list of tokens to a Printer
-	 */
-	public void process(Printer printer, List<Token> tokens, int maxLineNumber, int majorVersion, int minorVersion) {
-		PrintTokenVisitor visitor = new PrintTokenVisitor();
+    /**
+     * Write a list of tokens to a Printer
+     */
+    public void process(Printer printer, List<Token> tokens, int maxLineNumber, int majorVersion, int minorVersion) {
+        PrintTokenVisitor visitor = new PrintTokenVisitor();
 
-		printer.start(maxLineNumber, majorVersion, minorVersion);
-		visitor.start(printer, tokens);
+        printer.start(maxLineNumber, majorVersion, minorVersion);
+        visitor.start(printer, tokens);
 
-		for (Token token : tokens) {
-			token.accept(visitor);
-		}
+        for (Token token : tokens) {
+            token.accept(visitor);
+        }
 
-		visitor.end();
-		printer.end();
-	}
+        visitor.end();
+        printer.end();
+    }
 
-	private static WriteTokenProcessor instance = null;
+    private static WriteTokenProcessor instance = null;
 
-	/**
-	 * Get Singleton instance
-	 */
-	public static WriteTokenProcessor getInstance() {
-		if (instance == null) {
-			instance = new WriteTokenProcessor();
-		}
-		return instance;
-	}
+    /**
+     * Get Singleton instance
+     */
+    public static WriteTokenProcessor getInstance() {
+        if (instance == null) {
+            instance = new WriteTokenProcessor();
+        }
+        return instance;
+    }
 }

@@ -12,25 +12,25 @@ import org.jd.core.v1.model.javasyntax.expression.LocalVariableReferenceExpressi
 import org.jd.core.v1.service.converter.classfiletojavasyntax.model.javasyntax.expression.ClassFileLocalVariableReferenceExpression;
 
 public class SearchLocalVariableReferenceVisitor extends AbstractJavaSyntaxVisitor {
-	protected int index;
-	protected boolean found;
+    protected int index;
+    protected boolean found;
 
-	public void init(int index) {
-		this.index = index;
-		this.found = false;
-	}
+    public void init(int index) {
+        this.index = index;
+        this.found = false;
+    }
 
-	public boolean containsReference() {
-		return found;
-	}
+    public boolean containsReference() {
+        return found;
+    }
 
-	@Override
-	public void visit(LocalVariableReferenceExpression expression) {
-		if (index < 0) {
-			found = true;
-		} else {
-			ClassFileLocalVariableReferenceExpression referenceExpression = (ClassFileLocalVariableReferenceExpression) expression;
-			found |= referenceExpression.getLocalVariable().getIndex() == index;
-		}
-	}
+    @Override
+    public void visit(LocalVariableReferenceExpression expression) {
+        if (index < 0) {
+            found = true;
+        } else {
+            ClassFileLocalVariableReferenceExpression referenceExpression = (ClassFileLocalVariableReferenceExpression) expression;
+            found |= referenceExpression.getLocalVariable().getIndex() == index;
+        }
+    }
 }

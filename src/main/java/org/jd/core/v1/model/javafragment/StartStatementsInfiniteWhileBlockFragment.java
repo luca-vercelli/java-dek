@@ -8,11 +8,13 @@
 package org.jd.core.v1.model.javafragment;
 
 public class StartStatementsInfiniteWhileBlockFragment extends StartStatementsBlockFragment {
-    public StartStatementsInfiniteWhileBlockFragment(int minimalLineCount, int lineCount, int maximalLineCount, int weight, String label) {
+    public StartStatementsInfiniteWhileBlockFragment(int minimalLineCount, int lineCount, int maximalLineCount,
+            int weight, String label) {
         super(minimalLineCount, lineCount, maximalLineCount, weight, label);
     }
 
-    public StartStatementsInfiniteWhileBlockFragment(int minimalLineCount, int lineCount, int maximalLineCount, int weight, String label, Group group) {
+    public StartStatementsInfiniteWhileBlockFragment(int minimalLineCount, int lineCount, int maximalLineCount,
+            int weight, String label, Group group) {
         super(minimalLineCount, lineCount, maximalLineCount, weight, label, group);
     }
 

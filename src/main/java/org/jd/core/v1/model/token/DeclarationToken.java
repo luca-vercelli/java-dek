@@ -10,48 +10,48 @@ package org.jd.core.v1.model.token;
 import org.jd.core.v1.api.Printer;
 
 public class DeclarationToken implements Token {
-	// Declaration & reference types
-	public static final int TYPE = Printer.TYPE;
-	public static final int FIELD = Printer.FIELD;
-	public static final int METHOD = Printer.METHOD;
-	public static final int CONSTRUCTOR = Printer.CONSTRUCTOR;
-	public static final int PACKAGE = Printer.PACKAGE;
-	public static final int MODULE = Printer.MODULE;
+    // Declaration & reference types
+    public static final int TYPE = Printer.TYPE;
+    public static final int FIELD = Printer.FIELD;
+    public static final int METHOD = Printer.METHOD;
+    public static final int CONSTRUCTOR = Printer.CONSTRUCTOR;
+    public static final int PACKAGE = Printer.PACKAGE;
+    public static final int MODULE = Printer.MODULE;
 
-	protected int type;
-	protected String internalTypeName;
-	protected String name;
-	protected String descriptor;
+    protected int type;
+    protected String internalTypeName;
+    protected String name;
+    protected String descriptor;
 
-	public DeclarationToken(int type, String internalTypeName, String name, String descriptor) {
-		this.type = type;
-		this.internalTypeName = internalTypeName;
-		this.name = name;
-		this.descriptor = descriptor;
-	}
+    public DeclarationToken(int type, String internalTypeName, String name, String descriptor) {
+        this.type = type;
+        this.internalTypeName = internalTypeName;
+        this.name = name;
+        this.descriptor = descriptor;
+    }
 
-	public int getType() {
-		return type;
-	}
+    public int getType() {
+        return type;
+    }
 
-	public String getInternalTypeName() {
-		return internalTypeName;
-	}
+    public String getInternalTypeName() {
+        return internalTypeName;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public String getDescriptor() {
-		return descriptor;
-	}
+    public String getDescriptor() {
+        return descriptor;
+    }
 
-	public String toString() {
-		return "DeclarationToken{declaration='" + name + "'}";
-	}
+    public String toString() {
+        return "DeclarationToken{declaration='" + name + "'}";
+    }
 
-	@Override
-	public void accept(TokenVisitor visitor) {
-		visitor.visit(this);
-	}
+    @Override
+    public void accept(TokenVisitor visitor) {
+        visitor.visit(this);
+    }
 }

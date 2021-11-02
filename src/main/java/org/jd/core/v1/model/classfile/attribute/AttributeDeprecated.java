@@ -8,11 +8,11 @@
 package org.jd.core.v1.model.classfile.attribute;
 
 public class AttributeDeprecated implements Attribute {
-	public AttributeDeprecated() {
-	}
+    public AttributeDeprecated() {
+    }
 
-	@Override
-	public String toString() {
-		return getClass().getSimpleName();
-	}
+    @Override
+    public String toString() {
+        return getClass().getSimpleName();
+    }
 }

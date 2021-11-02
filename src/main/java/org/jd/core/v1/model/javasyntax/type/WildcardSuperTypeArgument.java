@@ -34,8 +34,12 @@ public class WildcardSuperTypeArgument implements TypeArgument {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         WildcardSuperTypeArgument that = (WildcardSuperTypeArgument) o;
 
@@ -48,7 +52,9 @@ public class WildcardSuperTypeArgument implements TypeArgument {
     }
 
     @Override
-    public boolean isWildcardSuperTypeArgument() { return true; }
+    public boolean isWildcardSuperTypeArgument() {
+        return true;
+    }
 
     @Override
     public void accept(TypeArgumentVisitor visitor) {

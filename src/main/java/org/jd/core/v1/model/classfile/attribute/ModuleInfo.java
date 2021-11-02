@@ -11,39 +11,39 @@ package org.jd.core.v1.model.classfile.attribute;
  * Information stored in Module attributes
  */
 public class ModuleInfo {
-	protected String name;
-	protected int flags;
-	protected String version;
+    protected String name;
+    protected int flags;
+    protected String version;
 
-	public ModuleInfo(String name, int flags, String version) {
-		this.name = name;
-		this.flags = flags;
-		this.version = version;
-	}
+    public ModuleInfo(String name, int flags, String version) {
+        this.name = name;
+        this.flags = flags;
+        this.version = version;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public int getFlags() {
-		return flags;
-	}
+    public int getFlags() {
+        return flags;
+    }
 
-	public String getVersion() {
-		return version;
-	}
+    public String getVersion() {
+        return version;
+    }
 
-	@Override
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
 
-		sb.append("ModuleInfo{name=").append(name);
-		sb.append(", flags=").append(flags);
+        sb.append("ModuleInfo{name=").append(name);
+        sb.append(", flags=").append(flags);
 
-		if (version != null) {
-			sb.append(", version=").append(version);
-		}
+        if (version != null) {
+            sb.append(", version=").append(version);
+        }
 
-		return sb.append("}").toString();
-	}
+        return sb.append("}").toString();
+    }
 }

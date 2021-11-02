@@ -18,7 +18,9 @@ public class LocalVariableDeclarationStatement extends LocalVariableDeclaration 
     }
 
     @Override
-    public boolean isLocalVariableDeclarationStatement() { return true; }
+    public boolean isLocalVariableDeclarationStatement() {
+        return true;
+    }
 
     @Override
     public void accept(StatementVisitor visitor) {

@@ -18,13 +18,16 @@ public class ClassFileTryStatement extends TryStatement {
     protected boolean jsr;
     protected boolean eclipse;
 
-    public ClassFileTryStatement(BaseStatement tryStatements, List<TryStatement.CatchClause> catchClauses, BaseStatement finallyStatements, boolean jsr, boolean eclipse) {
+    public ClassFileTryStatement(BaseStatement tryStatements, List<TryStatement.CatchClause> catchClauses,
+            BaseStatement finallyStatements, boolean jsr, boolean eclipse) {
         super(tryStatements, catchClauses, finallyStatements);
         this.jsr = jsr;
         this.eclipse = eclipse;
     }
 
-    public ClassFileTryStatement(List<Resource> resources, BaseStatement tryStatements, List<TryStatement.CatchClause> catchClauses, BaseStatement finallyStatements, boolean jsr, boolean eclipse) {
+    public ClassFileTryStatement(List<Resource> resources, BaseStatement tryStatements,
+            List<TryStatement.CatchClause> catchClauses, BaseStatement finallyStatements, boolean jsr,
+            boolean eclipse) {
         super(resources, tryStatements, catchClauses, finallyStatements);
         this.jsr = jsr;
         this.eclipse = eclipse;
@@ -47,11 +50,12 @@ public class ClassFileTryStatement extends TryStatement {
     public boolean isEclipse() {
         return eclipse;
     }
-	
+
     public static class CatchClause extends TryStatement.CatchClause {
         protected AbstractLocalVariable localVariable;
 
-        public CatchClause(int lineNumber, ObjectType type, AbstractLocalVariable localVariable, BaseStatement statements) {
+        public CatchClause(int lineNumber, ObjectType type, AbstractLocalVariable localVariable,
+                BaseStatement statements) {
             super(lineNumber, type, null, statements);
             this.localVariable = localVariable;
         }

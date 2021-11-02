@@ -23,7 +23,9 @@ public class IfElseStatement extends IfStatement {
     }
 
     @Override
-    public boolean isIfElseStatement() { return true; }
+    public boolean isIfElseStatement() {
+        return true;
+    }
 
     @Override
     public void accept(StatementVisitor visitor) {

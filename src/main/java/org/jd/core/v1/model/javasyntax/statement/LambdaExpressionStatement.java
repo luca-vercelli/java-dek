@@ -26,7 +26,9 @@ public class LambdaExpressionStatement implements Statement {
     }
 
     @Override
-    public boolean isLambdaExpressionStatement() { return true; }
+    public boolean isLambdaExpressionStatement() {
+        return true;
+    }
 
     @Override
     public void accept(StatementVisitor visitor) {

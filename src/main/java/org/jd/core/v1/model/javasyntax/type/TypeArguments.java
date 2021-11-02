@@ -7,18 +7,20 @@
 
 package org.jd.core.v1.model.javasyntax.type;
 
-import org.jd.core.v1.util.DefaultList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Map;
 
-import java.util.*;
+import org.jd.core.v1.util.DefaultList;
 
 /**
  * A list of TypeArgument that is itself a BaseTypeArgument
  */
 public class TypeArguments extends DefaultList<TypeArgument> implements BaseTypeArgument {
 
-	private static final long serialVersionUID = 7544950064634620297L;
+    private static final long serialVersionUID = 7544950064634620297L;
 
-	public TypeArguments() {}
+    public TypeArguments() {}
 
     public TypeArguments(int capacity) {
         super(capacity);

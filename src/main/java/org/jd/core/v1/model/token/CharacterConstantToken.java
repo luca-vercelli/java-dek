@@ -9,28 +9,28 @@ package org.jd.core.v1.model.token;
 
 public class CharacterConstantToken implements Token {
 
-	protected String c;
-	protected String ownerInternalName;
+    protected String ch;
+    protected String ownerInternalName;
 
-	public CharacterConstantToken(String c, String ownerInternalName) {
-		this.c = c;
-		this.ownerInternalName = ownerInternalName;
-	}
+    public CharacterConstantToken(String ch, String ownerInternalName) {
+        this.ch = ch;
+        this.ownerInternalName = ownerInternalName;
+    }
 
-	public String getCharacter() {
-		return c;
-	}
+    public String getCharacter() {
+        return ch;
+    }
 
-	public String getOwnerInternalName() {
-		return ownerInternalName;
-	}
+    public String getOwnerInternalName() {
+        return ownerInternalName;
+    }
 
-	public String toString() {
-		return "CharacterConstantToken{'" + c + "'}";
-	}
+    public String toString() {
+        return "CharacterConstantToken{'" + ch + "'}";
+    }
 
-	@Override
-	public void accept(TokenVisitor visitor) {
-		visitor.visit(this);
-	}
+    @Override
+    public void accept(TokenVisitor visitor) {
+        visitor.visit(this);
+    }
 }

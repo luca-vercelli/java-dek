@@ -13,13 +13,13 @@ package org.jd.core.v1.model.classfile.attribute.elementValue;
  * There should be one visit() method for every possible ElementValue subclass.
  */
 public interface ElementValueVisitor {
-	void visit(ElementValuePrimitiveType elementValue);
+    void visit(ElementValuePrimitiveType elementValue);
 
-	void visit(ElementValueClassInfo elementValue);
+    void visit(ElementValueClassInfo elementValue);
 
-	void visit(ElementValueAnnotationValue elementValue);
+    void visit(ElementValueAnnotationValue elementValue);
 
-	void visit(ElementValueEnumConstValue elementValue);
+    void visit(ElementValueEnumConstValue elementValue);
 
-	void visit(ElementValueArrayValue elementValue);
+    void visit(ElementValueArrayValue elementValue);
 }

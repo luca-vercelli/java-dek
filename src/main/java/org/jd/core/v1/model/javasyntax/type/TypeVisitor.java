@@ -14,13 +14,13 @@ package org.jd.core.v1.model.javasyntax.type;
  * generics), plus one method handling list of types.
  */
 public interface TypeVisitor {
-	void visit(PrimitiveType type);
+    void visit(PrimitiveType type);
 
-	void visit(ObjectType type);
+    void visit(ObjectType type);
 
-	void visit(InnerObjectType type);
+    void visit(InnerObjectType type);
 
-	void visit(Types types);
+    void visit(Types types);
 
-	void visit(GenericType type);
+    void visit(GenericType type);
 }

@@ -11,36 +11,36 @@ package org.jd.core.v1.model.classfile.attribute;
  * Information stored in InnerClass attributes
  */
 public class InnerClass {
-	protected String innerTypeName;
-	protected String outerTypeName;
-	protected String innerName;
-	protected int innerAccessFlags;
+    protected String innerTypeName;
+    protected String outerTypeName;
+    protected String innerName;
+    protected int innerAccessFlags;
 
-	public InnerClass(String innerTypeName, String outerTypeName, String innerName, int innerAccessFlags) {
-		this.innerTypeName = innerTypeName;
-		this.outerTypeName = outerTypeName;
-		this.innerName = innerName;
-		this.innerAccessFlags = innerAccessFlags;
-	}
+    public InnerClass(String innerTypeName, String outerTypeName, String innerName, int innerAccessFlags) {
+        this.innerTypeName = innerTypeName;
+        this.outerTypeName = outerTypeName;
+        this.innerName = innerName;
+        this.innerAccessFlags = innerAccessFlags;
+    }
 
-	public String getInnerTypeName() {
-		return innerTypeName;
-	}
+    public String getInnerTypeName() {
+        return innerTypeName;
+    }
 
-	public String getOuterTypeName() {
-		return outerTypeName;
-	}
+    public String getOuterTypeName() {
+        return outerTypeName;
+    }
 
-	public String getInnerName() {
-		return innerName;
-	}
+    public String getInnerName() {
+        return innerName;
+    }
 
-	public int getInnerAccessFlags() {
-		return innerAccessFlags;
-	}
+    public int getInnerAccessFlags() {
+        return innerAccessFlags;
+    }
 
-	@Override
-	public String toString() {
-		return getClass().getSimpleName() + " " + innerTypeName;
-	}
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + " " + innerTypeName;
+    }
 }

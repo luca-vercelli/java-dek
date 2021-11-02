@@ -10,28 +10,28 @@ package org.jd.core.v1.model.classfile.attribute.elementValue;
 import org.jd.core.v1.model.classfile.constant.ConstantValue;
 
 public class ElementValuePrimitiveType implements ElementValue {
-	/*
-	 * type = {'B', 'D', 'F', 'I', 'J', 'S', 'Z', 'C', 's'}
-	 */
-	protected int type;
-	protected ConstantValue constValue;
+    /*
+     * type = {'B', 'D', 'F', 'I', 'J', 'S', 'Z', 'C', 's'}
+     */
+    protected int type;
+    protected ConstantValue constValue;
 
-	public ElementValuePrimitiveType(int type, ConstantValue constValue) {
-		this.type = type;
-		this.constValue = constValue;
-	}
+    public ElementValuePrimitiveType(int type, ConstantValue constValue) {
+        this.type = type;
+        this.constValue = constValue;
+    }
 
-	public int getType() {
-		return type;
-	}
+    public int getType() {
+        return type;
+    }
 
-	@SuppressWarnings("unchecked")
-	public <T extends ConstantValue> T getConstValue() {
-		return (T) constValue;
-	}
+    @SuppressWarnings("unchecked")
+    public <T extends ConstantValue> T getConstValue() {
+        return (T) constValue;
+    }
 
-	@Override
-	public void accept(ElementValueVisitor visitor) {
-		visitor.visit(this);
-	}
+    @Override
+    public void accept(ElementValueVisitor visitor) {
+        visitor.visit(this);
+    }
 }

@@ -18,31 +18,31 @@ import org.jd.core.v1.api.Loader;
  */
 public class ClassPathLoader implements Loader {
 
-	public static final int BUFFER_SIZE = 1024 * 2;
+    public static final int BUFFER_SIZE = 1024 * 2;
 
-	@Override
-	public byte[] load(String internalName) throws IOException {
-		InputStream is = this.getClass().getResourceAsStream("/" + internalName + ".class");
+    @Override
+    public byte[] load(String internalName) throws IOException {
+        InputStream is = this.getClass().getResourceAsStream("/" + internalName + ".class");
 
-		if (is == null) {
-			return null;
-		} else {
-			try (InputStream in = is; ByteArrayOutputStream out = new ByteArrayOutputStream()) {
-				byte[] buffer = new byte[BUFFER_SIZE];
-				int read = in.read(buffer);
+        if (is == null) {
+            return null;
+        } else {
+            try (InputStream in = is; ByteArrayOutputStream out = new ByteArrayOutputStream()) {
+                byte[] buffer = new byte[BUFFER_SIZE];
+                int read = in.read(buffer);
 
-				while (read > 0) {
-					out.write(buffer, 0, read);
-					read = in.read(buffer);
-				}
+                while (read > 0) {
+                    out.write(buffer, 0, read);
+                    read = in.read(buffer);
+                }
 
-				return out.toByteArray();
-			}
-		}
-	}
+                return out.toByteArray();
+            }
+        }
+    }
 
-	@Override
-	public boolean canLoad(String internalName) {
-		return this.getClass().getResource("/" + internalName + ".class") != null;
-	}
+    @Override
+    public boolean canLoad(String internalName) {
+        return this.getClass().getResource("/" + internalName + ".class") != null;
+    }
 }

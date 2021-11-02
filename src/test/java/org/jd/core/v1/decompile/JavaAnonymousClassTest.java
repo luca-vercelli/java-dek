@@ -22,7 +22,7 @@ import org.jd.core.v1.service.printer.PlainTextPrinter;
 import org.junit.Test;
 
 public class JavaAnonymousClassTest  {
-	protected TestDecompiler decompiler = new TestDecompiler();
+    protected TestDecompiler decompiler = new TestDecompiler();
 
     @Test
     public void testJdk150AnonymousClass() throws Exception {

@@ -8,24 +8,24 @@
 package org.jd.core.v1.model.classfile.attribute.elementValue;
 
 public class ElementValueEnumConstValue implements ElementValue {
-	protected String descriptor;
-	protected String constName;
+    protected String descriptor;
+    protected String constName;
 
-	public ElementValueEnumConstValue(String descriptor, String constName) {
-		this.descriptor = descriptor;
-		this.constName = constName;
-	}
+    public ElementValueEnumConstValue(String descriptor, String constName) {
+        this.descriptor = descriptor;
+        this.constName = constName;
+    }
 
-	public String getDescriptor() {
-		return descriptor;
-	}
+    public String getDescriptor() {
+        return descriptor;
+    }
 
-	public String getConstName() {
-		return constName;
-	}
+    public String getConstName() {
+        return constName;
+    }
 
-	@Override
-	public void accept(ElementValueVisitor visitor) {
-		visitor.visit(this);
-	}
+    @Override
+    public void accept(ElementValueVisitor visitor) {
+        visitor.visit(this);
+    }
 }

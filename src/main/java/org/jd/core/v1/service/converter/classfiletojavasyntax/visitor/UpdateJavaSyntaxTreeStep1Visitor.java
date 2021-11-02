@@ -16,33 +16,33 @@ import org.jd.core.v1.service.converter.classfiletojavasyntax.util.TypeMaker;
  * Create parameters, variables, statements; initialize inner classes
  */
 public class UpdateJavaSyntaxTreeStep1Visitor extends AbstractJavaSyntaxVisitor {
-	protected CreateInstructionsVisitor createInstructionsVisitor;
-	protected InitInnerClassVisitor initInnerClassStep1Visitor;
+    protected CreateInstructionsVisitor createInstructionsVisitor;
+    protected InitInnerClassVisitor initInnerClassStep1Visitor;
 
-	/**
-	 * 
-	 * @param typeMaker
-	 * @param dumpOpcode if true, print opcode instead of statements
-	 */
-	public UpdateJavaSyntaxTreeStep1Visitor(TypeMaker typeMaker, boolean dumpOpcode) {
-		createInstructionsVisitor = new CreateInstructionsVisitor(typeMaker, dumpOpcode);
-		initInnerClassStep1Visitor = new InitInnerClassVisitor();
-	}
+    /**
+     * 
+     * @param typeMaker
+     * @param dumpOpcode if true, print opcode instead of statements
+     */
+    public UpdateJavaSyntaxTreeStep1Visitor(TypeMaker typeMaker, boolean dumpOpcode) {
+        createInstructionsVisitor = new CreateInstructionsVisitor(typeMaker, dumpOpcode);
+        initInnerClassStep1Visitor = new InitInnerClassVisitor();
+    }
 
-	/**
-	 * Create parameters, variables, statements; initialize inner classes
-	 */
-	@Override
-	public void visit(BodyDeclaration declaration) {
-		ClassFileBodyDeclaration bodyDeclaration = (ClassFileBodyDeclaration) declaration;
+    /**
+     * Create parameters, variables, statements; initialize inner classes
+     */
+    @Override
+    public void visit(BodyDeclaration declaration) {
+        ClassFileBodyDeclaration bodyDeclaration = (ClassFileBodyDeclaration) declaration;
 
-		// Visit inner types
-		if (bodyDeclaration.getInnerTypeDeclarations() != null) {
-			acceptListDeclaration(bodyDeclaration.getInnerTypeDeclarations());
-		}
+        // Visit inner types
+        if (bodyDeclaration.getInnerTypeDeclarations() != null) {
+            acceptListDeclaration(bodyDeclaration.getInnerTypeDeclarations());
+        }
 
-		// Visit declaration
-		createInstructionsVisitor.visit(declaration);
-		initInnerClassStep1Visitor.visit(declaration);
-	}
+        // Visit declaration
+        createInstructionsVisitor.visit(declaration);
+        initInnerClassStep1Visitor.visit(declaration);
+    }
 }

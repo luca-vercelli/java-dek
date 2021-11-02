@@ -11,24 +11,24 @@ package org.jd.core.v1.model.classfile.attribute;
  * Information stored in BootstrapMethods attributes
  */
 public class BootstrapMethod {
-	protected int bootstrapMethodRef;
-	protected int bootstrapArguments[];
+    protected int bootstrapMethodRef;
+    protected int[] bootstrapArguments;
 
-	public BootstrapMethod(int bootstrapMethodRef, int[] bootstrapArguments) {
-		this.bootstrapMethodRef = bootstrapMethodRef;
-		this.bootstrapArguments = bootstrapArguments;
-	}
+    public BootstrapMethod(int bootstrapMethodRef, int[] bootstrapArguments) {
+        this.bootstrapMethodRef = bootstrapMethodRef;
+        this.bootstrapArguments = bootstrapArguments;
+    }
 
-	public int getBootstrapMethodRef() {
-		return bootstrapMethodRef;
-	}
+    public int getBootstrapMethodRef() {
+        return bootstrapMethodRef;
+    }
 
-	public int[] getBootstrapArguments() {
-		return bootstrapArguments;
-	}
+    public int[] getBootstrapArguments() {
+        return bootstrapArguments;
+    }
 
-	@Override
-	public String toString() {
-		return getClass().getSimpleName() + " " + bootstrapMethodRef;
-	}
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + " " + bootstrapMethodRef;
+    }
 }

@@ -8,38 +8,41 @@
 package org.jd.core.v1.service.layouter.visitor;
 
 public abstract class AbstractStoreMovableBlockFragmentIndexVisitorAbstract
-		extends AbstractSearchMovableBlockFragmentVisitor {
-	protected int[] indexes = new int[10];
-	protected int size;
-	protected boolean enabled;
+        extends AbstractSearchMovableBlockFragmentVisitor {
 
-	public void reset() {
-		this.size = 0;
-		this.depth = 1;
-		this.index = 0;
-		this.enabled = true;
-	}
+    static final int INITIAL_SIZE = 10;
 
-	public int getIndex(int i) {
-		return indexes[i];
-	}
+    protected int[] indexes = new int[INITIAL_SIZE];
+    protected int size;
+    protected boolean enabled;
 
-	public int getSize() {
-		return size;
-	}
+    public void reset() {
+        this.size = 0;
+        this.depth = 1;
+        this.index = 0;
+        this.enabled = true;
+    }
 
-	public boolean isEnabled() {
-		return enabled;
-	}
+    public int getIndex(int i) {
+        return indexes[i];
+    }
 
-	protected void storeIndex() {
-		if (size == indexes.length) {
-			// Enlarge list...
-			int[] tmp = new int[size * 2];
-			System.arraycopy(indexes, 0, tmp, 0, size);
-			indexes = tmp;
-		}
+    public int getSize() {
+        return size;
+    }
 
-		indexes[size++] = index;
-	}
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    protected void storeIndex() {
+        if (size == indexes.length) {
+            // Enlarge list...
+            int[] tmp = new int[size * 2];
+            System.arraycopy(indexes, 0, tmp, 0, size);
+            indexes = tmp;
+        }
+
+        indexes[size++] = index;
+    }
 }

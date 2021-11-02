@@ -10,26 +10,26 @@ package org.jd.core.v1.model.javasyntax.expression;
 import org.jd.core.v1.model.javasyntax.type.Type;
 
 public class NullExpression extends AbstractLineNumberTypeExpression {
-	public NullExpression(Type type) {
-		super(type);
-	}
+    public NullExpression(Type type) {
+        super(type);
+    }
 
-	public NullExpression(int lineNumber, Type type) {
-		super(lineNumber, type);
-	}
+    public NullExpression(int lineNumber, Type type) {
+        super(lineNumber, type);
+    }
 
-	@Override
-	public boolean isNullExpression() {
-		return true;
-	}
+    @Override
+    public boolean isNullExpression() {
+        return true;
+    }
 
-	@Override
-	public void accept(ExpressionVisitor visitor) {
-		visitor.visit(this);
-	}
+    @Override
+    public void accept(ExpressionVisitor visitor) {
+        visitor.visit(this);
+    }
 
-	@Override
-	public String toString() {
-		return "NullExpression(" + type + ")";
-	}
+    @Override
+    public String toString() {
+        return "NullExpression(" + type + ")";
+    }
 }

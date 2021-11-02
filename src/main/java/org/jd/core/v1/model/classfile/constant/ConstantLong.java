@@ -8,19 +8,19 @@
 package org.jd.core.v1.model.classfile.constant;
 
 public class ConstantLong extends ConstantValue {
-	protected long value;
+    protected long value;
 
-	public ConstantLong(long value) {
-		super(ConstantPoolTag.CONSTANT_Long);
-		this.value = value;
-	}
+    public ConstantLong(long value) {
+        super(ConstantPoolTag.CONSTANT_Long);
+        this.value = value;
+    }
 
-	public long getValue() {
-		return value;
-	}
+    public long getValue() {
+        return value;
+    }
 
-	@Override
-	public String toString() {
-		return getClass().getSimpleName() + " " + value;
-	}
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + " " + value;
+    }
 }

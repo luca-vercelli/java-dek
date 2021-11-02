@@ -19,7 +19,8 @@ import org.jd.core.v1.model.javasyntax.type.TypeArgument;
 
 import java.util.Map;
 
-public class ClassFileStaticInitializerDeclaration extends StaticInitializerDeclaration implements ClassFileConstructorOrMethodDeclaration {
+public class ClassFileStaticInitializerDeclaration extends StaticInitializerDeclaration
+        implements ClassFileConstructorOrMethodDeclaration {
     protected ClassFileBodyDeclaration bodyDeclaration;
     protected ClassFile classFile;
     protected Method method;
@@ -27,9 +28,8 @@ public class ClassFileStaticInitializerDeclaration extends StaticInitializerDecl
     protected Map<String, BaseType> typeBounds;
     protected int firstLineNumber;
 
-    public ClassFileStaticInitializerDeclaration(
-            ClassFileBodyDeclaration bodyDeclaration, ClassFile classFile, Method method, Map<String, TypeArgument> bindings,
-            Map<String, BaseType> typeBounds, int firstLineNumber) {
+    public ClassFileStaticInitializerDeclaration(ClassFileBodyDeclaration bodyDeclaration, ClassFile classFile,
+            Method method, Map<String, TypeArgument> bindings, Map<String, BaseType> typeBounds, int firstLineNumber) {
         super(method.getDescriptor(), null);
         this.bodyDeclaration = bodyDeclaration;
         this.classFile = classFile;
@@ -39,9 +39,9 @@ public class ClassFileStaticInitializerDeclaration extends StaticInitializerDecl
         this.firstLineNumber = firstLineNumber;
     }
 
-    public ClassFileStaticInitializerDeclaration(
-            ClassFileBodyDeclaration bodyDeclaration, ClassFile classFile, Method method, Map<String, TypeArgument> bindings,
-            Map<String, BaseType> typeBounds, int firstLineNumber, BaseStatement statements) {
+    public ClassFileStaticInitializerDeclaration(ClassFileBodyDeclaration bodyDeclaration, ClassFile classFile,
+            Method method, Map<String, TypeArgument> bindings, Map<String, BaseType> typeBounds, int firstLineNumber,
+            BaseStatement statements) {
         super(method.getDescriptor(), statements);
         this.bodyDeclaration = bodyDeclaration;
         this.classFile = classFile;
@@ -52,13 +52,17 @@ public class ClassFileStaticInitializerDeclaration extends StaticInitializerDecl
     }
 
     @Override
-    public int getFlags() { return 0; }
+    public int getFlags() {
+        return 0;
+    }
 
     @Override
-    public void setFlags(int flags) {}
+    public void setFlags(int flags) {
+    }
 
     @Override
-    public void setFormalParameters(BaseFormalParameter formalParameters) {}
+    public void setFormalParameters(BaseFormalParameter formalParameters) {
+    }
 
     @Override
     public void setStatements(BaseStatement statements) {
@@ -71,7 +75,9 @@ public class ClassFileStaticInitializerDeclaration extends StaticInitializerDecl
     }
 
     @Override
-    public Method getMethod() { return method; }
+    public Method getMethod() {
+        return method;
+    }
 
     @Override
     public BaseTypeParameter getTypeParameters() {

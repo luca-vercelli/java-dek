@@ -28,7 +28,9 @@ public class LongConstantExpression extends AbstractLineNumberTypeExpression {
     }
 
     @Override
-    public boolean isLongConstantExpression() { return true; }
+    public boolean isLongConstantExpression() {
+        return true;
+    }
 
     @Override
     public void accept(ExpressionVisitor visitor) {

@@ -18,7 +18,8 @@ public class ConstructorInvocationExpression extends ConstructorReferenceExpress
         this.parameters = parameters;
     }
 
-    public ConstructorInvocationExpression(int lineNumber, ObjectType type, String descriptor, BaseExpression parameters) {
+    public ConstructorInvocationExpression(int lineNumber, ObjectType type, String descriptor,
+            BaseExpression parameters) {
         super(lineNumber, PrimitiveType.TYPE_VOID, type, descriptor);
         this.parameters = parameters;
     }
@@ -38,7 +39,9 @@ public class ConstructorInvocationExpression extends ConstructorReferenceExpress
     }
 
     @Override
-    public boolean isConstructorInvocationExpression() { return true; }
+    public boolean isConstructorInvocationExpression() {
+        return true;
+    }
 
     @Override
     public void accept(ExpressionVisitor visitor) {

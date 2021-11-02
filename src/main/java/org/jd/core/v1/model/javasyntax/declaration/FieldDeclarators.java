@@ -15,9 +15,9 @@ import java.util.Collection;
  * A list of FieldDeclarator that is itself a BaseFieldDeclarator
  */
 public class FieldDeclarators extends DefaultList<FieldDeclarator> implements BaseFieldDeclarator {
-	private static final long serialVersionUID = 1346930696951834080L;
+    private static final long serialVersionUID = 1346930696951834080L;
 
-	public FieldDeclarators() {}
+    public FieldDeclarators() {}
 
     public FieldDeclarators(int capacity) {
         super(capacity);

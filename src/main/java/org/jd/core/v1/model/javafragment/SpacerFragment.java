@@ -10,12 +10,12 @@ package org.jd.core.v1.model.javafragment;
 import org.jd.core.v1.model.fragment.FlexibleFragment;
 
 public class SpacerFragment extends FlexibleFragment {
-	public SpacerFragment(int minimalLineCount, int lineCount, int maximalLineCount, int weight, String label) {
-		super(minimalLineCount, lineCount, maximalLineCount, weight, label);
-	}
+    public SpacerFragment(int minimalLineCount, int lineCount, int maximalLineCount, int weight, String label) {
+        super(minimalLineCount, lineCount, maximalLineCount, weight, label);
+    }
 
-	@Override
-	public void accept(JavaFragmentVisitor visitor) {
-		visitor.visit(this);
-	}
+    @Override
+    public void accept(JavaFragmentVisitor visitor) {
+        visitor.visit(this);
+    }
 }

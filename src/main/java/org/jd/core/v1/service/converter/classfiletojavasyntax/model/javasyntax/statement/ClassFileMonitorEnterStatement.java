@@ -24,7 +24,9 @@ public class ClassFileMonitorEnterStatement extends CommentStatement {
     }
 
     @Override
-    public boolean isMonitorEnterStatement() { return true; }
+    public boolean isMonitorEnterStatement() {
+        return true;
+    }
 
     @Override
     public String toString() {

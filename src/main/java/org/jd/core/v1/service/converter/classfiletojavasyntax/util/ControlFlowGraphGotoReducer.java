@@ -16,34 +16,34 @@ import static org.jd.core.v1.service.converter.classfiletojavasyntax.model.cfg.B
 
 public class ControlFlowGraphGotoReducer {
 
-	/**
-	 * Replace all TYPE_GOTO blocks in cfg with a TYPE_DELETED block, or with a
-	 * TYPE_INFINITE_GOTO if its successor is itself.
-	 * 
-	 * Links in other nodes are change accordingly.
-	 * 
-	 * @param cfg
-	 */
-	public static void reduce(ControlFlowGraph cfg) {
-		for (BasicBlock basicBlock : cfg.getBasicBlocks()) {
-			if (basicBlock.getType() == TYPE_GOTO) {
-				BasicBlock successor = basicBlock.getNext();
+    /**
+     * Replace all TYPE_GOTO blocks in cfg with a TYPE_DELETED block, or with a
+     * TYPE_INFINITE_GOTO if its successor is itself.
+     * 
+     * Links in other nodes are change accordingly.
+     * 
+     * @param cfg
+     */
+    public static void reduce(ControlFlowGraph cfg) {
+        for (BasicBlock basicBlock : cfg.getBasicBlocks()) {
+            if (basicBlock.getType() == TYPE_GOTO) {
+                BasicBlock successor = basicBlock.getNext();
 
-				if (basicBlock == successor) {
-					basicBlock.getPredecessors().remove(basicBlock);
-					basicBlock.setType(TYPE_INFINITE_GOTO);
-				} else {
-					Set<BasicBlock> successorPredecessors = successor.getPredecessors();
-					successorPredecessors.remove(basicBlock);
+                if (basicBlock == successor) {
+                    basicBlock.getPredecessors().remove(basicBlock);
+                    basicBlock.setType(TYPE_INFINITE_GOTO);
+                } else {
+                    Set<BasicBlock> successorPredecessors = successor.getPredecessors();
+                    successorPredecessors.remove(basicBlock);
 
-					for (BasicBlock predecessor : basicBlock.getPredecessors()) {
-						predecessor.replace(basicBlock, successor);
-						successorPredecessors.add(predecessor);
-					}
+                    for (BasicBlock predecessor : basicBlock.getPredecessors()) {
+                        predecessor.replace(basicBlock, successor);
+                        successorPredecessors.add(predecessor);
+                    }
 
-					basicBlock.setType(TYPE_DELETED);
-				}
-			}
-		}
-	}
+                    basicBlock.setType(TYPE_DELETED);
+                }
+            }
+        }
+    }
 }

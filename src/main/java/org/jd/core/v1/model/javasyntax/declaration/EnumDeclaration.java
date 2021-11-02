@@ -17,12 +17,14 @@ public class EnumDeclaration extends TypeDeclaration {
     protected BaseType interfaces;
     protected List<Constant> constants;
 
-    public EnumDeclaration(int flags, String internalName, String name, List<Constant> constants, BodyDeclaration bodyDeclaration) {
+    public EnumDeclaration(int flags, String internalName, String name, List<Constant> constants,
+            BodyDeclaration bodyDeclaration) {
         super(null, flags, internalName, name, bodyDeclaration);
         this.constants = constants;
     }
 
-    public EnumDeclaration(BaseAnnotationReference annotationReferences, int flags, String internalName, String name, BaseType interfaces, List<Constant> constants, BodyDeclaration bodyDeclaration) {
+    public EnumDeclaration(BaseAnnotationReference annotationReferences, int flags, String internalName, String name,
+            BaseType interfaces, List<Constant> constants, BodyDeclaration bodyDeclaration) {
         super(annotationReferences, flags, internalName, name, bodyDeclaration);
         this.interfaces = interfaces;
         this.constants = constants;
@@ -80,7 +82,8 @@ public class EnumDeclaration extends TypeDeclaration {
             this.bodyDeclaration = bodyDeclaration;
         }
 
-        public Constant(int lineNumber, BaseAnnotationReference annotationReferences, String name, BaseExpression arguments, BodyDeclaration bodyDeclaration) {
+        public Constant(int lineNumber, BaseAnnotationReference annotationReferences, String name,
+                BaseExpression arguments, BodyDeclaration bodyDeclaration) {
             this.lineNumber = lineNumber;
             this.annotationReferences = annotationReferences;
             this.name = name;

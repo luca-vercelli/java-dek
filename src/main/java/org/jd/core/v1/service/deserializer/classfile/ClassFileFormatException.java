@@ -8,13 +8,13 @@
 package org.jd.core.v1.service.deserializer.classfile;
 
 public class ClassFileFormatException extends RuntimeException {
-	private static final long serialVersionUID = -7004301612423295420L;
+    private static final long serialVersionUID = -7004301612423295420L;
 
-	public ClassFileFormatException() {
-		super();
-	}
+    public ClassFileFormatException() {
+        super();
+    }
 
-	public ClassFileFormatException(String s) {
-		super(s);
-	}
+    public ClassFileFormatException(String s) {
+        super(s);
+    }
 }

@@ -13,47 +13,47 @@ package org.jd.core.v1.model.javafragment;
  * There should be one visit() method for every possible JavaFragment subclass.
  */
 public interface JavaFragmentVisitor {
-	void visit(EndBodyFragment fragment);
+    void visit(EndBodyFragment fragment);
 
-	void visit(EndBlockInParameterFragment fragment);
+    void visit(EndBlockInParameterFragment fragment);
 
-	void visit(EndBlockFragment fragment);
+    void visit(EndBlockFragment fragment);
 
-	void visit(EndBodyInParameterFragment fragment);
+    void visit(EndBodyInParameterFragment fragment);
 
-	void visit(EndMovableJavaBlockFragment fragment);
+    void visit(EndMovableJavaBlockFragment fragment);
 
-	void visit(EndSingleStatementBlockFragment fragment);
+    void visit(EndSingleStatementBlockFragment fragment);
 
-	void visit(EndStatementsBlockFragment fragment);
+    void visit(EndStatementsBlockFragment fragment);
 
-	void visit(ImportsFragment fragment);
+    void visit(ImportsFragment fragment);
 
-	void visit(LineNumberTokensFragment fragment);
+    void visit(LineNumberTokensFragment fragment);
 
-	void visit(SpacerBetweenMembersFragment fragment);
+    void visit(SpacerBetweenMembersFragment fragment);
 
-	void visit(SpacerFragment fragment);
+    void visit(SpacerFragment fragment);
 
-	void visit(SpaceSpacerFragment fragment);
+    void visit(SpaceSpacerFragment fragment);
 
-	void visit(StartBlockFragment fragment);
+    void visit(StartBlockFragment fragment);
 
-	void visit(StartBodyFragment fragment);
+    void visit(StartBodyFragment fragment);
 
-	void visit(StartMovableJavaBlockFragment fragment);
+    void visit(StartMovableJavaBlockFragment fragment);
 
-	void visit(StartSingleStatementBlockFragment fragment);
+    void visit(StartSingleStatementBlockFragment fragment);
 
-	void visit(StartStatementsBlockFragment fragment);
+    void visit(StartStatementsBlockFragment fragment);
 
-	void visit(StartStatementsDoWhileBlockFragment fragment);
+    void visit(StartStatementsDoWhileBlockFragment fragment);
 
-	void visit(StartStatementsInfiniteForBlockFragment fragment);
+    void visit(StartStatementsInfiniteForBlockFragment fragment);
 
-	void visit(StartStatementsInfiniteWhileBlockFragment fragment);
+    void visit(StartStatementsInfiniteWhileBlockFragment fragment);
 
-	void visit(StartStatementsTryBlockFragment fragment);
+    void visit(StartStatementsTryBlockFragment fragment);
 
-	void visit(TokensFragment fragment);
+    void visit(TokensFragment fragment);
 }

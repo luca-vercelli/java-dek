@@ -14,24 +14,24 @@ import org.jd.core.v1.api.Printer;
  */
 public class LineNumberToken implements Token {
 
-	public static final LineNumberToken UNKNOWN_LINE_NUMBER = new LineNumberToken(Printer.UNKNOWN_LINE_NUMBER);
+    public static final LineNumberToken UNKNOWN_LINE_NUMBER = new LineNumberToken(Printer.UNKNOWN_LINE_NUMBER);
 
-	protected int lineNumber;
+    protected int lineNumber;
 
-	public LineNumberToken(int lineNumber) {
-		this.lineNumber = lineNumber;
-	}
+    public LineNumberToken(int lineNumber) {
+        this.lineNumber = lineNumber;
+    }
 
-	public int getLineNumber() {
-		return lineNumber;
-	}
+    public int getLineNumber() {
+        return lineNumber;
+    }
 
-	public String toString() {
-		return "LineNumberToken{" + lineNumber + "}";
-	}
+    public String toString() {
+        return "LineNumberToken{" + lineNumber + "}";
+    }
 
-	@Override
-	public void accept(TokenVisitor visitor) {
-		visitor.visit(this);
-	}
+    @Override
+    public void accept(TokenVisitor visitor) {
+        visitor.visit(this);
+    }
 }

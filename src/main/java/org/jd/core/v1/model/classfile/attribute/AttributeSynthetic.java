@@ -8,11 +8,11 @@
 package org.jd.core.v1.model.classfile.attribute;
 
 public class AttributeSynthetic implements Attribute {
-	public AttributeSynthetic() {
-	}
+    public AttributeSynthetic() {
+    }
 
-	@Override
-	public String toString() {
-		return getClass().getSimpleName();
-	}
+    @Override
+    public String toString() {
+        return getClass().getSimpleName();
+    }
 }

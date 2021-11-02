@@ -34,8 +34,12 @@ public class WildcardExtendsTypeArgument implements TypeArgument {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         WildcardExtendsTypeArgument that = (WildcardExtendsTypeArgument) o;
 
@@ -48,7 +52,9 @@ public class WildcardExtendsTypeArgument implements TypeArgument {
     }
 
     @Override
-    public boolean isWildcardExtendsTypeArgument() { return true; }
+    public boolean isWildcardExtendsTypeArgument() {
+        return true;
+    }
 
     @Override
     public void accept(TypeArgumentVisitor visitor) {

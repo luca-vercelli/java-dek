@@ -9,10 +9,12 @@ package org.jd.core.v1.service.converter.classfiletojavasyntax.model.javasyntax.
 
 import org.jd.core.v1.model.javasyntax.expression.BinaryOperatorExpression;
 import org.jd.core.v1.model.javasyntax.expression.Expression;
+import org.jd.core.v1.model.javasyntax.expression.PriorityConstants;
 import org.jd.core.v1.model.javasyntax.type.PrimitiveType;
 
 public class ClassFileCmpExpression extends BinaryOperatorExpression {
-	public ClassFileCmpExpression(int lineNumber, Expression leftExpression, Expression rightExpression) {
-		super(lineNumber, PrimitiveType.TYPE_INT, leftExpression, "cmp", rightExpression, 7);
-	}
+    public ClassFileCmpExpression(int lineNumber, Expression leftExpression, Expression rightExpression) {
+        super(lineNumber, PrimitiveType.TYPE_INT, leftExpression, "cmp", rightExpression,
+                PriorityConstants.CMP_PRIORITY);
+    }
 }

@@ -10,10 +10,10 @@ package org.jd.core.v1.model.javafragment;
 import org.jd.core.v1.model.fragment.EndMovableBlockFragment;
 
 public class EndMovableJavaBlockFragment extends EndMovableBlockFragment {
-	public static final EndMovableJavaBlockFragment END_MOVABLE_BLOCK = new EndMovableJavaBlockFragment();
+    public static final EndMovableJavaBlockFragment END_MOVABLE_BLOCK = new EndMovableJavaBlockFragment();
 
-	@Override
-	public void accept(JavaFragmentVisitor visitor) {
-		visitor.visit(this);
-	}
+    @Override
+    public void accept(JavaFragmentVisitor visitor) {
+        visitor.visit(this);
+    }
 }

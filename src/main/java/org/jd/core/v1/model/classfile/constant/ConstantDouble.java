@@ -8,19 +8,19 @@
 package org.jd.core.v1.model.classfile.constant;
 
 public class ConstantDouble extends ConstantValue {
-	protected double value;
+    protected double value;
 
-	public ConstantDouble(double value) {
-		super(ConstantPoolTag.CONSTANT_Double);
-		this.value = value;
-	}
+    public ConstantDouble(double value) {
+        super(ConstantPoolTag.CONSTANT_Double);
+        this.value = value;
+    }
 
-	public double getValue() {
-		return value;
-	}
+    public double getValue() {
+        return value;
+    }
 
-	@Override
-	public String toString() {
-		return getClass().getSimpleName() + " " + value;
-	}
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + " " + value;
+    }
 }

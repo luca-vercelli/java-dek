@@ -8,7 +8,7 @@
 package org.jd.core.v1.model.javasyntax.declaration;
 
 public interface Declaration {
-	
-	// in all implementations this is just visitor.visit(this) ?!?
+    
+    // in all implementations this is just visitor.visit(this) ?!?
     void accept(DeclarationVisitor visitor);
 }

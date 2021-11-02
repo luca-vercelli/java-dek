@@ -24,7 +24,9 @@ public class ClassFileMonitorExitStatement extends CommentStatement {
     }
 
     @Override
-    public boolean isMonitorExitStatement() { return true; }
+    public boolean isMonitorExitStatement() {
+        return true;
+    }
 
     @Override
     public String toString() {

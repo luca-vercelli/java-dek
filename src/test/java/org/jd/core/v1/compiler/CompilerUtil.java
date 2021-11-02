@@ -24,82 +24,82 @@ import javax.tools.ToolProvider;
  * Compile source code using internal JavaTools
  */
 public class CompilerUtil {
-	protected static final File DESTINATION_DIRECTORY = new File("build/test-recompiled");
-	protected static final String DESTINATION_DIRECTORY_PATH = DESTINATION_DIRECTORY.getAbsolutePath();
+    protected static final File DESTINATION_DIRECTORY = new File("build/test-recompiled");
+    protected static final String DESTINATION_DIRECTORY_PATH = DESTINATION_DIRECTORY.getAbsolutePath();
 
-	public static boolean compile(String preferredJavaVersion, JavaFileObject... javaFileObjects) throws IOException  {
-		boolean compilationSuccess = false;
-		String javaVersion = getJavaVersion(preferredJavaVersion);
+    public static boolean compile(String preferredJavaVersion, JavaFileObject... javaFileObjects) throws IOException  {
+        boolean compilationSuccess = false;
+        String javaVersion = getJavaVersion(preferredJavaVersion);
 
-		DESTINATION_DIRECTORY.mkdirs();
+        DESTINATION_DIRECTORY.mkdirs();
 
-		JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
-		StringWriter writer = new StringWriter();
-		DiagnosticCollector<JavaFileObject> diagnostics = new DiagnosticCollector<>();
-		List<String> options = Arrays.asList("-source", javaVersion, "-target", javaVersion, "-d",
-				DESTINATION_DIRECTORY_PATH, "-cp", System.getProperty("java.class.path"));
-		List<JavaFileObject> compilationUnits = Arrays.asList(javaFileObjects);
+        JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
+        StringWriter writer = new StringWriter();
+        DiagnosticCollector<JavaFileObject> diagnostics = new DiagnosticCollector<>();
+        List<String> options = Arrays.asList("-source", javaVersion, "-target", javaVersion, "-d",
+                DESTINATION_DIRECTORY_PATH, "-cp", System.getProperty("java.class.path"));
+        List<JavaFileObject> compilationUnits = Arrays.asList(javaFileObjects);
 
-		try (StandardJavaFileManager fileManager = compiler.getStandardFileManager(diagnostics, null, null)) {
-			compilationSuccess = compiler.getTask(writer, fileManager, diagnostics, options, null, compilationUnits)
-					.call();
+        try (StandardJavaFileManager fileManager = compiler.getStandardFileManager(diagnostics, null, null)) {
+            compilationSuccess = compiler.getTask(writer, fileManager, diagnostics, options, null, compilationUnits)
+                    .call();
 
-			if (!diagnostics.getDiagnostics().isEmpty()) {
-				StringBuilder sb = new StringBuilder();
+            if (!diagnostics.getDiagnostics().isEmpty()) {
+                StringBuilder sb = new StringBuilder();
 
-				for (Diagnostic<?> d : diagnostics.getDiagnostics()) {
-					switch (d.getKind()) {
-					case NOTE:
-					case WARNING:
-						break;
-					default:
-						if (d.getLineNumber() > 0) {
-							sb.append(String.format("%-7s - line %-4d- %s%n", d.getKind(), d.getLineNumber(),
-									d.getMessage(null)));
-						} else {
-							sb.append(String.format("%-7s -          - %s%n", d.getKind(), d.getMessage(null)));
-						}
-						break;
-					}
-				}
+                for (Diagnostic<?> d : diagnostics.getDiagnostics()) {
+                    switch (d.getKind()) {
+                    case NOTE:
+                    case WARNING:
+                        break;
+                    default:
+                        if (d.getLineNumber() > 0) {
+                            sb.append(String.format("%-7s - line %-4d- %s%n", d.getKind(), d.getLineNumber(),
+                                    d.getMessage(null)));
+                        } else {
+                            sb.append(String.format("%-7s -          - %s%n", d.getKind(), d.getMessage(null)));
+                        }
+                        break;
+                    }
+                }
 
-				if (sb.length() > 0) {
-					System.err.println(compilationUnits.get(0).getName());
-					System.err.print(sb.toString());
-				}
-			}
-		}
+                if (sb.length() > 0) {
+                    System.err.println(compilationUnits.get(0).getName());
+                    System.err.print(sb.toString());
+                }
+            }
+        }
 
-		return compilationSuccess;
-	}
+        return compilationSuccess;
+    }
 
-	private static String getJavaVersion(String preferredJavaVersion) {
-		int numericSystemJavaVersion = parseJavaVersion(System.getProperty("java.version"));
+    private static String getJavaVersion(String preferredJavaVersion) {
+        int numericSystemJavaVersion = parseJavaVersion(System.getProperty("java.version"));
 
-		if (numericSystemJavaVersion <= 8) {
-			return preferredJavaVersion;
-		} else {
-			int numericPreferredJavaVersion = parseJavaVersion(preferredJavaVersion);
+        if (numericSystemJavaVersion <= 8) {
+            return preferredJavaVersion;
+        } else {
+            int numericPreferredJavaVersion = parseJavaVersion(preferredJavaVersion);
 
-			if (numericPreferredJavaVersion < 6) {
-				return "1.6";
-			} else {
-				return preferredJavaVersion;
-			}
-		}
-	}
+            if (numericPreferredJavaVersion < 6) {
+                return "1.6";
+            } else {
+                return preferredJavaVersion;
+            }
+        }
+    }
 
-	private static int parseJavaVersion(String javaVersion) {
-		if (javaVersion.startsWith("1.")) {
-			javaVersion = javaVersion.substring(2, 3);
-		} else {
-			int index = javaVersion.indexOf(".");
+    private static int parseJavaVersion(String javaVersion) {
+        if (javaVersion.startsWith("1.")) {
+            javaVersion = javaVersion.substring(2, 3);
+        } else {
+            int index = javaVersion.indexOf(".");
 
-			if (index != -1) {
-				javaVersion = javaVersion.substring(0, index);
-			}
-		}
+            if (index != -1) {
+                javaVersion = javaVersion.substring(0, index);
+            }
+        }
 
-		return Integer.parseInt(javaVersion);
-	}
+        return Integer.parseInt(javaVersion);
+    }
 }

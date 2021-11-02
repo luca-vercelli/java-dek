@@ -22,78 +22,78 @@ import org.junit.Test;
 
 public class UpdateSpacerBetweenMovableBlocksVisitorTest {
 
-	/**
-	 * Concrete implementation, for test
-	 */
-	class TestSpacerBetweenMovableBlocksFragment extends SpacerBetweenMovableBlocksFragment {
+    /**
+     * Concrete implementation, for test
+     */
+    class TestSpacerBetweenMovableBlocksFragment extends SpacerBetweenMovableBlocksFragment {
 
-		public TestSpacerBetweenMovableBlocksFragment(int minimalLineCount, int lineCount, int maximalLineCount,
-				int weight, String label) {
-			super(minimalLineCount, lineCount, maximalLineCount, weight, label);
-		}
+        public TestSpacerBetweenMovableBlocksFragment(int minimalLineCount, int lineCount, int maximalLineCount,
+                int weight, String label) {
+            super(minimalLineCount, lineCount, maximalLineCount, weight, label);
+        }
 
-		@Override
-		public void accept(JavaFragmentVisitor visitor) {
-			// do nothing
-		}
-	}
+        @Override
+        public void accept(JavaFragmentVisitor visitor) {
+            // do nothing
+        }
+    }
 
-	@Test
-	public void test() {
-		UpdateSpacerBetweenMovableBlocksVisitor visitor = new UpdateSpacerBetweenMovableBlocksVisitor();
-		DefaultList<FlexibleFragment> fragments = new DefaultList<>();
-		FlexibleFragment spacer1, spacer2, spacer3, spacer4, spacer5, spacer6, spacer7;
+    @Test
+    public void test() {
+        UpdateSpacerBetweenMovableBlocksVisitor visitor = new UpdateSpacerBetweenMovableBlocksVisitor();
+        DefaultList<FlexibleFragment> fragments = new DefaultList<>();
+        FlexibleFragment spacer1, spacer2, spacer3, spacer4, spacer5, spacer6, spacer7;
 
-		fragments.add(START_MOVABLE_TYPE_BLOCK);
-		fragments.add(START_MOVABLE_FIELD_BLOCK);
-		fragments.add(END_MOVABLE_BLOCK);
-		fragments.add(spacer1 = new TestSpacerBetweenMovableBlocksFragment(0, 2, Integer.MAX_VALUE, 7, "Spacer 1"));
-		fragments.add(START_MOVABLE_FIELD_BLOCK);
-		fragments.add(END_MOVABLE_BLOCK);
+        fragments.add(START_MOVABLE_TYPE_BLOCK);
+        fragments.add(START_MOVABLE_FIELD_BLOCK);
+        fragments.add(END_MOVABLE_BLOCK);
+        fragments.add(spacer1 = new TestSpacerBetweenMovableBlocksFragment(0, 2, Integer.MAX_VALUE, 7, "Spacer 1"));
+        fragments.add(START_MOVABLE_FIELD_BLOCK);
+        fragments.add(END_MOVABLE_BLOCK);
 
-		fragments.add(spacer2 = new TestSpacerBetweenMovableBlocksFragment(0, 2, Integer.MAX_VALUE, 7, "Spacer 2"));
+        fragments.add(spacer2 = new TestSpacerBetweenMovableBlocksFragment(0, 2, Integer.MAX_VALUE, 7, "Spacer 2"));
 
-		fragments.add(START_MOVABLE_METHOD_BLOCK);
-		fragments.add(END_MOVABLE_BLOCK);
+        fragments.add(START_MOVABLE_METHOD_BLOCK);
+        fragments.add(END_MOVABLE_BLOCK);
 
-		fragments.add(spacer3 = new TestSpacerBetweenMovableBlocksFragment(0, 2, Integer.MAX_VALUE, 7, "Spacer 3"));
+        fragments.add(spacer3 = new TestSpacerBetweenMovableBlocksFragment(0, 2, Integer.MAX_VALUE, 7, "Spacer 3"));
 
-		fragments.add(START_MOVABLE_FIELD_BLOCK);
-		fragments.add(END_MOVABLE_BLOCK);
+        fragments.add(START_MOVABLE_FIELD_BLOCK);
+        fragments.add(END_MOVABLE_BLOCK);
 
-		fragments.add(spacer4 = new TestSpacerBetweenMovableBlocksFragment(0, 2, Integer.MAX_VALUE, 7, "Spacer 4"));
+        fragments.add(spacer4 = new TestSpacerBetweenMovableBlocksFragment(0, 2, Integer.MAX_VALUE, 7, "Spacer 4"));
 
-		fragments.add(START_MOVABLE_TYPE_BLOCK);
-		fragments.add(START_MOVABLE_FIELD_BLOCK);
-		fragments.add(END_MOVABLE_BLOCK);
-		fragments.add(spacer5 = new TestSpacerBetweenMovableBlocksFragment(0, 2, Integer.MAX_VALUE, 7, "Spacer 5"));
-		fragments.add(START_MOVABLE_FIELD_BLOCK);
-		fragments.add(END_MOVABLE_BLOCK);
+        fragments.add(START_MOVABLE_TYPE_BLOCK);
+        fragments.add(START_MOVABLE_FIELD_BLOCK);
+        fragments.add(END_MOVABLE_BLOCK);
+        fragments.add(spacer5 = new TestSpacerBetweenMovableBlocksFragment(0, 2, Integer.MAX_VALUE, 7, "Spacer 5"));
+        fragments.add(START_MOVABLE_FIELD_BLOCK);
+        fragments.add(END_MOVABLE_BLOCK);
 
-		fragments.add(spacer6 = new TestSpacerBetweenMovableBlocksFragment(0, 2, Integer.MAX_VALUE, 7, "Spacer 6"));
+        fragments.add(spacer6 = new TestSpacerBetweenMovableBlocksFragment(0, 2, Integer.MAX_VALUE, 7, "Spacer 6"));
 
-		fragments.add(START_MOVABLE_METHOD_BLOCK);
-		fragments.add(END_MOVABLE_BLOCK);
-		fragments.add(END_MOVABLE_BLOCK);
+        fragments.add(START_MOVABLE_METHOD_BLOCK);
+        fragments.add(END_MOVABLE_BLOCK);
+        fragments.add(END_MOVABLE_BLOCK);
 
-		fragments.add(spacer7 = new TestSpacerBetweenMovableBlocksFragment(0, 2, Integer.MAX_VALUE, 7, "Spacer 7"));
+        fragments.add(spacer7 = new TestSpacerBetweenMovableBlocksFragment(0, 2, Integer.MAX_VALUE, 7, "Spacer 7"));
 
-		fragments.add(START_MOVABLE_METHOD_BLOCK);
-		fragments.add(END_MOVABLE_BLOCK);
-		fragments.add(END_MOVABLE_BLOCK);
+        fragments.add(START_MOVABLE_METHOD_BLOCK);
+        fragments.add(END_MOVABLE_BLOCK);
+        fragments.add(END_MOVABLE_BLOCK);
 
-		visitor.reset();
+        visitor.reset();
 
-		for (Fragment fragment : fragments) {
-			fragment.accept(visitor);
-		}
+        for (Fragment fragment : fragments) {
+            fragment.accept(visitor);
+        }
 
-		assertTrue(spacer1.getInitialLineCount() == 1);
-		assertTrue(spacer2.getInitialLineCount() == 2);
-		assertTrue(spacer3.getInitialLineCount() == 2);
-		assertTrue(spacer4.getInitialLineCount() == 2);
-		assertTrue(spacer5.getInitialLineCount() == 1);
-		assertTrue(spacer6.getInitialLineCount() == 2);
-		assertTrue(spacer7.getInitialLineCount() == 2);
-	}
+        assertTrue(spacer1.getInitialLineCount() == 1);
+        assertTrue(spacer2.getInitialLineCount() == 2);
+        assertTrue(spacer3.getInitialLineCount() == 2);
+        assertTrue(spacer4.getInitialLineCount() == 2);
+        assertTrue(spacer5.getInitialLineCount() == 1);
+        assertTrue(spacer6.getInitialLineCount() == 2);
+        assertTrue(spacer7.getInitialLineCount() == 2);
+    }
 }

@@ -8,19 +8,19 @@
 package org.jd.core.v1.model.classfile.constant;
 
 public class ConstantFloat extends ConstantValue {
-	protected float value;
+    protected float value;
 
-	public ConstantFloat(float value) {
-		super(ConstantPoolTag.CONSTANT_Float);
-		this.value = value;
-	}
+    public ConstantFloat(float value) {
+        super(ConstantPoolTag.CONSTANT_Float);
+        this.value = value;
+    }
 
-	public float getValue() {
-		return value;
-	}
+    public float getValue() {
+        return value;
+    }
 
-	@Override
-	public String toString() {
-		return getClass().getSimpleName() + " " + value;
-	}
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + " " + value;
+    }
 }

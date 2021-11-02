@@ -15,7 +15,8 @@ import org.jd.core.v1.service.converter.classfiletojavasyntax.model.localvariabl
 public class ClassFileForEachStatement extends ForEachStatement {
     protected AbstractLocalVariable localVariable;
 
-    public ClassFileForEachStatement(AbstractLocalVariable localVariable, Expression expression, BaseStatement statements) {
+    public ClassFileForEachStatement(AbstractLocalVariable localVariable, Expression expression,
+            BaseStatement statements) {
         super(localVariable.getType(), null, expression, statements);
         this.localVariable = localVariable;
     }

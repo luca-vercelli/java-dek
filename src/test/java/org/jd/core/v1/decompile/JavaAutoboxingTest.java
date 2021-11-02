@@ -17,77 +17,77 @@ import org.junit.Test;
 
 public class JavaAutoboxingTest {
 
-	protected TestDecompiler decompiler = new TestDecompiler();
+    protected TestDecompiler decompiler = new TestDecompiler();
 
-	@Test
-	public void testAutoboxing() throws Exception {
+    @Test
+    public void testAutoboxing() throws Exception {
 
-		@SuppressWarnings("unused")
-		class AutoboxingAndUnboxing {
+        @SuppressWarnings("unused")
+        class AutoboxingAndUnboxing {
 
-			// https://github.com/java-decompiler/jd-core/issues/14
-			void testUnnededAutoboxing() {
-				// You don't need autoboxing here
-				Integer intObj = 10;
-				int i = intObj;
-			}
+            // https://github.com/java-decompiler/jd-core/issues/14
+            void testUnnededAutoboxing() {
+                // You don't need autoboxing here
+                Integer intObj = 10;
+                int i = intObj;
+            }
 
-			// https://github.com/java-decompiler/jd-core/issues/60
-			int testRequiredAutoboxing() {
-				return Double.valueOf(0.0).intValue();
-			}
+            // https://github.com/java-decompiler/jd-core/issues/60
+            int testRequiredAutoboxing() {
+                return Double.valueOf(0.0).intValue();
+            }
 
-			Integer testReturn() {
-				return 2;
-			}
-		}
+            Integer testReturn() {
+                return 2;
+            }
+        }
 
-		String internalClassName = AutoboxingAndUnboxing.class.getName().replace('.', '/');
-		String source = decompiler.decompile(internalClassName);
+        String internalClassName = AutoboxingAndUnboxing.class.getName().replace('.', '/');
+        String source = decompiler.decompile(internalClassName);
 
-		// Check decompiled source code
+        // Check decompiled source code
 
-		assertMatch(source, "Integer intObj = 10;", 31);
-		assertMatch(source, "int i = intObj;", 32);
-		assertMatch(source, "return Double.valueOf(0.0D).intValue();", 37);
-		assertMatch(source, "return 2;", 41);
+        assertMatch(source, "Integer intObj = 10;", 31);
+        assertMatch(source, "int i = intObj;", 32);
+        assertMatch(source, "return Double.valueOf(0.0D).intValue();", 37);
+        assertMatch(source, "return 2;", 41);
 
-		// Recompile decompiled source code and check errors
-		assertTrue(CompilerUtil.compile("1.8", new JavaSourceFileObject(internalClassName, source)));
-	}
+        // Recompile decompiled source code and check errors
+        assertTrue(CompilerUtil.compile("1.8", new JavaSourceFileObject(internalClassName, source)));
+    }
 
-	@Test
-	// https://github.com/java-decompiler/jd-core/issues/14#issuecomment-584100313
-	public void testAutoboxingOverload() throws Exception {
+    @Test
+    // https://github.com/java-decompiler/jd-core/issues/14#issuecomment-584100313
+    public void testAutoboxingOverload() throws Exception {
 
-		@SuppressWarnings("unused")
-		class AutoboxingOverload {
+        @SuppressWarnings("unused")
+        class AutoboxingOverload {
 
-			void use(int i) {
-			}
+            void use(int i) {
+            }
 
-			void use(Integer i) {
-			}
+            void use(Integer i) {
+            }
 
-			void use(Double d) {
-			}
+            void use(Double d) {
+            }
 
-			void testOverload() {
-				// Needed to call correct overloaded method
-				use((Integer) 1);
-				// No need for box
-				use(0.0D);
-			}
-		}
+            void testOverload() {
+                // Needed to call correct overloaded method
+                use((Integer) 1);
+                // No need for box
+                use(0.0D);
+            }
+        }
 
-		String internalClassName = AutoboxingOverload.class.getName().replace('.', '/');
-		String source = decompiler.decompile(internalClassName);
+        String internalClassName = AutoboxingOverload.class.getName().replace('.', '/');
+        String source = decompiler.decompile(internalClassName);
 
-		// Check decompiled source code
-		assertMatch(source, "use(Integer.valueOf(1));", 77);
-		// FIXME wishlist assertMatch(source, "use(0.0D);", 79);
+        // Check decompiled source code
+        assertMatch(source, "use(Integer.valueOf(1));", 77);
+        // FIXME wishlist assertMatch(source, "use(0.0D);", 79);
 
-		// Recompile decompiled source code and check errors
-		assertTrue(CompilerUtil.compile("1.8", new JavaSourceFileObject(internalClassName, source)));
-	}
+        // Recompile decompiled source code and check errors
+        assertTrue(CompilerUtil.compile("1.8", new JavaSourceFileObject(internalClassName, source)));
+    }
 }
