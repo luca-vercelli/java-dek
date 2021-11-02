@@ -10,9 +10,14 @@ package org.jd.core.v1.service.converter.classfiletojavasyntax.model.cfg;
 import java.util.Iterator;
 import java.util.Set;
 
+/**
+ * A Loop is made up of a set of connected nodes. There is exactly one start
+ * node (a leader for all the nodes in the loop), and one end node (dominated by
+ * all others).
+ */
 public class Loop {
     protected BasicBlock start;
-    protected Set<BasicBlock> members;
+    protected Set<BasicBlock> members; // do *not* include start and end
     protected BasicBlock end;
 
     public Loop(BasicBlock start, Set<BasicBlock> members, BasicBlock end) {

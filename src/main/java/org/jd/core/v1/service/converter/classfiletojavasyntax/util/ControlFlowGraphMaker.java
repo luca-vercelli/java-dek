@@ -16,6 +16,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.jd.core.v1.model.classfile.ConstantPool;
@@ -33,6 +34,9 @@ import org.jd.core.v1.util.DefaultList;
 public class ControlFlowGraphMaker {
     protected static final BasicBlock MARK = END;
 
+    /**
+     * 1) Smaller 'startPc' first 2) Smaller 'endPc' first
+     */
     protected static final CodeExceptionComparator CODE_EXCEPTION_COMPARATOR = new CodeExceptionComparator();
 
     /**
@@ -607,7 +611,7 @@ public class ControlFlowGraphMaker {
     private static void checkTryCatchBlocks(Method method, BasicBlock[] map, char[] types, int[] branchOffsets,
             CodeException[] codeExceptions, ControlFlowGraph cfg) {
         if (codeExceptions != null) {
-            HashMap<CodeException, BasicBlock> cache = new HashMap<>();
+        	Map<CodeException, BasicBlock> cache = new HashMap<>();
             ConstantPool constantPool = method.getConstants();
             // Reuse arrays
             int[] handlePcToStartPc = branchOffsets;
