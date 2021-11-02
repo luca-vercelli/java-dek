@@ -7,13 +7,22 @@
 
 package org.jd.core.v1.service.converter.classfiletojavasyntax.visitor;
 
+import java.util.HashSet;
+
 import org.jd.core.v1.model.javasyntax.AbstractJavaSyntaxVisitor;
 import org.jd.core.v1.model.javasyntax.expression.BinaryOperatorExpression;
-import org.jd.core.v1.model.javasyntax.statement.*;
+import org.jd.core.v1.model.javasyntax.statement.DoWhileStatement;
+import org.jd.core.v1.model.javasyntax.statement.ForEachStatement;
+import org.jd.core.v1.model.javasyntax.statement.ForStatement;
+import org.jd.core.v1.model.javasyntax.statement.IfElseStatement;
+import org.jd.core.v1.model.javasyntax.statement.IfStatement;
+import org.jd.core.v1.model.javasyntax.statement.LambdaExpressionStatement;
+import org.jd.core.v1.model.javasyntax.statement.SwitchStatement;
+import org.jd.core.v1.model.javasyntax.statement.SynchronizedStatement;
+import org.jd.core.v1.model.javasyntax.statement.TryStatement;
+import org.jd.core.v1.model.javasyntax.statement.WhileStatement;
 import org.jd.core.v1.service.converter.classfiletojavasyntax.model.javasyntax.expression.ClassFileLocalVariableReferenceExpression;
 import org.jd.core.v1.service.converter.classfiletojavasyntax.model.localvariable.AbstractLocalVariable;
-
-import java.util.HashSet;
 
 public class SearchUndeclaredLocalVariableVisitor extends AbstractJavaSyntaxVisitor {
     protected HashSet<AbstractLocalVariable> variables = new HashSet<>();
@@ -28,8 +37,10 @@ public class SearchUndeclaredLocalVariableVisitor extends AbstractJavaSyntaxVisi
 
     @Override
     public void visit(BinaryOperatorExpression expression) {
-        if (expression.getLeftExpression().isLocalVariableReferenceExpression() && (expression.getOperator().equals("="))) {
-            AbstractLocalVariable lv = ((ClassFileLocalVariableReferenceExpression)expression.getLeftExpression()).getLocalVariable();
+        if (expression.getLeftExpression().isLocalVariableReferenceExpression()
+                && (expression.getOperator().equals("="))) {
+            AbstractLocalVariable lv = ((ClassFileLocalVariableReferenceExpression) expression.getLeftExpression())
+                    .getLocalVariable();
 
             if (!lv.isDeclared()) {
                 variables.add(lv);
@@ -84,7 +95,8 @@ public class SearchUndeclaredLocalVariableVisitor extends AbstractJavaSyntaxVisi
     }
 
     @Override
-    public void visit(TryStatement statement) {}
+    public void visit(TryStatement statement) {
+    }
 
     @Override
     public void visit(WhileStatement statement) {

@@ -7,14 +7,23 @@
 
 package org.jd.core.v1.service.converter.classfiletojavasyntax.visitor;
 
+import static org.jd.core.v1.service.converter.classfiletojavasyntax.util.ByteCodeConstants.*;
+
 import org.jd.core.v1.model.classfile.ConstantPool;
 import org.jd.core.v1.model.classfile.Method;
 import org.jd.core.v1.model.classfile.attribute.AttributeCode;
 import org.jd.core.v1.model.classfile.constant.ConstantMemberRef;
 import org.jd.core.v1.model.classfile.constant.ConstantNameAndType;
 import org.jd.core.v1.model.javasyntax.AbstractJavaSyntaxVisitor;
-import org.jd.core.v1.model.javasyntax.declaration.*;
-import org.jd.core.v1.model.javasyntax.type.*;
+import org.jd.core.v1.model.javasyntax.declaration.AnnotationDeclaration;
+import org.jd.core.v1.model.javasyntax.declaration.BodyDeclaration;
+import org.jd.core.v1.model.javasyntax.declaration.ClassDeclaration;
+import org.jd.core.v1.model.javasyntax.declaration.ConstructorDeclaration;
+import org.jd.core.v1.model.javasyntax.declaration.EnumDeclaration;
+import org.jd.core.v1.model.javasyntax.declaration.InterfaceDeclaration;
+import org.jd.core.v1.model.javasyntax.declaration.MethodDeclaration;
+import org.jd.core.v1.model.javasyntax.declaration.StaticInitializerDeclaration;
+import org.jd.core.v1.model.javasyntax.type.Type;
 import org.jd.core.v1.service.converter.classfiletojavasyntax.model.javasyntax.declaration.ClassFileBodyDeclaration;
 import org.jd.core.v1.service.converter.classfiletojavasyntax.model.javasyntax.declaration.ClassFileMethodDeclaration;
 import org.jd.core.v1.service.converter.classfiletojavasyntax.util.TypeMaker;
@@ -47,17 +56,17 @@ public class UpdateBridgeMethodTypeVisitor extends AbstractJavaSyntaxVisitor {
                 int offset = 0;
                 int opcode = code[offset] & 255;
 
-                while (((21 <= opcode) && (opcode <= 45)) || // ILOAD, LLOAD, FLOAD, DLOAD, ..., ILOAD_0 ... ILOAD_3,
-                                                                // ..., ALOAD_1, ..., ALOAD_3
-                        ((89 <= opcode) && (opcode <= 95))) { // DUP, ..., DUP2_X2, SWAP
+                while (((ILOAD <= opcode) && (opcode <= ALOAD_3)) || // ILOAD, LLOAD, FLOAD, DLOAD, ..., ILOAD_0 ...
+                        // ILOAD_3,..., ALOAD_1, ..., ALOAD_3
+                        ((DUP <= opcode) && (opcode <= SWAP))) { // DUP, ..., DUP2_X2, SWAP
                     opcode = code[++offset] & 255;
                 }
 
                 switch (opcode) {
-                case 178:
-                case 179:
-                case 180:
-                case 181: // GETSTATIC, PUTSTATIC, GETFIELD, PUTFIELD
+                case GETSTATIC:
+                case PUTSTATIC:
+                case GETFIELD:
+                case PUTFIELD:
                     int index = ((code[++offset] & 255) << 8) | (code[++offset] & 255);
                     ConstantPool constants = method.getConstants();
                     ConstantMemberRef constantMemberRef = constants.getConstant(index);
@@ -71,10 +80,10 @@ public class UpdateBridgeMethodTypeVisitor extends AbstractJavaSyntaxVisitor {
                     // Update returned generic type of bridge method
                     typeMaker.setMethodReturnedType(typeName, cfmd.getName(), cfmd.getDescriptor(), type);
                     break;
-                case 182:
-                case 183:
-                case 184:
-                case 185: // INVOKEVIRTUAL, INVOKESPECIAL, INVOKESTATIC, INVOKEINTERFACE
+                case INVOKEVIRTUAL:
+                case INVOKESPECIAL:
+                case INVOKESTATIC:
+                case INVOKEINTERFACE:
                     index = ((code[++offset] & 255) << 8) | (code[++offset] & 255);
                     constants = method.getConstants();
                     constantMemberRef = constants.getConstant(index);
@@ -87,6 +96,8 @@ public class UpdateBridgeMethodTypeVisitor extends AbstractJavaSyntaxVisitor {
                     // Update returned generic type of bridge method
                     typeMaker.setMethodReturnedType(typeName, cfmd.getName(), cfmd.getDescriptor(),
                             methodTypes.returnedType);
+                    break;
+                default:
                     break;
                 }
             }
