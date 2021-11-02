@@ -353,8 +353,9 @@ public class AddCastExpressionVisitor extends AbstractJavaSyntaxVisitor {
                     parameters.size(), false) <= 1;
             boolean forceCast = !unique && (typeMaker.matchCount(typeBounds, expression.getInternalTypeName(),
                     expression.getName(), parameters, false) > 1);
-            
-            // FIXME qua il problema è che parameterTypes è già Integer mentre dovrebbe essere Object, credo
+
+            // FIXME qua il problema è che parameterTypes è già Integer mentre dovrebbe
+            // essere Object, credo
             expression.setParameters(
                     updateParameters(((ClassFileMethodInvocationExpression) expression).getParameterTypes(), parameters,
                             forceCast, unique));
@@ -444,6 +445,102 @@ public class AddCastExpressionVisitor extends AbstractJavaSyntaxVisitor {
         expression.getCondition().accept(this);
         expression.setTrueExpression(updateExpression(expressionType, expression.getTrueExpression(), false, true));
         expression.setFalseExpression(updateExpression(expressionType, expression.getFalseExpression(), false, true));
+    }
+
+    @Override
+    public void visit(FloatConstantExpression expression) {
+    }
+
+    @Override
+    public void visit(IntegerConstantExpression expression) {
+    }
+
+    @Override
+    public void visit(ConstructorReferenceExpression expression) {
+    }
+
+    @Override
+    public void visit(DoubleConstantExpression expression) {
+    }
+
+    @Override
+    public void visit(EnumConstantReferenceExpression expression) {
+    }
+
+    @Override
+    public void visit(LocalVariableReferenceExpression expression) {
+    }
+
+    @Override
+    public void visit(LongConstantExpression expression) {
+    }
+
+    @Override
+    public void visit(BreakStatement statement) {
+    }
+
+    @Override
+    public void visit(ByteCodeStatement statement) {
+    }
+
+    @Override
+    public void visit(ContinueStatement statement) {
+    }
+
+    @Override
+    public void visit(NullExpression expression) {
+    }
+
+    @Override
+    public void visit(ObjectTypeReferenceExpression expression) {
+    }
+
+    @Override
+    public void visit(SuperExpression expression) {
+    }
+
+    @Override
+    public void visit(ThisExpression expression) {
+    }
+
+    @Override
+    public void visit(TypeReferenceDotClassExpression expression) {
+    }
+
+    @Override
+    public void visit(ObjectReference reference) {
+    }
+
+    @Override
+    public void visit(InnerObjectReference reference) {
+    }
+
+    @Override
+    public void visit(TypeArguments type) {
+    }
+
+    @Override
+    public void visit(WildcardExtendsTypeArgument type) {
+    }
+
+    @Override
+    public void visit(ObjectType type) {
+    }
+
+    @Override
+    public void visit(InnerObjectType type) {
+    }
+
+    @Override
+    public void visit(WildcardSuperTypeArgument type) {
+    }
+
+    @Override
+    public void visit(Types list) {
+    }
+
+    @Override
+    public void visit(TypeParameterWithTypeBounds type) {
     }
 
     protected BaseExpression updateParameters(BaseType types, BaseExpression expressions, boolean forceCast,
@@ -576,101 +673,5 @@ public class AddCastExpressionVisitor extends AbstractJavaSyntaxVisitor {
             expression.accept(searchFirstLineNumberVisitor);
             return new CastExpression(searchFirstLineNumberVisitor.getLineNumber(), type, expression);
         }
-    }
-
-    @Override
-    public void visit(FloatConstantExpression expression) {
-    }
-
-    @Override
-    public void visit(IntegerConstantExpression expression) {
-    }
-
-    @Override
-    public void visit(ConstructorReferenceExpression expression) {
-    }
-
-    @Override
-    public void visit(DoubleConstantExpression expression) {
-    }
-
-    @Override
-    public void visit(EnumConstantReferenceExpression expression) {
-    }
-
-    @Override
-    public void visit(LocalVariableReferenceExpression expression) {
-    }
-
-    @Override
-    public void visit(LongConstantExpression expression) {
-    }
-
-    @Override
-    public void visit(BreakStatement statement) {
-    }
-
-    @Override
-    public void visit(ByteCodeStatement statement) {
-    }
-
-    @Override
-    public void visit(ContinueStatement statement) {
-    }
-
-    @Override
-    public void visit(NullExpression expression) {
-    }
-
-    @Override
-    public void visit(ObjectTypeReferenceExpression expression) {
-    }
-
-    @Override
-    public void visit(SuperExpression expression) {
-    }
-
-    @Override
-    public void visit(ThisExpression expression) {
-    }
-
-    @Override
-    public void visit(TypeReferenceDotClassExpression expression) {
-    }
-
-    @Override
-    public void visit(ObjectReference reference) {
-    }
-
-    @Override
-    public void visit(InnerObjectReference reference) {
-    }
-
-    @Override
-    public void visit(TypeArguments type) {
-    }
-
-    @Override
-    public void visit(WildcardExtendsTypeArgument type) {
-    }
-
-    @Override
-    public void visit(ObjectType type) {
-    }
-
-    @Override
-    public void visit(InnerObjectType type) {
-    }
-
-    @Override
-    public void visit(WildcardSuperTypeArgument type) {
-    }
-
-    @Override
-    public void visit(Types list) {
-    }
-
-    @Override
-    public void visit(TypeParameterWithTypeBounds type) {
     }
 }

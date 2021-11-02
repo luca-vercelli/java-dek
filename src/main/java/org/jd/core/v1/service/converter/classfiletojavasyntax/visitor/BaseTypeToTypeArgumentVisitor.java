@@ -27,10 +27,25 @@ public class BaseTypeToTypeArgumentVisitor implements TypeVisitor {
         return typeArgument;
     }
 
-    @Override public void visit(PrimitiveType type) { typeArgument = type; }
-    @Override public void visit(ObjectType type) { typeArgument = type; }
-    @Override public void visit(InnerObjectType type) { typeArgument = type; }
-    @Override public void visit(GenericType type) { typeArgument = type; }
+    @Override
+    public void visit(PrimitiveType type) {
+        typeArgument = type;
+    }
+
+    @Override
+    public void visit(ObjectType type) {
+        typeArgument = type;
+    }
+
+    @Override
+    public void visit(InnerObjectType type) {
+        typeArgument = type;
+    }
+
+    @Override
+    public void visit(GenericType type) {
+        typeArgument = type;
+    }
 
     @Override
     public void visit(Types types) {

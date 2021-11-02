@@ -84,23 +84,6 @@ public class AutoboxingVisitor extends AbstractJavaSyntaxVisitor {
         declaration.getExpression().accept(this);
     }
 
-    private Expression updateExpression(MethodInvocationExpression mie) {
-        Expression newExpression = mie;
-        int numParameters = (mie.getParameters() == null) ? 0 : mie.getParameters().size();
-        if ("valueOf".equals(mie.getName())
-                && mie.getDescriptor().equals(VALUEOF_DESCRIPTOR_MAP.get(mie.getInternalTypeName()))
-                && numParameters == 1) {
-            // this is an assignment x = Double.valueOf(y)
-            newExpression = mie.getParameters().getFirst();
-        } else if (mie.getName().equals(VALUE_METHODNAME_MAP.get(mie.getInternalTypeName()))
-                && mie.getDescriptor().equals(VALUE_DESCRIPTOR_MAP.get(mie.getInternalTypeName()))
-                && numParameters == 0) {
-            // this is an assignment x = y.doubleValue()
-            newExpression = mie.getExpression();
-        }
-        return newExpression;
-    }
-
     @Override
     public void visit(ReturnExpressionStatement statement) {
         if (statement.getExpression() instanceof MethodInvocationExpression) {
@@ -123,4 +106,20 @@ public class AutoboxingVisitor extends AbstractJavaSyntaxVisitor {
         safeAccept(expression.getStatements());
     }
 
+    private Expression updateExpression(MethodInvocationExpression mie) {
+        Expression newExpression = mie;
+        int numParameters = (mie.getParameters() == null) ? 0 : mie.getParameters().size();
+        if ("valueOf".equals(mie.getName())
+                && mie.getDescriptor().equals(VALUEOF_DESCRIPTOR_MAP.get(mie.getInternalTypeName()))
+                && numParameters == 1) {
+            // this is an assignment x = Double.valueOf(y)
+            newExpression = mie.getParameters().getFirst();
+        } else if (mie.getName().equals(VALUE_METHODNAME_MAP.get(mie.getInternalTypeName()))
+                && mie.getDescriptor().equals(VALUE_DESCRIPTOR_MAP.get(mie.getInternalTypeName()))
+                && numParameters == 0) {
+            // this is an assignment x = y.doubleValue()
+            newExpression = mie.getExpression();
+        }
+        return newExpression;
+    }
 }

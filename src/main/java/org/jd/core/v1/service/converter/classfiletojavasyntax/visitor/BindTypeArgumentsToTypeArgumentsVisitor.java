@@ -7,11 +7,24 @@
 
 package org.jd.core.v1.service.converter.classfiletojavasyntax.visitor;
 
-import org.jd.core.v1.model.javasyntax.type.*;
+import static org.jd.core.v1.model.javasyntax.type.ObjectType.TYPE_OBJECT;
 
 import java.util.Map;
 
-import static org.jd.core.v1.model.javasyntax.type.ObjectType.TYPE_OBJECT;
+import org.jd.core.v1.model.javasyntax.type.AbstractTypeArgumentVisitor;
+import org.jd.core.v1.model.javasyntax.type.BaseType;
+import org.jd.core.v1.model.javasyntax.type.BaseTypeArgument;
+import org.jd.core.v1.model.javasyntax.type.DiamondTypeArgument;
+import org.jd.core.v1.model.javasyntax.type.GenericType;
+import org.jd.core.v1.model.javasyntax.type.InnerObjectType;
+import org.jd.core.v1.model.javasyntax.type.ObjectType;
+import org.jd.core.v1.model.javasyntax.type.PrimitiveType;
+import org.jd.core.v1.model.javasyntax.type.Type;
+import org.jd.core.v1.model.javasyntax.type.TypeArgument;
+import org.jd.core.v1.model.javasyntax.type.TypeArguments;
+import org.jd.core.v1.model.javasyntax.type.WildcardExtendsTypeArgument;
+import org.jd.core.v1.model.javasyntax.type.WildcardSuperTypeArgument;
+import org.jd.core.v1.model.javasyntax.type.WildcardTypeArgument;
 
 public class BindTypeArgumentsToTypeArgumentsVisitor extends AbstractTypeArgumentVisitor {
     protected TypeArgumentToTypeVisitor typeArgumentToTypeVisitor = new TypeArgumentToTypeVisitor();
@@ -38,7 +51,7 @@ public class BindTypeArgumentsToTypeArgumentsVisitor extends AbstractTypeArgumen
         int size = arguments.size();
         int i;
 
-        for (i=0; i<size; i++) {
+        for (i = 0; i < size; i++) {
             TypeArgument ta = arguments.get(i);
             ta.accept(this);
             if (result != ta) {
@@ -92,7 +105,7 @@ public class BindTypeArgumentsToTypeArgumentsVisitor extends AbstractTypeArgumen
             if (TYPE_OBJECT.equals(bt)) {
                 result = WildcardTypeArgument.WILDCARD_TYPE_ARGUMENT;
             } else {
-                result = new WildcardExtendsTypeArgument((Type)bt);
+                result = new WildcardExtendsTypeArgument((Type) bt);
             }
         }
     }
@@ -145,7 +158,8 @@ public class BindTypeArgumentsToTypeArgumentsVisitor extends AbstractTypeArgumen
                 typeArguments = result;
             }
 
-            result = new InnerObjectType(type.getInternalName(), type.getQualifiedName(), type.getName(), typeArguments, type.getDimension(), outerObjectType);
+            result = new InnerObjectType(type.getInternalName(), type.getQualifiedName(), type.getName(), typeArguments,
+                    type.getDimension(), outerObjectType);
         }
     }
 
@@ -171,7 +185,7 @@ public class BindTypeArgumentsToTypeArgumentsVisitor extends AbstractTypeArgumen
         if (ta == null) {
             result = null;
         } else if (ta instanceof Type) {
-            result = ((Type)ta).createType(type.getDimension());
+            result = ((Type) ta).createType(type.getDimension());
         } else {
             result = ta;
         }

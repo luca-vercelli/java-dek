@@ -7,11 +7,21 @@
 
 package org.jd.core.v1.service.converter.classfiletojavasyntax.visitor;
 
-import org.jd.core.v1.model.javasyntax.type.*;
+import static org.jd.core.v1.model.javasyntax.type.ObjectType.TYPE_OBJECT;
 
 import java.util.Map;
 
-import static org.jd.core.v1.model.javasyntax.type.ObjectType.TYPE_OBJECT;
+import org.jd.core.v1.model.javasyntax.type.AbstractNopTypeVisitor;
+import org.jd.core.v1.model.javasyntax.type.BaseType;
+import org.jd.core.v1.model.javasyntax.type.BaseTypeArgument;
+import org.jd.core.v1.model.javasyntax.type.GenericType;
+import org.jd.core.v1.model.javasyntax.type.InnerObjectType;
+import org.jd.core.v1.model.javasyntax.type.ObjectType;
+import org.jd.core.v1.model.javasyntax.type.PrimitiveType;
+import org.jd.core.v1.model.javasyntax.type.Type;
+import org.jd.core.v1.model.javasyntax.type.TypeArgument;
+import org.jd.core.v1.model.javasyntax.type.Types;
+import org.jd.core.v1.model.javasyntax.type.WildcardTypeArgument;
 
 public class BindTypesToTypesVisitor extends AbstractNopTypeVisitor {
     protected TypeArgumentToTypeVisitor typeArgumentToTypeVisitor = new TypeArgumentToTypeVisitor();
@@ -21,7 +31,8 @@ public class BindTypesToTypesVisitor extends AbstractNopTypeVisitor {
     protected BaseType result;
 
     public void setBindings(Map<String, TypeArgument> bindings) {
-        bindTypeArgumentsToTypeArgumentsVisitor.setBindings(this.bindings = bindings);
+        this.bindings = bindings;
+        bindTypeArgumentsToTypeArgumentsVisitor.setBindings(bindings);
     }
 
     public void init() {
@@ -89,7 +100,8 @@ public class BindTypesToTypesVisitor extends AbstractNopTypeVisitor {
                 }
             }
 
-            result = new InnerObjectType(type.getInternalName(), type.getQualifiedName(), type.getName(), typeArguments, type.getDimension(), outerObjectType);
+            result = new InnerObjectType(type.getInternalName(), type.getQualifiedName(), type.getName(), typeArguments,
+                    type.getDimension(), outerObjectType);
         }
     }
 
@@ -114,7 +126,7 @@ public class BindTypesToTypesVisitor extends AbstractNopTypeVisitor {
         int size = types.size();
         int i;
 
-        for (i=0; i<size; i++) {
+        for (i = 0; i < size; i++) {
             Type t = types.get(i);
             t.accept(this);
             if (result != t) {
@@ -130,7 +142,7 @@ public class BindTypesToTypesVisitor extends AbstractNopTypeVisitor {
             newTypes.addAll(types.subList(0, i));
             newTypes.add((Type) result);
 
-            for (i++; i<size; i++) {
+            for (i++; i < size; i++) {
                 Type t = types.get(i);
                 t.accept(this);
                 newTypes.add((Type) result);

@@ -88,6 +88,40 @@ public class CreateInstructionsVisitor extends AbstractJavaSyntaxVisitor {
         }
     }
 
+    @Override
+    public void visit(FieldDeclaration declaration) {
+    }
+
+    @Override
+    public void visit(ConstructorDeclaration declaration) {
+        createParametersVariablesAndStatements((ClassFileConstructorOrMethodDeclaration) declaration, true);
+    }
+
+    @Override
+    public void visit(MethodDeclaration declaration) {
+        createParametersVariablesAndStatements((ClassFileConstructorOrMethodDeclaration) declaration, false);
+    }
+
+    @Override
+    public void visit(StaticInitializerDeclaration declaration) {
+        createParametersVariablesAndStatements((ClassFileConstructorOrMethodDeclaration) declaration, false);
+    }
+
+    @Override
+    public void visit(ClassDeclaration declaration) {
+        safeAccept(declaration.getBodyDeclaration());
+    }
+
+    @Override
+    public void visit(EnumDeclaration declaration) {
+        safeAccept(declaration.getBodyDeclaration());
+    }
+
+    @Override
+    public void visit(InterfaceDeclaration declaration) {
+        safeAccept(declaration.getBodyDeclaration());
+    }
+
     private void acceptSyntheticMethod(ClassFileConstructorOrMethodDeclaration method) {
         if ((method.getFlags() & (ACC_SYNTHETIC | ACC_BRIDGE)) != 0) {
             method.accept(this);
@@ -116,25 +150,6 @@ public class CreateInstructionsVisitor extends AbstractJavaSyntaxVisitor {
                 }
             }
         }
-    }
-
-    @Override
-    public void visit(FieldDeclaration declaration) {
-    }
-
-    @Override
-    public void visit(ConstructorDeclaration declaration) {
-        createParametersVariablesAndStatements((ClassFileConstructorOrMethodDeclaration) declaration, true);
-    }
-
-    @Override
-    public void visit(MethodDeclaration declaration) {
-        createParametersVariablesAndStatements((ClassFileConstructorOrMethodDeclaration) declaration, false);
-    }
-
-    @Override
-    public void visit(StaticInitializerDeclaration declaration) {
-        createParametersVariablesAndStatements((ClassFileConstructorOrMethodDeclaration) declaration, false);
     }
 
     protected void createParametersVariablesAndStatements(ClassFileConstructorOrMethodDeclaration comd,
@@ -180,20 +195,5 @@ public class CreateInstructionsVisitor extends AbstractJavaSyntaxVisitor {
         if (comd.getClassFile().isInterface()) {
             comd.setFlags(comd.getFlags() & ~(ACC_PUBLIC | ACC_ABSTRACT));
         }
-    }
-
-    @Override
-    public void visit(ClassDeclaration declaration) {
-        safeAccept(declaration.getBodyDeclaration());
-    }
-
-    @Override
-    public void visit(EnumDeclaration declaration) {
-        safeAccept(declaration.getBodyDeclaration());
-    }
-
-    @Override
-    public void visit(InterfaceDeclaration declaration) {
-        safeAccept(declaration.getBodyDeclaration());
     }
 }
