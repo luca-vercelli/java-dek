@@ -92,15 +92,19 @@ public class UpdateIntegerConstantTypeVisitor extends AbstractJavaSyntaxVisitor 
 
     protected static final DimensionTypes DIMENSION_TYPES = new DimensionTypes();
 
-    protected static final ObjectTypeReferenceExpression TYPE_CHARACTER_REFERENCE = new ObjectTypeReferenceExpression(ObjectType.TYPE_CHARACTER);
-    protected static final ObjectTypeReferenceExpression TYPE_BYTE_REFERENCE = new ObjectTypeReferenceExpression(ObjectType.TYPE_BYTE);
-    protected static final ObjectTypeReferenceExpression TYPE_SHORT_REFERENCE = new ObjectTypeReferenceExpression(ObjectType.TYPE_SHORT);
-    protected static final ObjectTypeReferenceExpression TYPE_INTEGER_REFERENCE = new ObjectTypeReferenceExpression(ObjectType.TYPE_INTEGER);
+    protected static final ObjectTypeReferenceExpression TYPE_CHARACTER_REFERENCE = new ObjectTypeReferenceExpression(
+            ObjectType.TYPE_CHARACTER);
+    protected static final ObjectTypeReferenceExpression TYPE_BYTE_REFERENCE = new ObjectTypeReferenceExpression(
+            ObjectType.TYPE_BYTE);
+    protected static final ObjectTypeReferenceExpression TYPE_SHORT_REFERENCE = new ObjectTypeReferenceExpression(
+            ObjectType.TYPE_SHORT);
+    protected static final ObjectTypeReferenceExpression TYPE_INTEGER_REFERENCE = new ObjectTypeReferenceExpression(
+            ObjectType.TYPE_INTEGER);
 
     protected Type returnedType;
 
     static {
-        BaseType c  = TYPE_CHAR;
+        BaseType c = TYPE_CHAR;
         BaseType ci = new Types(TYPE_CHAR, TYPE_INT);
 
         TYPES.put("java/lang/String:indexOf(I)I", c);
@@ -152,7 +156,8 @@ public class UpdateIntegerConstantTypeVisitor extends AbstractJavaSyntaxVisitor 
         safeAccept(statement.getStatements());
     }
 
-    @Override public void visit(ReturnExpressionStatement statement) {
+    @Override
+    public void visit(ReturnExpressionStatement statement) {
         statement.setExpression(updateExpression(returnedType, statement.getExpression()));
     }
 
@@ -165,61 +170,63 @@ public class UpdateIntegerConstantTypeVisitor extends AbstractJavaSyntaxVisitor 
         Type rightType = right.getType();
 
         switch (expression.getOperator()) {
-            case "&":
-            case "|":
-            case "^":
-                if (leftType.isPrimitiveType() && rightType.isPrimitiveType()) {
-                    Type type = PrimitiveTypeUtil.getCommonPrimitiveType((PrimitiveType) leftType, (PrimitiveType) rightType);
-                    if (type == null) {
-                        type = TYPE_INT;
-                    }
-                    expression.setLeftExpression(updateExpression(type, left));
-                    expression.setRightExpression(updateExpression(type, right));
+        case "&":
+        case "|":
+        case "^":
+            if (leftType.isPrimitiveType() && rightType.isPrimitiveType()) {
+                Type type = PrimitiveTypeUtil.getCommonPrimitiveType((PrimitiveType) leftType,
+                        (PrimitiveType) rightType);
+                if (type == null) {
+                    type = TYPE_INT;
                 }
-                break;
-            case "=":
-                left.accept(this);
-                expression.setRightExpression(updateExpression(leftType, right));
-                break;
-            case ">":
-            case ">=":
-            case "<":
-            case "<=":
-            case "==":
-            case "!=":
-                if ((leftType.getDimension() == 0) && (rightType.getDimension() == 0)) {
-                    if (leftType.isPrimitiveType()) {
-                        if (rightType.isPrimitiveType()) {
-                            Type type;
-                            if (leftType == rightType) {
-                                type = leftType;
-                            } else {
-                                type = PrimitiveTypeUtil.getCommonPrimitiveType((PrimitiveType)leftType, (PrimitiveType)rightType);
-                                if (type == null) {
-                                    type = TYPE_INT;
-                                }
-                            }
-                            expression.setLeftExpression(updateExpression(type, left));
-                            expression.setRightExpression(updateExpression(type, right));
+                expression.setLeftExpression(updateExpression(type, left));
+                expression.setRightExpression(updateExpression(type, right));
+            }
+            break;
+        case "=":
+            left.accept(this);
+            expression.setRightExpression(updateExpression(leftType, right));
+            break;
+        case ">":
+        case ">=":
+        case "<":
+        case "<=":
+        case "==":
+        case "!=":
+            if ((leftType.getDimension() == 0) && (rightType.getDimension() == 0)) {
+                if (leftType.isPrimitiveType()) {
+                    if (rightType.isPrimitiveType()) {
+                        Type type;
+                        if (leftType == rightType) {
+                            type = leftType;
                         } else {
-                            expression.setLeftExpression(updateExpression(rightType, left));
-                            right.accept(this);
+                            type = PrimitiveTypeUtil.getCommonPrimitiveType((PrimitiveType) leftType,
+                                    (PrimitiveType) rightType);
+                            if (type == null) {
+                                type = TYPE_INT;
+                            }
                         }
-                        break;
-                    } else if (rightType.isPrimitiveType()) {
-                        left.accept(this);
-                        expression.setRightExpression(updateExpression(leftType, right));
-                        break;
+                        expression.setLeftExpression(updateExpression(type, left));
+                        expression.setRightExpression(updateExpression(type, right));
+                    } else {
+                        expression.setLeftExpression(updateExpression(rightType, left));
+                        right.accept(this);
                     }
+                    break;
+                } else if (rightType.isPrimitiveType()) {
+                    left.accept(this);
+                    expression.setRightExpression(updateExpression(leftType, right));
+                    break;
                 }
+            }
 
-                left.accept(this);
-                right.accept(this);
-                break;
-            default:
-                expression.setRightExpression(updateExpression(expression.getType(), right));
-                expression.setLeftExpression(updateExpression(expression.getType(), left));
-                break;
+            left.accept(this);
+            right.accept(this);
+            break;
+        default:
+            expression.setRightExpression(updateExpression(expression.getType(), right));
+            expression.setLeftExpression(updateExpression(expression.getType(), left));
+            break;
         }
     }
 
@@ -236,7 +243,8 @@ public class UpdateIntegerConstantTypeVisitor extends AbstractJavaSyntaxVisitor 
         BaseExpression parameters = expression.getParameters();
 
         if (parameters != null) {
-            expression.setParameters(updateExpressions(((ClassFileSuperConstructorInvocationExpression)expression).getParameterTypes(), parameters));
+            expression.setParameters(updateExpressions(
+                    ((ClassFileSuperConstructorInvocationExpression) expression).getParameterTypes(), parameters));
         }
     }
 
@@ -245,7 +253,8 @@ public class UpdateIntegerConstantTypeVisitor extends AbstractJavaSyntaxVisitor 
         BaseExpression parameters = expression.getParameters();
 
         if (parameters != null) {
-            expression.setParameters(updateExpressions(((ClassFileConstructorInvocationExpression)expression).getParameterTypes(), parameters));
+            expression.setParameters(updateExpressions(
+                    ((ClassFileConstructorInvocationExpression) expression).getParameterTypes(), parameters));
         }
     }
 
@@ -260,7 +269,7 @@ public class UpdateIntegerConstantTypeVisitor extends AbstractJavaSyntaxVisitor 
             BaseType types = TYPES.get(internalTypeName + ':' + name + descriptor);
 
             if (types == null) {
-                types = ((ClassFileMethodInvocationExpression)expression).getParameterTypes();
+                types = ((ClassFileMethodInvocationExpression) expression).getParameterTypes();
             }
 
             expression.setParameters(updateExpressions(types, parameters));
@@ -279,7 +288,7 @@ public class UpdateIntegerConstantTypeVisitor extends AbstractJavaSyntaxVisitor 
             BaseType types = TYPES.get(internalTypeName + ":<init>" + descriptor);
 
             if (types == null) {
-                types = ((ClassFileNewExpression)expression).getParameterTypes();
+                types = ((ClassFileNewExpression) expression).getParameterTypes();
             }
 
             expression.setParameters(updateExpressions(types, parameters));
@@ -383,6 +392,8 @@ public class UpdateIntegerConstantTypeVisitor extends AbstractJavaSyntaxVisitor 
                         case FLAG_SHORT:
                             updatedParameter = new CastExpression(type, updatedParameter);
                             break;
+                        default:
+                            break;
                         }
                     }
 
@@ -401,6 +412,8 @@ public class UpdateIntegerConstantTypeVisitor extends AbstractJavaSyntaxVisitor 
                     case FLAG_SHORT:
                         updatedParameter = new CastExpression(type, updatedParameter);
                         break;
+                    default:
+                        break;
                     }
                 }
 
@@ -413,7 +426,8 @@ public class UpdateIntegerConstantTypeVisitor extends AbstractJavaSyntaxVisitor 
     }
 
     protected Expression updateExpression(Type type, Expression expression) {
-        assert type != TYPE_VOID : "UpdateIntegerConstantTypeVisitor.updateExpression(type, expr) : try to set 'void' to a numeric expression";
+        assert type != TYPE_VOID
+                : "UpdateIntegerConstantTypeVisitor.updateExpression(type, expr) : try to set 'void' to a numeric expression";
 
         if ((type != expression.getType()) && expression.isIntegerConstantExpression()) {
             if (ObjectType.TYPE_STRING.equals(type)) {
@@ -423,75 +437,85 @@ public class UpdateIntegerConstantTypeVisitor extends AbstractJavaSyntaxVisitor 
             if (type.isPrimitiveType()) {
                 PrimitiveType primitiveType = (PrimitiveType) type;
                 IntegerConstantExpression ice = (IntegerConstantExpression) expression;
-                PrimitiveType icePrimitiveType = (PrimitiveType)ice.getType();
+                PrimitiveType icePrimitiveType = (PrimitiveType) ice.getType();
                 int value = ice.getIntegerValue();
                 int lineNumber = ice.getLineNumber();
 
                 switch (primitiveType.getJavaPrimitiveFlags()) {
-                    case FLAG_BOOLEAN:
-                        return new BooleanExpression(lineNumber, value != 0);
-                    case FLAG_CHAR:
-                        switch (value) {
-                            case Character.MIN_VALUE:
-                                return new FieldReferenceExpression(lineNumber, TYPE_CHAR, TYPE_CHARACTER_REFERENCE, "java/lang/Character", "MIN_VALUE", "C");
-                            case Character.MAX_VALUE:
-                                return new FieldReferenceExpression(lineNumber, TYPE_CHAR, TYPE_CHARACTER_REFERENCE, "java/lang/Character", "MAX_VALUE", "C");
-                            default:
-                                if ((icePrimitiveType.getFlags() & primitiveType.getFlags()) != 0) {
-                                    ice.setType(type);
-                                } else {
-                                    ice.setType(TYPE_INT);
-                                }
-                                break;
+                case FLAG_BOOLEAN:
+                    return new BooleanExpression(lineNumber, value != 0);
+                case FLAG_CHAR:
+                    switch (value) {
+                    case Character.MIN_VALUE:
+                        return new FieldReferenceExpression(lineNumber, TYPE_CHAR, TYPE_CHARACTER_REFERENCE,
+                                "java/lang/Character", "MIN_VALUE", "C");
+                    case Character.MAX_VALUE:
+                        return new FieldReferenceExpression(lineNumber, TYPE_CHAR, TYPE_CHARACTER_REFERENCE,
+                                "java/lang/Character", "MAX_VALUE", "C");
+                    default:
+                        if ((icePrimitiveType.getFlags() & primitiveType.getFlags()) != 0) {
+                            ice.setType(type);
+                        } else {
+                            ice.setType(TYPE_INT);
                         }
                         break;
-                    case FLAG_BYTE:
-                        switch (value) {
-                            case Byte.MIN_VALUE:
-                                return new FieldReferenceExpression(lineNumber, TYPE_BYTE, TYPE_BYTE_REFERENCE, "java/lang/Byte", "MIN_VALUE", "B");
-                            case Byte.MAX_VALUE:
-                                return new FieldReferenceExpression(lineNumber, TYPE_BYTE, TYPE_BYTE_REFERENCE, "java/lang/Byte", "MAX_VALUE", "B");
-                            default:
-                                if ((icePrimitiveType.getFlags() & primitiveType.getFlags()) != 0) {
-                                    ice.setType(type);
-                                } else {
-                                    ice.setType(TYPE_INT);
-                                }
-                                break;
+                    }
+                    break;
+                case FLAG_BYTE:
+                    switch (value) {
+                    case Byte.MIN_VALUE:
+                        return new FieldReferenceExpression(lineNumber, TYPE_BYTE, TYPE_BYTE_REFERENCE,
+                                "java/lang/Byte", "MIN_VALUE", "B");
+                    case Byte.MAX_VALUE:
+                        return new FieldReferenceExpression(lineNumber, TYPE_BYTE, TYPE_BYTE_REFERENCE,
+                                "java/lang/Byte", "MAX_VALUE", "B");
+                    default:
+                        if ((icePrimitiveType.getFlags() & primitiveType.getFlags()) != 0) {
+                            ice.setType(type);
+                        } else {
+                            ice.setType(TYPE_INT);
                         }
                         break;
-                    case FLAG_SHORT:
-                        switch (value) {
-                            case Short.MIN_VALUE:
-                                return new FieldReferenceExpression(lineNumber, TYPE_SHORT, TYPE_SHORT_REFERENCE, "java/lang/Short", "MIN_VALUE", "S");
-                            case Short.MAX_VALUE:
-                                return new FieldReferenceExpression(lineNumber, TYPE_SHORT, TYPE_SHORT_REFERENCE, "java/lang/Short", "MAX_VALUE", "S");
-                            default:
-                                if ((icePrimitiveType.getFlags() & primitiveType.getFlags()) != 0) {
-                                    ice.setType(type);
-                                } else {
-                                    ice.setType(TYPE_INT);
-                                }
-                                break;
+                    }
+                    break;
+                case FLAG_SHORT:
+                    switch (value) {
+                    case Short.MIN_VALUE:
+                        return new FieldReferenceExpression(lineNumber, TYPE_SHORT, TYPE_SHORT_REFERENCE,
+                                "java/lang/Short", "MIN_VALUE", "S");
+                    case Short.MAX_VALUE:
+                        return new FieldReferenceExpression(lineNumber, TYPE_SHORT, TYPE_SHORT_REFERENCE,
+                                "java/lang/Short", "MAX_VALUE", "S");
+                    default:
+                        if ((icePrimitiveType.getFlags() & primitiveType.getFlags()) != 0) {
+                            ice.setType(type);
+                        } else {
+                            ice.setType(TYPE_INT);
                         }
                         break;
-                    case FLAG_INT:
-                        switch (value) {
-                            case Integer.MIN_VALUE:
-                                return new FieldReferenceExpression(lineNumber, TYPE_INT, TYPE_INTEGER_REFERENCE, "java/lang/Integer", "MIN_VALUE", "I");
-                            case Integer.MAX_VALUE:
-                                return new FieldReferenceExpression(lineNumber, TYPE_INT, TYPE_INTEGER_REFERENCE, "java/lang/Integer", "MAX_VALUE", "I");
-                            default:
-                                if ((icePrimitiveType.getFlags() & primitiveType.getFlags()) != 0) {
-                                    ice.setType(type);
-                                } else {
-                                    ice.setType(TYPE_INT);
-                                }
-                                break;
+                    }
+                    break;
+                case FLAG_INT:
+                    switch (value) {
+                    case Integer.MIN_VALUE:
+                        return new FieldReferenceExpression(lineNumber, TYPE_INT, TYPE_INTEGER_REFERENCE,
+                                "java/lang/Integer", "MIN_VALUE", "I");
+                    case Integer.MAX_VALUE:
+                        return new FieldReferenceExpression(lineNumber, TYPE_INT, TYPE_INTEGER_REFERENCE,
+                                "java/lang/Integer", "MAX_VALUE", "I");
+                    default:
+                        if ((icePrimitiveType.getFlags() & primitiveType.getFlags()) != 0) {
+                            ice.setType(type);
+                        } else {
+                            ice.setType(TYPE_INT);
                         }
                         break;
-                    case FLAG_LONG:
-                        return new LongConstantExpression(ice.getLineNumber(), ice.getIntegerValue());
+                    }
+                    break;
+                case FLAG_LONG:
+                    return new LongConstantExpression(ice.getLineNumber(), ice.getIntegerValue());
+                default:
+                    break;
                 }
 
                 return expression;

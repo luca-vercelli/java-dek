@@ -7,12 +7,20 @@
 
 package org.jd.core.v1.service.converter.classfiletojavasyntax.visitor;
 
+import static org.jd.core.v1.model.classfile.AccessType.ACC_ABSTRACT;
+import static org.jd.core.v1.model.classfile.AccessType.ACC_FINAL;
+import static org.jd.core.v1.model.classfile.AccessType.ACC_STATIC;
+
 import org.jd.core.v1.model.javasyntax.AbstractJavaSyntaxVisitor;
-import org.jd.core.v1.model.javasyntax.declaration.*;
+import org.jd.core.v1.model.javasyntax.declaration.AnnotationDeclaration;
+import org.jd.core.v1.model.javasyntax.declaration.BodyDeclaration;
+import org.jd.core.v1.model.javasyntax.declaration.ClassDeclaration;
+import org.jd.core.v1.model.javasyntax.declaration.EnumDeclaration;
+import org.jd.core.v1.model.javasyntax.declaration.InterfaceDeclaration;
+import org.jd.core.v1.model.javasyntax.declaration.TypeDeclaration;
 import org.jd.core.v1.service.converter.classfiletojavasyntax.model.javasyntax.declaration.ClassFileBodyDeclaration;
 import org.jd.core.v1.service.converter.classfiletojavasyntax.model.javasyntax.declaration.ClassFileEnumDeclaration;
 import org.jd.core.v1.service.converter.classfiletojavasyntax.util.TypeMaker;
-import static org.jd.core.v1.model.classfile.AccessType.*;
 
 public class UpdateJavaSyntaxTreeStep2Visitor extends AbstractJavaSyntaxVisitor {
     protected static final AggregateFieldsVisitor AGGREGATE_FIELDS_VISITOR = new AggregateFieldsVisitor();

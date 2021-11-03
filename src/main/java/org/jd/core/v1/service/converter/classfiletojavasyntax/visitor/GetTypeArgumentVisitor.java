@@ -7,7 +7,13 @@
 
 package org.jd.core.v1.service.converter.classfiletojavasyntax.visitor;
 
-import org.jd.core.v1.model.javasyntax.type.*;
+import org.jd.core.v1.model.javasyntax.type.BaseTypeArgument;
+import org.jd.core.v1.model.javasyntax.type.GenericType;
+import org.jd.core.v1.model.javasyntax.type.InnerObjectType;
+import org.jd.core.v1.model.javasyntax.type.ObjectType;
+import org.jd.core.v1.model.javasyntax.type.PrimitiveType;
+import org.jd.core.v1.model.javasyntax.type.TypeVisitor;
+import org.jd.core.v1.model.javasyntax.type.Types;
 
 public class GetTypeArgumentVisitor implements TypeVisitor {
     protected BaseTypeArgument typeArguments;
@@ -20,10 +26,28 @@ public class GetTypeArgumentVisitor implements TypeVisitor {
         return typeArguments;
     }
 
-    @Override public void visit(ObjectType type) { typeArguments = type.getTypeArguments(); }
-    @Override public void visit(InnerObjectType type) { typeArguments = type.getTypeArguments(); }
+    @Override
+    public void visit(ObjectType type) {
+        typeArguments = type.getTypeArguments();
+    }
 
-    @Override public void visit(PrimitiveType type) { typeArguments = null; }
-    @Override public void visit(GenericType type) { typeArguments = null; }
-    @Override public void visit(Types types) { typeArguments = null; }
+    @Override
+    public void visit(InnerObjectType type) {
+        typeArguments = type.getTypeArguments();
+    }
+
+    @Override
+    public void visit(PrimitiveType type) {
+        typeArguments = null;
+    }
+
+    @Override
+    public void visit(GenericType type) {
+        typeArguments = null;
+    }
+
+    @Override
+    public void visit(Types types) {
+        typeArguments = null;
+    }
 }

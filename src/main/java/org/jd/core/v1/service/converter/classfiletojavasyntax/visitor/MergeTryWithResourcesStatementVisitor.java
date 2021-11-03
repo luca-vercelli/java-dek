@@ -198,19 +198,22 @@ public class MergeTryWithResourcesStatementVisitor implements StatementVisitor {
     }
 
     protected void safeAccept(BaseStatement list) {
-        if (list != null)
+        if (list != null) {
             list.accept(this);
+        }
     }
 
     protected void acceptListStatement(List<? extends Statement> list) {
-        for (Statement statement : list)
+        for (Statement statement : list) {
             statement.accept(this);
+        }
     }
 
     protected void safeAcceptListStatement(List<? extends Statement> list) {
         if (list != null) {
-            for (Statement statement : list)
+            for (Statement statement : list) {
                 statement.accept(this);
+            }
         }
     }
 }

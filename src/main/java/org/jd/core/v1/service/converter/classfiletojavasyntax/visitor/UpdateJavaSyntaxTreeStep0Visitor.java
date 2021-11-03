@@ -8,7 +8,11 @@
 package org.jd.core.v1.service.converter.classfiletojavasyntax.visitor;
 
 import org.jd.core.v1.model.javasyntax.AbstractJavaSyntaxVisitor;
-import org.jd.core.v1.model.javasyntax.declaration.*;
+import org.jd.core.v1.model.javasyntax.declaration.AnnotationDeclaration;
+import org.jd.core.v1.model.javasyntax.declaration.BodyDeclaration;
+import org.jd.core.v1.model.javasyntax.declaration.ClassDeclaration;
+import org.jd.core.v1.model.javasyntax.declaration.EnumDeclaration;
+import org.jd.core.v1.model.javasyntax.declaration.InterfaceDeclaration;
 import org.jd.core.v1.service.converter.classfiletojavasyntax.model.javasyntax.declaration.ClassFileBodyDeclaration;
 import org.jd.core.v1.service.converter.classfiletojavasyntax.util.JavaVersion;
 import org.jd.core.v1.service.converter.classfiletojavasyntax.util.TypeMaker;
@@ -24,7 +28,7 @@ public class UpdateJavaSyntaxTreeStep0Visitor extends AbstractJavaSyntaxVisitor 
 
     @Override
     public void visit(BodyDeclaration declaration) {
-        ClassFileBodyDeclaration bodyDeclaration = (ClassFileBodyDeclaration)declaration;
+        ClassFileBodyDeclaration bodyDeclaration = (ClassFileBodyDeclaration) declaration;
         boolean genericTypesSupported = (bodyDeclaration.getClassFile().getMajorVersion() >= JavaVersion.JAVA5);
 
         if (genericTypesSupported) {
@@ -43,6 +47,11 @@ public class UpdateJavaSyntaxTreeStep0Visitor extends AbstractJavaSyntaxVisitor 
         safeAccept(declaration.getBodyDeclaration());
     }
 
-    @Override public void visit(AnnotationDeclaration declaration) {}
-    @Override public void visit(EnumDeclaration declaration) {}
+    @Override
+    public void visit(AnnotationDeclaration declaration) {
+    }
+
+    @Override
+    public void visit(EnumDeclaration declaration) {
+    }
 }

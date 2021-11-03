@@ -75,7 +75,7 @@ public class InitInstanceFieldVisitor extends AbstractJavaSyntaxVisitor {
      */
     @Override
     public void visit(BodyDeclaration declaration) {
-        ClassFileBodyDeclaration bodyDeclaration = (ClassFileBodyDeclaration) declaration;
+        final ClassFileBodyDeclaration bodyDeclaration = (ClassFileBodyDeclaration) declaration;
 
         // Init attributes
         fieldDeclarators.clear();

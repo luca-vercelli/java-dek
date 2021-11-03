@@ -107,31 +107,6 @@ public class PopulateBindingsWithTypeArgumentVisitor implements TypeArgumentVisi
         }
     }
 
-    private static boolean equals(BaseType bt1, BaseType bt2) {
-        return (bt2 == null) || bt2.equals(bt1);
-    }
-
-    protected TypeArgument checkTypeClassCheckDimensionAndReturnCurrentAsTypeArgument(GenericType type) {
-        if (current != null) {
-            
-            if (current.isObjectTypeArgument()) {
-                ObjectType ot = (ObjectType) current;
-
-                if ((ot.getTypeArguments() == null) && ot.getInternalName().equals(TYPE_CLASS.getInternalName())) {
-                    return TYPE_CLASS_WILDCARD.createType(ot.getDimension() - type.getDimension());
-                }
-
-                return ot.createType(ot.getDimension() - type.getDimension());
-            } else if (current.isInnerObjectTypeArgument() || current.isGenericTypeArgument()
-                    || current.isPrimitiveTypeArgument()) {
-                Type t = (Type) current;
-                return t.createType(t.getDimension() - type.getDimension());
-            }
-        }
-
-        return current.getTypeArgumentFirst();
-    }
-
     @Override
     public void visit(WildcardExtendsTypeArgument type) {
         if (current != null) {
@@ -184,5 +159,30 @@ public class PopulateBindingsWithTypeArgumentVisitor implements TypeArgumentVisi
 
     @Override
     public void visit(PrimitiveType type) {
+    }
+
+    private static boolean equals(BaseType bt1, BaseType bt2) {
+        return (bt2 == null) || bt2.equals(bt1);
+    }
+
+    protected TypeArgument checkTypeClassCheckDimensionAndReturnCurrentAsTypeArgument(GenericType type) {
+        if (current != null) {
+
+            if (current.isObjectTypeArgument()) {
+                ObjectType ot = (ObjectType) current;
+
+                if ((ot.getTypeArguments() == null) && ot.getInternalName().equals(TYPE_CLASS.getInternalName())) {
+                    return TYPE_CLASS_WILDCARD.createType(ot.getDimension() - type.getDimension());
+                }
+
+                return ot.createType(ot.getDimension() - type.getDimension());
+            } else if (current.isInnerObjectTypeArgument() || current.isGenericTypeArgument()
+                    || current.isPrimitiveTypeArgument()) {
+                Type t = (Type) current;
+                return t.createType(t.getDimension() - type.getDimension());
+            }
+        }
+
+        return current.getTypeArgumentFirst();
     }
 }

@@ -56,7 +56,7 @@ public class InitEnumVisitor extends AbstractJavaSyntaxVisitor {
      */
     @Override
     public void visit(BodyDeclaration declaration) {
-        ClassFileBodyDeclaration bd = bodyDeclaration;
+        final ClassFileBodyDeclaration bd = bodyDeclaration;
 
         bodyDeclaration = (ClassFileBodyDeclaration) declaration;
         constants.clear();
@@ -90,7 +90,7 @@ public class InitEnumVisitor extends AbstractJavaSyntaxVisitor {
     }
 
     /**
-     * Mark methods <code>values</code> and <code>valueOf</code> as synthetic 
+     * Mark methods <code>values</code> and <code>valueOf</code> as synthetic
      */
     @Override
     public void visit(MethodDeclaration declaration) {
