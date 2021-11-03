@@ -186,13 +186,13 @@ public class ByteCodeParser {
         AbstractLocalVariable localVariable;
 
         for (int offset = fromOffset; offset < toOffset; offset++) {
-            int opcode = code[offset] & 255;
+            int opcode = code[offset] & MASK;
             int lineNumber = syntheticFlag ? Expression.UNKNOWN_LINE_NUMBER : cfg.getLineNumber(offset);
 
             switch (opcode) {
-            case 0: // NOP
+            case NOP:
                 break;
-            case 1: // ACONST_NULL
+            case ACONST_NULL:
                 stack.push(new NullExpression(lineNumber, TYPE_UNDEFINED_OBJECT));
                 break;
             case 2: // ICONST_M1
@@ -222,35 +222,35 @@ public class ByteCodeParser {
                 stack.push(new DoubleConstantExpression(lineNumber, (double) (opcode - 14)));
                 break;
             case 16: // BIPUSH
-                value = (byte) (code[++offset] & 255);
+                value = (byte) (code[++offset] & MASK);
                 stack.push(new IntegerConstantExpression(lineNumber, PrimitiveTypeUtil.getPrimitiveTypeFromValue(value),
                         value));
                 break;
             case 17: // SIPUSH
-                value = (short) (((code[++offset] & 255) << 8) | (code[++offset] & 255));
+                value = (short) (((code[++offset] & MASK) << 8) | (code[++offset] & MASK));
                 stack.push(new IntegerConstantExpression(lineNumber, PrimitiveTypeUtil.getPrimitiveTypeFromValue(value),
                         value));
                 break;
             case 18: // LDC
-                parseLDC(stack, constants, lineNumber, constants.getConstant(code[++offset] & 255));
+                parseLDC(stack, constants, lineNumber, constants.getConstant(code[++offset] & MASK));
                 break;
             case 19:
             case 20: // LDC_W, LDC2_W
                 parseLDC(stack, constants, lineNumber,
-                        constants.getConstant(((code[++offset] & 255) << 8) | (code[++offset] & 255)));
+                        constants.getConstant(((code[++offset] & MASK) << 8) | (code[++offset] & MASK)));
                 break;
             case 21: // ILOAD
-                localVariable = localVariableMaker.getLocalVariable(code[++offset] & 255, offset);
+                localVariable = localVariableMaker.getLocalVariable(code[++offset] & MASK, offset);
                 parseILOAD(statements, stack, lineNumber, offset, localVariable);
                 break;
             case 22:
             case 23:
             case 24: // LLOAD, FLOAD, DLOAD
-                localVariable = localVariableMaker.getLocalVariable(code[++offset] & 255, offset);
+                localVariable = localVariableMaker.getLocalVariable(code[++offset] & MASK, offset);
                 stack.push(new ClassFileLocalVariableReferenceExpression(lineNumber, offset, localVariable));
                 break;
             case 25: // ALOAD
-                i = code[++offset] & 255;
+                i = code[++offset] & MASK;
                 localVariable = localVariableMaker.getLocalVariable(i, offset);
                 if ((i == 0) && ((method.getAccessFlags() & ACC_STATIC) == 0)) {
                     stack.push(new ThisExpression(lineNumber, localVariable.getType()));
@@ -316,11 +316,11 @@ public class ByteCodeParser {
             case 55:
             case 56:
             case 57: // ISTORE, LSTORE, FSTORE, DSTORE
-                localVariable = getLocalVariableInAssignment(code[++offset] & 255, offset + 2, valueRef = stack.pop());
+                localVariable = getLocalVariableInAssignment(code[++offset] & MASK, offset + 2, valueRef = stack.pop());
                 parseSTORE(statements, stack, lineNumber, offset, localVariable, valueRef);
                 break;
             case 58: // ASTORE
-                localVariable = getLocalVariableInAssignment(code[++offset] & 255, offset + 1, valueRef = stack.pop());
+                localVariable = getLocalVariableInAssignment(code[++offset] & MASK, offset + 1, valueRef = stack.pop());
                 parseASTORE(statements, stack, lineNumber, offset, localVariable, valueRef);
                 break;
             case 59:
@@ -717,8 +717,8 @@ public class ByteCodeParser {
                 stack.push(new BinaryOperatorExpression(lineNumber, TYPE_LONG, expression1, "^", expression2, 11));
                 break;
             case 132: // IINC
-                localVariable = localVariableMaker.getLocalVariable(code[++offset] & 255, offset);
-                parseIINC(statements, stack, lineNumber, offset, localVariable, (byte) (code[++offset] & 255));
+                localVariable = localVariableMaker.getLocalVariable(code[++offset] & MASK, offset);
+                parseIINC(statements, stack, lineNumber, offset, localVariable, (byte) (code[++offset] & MASK));
                 break;
             case 133: // I2L
                 stack.push(new CastExpression(lineNumber, TYPE_LONG, stack.pop(), false));
@@ -854,10 +854,10 @@ public class ByteCodeParser {
                 offset = (offset + 4) & 0xFFFC; // Skip padding
                 offset += 4; // Skip default offset
 
-                int low = ((code[offset++] & 255) << 24) | ((code[offset++] & 255) << 16)
-                        | ((code[offset++] & 255) << 8) | (code[offset++] & 255);
-                int high = ((code[offset++] & 255) << 24) | ((code[offset++] & 255) << 16)
-                        | ((code[offset++] & 255) << 8) | (code[offset++] & 255);
+                int low = ((code[offset++] & MASK) << 24) | ((code[offset++] & MASK) << 16)
+                        | ((code[offset++] & MASK) << 8) | (code[offset++] & MASK);
+                int high = ((code[offset++] & MASK) << 24) | ((code[offset++] & MASK) << 16)
+                        | ((code[offset++] & MASK) << 8) | (code[offset++] & MASK);
 
                 offset += (4 * (high - low + 1)) - 1;
 
@@ -867,8 +867,8 @@ public class ByteCodeParser {
                 offset = (offset + 4) & 0xFFFC; // Skip padding
                 offset += 4; // Skip default offset
 
-                count = ((code[offset++] & 255) << 24) | ((code[offset++] & 255) << 16) | ((code[offset++] & 255) << 8)
-                        | (code[offset++] & 255);
+                count = ((code[offset++] & MASK) << 24) | ((code[offset++] & MASK) << 16) | ((code[offset++] & MASK) << 8)
+                        | (code[offset++] & MASK);
 
                 offset += (8 * count) - 1;
 
@@ -885,24 +885,24 @@ public class ByteCodeParser {
                 statements.add(RETURN);
                 break;
             case 178: // GETSTATIC
-                parseGetStatic(stack, constants, lineNumber, ((code[++offset] & 255) << 8) | (code[++offset] & 255));
+                parseGetStatic(stack, constants, lineNumber, ((code[++offset] & MASK) << 8) | (code[++offset] & MASK));
                 break;
             case 179: // PUTSTATIC
                 parsePutStatic(statements, stack, constants, lineNumber,
-                        ((code[++offset] & 255) << 8) | (code[++offset] & 255));
+                        ((code[++offset] & MASK) << 8) | (code[++offset] & MASK));
                 break;
             case 180: // GETFIELD
-                parseGetField(stack, constants, lineNumber, ((code[++offset] & 255) << 8) | (code[++offset] & 255));
+                parseGetField(stack, constants, lineNumber, ((code[++offset] & MASK) << 8) | (code[++offset] & MASK));
                 break;
             case 181: // PUTFIELD
                 parsePutField(statements, stack, constants, lineNumber,
-                        ((code[++offset] & 255) << 8) | (code[++offset] & 255));
+                        ((code[++offset] & MASK) << 8) | (code[++offset] & MASK));
                 break;
             case 182:
             case 183:
             case 184:
             case 185: // INVOKEVIRTUAL, INVOKESPECIAL, INVOKESTATIC, INVOKEINTERFACE
-                constantMemberRef = constants.getConstant(((code[++offset] & 255) << 8) | (code[++offset] & 255));
+                constantMemberRef = constants.getConstant(((code[++offset] & MASK) << 8) | (code[++offset] & MASK));
                 typeName = constants.getConstantTypeName(constantMemberRef.getClassIndex());
                 ot = typeMaker.makeFromDescriptorOrInternalTypeName(typeName);
                 constantNameAndType = constants.getConstant(constantMemberRef.getNameAndTypeIndex());
@@ -974,19 +974,19 @@ public class ByteCodeParser {
                 break;
             case 186: // INVOKEDYNAMIC
                 parseInvokeDynamic(statements, stack, constants, lineNumber,
-                        ((code[++offset] & 255) << 8) | (code[++offset] & 255));
+                        ((code[++offset] & MASK) << 8) | (code[++offset] & MASK));
                 offset += 2; // Skip 2 bytes
                 break;
             case 187: // NEW
-                typeName = constants.getConstantTypeName(((code[++offset] & 255) << 8) | (code[++offset] & 255));
+                typeName = constants.getConstantTypeName(((code[++offset] & MASK) << 8) | (code[++offset] & MASK));
                 stack.push(newNewExpression(lineNumber, typeName));
                 break;
             case 188: // NEWARRAY
-                type1 = PrimitiveTypeUtil.getPrimitiveTypeFromTag((code[++offset] & 255)).createType(1);
+                type1 = PrimitiveTypeUtil.getPrimitiveTypeFromTag((code[++offset] & MASK)).createType(1);
                 stack.push(new NewArray(lineNumber, type1, stack.pop()));
                 break;
             case 189: // ANEWARRAY
-                typeName = constants.getConstantTypeName(((code[++offset] & 255) << 8) | (code[++offset] & 255));
+                typeName = constants.getConstantTypeName(((code[++offset] & MASK) << 8) | (code[++offset] & MASK));
                 if (typeName.charAt(0) == '[') {
                     type1 = typeMaker.makeFromDescriptor(typeName);
                     type1 = type1.createType(type1.getDimension() + 1);
@@ -1008,7 +1008,7 @@ public class ByteCodeParser {
                 statements.add(new ThrowStatement(stack.pop()));
                 break;
             case 192: // CHECKCAST
-                typeName = constants.getConstantTypeName(((code[++offset] & 255) << 8) | (code[++offset] & 255));
+                typeName = constants.getConstantTypeName(((code[++offset] & MASK) << 8) | (code[++offset] & MASK));
                 type1 = typeMaker.makeFromDescriptorOrInternalTypeName(typeName);
                 expression1 = stack.peek();
                 if (type1.isObjectType() && expression1.getType().isObjectType()
@@ -1025,7 +1025,7 @@ public class ByteCodeParser {
                 }
                 break;
             case 193: // INSTANCEOF
-                typeName = constants.getConstantTypeName(((code[++offset] & 255) << 8) | (code[++offset] & 255));
+                typeName = constants.getConstantTypeName(((code[++offset] & MASK) << 8) | (code[++offset] & MASK));
                 type1 = typeMaker.makeFromDescriptorOrInternalTypeName(typeName);
                 if (type1 == null) {
                     type1 = PrimitiveTypeUtil.getPrimitiveTypeFromDescriptor(typeName);
@@ -1039,11 +1039,11 @@ public class ByteCodeParser {
                 statements.add(new ClassFileMonitorExitStatement(stack.pop()));
                 break;
             case 196: // WIDE
-                opcode = code[++offset] & 255;
-                i = ((code[++offset] & 255) << 8) | (code[++offset] & 255);
+                opcode = code[++offset] & MASK;
+                i = ((code[++offset] & MASK) << 8) | (code[++offset] & MASK);
 
                 if (opcode == 132) { // IINC
-                    count = (short) (((code[++offset] & 255) << 8) | (code[++offset] & 255));
+                    count = (short) (((code[++offset] & MASK) << 8) | (code[++offset] & MASK));
                     parseIINC(statements, stack, lineNumber, offset, localVariableMaker.getLocalVariable(i, offset),
                             count);
                 } else {
@@ -1094,9 +1094,9 @@ public class ByteCodeParser {
                 }
                 break;
             case 197: // MULTIANEWARRAY
-                typeName = constants.getConstantTypeName(((code[++offset] & 255) << 8) | (code[++offset] & 255));
+                typeName = constants.getConstantTypeName(((code[++offset] & MASK) << 8) | (code[++offset] & MASK));
                 type1 = typeMaker.makeFromDescriptor(typeName);
-                i = code[++offset] & 255;
+                i = code[++offset] & MASK;
 
                 Expressions dimensions = new Expressions(i);
 
@@ -2395,7 +2395,7 @@ public class ByteCodeParser {
 
     private static void checkStack(DefaultStack<Expression> stack, byte[] code, int offset) {
         if ((stack.size() > 1) && (offset < code.length)) {
-            int opcode = code[offset + 1] & 255;
+            int opcode = code[offset + 1] & MASK;
 
             if ((opcode == 87) || (opcode == 176)) { // POP || ARETURN
                 // Duplicate last expression
@@ -2416,14 +2416,14 @@ public class ByteCodeParser {
 
         Method method = cfg.getMethod();
         byte[] code = method.<AttributeCode>getAttribute("Code").getCode();
-        int opcode = code[offset] & 255;
+        int opcode = code[offset] & MASK;
 
         if (opcode != 178) // GETSTATIC
             return false;
 
         ConstantPool constants = method.getConstants();
         ConstantMemberRef constantMemberRef = constants
-                .getConstant(((code[++offset] & 255) << 8) | (code[++offset] & 255));
+                .getConstant(((code[++offset] & MASK) << 8) | (code[++offset] & MASK));
         ConstantNameAndType constantNameAndType = constants.getConstant(constantMemberRef.getNameAndTypeIndex());
         String name = constants.getConstantUtf8(constantNameAndType.getNameIndex());
 
@@ -2452,15 +2452,15 @@ public class ByteCodeParser {
 
         Method method = cfg.getMethod();
         byte[] code = method.<AttributeCode>getAttribute("Code").getCode();
-        int opcode = code[offset] & 255;
+        int opcode = code[offset] & MASK;
 
         switch (opcode) {
         case ASTORE: // ASTORE
-            return code[++offset] & 255;
-        case 75:
-        case 76:
-        case 77:
-        case 78: // ASTORE_0 ... ASTORE_3
+            return code[++offset] & MASK;
+        case ASTORE_0:
+        case ASTORE_1:
+        case ASTORE_2:
+        case ASTORE_3:
             return opcode - 75;
         case 87:
         case 88: // POP, POP2

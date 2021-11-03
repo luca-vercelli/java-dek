@@ -7,6 +7,8 @@
 
 package org.jd.core.v1.service.converter.classfiletojavasyntax.visitor;
 
+import static org.jd.core.v1.service.converter.classfiletojavasyntax.util.ByteCodeConstants.*;
+
 import org.jd.core.v1.model.classfile.ConstantPool;
 import org.jd.core.v1.model.classfile.Method;
 import org.jd.core.v1.model.classfile.attribute.AttributeCode;
@@ -59,25 +61,25 @@ public class UpdateOuterFieldTypeVisitor extends AbstractJavaSyntaxVisitor {
                 Method method = cfcd.getMethod();
                 byte[] code = method.<AttributeCode>getAttribute("Code").getCode();
                 int offset = 0;
-                int opcode = code[offset] & 255;
+                int opcode = code[offset] & MASK;
 
-                if (opcode != 42) { // ALOAD_0
+                if (opcode != ALOAD_0) {
                     return;
                 }
 
-                opcode = code[++offset] & 255;
+                opcode = code[++offset] & MASK;
 
-                if (opcode != 43) { // ALOAD_1
+                if (opcode != ALOAD_1) {
                     return;
                 }
 
-                opcode = code[++offset] & 255;
+                opcode = code[++offset] & MASK;
 
-                if (opcode != 181) { // PUTFIELD
+                if (opcode != PUTFIELD) {
                     return;
                 }
 
-                int index = ((code[++offset] & 255) << 8) | (code[++offset] & 255);
+                int index = ((code[++offset] & MASK) << 8) | (code[++offset] & MASK);
                 ConstantPool constants = method.getConstants();
                 ConstantMemberRef constantMemberRef = constants.getConstant(index);
                 String typeName = constants.getConstantTypeName(constantMemberRef.getClassIndex());

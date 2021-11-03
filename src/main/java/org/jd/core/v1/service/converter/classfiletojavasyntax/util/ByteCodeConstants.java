@@ -9,6 +9,8 @@ package org.jd.core.v1.service.converter.classfiletojavasyntax.util;
  */
 public class ByteCodeConstants {
 
+    public static final short MASK = 255;
+
     public static final short NOP = 0;
     public static final short ACONST_NULL = 1;
     public static final short ICONST_M1 = 2;

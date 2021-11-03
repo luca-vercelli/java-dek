@@ -7,6 +7,8 @@
 
 package org.jd.core.v1.service.deserializer.classfile;
 
+import static org.jd.core.v1.service.converter.classfiletojavasyntax.util.ByteCodeConstants.*;
+
 import java.io.UTFDataFormatException;
 
 /**
@@ -33,16 +35,16 @@ public class ClassFileReader {
     }
 
     public int readUnsignedByte() {
-        return (data[offset++] & 0xff);
+        return (data[offset++] & MASK);
     }
 
     public int readUnsignedShort() {
-        return ((data[offset++] & 0xff) << 8) | (data[offset++] & 0xff);
+        return ((data[offset++] & MASK) << 8) | (data[offset++] & MASK);
     }
 
     public final int readInt() {
-        return ((data[offset++] & 0xff) << 24) | ((data[offset++] & 0xff) << 16) | ((data[offset++] & 0xff) << 8)
-                | (data[offset++] & 0xff);
+        return ((data[offset++] & MASK) << 24) | ((data[offset++] & MASK) << 16) | ((data[offset++] & MASK) << 8)
+                | (data[offset++] & MASK);
     }
 
     public final float readFloat() {
@@ -50,10 +52,10 @@ public class ClassFileReader {
     }
 
     public long readLong() {
-        long hi = ((data[offset++] & 0xff) << 24) | ((data[offset++] & 0xff) << 16) | ((data[offset++] & 0xff) << 8)
-                | (data[offset++] & 0xff);
-        long low = ((data[offset++] & 0xff) << 24) | ((data[offset++] & 0xff) << 16) | ((data[offset++] & 0xff) << 8)
-                | (data[offset++] & 0xff);
+        long hi = ((data[offset++] & MASK) << 24) | ((data[offset++] & MASK) << 16) | ((data[offset++] & MASK) << 8)
+                | (data[offset++] & MASK);
+        long low = ((data[offset++] & MASK) << 24) | ((data[offset++] & MASK) << 16) | ((data[offset++] & MASK) << 8)
+                | (data[offset++] & MASK);
         return ((hi & 0xffffffffL) << 32) | (low & 0xffffffffL);
     }
 
@@ -61,7 +63,7 @@ public class ClassFileReader {
         return Double.longBitsToDouble(readLong());
     }
 
-    public void readFully(byte target[]) {
+    public void readFully(byte[] target) {
         int length = target.length;
         System.arraycopy(data, offset, target, 0, length);
         offset += length;
@@ -72,11 +74,13 @@ public class ClassFileReader {
 
         char[] charArray = new char[utflenx];
         int maxOffset = offset + utflenx;
-        int c, char2, char3;
+        int c;
+        int char2;
+        int char3;
         int charArrayOffset = 0;
 
         while (offset < maxOffset) {
-            c = (int) data[offset++] & 0xff;
+            c = (int) data[offset++] & MASK;
             switch (c >> 4) {
             case 0:
             case 1:
