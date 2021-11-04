@@ -859,7 +859,7 @@ public class ByteCodeParser {
                         basicBlock.mustInverseCondition() ? ">=" : "<", expression2, LT_PRIORITY));
                 offset += 2; // Skip branch offset
                 break;
-            case 162: // IF_ICMPGE
+            case IF_ICMPGE:
                 expression2 = stack.pop();
                 expression1 = stack.pop();
                 stack.push(newIntegerComparisonOperatorExpression(lineNumber, expression1,
@@ -1174,6 +1174,8 @@ public class ByteCodeParser {
             case GOTO_W:
                 offset += 4; // Skip branch offset
                 break;
+            default:
+                break;
             }
         }
     }
@@ -1344,6 +1346,8 @@ public class ByteCodeParser {
         case CONSTANT_String:
             int stringIndex = ((ConstantString) constant).getStringIndex();
             stack.push(new StringConstantExpression(lineNumber, constants.getConstantUtf8(stringIndex)));
+            break;
+        default:
             break;
         }
     }
@@ -1928,7 +1932,7 @@ public class ByteCodeParser {
         }
 
         statements.add(new ExpressionStatement(new BinaryOperatorExpression(lineNumber, leftExpression.getType(),
-                leftExpression, "=", rightExpression, 16)));
+                leftExpression, "=", rightExpression, EQ_PRIORITY)));
     }
 
     private void parseIINC(Statements statements, DefaultStack<Expression> stack, int lineNumber, int offset,
@@ -1966,10 +1970,10 @@ public class ByteCodeParser {
             expression = newPreArithmeticOperatorExpression(lineNumber, "--", expression);
         } else if (count >= 0) {
             expression = new BinaryOperatorExpression(lineNumber, expression.getType(), expression, "+=",
-                    new IntegerConstantExpression(lineNumber, expression.getType(), count), 16);
+                    new IntegerConstantExpression(lineNumber, expression.getType(), count), EQ_PRIORITY);
         } else if (count < 0) {
             expression = new BinaryOperatorExpression(lineNumber, expression.getType(), expression, "-=",
-                    new IntegerConstantExpression(lineNumber, expression.getType(), -count), 16);
+                    new IntegerConstantExpression(lineNumber, expression.getType(), -count), EQ_PRIORITY);
         } else {
             assert false;
             expression = null;
@@ -1999,10 +2003,11 @@ public class ByteCodeParser {
 
             switch (pt.getJavaPrimitiveFlags()) {
             case FLAG_BOOLEAN:
-                if (basicBlock.mustInverseCondition() ^ "==".equals(operator1))
+                if (basicBlock.mustInverseCondition() ^ "==".equals(operator1)) {
                     stack.push(expression);
-                else
+                } else {
                     stack.push(new PreOperatorExpression(lineNumber, "!", expression));
+                }
                 break;
             case FLAG_FLOAT:
                 stack.push(new BinaryOperatorExpression(lineNumber, TYPE_BOOLEAN, expression,
@@ -2265,14 +2270,16 @@ public class ByteCodeParser {
                 }
             } else {
                 if (rightExpression.getType() == TYPE_BOOLEAN) {
-                    leftVariable.typeOnRight(typeBounds, type = TYPE_BOOLEAN);
+                    type = TYPE_BOOLEAN;
+                    leftVariable.typeOnRight(typeBounds, type);
                 }
             }
         } else if (rightExpression.isLocalVariableReferenceExpression()) {
             if (leftExpression.getType() == TYPE_BOOLEAN) {
                 AbstractLocalVariable rightVariable = ((ClassFileLocalVariableReferenceExpression) rightExpression)
                         .getLocalVariable();
-                rightVariable.typeOnRight(typeBounds, type = TYPE_BOOLEAN);
+                type = TYPE_BOOLEAN;
+                rightVariable.typeOnRight(typeBounds, type);
             }
         }
 
@@ -2443,7 +2450,7 @@ public class ByteCodeParser {
         if ((stack.size() > 1) && (offset < code.length)) {
             int opcode = code[offset + 1] & MASK;
 
-            if ((opcode == 87) || (opcode == 176)) { // POP || ARETURN
+            if ((opcode == POP) || (opcode == ARETURN)) {
                 // Duplicate last expression
                 Expression condition = stack.pop();
                 stack.push(stack.peek());
@@ -2457,15 +2464,17 @@ public class ByteCodeParser {
         int offset = basicBlock.getFromOffset();
         int toOffset = basicBlock.getToOffset();
 
-        if (offset + 3 > toOffset)
+        if (offset + 3 > toOffset) {
             return false;
+        }
 
         Method method = cfg.getMethod();
         byte[] code = method.<AttributeCode>getAttribute("Code").getCode();
         int opcode = code[offset] & MASK;
 
-        if (opcode != 178) // GETSTATIC
+        if (opcode != GETSTATIC) {
             return false;
+        }
 
         ConstantPool constants = method.getConstants();
         ConstantMemberRef constantMemberRef = constants
@@ -2473,13 +2482,15 @@ public class ByteCodeParser {
         ConstantNameAndType constantNameAndType = constants.getConstant(constantMemberRef.getNameAndTypeIndex());
         String name = constants.getConstantUtf8(constantNameAndType.getNameIndex());
 
-        if (!"$assertionsDisabled".equals(name))
+        if (!"$assertionsDisabled".equals(name)) {
             return false;
+        }
 
         String descriptor = constants.getConstantUtf8(constantNameAndType.getDescriptorIndex());
 
-        if (!"Z".equals(descriptor))
+        if (!"Z".equals(descriptor)) {
             return false;
+        }
 
         String typeName = constants.getConstantTypeName(constantMemberRef.getClassIndex());
 
@@ -2501,15 +2512,15 @@ public class ByteCodeParser {
         int opcode = code[offset] & MASK;
 
         switch (opcode) {
-        case ASTORE: // ASTORE
+        case ASTORE:
             return code[++offset] & MASK;
         case ASTORE_0:
         case ASTORE_1:
         case ASTORE_2:
         case ASTORE_3:
-            return opcode - 75;
-        case 87:
-        case 88: // POP, POP2
+            return opcode - ASTORE_0;
+        case POP:
+        case POP2:
             return -1;
         default:
             assert false;
