@@ -90,7 +90,7 @@ public class JavaSyntaxToJavaSourceTest {
                         new Statements(
                                 new IfStatement(new BinaryOperatorExpression(8, PrimitiveType.TYPE_BOOLEAN,
                                         new LocalVariableReferenceExpression(8, stringArrayType, "args"), "==",
-                                        new NullExpression(8, stringArrayType), 9), ReturnStatement.RETURN),
+                                        new NullExpression(8, stringArrayType), 9), ReturnStatement.S_RETURN),
                                 new LocalVariableDeclarationStatement(PrimitiveType.TYPE_INT,
                                         new LocalVariableDeclarator("i",
                                                 new ExpressionVariableInitializer(new MethodInvocationExpression(10,

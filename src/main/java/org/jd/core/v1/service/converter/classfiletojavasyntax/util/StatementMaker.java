@@ -150,7 +150,7 @@ public class StatementMaker {
             makeStatements(watchdog, basicBlock.getNext(), statements, jumps);
             break;
         case TYPE_RETURN:
-            statements.add(ReturnStatement.RETURN);
+            statements.add(ReturnStatement.S_RETURN);
             break;
         case TYPE_RETURN_VALUE:
         case TYPE_GOTO_IN_TERNARY_OPERATOR:

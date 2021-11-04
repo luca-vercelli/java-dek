@@ -10,13 +10,15 @@ package org.jd.core.v1.service.converter.classfiletojavasyntax.util;
 import static org.jd.core.v1.model.classfile.AccessType.ACC_PRIVATE;
 import static org.jd.core.v1.model.classfile.AccessType.ACC_STATIC;
 import static org.jd.core.v1.model.classfile.AccessType.ACC_SYNTHETIC;
-import static org.jd.core.v1.model.javasyntax.statement.ReturnStatement.RETURN;
+import static org.jd.core.v1.model.javasyntax.statement.ReturnStatement.S_RETURN;
 import static org.jd.core.v1.model.javasyntax.type.ObjectType.TYPE_CLASS;
 import static org.jd.core.v1.model.javasyntax.type.ObjectType.TYPE_OBJECT;
 import static org.jd.core.v1.model.javasyntax.type.ObjectType.TYPE_UNDEFINED_OBJECT;
 import static org.jd.core.v1.model.javasyntax.type.PrimitiveType.*;
 
 import static org.jd.core.v1.service.converter.classfiletojavasyntax.util.ByteCodeConstants.*;
+
+import static org.jd.core.v1.model.javasyntax.expression.PriorityConstants.*;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -195,61 +197,61 @@ public class ByteCodeParser {
             case ACONST_NULL:
                 stack.push(new NullExpression(lineNumber, TYPE_UNDEFINED_OBJECT));
                 break;
-            case 2: // ICONST_M1
+            case ICONST_M1:
                 stack.push(new IntegerConstantExpression(lineNumber, MAYBE_NEGATIVE_BYTE_TYPE, -1));
                 break;
-            case 3:
-            case 4: // ICONST_0, ICONST_1
-                stack.push(new IntegerConstantExpression(lineNumber, MAYBE_BOOLEAN_TYPE, opcode - 3));
+            case ICONST_0:
+            case ICONST_1:
+                stack.push(new IntegerConstantExpression(lineNumber, MAYBE_BOOLEAN_TYPE, opcode - ICONST_0));
                 break;
-            case 5:
-            case 6:
-            case 7:
-            case 8: // ICONST_2 ... ICONST_5
-                stack.push(new IntegerConstantExpression(lineNumber, MAYBE_BYTE_TYPE, opcode - 3));
+            case ICONST_2:
+            case ICONST_3:
+            case ICONST_4:
+            case ICONST_5:
+                stack.push(new IntegerConstantExpression(lineNumber, MAYBE_BYTE_TYPE, opcode - ICONST_0));
                 break;
-            case 9:
-            case 10: // LCONST_0, LCONST_1
-                stack.push(new LongConstantExpression(lineNumber, (long) (opcode - 9)));
+            case LCONST_0:
+            case LCONST_1:
+                stack.push(new LongConstantExpression(lineNumber, (long) (opcode - LCONST_0)));
                 break;
-            case 11:
-            case 12:
-            case 13: // FCONST_0, FCONST_1, FCONST_2
-                stack.push(new FloatConstantExpression(lineNumber, (float) (opcode - 11)));
+            case FCONST_0:
+            case FCONST_1:
+            case FCONST_2:
+                stack.push(new FloatConstantExpression(lineNumber, (float) (opcode - FCONST_0)));
                 break;
-            case 14:
-            case 15: // DCONST_0, DCONST_1
-                stack.push(new DoubleConstantExpression(lineNumber, (double) (opcode - 14)));
+            case DCONST_0:
+            case DCONST_1:
+                stack.push(new DoubleConstantExpression(lineNumber, (double) (opcode - DCONST_0)));
                 break;
-            case 16: // BIPUSH
+            case BIPUSH:
                 value = (byte) (code[++offset] & MASK);
                 stack.push(new IntegerConstantExpression(lineNumber, PrimitiveTypeUtil.getPrimitiveTypeFromValue(value),
                         value));
                 break;
-            case 17: // SIPUSH
+            case SIPUSH:
                 value = (short) (((code[++offset] & MASK) << 8) | (code[++offset] & MASK));
                 stack.push(new IntegerConstantExpression(lineNumber, PrimitiveTypeUtil.getPrimitiveTypeFromValue(value),
                         value));
                 break;
-            case 18: // LDC
+            case LDC:
                 parseLDC(stack, constants, lineNumber, constants.getConstant(code[++offset] & MASK));
                 break;
-            case 19:
-            case 20: // LDC_W, LDC2_W
+            case LDC_W:
+            case LDC2_W:
                 parseLDC(stack, constants, lineNumber,
                         constants.getConstant(((code[++offset] & MASK) << 8) | (code[++offset] & MASK)));
                 break;
-            case 21: // ILOAD
+            case ILOAD:
                 localVariable = localVariableMaker.getLocalVariable(code[++offset] & MASK, offset);
                 parseILOAD(statements, stack, lineNumber, offset, localVariable);
                 break;
-            case 22:
-            case 23:
-            case 24: // LLOAD, FLOAD, DLOAD
+            case LLOAD:
+            case FLOAD:
+            case DLOAD:
                 localVariable = localVariableMaker.getLocalVariable(code[++offset] & MASK, offset);
                 stack.push(new ClassFileLocalVariableReferenceExpression(lineNumber, offset, localVariable));
                 break;
-            case 25: // ALOAD
+            case ALOAD:
                 i = code[++offset] & MASK;
                 localVariable = localVariableMaker.getLocalVariable(i, offset);
                 if ((i == 0) && ((method.getAccessFlags() & ACC_STATIC) == 0)) {
@@ -258,35 +260,35 @@ public class ByteCodeParser {
                     stack.push(new ClassFileLocalVariableReferenceExpression(lineNumber, offset, localVariable));
                 }
                 break;
-            case 26:
-            case 27:
-            case 28:
-            case 29: // ILOAD_0 ... ILOAD_3
-                localVariable = localVariableMaker.getLocalVariable(opcode - 26, offset);
+            case ILOAD_0:
+            case ILOAD_1:
+            case ILOAD_2:
+            case ILOAD_3:
+                localVariable = localVariableMaker.getLocalVariable(opcode - ILOAD_0, offset);
                 parseILOAD(statements, stack, lineNumber, offset, localVariable);
                 break;
-            case 30:
-            case 31:
-            case 32:
-            case 33: // LLOAD_0 ... LLOAD_3
-                localVariable = localVariableMaker.getLocalVariable(opcode - 30, offset);
+            case LLOAD_0:
+            case LLOAD_1:
+            case LLOAD_2:
+            case LLOAD_3:
+                localVariable = localVariableMaker.getLocalVariable(opcode - LLOAD_0, offset);
                 stack.push(new ClassFileLocalVariableReferenceExpression(lineNumber, offset, localVariable));
                 break;
-            case 34:
-            case 35:
-            case 36:
-            case 37: // FLOAD_0 ... FLOAD_3
-                localVariable = localVariableMaker.getLocalVariable(opcode - 34, offset);
+            case FLOAD_0:
+            case FLOAD_1:
+            case FLOAD_2:
+            case FLOAD_3:
+                localVariable = localVariableMaker.getLocalVariable(opcode - FLOAD_0, offset);
                 stack.push(new ClassFileLocalVariableReferenceExpression(lineNumber, offset, localVariable));
                 break;
-            case 38:
-            case 39:
-            case 40:
-            case 41: // DLOAD_0 ... DLOAD_3
-                localVariable = localVariableMaker.getLocalVariable(opcode - 38, offset);
+            case DLOAD_0:
+            case DLOAD_1:
+            case DLOAD_2:
+            case DLOAD_3:
+                localVariable = localVariableMaker.getLocalVariable(opcode - DLOAD_0, offset);
                 stack.push(new ClassFileLocalVariableReferenceExpression(lineNumber, offset, localVariable));
                 break;
-            case 42: // ALOAD_0
+            case ALOAD_0:
                 localVariable = localVariableMaker.getLocalVariable(0, offset);
                 if ((method.getAccessFlags() & ACC_STATIC) == 0) {
                     stack.push(new ThisExpression(lineNumber, localVariable.getType()));
@@ -294,101 +296,108 @@ public class ByteCodeParser {
                     stack.push(new ClassFileLocalVariableReferenceExpression(lineNumber, offset, localVariable));
                 }
                 break;
-            case 43:
-            case 44:
-            case 45: // ALOAD_1 ... ALOAD_3
-                localVariable = localVariableMaker.getLocalVariable(opcode - 42, offset);
+            case ALOAD_1:
+            case ALOAD_2:
+            case ALOAD_3:
+                localVariable = localVariableMaker.getLocalVariable(opcode - ALOAD_0, offset);
                 stack.push(new ClassFileLocalVariableReferenceExpression(lineNumber, offset, localVariable));
                 break;
-            case 46:
-            case 47:
-            case 48:
-            case 49:
-            case 50:
-            case 51:
-            case 52:
-            case 53: // IALOAD, LALOAD, FALOAD, DALOAD, AALOAD, BALOAD, CALOAD, SALOAD
+            case IALOAD:
+            case LALOAD:
+            case FALOAD:
+            case DALOAD:
+            case AALOAD:
+            case BALOAD:
+            case CALOAD:
+            case SALOAD:
                 indexRef = stack.pop();
                 arrayRef = stack.pop();
                 stack.push(new ArrayExpression(lineNumber, arrayRef, indexRef));
                 break;
-            case 54:
-            case 55:
-            case 56:
-            case 57: // ISTORE, LSTORE, FSTORE, DSTORE
-                localVariable = getLocalVariableInAssignment(code[++offset] & MASK, offset + 2, valueRef = stack.pop());
+            case ISTORE:
+            case LSTORE:
+            case FSTORE:
+            case DSTORE:
+                valueRef = stack.pop();
+                localVariable = getLocalVariableInAssignment(code[++offset] & MASK, offset + 2, valueRef);
                 parseSTORE(statements, stack, lineNumber, offset, localVariable, valueRef);
                 break;
-            case 58: // ASTORE
-                localVariable = getLocalVariableInAssignment(code[++offset] & MASK, offset + 1, valueRef = stack.pop());
+            case ASTORE:
+                valueRef = stack.pop();
+                localVariable = getLocalVariableInAssignment(code[++offset] & MASK, offset + 1, valueRef);
                 parseASTORE(statements, stack, lineNumber, offset, localVariable, valueRef);
                 break;
-            case 59:
-            case 60:
-            case 61:
-            case 62: // ISTORE_0 ... ISTORE_3
-                localVariable = getLocalVariableInAssignment(opcode - 59, offset + 1, valueRef = stack.pop());
+            case ISTORE_0:
+            case ISTORE_1:
+            case ISTORE_2:
+            case ISTORE_3:
+                valueRef = stack.pop();
+                localVariable = getLocalVariableInAssignment(opcode - ISTORE_0, offset + 1, valueRef);
                 parseSTORE(statements, stack, lineNumber, offset, localVariable, valueRef);
                 break;
-            case 63:
-            case 64:
-            case 65:
-            case 66: // LSTORE_0 ... LSTORE_3
-                localVariable = getLocalVariableInAssignment(opcode - 63, offset + 1, valueRef = stack.pop());
+            case LSTORE_0:
+            case LSTORE_1:
+            case LSTORE_2:
+            case LSTORE_3:
+                valueRef = stack.pop();
+                localVariable = getLocalVariableInAssignment(opcode - LSTORE_0, offset + 1, valueRef);
                 parseSTORE(statements, stack, lineNumber, offset, localVariable, valueRef);
                 break;
-            case 67:
-            case 68:
-            case 69:
-            case 70: // FSTORE_0 ... FSTORE_3
-                localVariable = getLocalVariableInAssignment(opcode - 67, offset + 1, valueRef = stack.pop());
+            case FSTORE_0:
+            case FSTORE_1:
+            case FSTORE_2:
+            case FSTORE_3:
+                valueRef = stack.pop();
+                localVariable = getLocalVariableInAssignment(opcode - FSTORE_0, offset + 1, valueRef);
                 parseSTORE(statements, stack, lineNumber, offset, localVariable, valueRef);
                 break;
-            case 71:
-            case 72:
-            case 73:
-            case 74: // DSTORE_0 ... DSTORE_3
-                localVariable = getLocalVariableInAssignment(opcode - 71, offset + 1, valueRef = stack.pop());
+            case DSTORE_0:
+            case DSTORE_1:
+            case DSTORE_2:
+            case DSTORE_3:
+                valueRef = stack.pop();
+                localVariable = getLocalVariableInAssignment(opcode - DSTORE_0, offset + 1, valueRef);
                 parseSTORE(statements, stack, lineNumber, offset, localVariable, valueRef);
                 break;
-            case 75:
-            case 76:
-            case 77:
-            case 78: // ASTORE_0 ... ASTORE_3
-                localVariable = getLocalVariableInAssignment(opcode - 75, offset + 1, valueRef = stack.pop());
+            case ASTORE_0:
+            case ASTORE_1:
+            case ASTORE_2:
+            case ASTORE_3:
+                valueRef = stack.pop();
+                localVariable = getLocalVariableInAssignment(opcode - ASTORE_0, offset + 1, valueRef);
                 parseASTORE(statements, stack, lineNumber, offset, localVariable, valueRef);
                 break;
-            case 79: // IASTORE
+            case IASTORE:
                 valueRef = stack.pop();
                 indexRef = stack.pop();
                 arrayRef = stack.pop();
                 type1 = arrayRef.getType();
                 statements.add(new ExpressionStatement(
                         new BinaryOperatorExpression(lineNumber, type1.createType(type1.getDimension() - 1),
-                                new ArrayExpression(lineNumber, arrayRef, indexRef), "=", valueRef, 16)));
+                                new ArrayExpression(lineNumber, arrayRef, indexRef), "=", valueRef, EQ_PRIORITY)));
                 break;
-            case 80: // LASTORE
+            case LASTORE:
                 valueRef = stack.pop();
                 indexRef = stack.pop();
                 arrayRef = stack.pop();
                 statements.add(new ExpressionStatement(new BinaryOperatorExpression(lineNumber, TYPE_LONG,
-                        new ArrayExpression(lineNumber, arrayRef, indexRef), "=", valueRef, 16)));
+                        new ArrayExpression(lineNumber, arrayRef, indexRef), "=", valueRef, EQ_PRIORITY)));
                 break;
-            case 81: // FASTORE
+            case FASTORE:
                 valueRef = stack.pop();
                 indexRef = stack.pop();
                 arrayRef = stack.pop();
                 statements.add(new ExpressionStatement(new BinaryOperatorExpression(lineNumber, TYPE_FLOAT,
-                        new ArrayExpression(lineNumber, arrayRef, indexRef), "=", valueRef, 16)));
+                        new ArrayExpression(lineNumber, arrayRef, indexRef), "=", valueRef, EQ_PRIORITY)));
                 break;
-            case 82: // DASTORE
+            case DASTORE:
                 valueRef = stack.pop();
                 indexRef = stack.pop();
                 arrayRef = stack.pop();
                 statements.add(new ExpressionStatement(new BinaryOperatorExpression(lineNumber, TYPE_DOUBLE,
-                        new ArrayExpression(lineNumber, arrayRef, indexRef), "=", valueRef, 16)));
+                        new ArrayExpression(lineNumber, arrayRef, indexRef), "=", valueRef, EQ_PRIORITY)));
                 break;
-            case 83: // AASTORE
+            case AASTORE:
                 valueRef = stack.pop();
                 indexRef = stack.pop();
                 arrayRef = stack.pop();
@@ -396,50 +405,50 @@ public class ByteCodeParser {
                 type2 = type1.createType(type1.getDimension() > 0 ? type1.getDimension() - 1 : 0);
                 typeParametersToTypeArgumentsBinder.bindParameterTypesWithArgumentTypes(type2, valueRef);
                 statements.add(new ExpressionStatement(new BinaryOperatorExpression(lineNumber, type2,
-                        new ArrayExpression(lineNumber, arrayRef, indexRef), "=", valueRef, 16)));
+                        new ArrayExpression(lineNumber, arrayRef, indexRef), "=", valueRef, EQ_PRIORITY)));
                 break;
-            case 84: // BASTORE
+            case BASTORE:
                 valueRef = stack.pop();
                 indexRef = stack.pop();
                 arrayRef = stack.pop();
                 statements.add(new ExpressionStatement(new BinaryOperatorExpression(lineNumber, TYPE_BYTE,
-                        new ArrayExpression(lineNumber, arrayRef, indexRef), "=", valueRef, 16)));
+                        new ArrayExpression(lineNumber, arrayRef, indexRef), "=", valueRef, EQ_PRIORITY)));
                 break;
-            case 85: // CASTORE
+            case CASTORE:
                 valueRef = stack.pop();
                 indexRef = stack.pop();
                 arrayRef = stack.pop();
                 statements.add(new ExpressionStatement(new BinaryOperatorExpression(lineNumber, TYPE_CHAR,
-                        new ArrayExpression(lineNumber, arrayRef, indexRef), "=", valueRef, 16)));
+                        new ArrayExpression(lineNumber, arrayRef, indexRef), "=", valueRef, EQ_PRIORITY)));
                 break;
-            case 86: // SASTORE
+            case SASTORE:
                 valueRef = stack.pop();
                 indexRef = stack.pop();
                 arrayRef = stack.pop();
                 statements.add(new ExpressionStatement(new BinaryOperatorExpression(lineNumber, TYPE_SHORT,
-                        new ArrayExpression(lineNumber, arrayRef, indexRef), "=", valueRef, 16)));
+                        new ArrayExpression(lineNumber, arrayRef, indexRef), "=", valueRef, EQ_PRIORITY)));
                 break;
-            case 87:
-            case 88: // POP, POP2
+            case POP:
+            case POP2:
                 expression1 = stack.pop();
                 if (!expression1.isLocalVariableReferenceExpression() && !expression1.isFieldReferenceExpression()) {
                     typeParametersToTypeArgumentsBinder.bindParameterTypesWithArgumentTypes(TYPE_OBJECT, expression1);
                     statements.add(new ExpressionStatement(expression1));
                 }
                 break;
-            case 89: // DUP : ..., value => ..., value, value
+            case DUP: // DUP : ..., value => ..., value, value
                 expression1 = stack.pop();
                 stack.push(expression1);
                 stack.push(expression1);
                 break;
-            case 90: // DUP_X1 : ..., value2, value1 => ..., value1, value2, value1
+            case DUP_X1: // DUP_X1 : ..., value2, value1 => ..., value1, value2, value1
                 expression1 = stack.pop();
                 expression2 = stack.pop();
                 stack.push(expression1);
                 stack.push(expression2);
                 stack.push(expression1);
                 break;
-            case 91: // DUP_X2
+            case DUP_X2:
                 expression1 = stack.pop();
                 expression2 = stack.pop();
 
@@ -459,7 +468,7 @@ public class ByteCodeParser {
                     stack.push(expression1);
                 }
                 break;
-            case 92: // DUP2
+            case DUP2:
                 expression1 = stack.pop();
 
                 type1 = expression1.getType();
@@ -477,7 +486,7 @@ public class ByteCodeParser {
                     stack.push(expression1);
                 }
                 break;
-            case 93: // DUP2_X1
+            case DUP2_X1:
                 expression1 = stack.pop();
                 expression2 = stack.pop();
 
@@ -498,7 +507,7 @@ public class ByteCodeParser {
                     stack.push(expression1);
                 }
                 break;
-            case 94: // DUP2_X2
+            case DUP2_X2:
                 expression1 = stack.pop();
                 expression2 = stack.pop();
 
@@ -544,313 +553,342 @@ public class ByteCodeParser {
                     }
                 }
                 break;
-            case 95: // SWAP : ..., value2, value1 => ..., value1, value2
+            case SWAP: // SWAP : ..., value2, value1 => ..., value1, value2
                 expression1 = stack.pop();
                 expression2 = stack.pop();
                 stack.push(expression1);
                 stack.push(expression2);
                 break;
-            case 96: // IADD
+            case IADD:
                 expression2 = stack.pop();
                 expression1 = stack.pop();
-                stack.push(newIntegerBinaryOperatorExpression(lineNumber, expression1, "+", expression2, 6));
+                stack.push(
+                        newIntegerBinaryOperatorExpression(lineNumber, expression1, "+", expression2, PLUS_PRIORITY));
                 break;
-            case 97: // LADD
+            case LADD:
                 expression2 = stack.pop();
                 expression1 = stack.pop();
-                stack.push(new BinaryOperatorExpression(lineNumber, TYPE_LONG, expression1, "+", expression2, 6));
+                stack.push(new BinaryOperatorExpression(lineNumber, TYPE_LONG, expression1, "+", expression2,
+                        PLUS_PRIORITY));
                 break;
-            case 98: // FADD
+            case FADD:
                 expression2 = stack.pop();
                 expression1 = stack.pop();
-                stack.push(new BinaryOperatorExpression(lineNumber, TYPE_FLOAT, expression1, "+", expression2, 6));
+                stack.push(new BinaryOperatorExpression(lineNumber, TYPE_FLOAT, expression1, "+", expression2,
+                        PLUS_PRIORITY));
                 break;
-            case 99: // DADD
+            case DADD:
                 expression2 = stack.pop();
                 expression1 = stack.pop();
-                stack.push(new BinaryOperatorExpression(lineNumber, TYPE_DOUBLE, expression1, "+", expression2, 6));
+                stack.push(new BinaryOperatorExpression(lineNumber, TYPE_DOUBLE, expression1, "+", expression2,
+                        PLUS_PRIORITY));
                 break;
-            case 100: // ISUB
+            case ISUB:
                 expression2 = stack.pop();
                 expression1 = stack.pop();
-                stack.push(newIntegerBinaryOperatorExpression(lineNumber, expression1, "-", expression2, 6));
+                stack.push(
+                        newIntegerBinaryOperatorExpression(lineNumber, expression1, "-", expression2, PLUS_PRIORITY));
                 break;
-            case 101: // LSUB
+            case LSUB:
                 expression2 = stack.pop();
                 expression1 = stack.pop();
-                stack.push(new BinaryOperatorExpression(lineNumber, TYPE_LONG, expression1, "-", expression2, 6));
+                stack.push(new BinaryOperatorExpression(lineNumber, TYPE_LONG, expression1, "-", expression2,
+                        PLUS_PRIORITY));
                 break;
-            case 102: // FSUB
+            case FSUB:
                 expression2 = stack.pop();
                 expression1 = stack.pop();
-                stack.push(new BinaryOperatorExpression(lineNumber, TYPE_FLOAT, expression1, "-", expression2, 6));
+                stack.push(new BinaryOperatorExpression(lineNumber, TYPE_FLOAT, expression1, "-", expression2,
+                        PLUS_PRIORITY));
                 break;
-            case 103: // DSUB
+            case DSUB:
                 expression2 = stack.pop();
                 expression1 = stack.pop();
-                stack.push(new BinaryOperatorExpression(lineNumber, TYPE_DOUBLE, expression1, "-", expression2, 6));
+                stack.push(new BinaryOperatorExpression(lineNumber, TYPE_DOUBLE, expression1, "-", expression2,
+                        PLUS_PRIORITY));
                 break;
-            case 104: // IMUL
+            case IMUL:
                 expression2 = stack.pop();
                 expression1 = stack.pop();
-                stack.push(newIntegerBinaryOperatorExpression(lineNumber, expression1, "*", expression2, 5));
+                stack.push(newIntegerBinaryOperatorExpression(lineNumber, expression1, "*", expression2, MUL_PRIORITY));
                 break;
-            case 105: // LMUL
+            case LMUL:
                 expression2 = stack.pop();
                 expression1 = stack.pop();
-                stack.push(new BinaryOperatorExpression(lineNumber, TYPE_LONG, expression1, "*", expression2, 5));
+                stack.push(new BinaryOperatorExpression(lineNumber, TYPE_LONG, expression1, "*", expression2,
+                        MUL_PRIORITY));
                 break;
-            case 106: // FMUL
+            case FMUL:
                 expression2 = stack.pop();
                 expression1 = stack.pop();
-                stack.push(new BinaryOperatorExpression(lineNumber, TYPE_FLOAT, expression1, "*", expression2, 5));
+                stack.push(new BinaryOperatorExpression(lineNumber, TYPE_FLOAT, expression1, "*", expression2,
+                        MUL_PRIORITY));
                 break;
-            case 107: // DMUL
+            case DMUL:
                 expression2 = stack.pop();
                 expression1 = stack.pop();
-                stack.push(new BinaryOperatorExpression(lineNumber, TYPE_DOUBLE, expression1, "*", expression2, 5));
+                stack.push(new BinaryOperatorExpression(lineNumber, TYPE_DOUBLE, expression1, "*", expression2,
+                        MUL_PRIORITY));
                 break;
-            case 108: // IDIV
+            case IDIV:
                 expression2 = stack.pop();
                 expression1 = stack.pop();
-                stack.push(newIntegerBinaryOperatorExpression(lineNumber, expression1, "/", expression2, 5));
+                stack.push(newIntegerBinaryOperatorExpression(lineNumber, expression1, "/", expression2, MUL_PRIORITY));
                 break;
-            case 109: // LDIV
+            case LDIV:
                 expression2 = stack.pop();
                 expression1 = stack.pop();
-                stack.push(new BinaryOperatorExpression(lineNumber, TYPE_LONG, expression1, "/", expression2, 5));
+                stack.push(new BinaryOperatorExpression(lineNumber, TYPE_LONG, expression1, "/", expression2,
+                        MUL_PRIORITY));
                 break;
-            case 110: // FDIV
+            case FDIV:
                 expression2 = stack.pop();
                 expression1 = stack.pop();
-                stack.push(new BinaryOperatorExpression(lineNumber, TYPE_FLOAT, expression1, "/", expression2, 5));
+                stack.push(new BinaryOperatorExpression(lineNumber, TYPE_FLOAT, expression1, "/", expression2,
+                        MUL_PRIORITY));
                 break;
-            case 111: // DDIV
+            case DDIV:
                 expression2 = stack.pop();
                 expression1 = stack.pop();
-                stack.push(new BinaryOperatorExpression(lineNumber, TYPE_DOUBLE, expression1, "/", expression2, 5));
+                stack.push(new BinaryOperatorExpression(lineNumber, TYPE_DOUBLE, expression1, "/", expression2,
+                        MUL_PRIORITY));
                 break;
-            case 112: // IREM
+            case IREM:
                 expression2 = stack.pop();
                 expression1 = stack.pop();
-                stack.push(newIntegerBinaryOperatorExpression(lineNumber, expression1, "%", expression2, 5));
+                stack.push(newIntegerBinaryOperatorExpression(lineNumber, expression1, "%", expression2, MUL_PRIORITY));
                 break;
-            case 113: // LREM
+            case LREM:
                 expression2 = stack.pop();
                 expression1 = stack.pop();
-                stack.push(new BinaryOperatorExpression(lineNumber, TYPE_LONG, expression1, "%", expression2, 5));
+                stack.push(new BinaryOperatorExpression(lineNumber, TYPE_LONG, expression1, "%", expression2,
+                        MUL_PRIORITY));
                 break;
-            case 114: // FREM
+            case FREM:
                 expression2 = stack.pop();
                 expression1 = stack.pop();
-                stack.push(new BinaryOperatorExpression(lineNumber, TYPE_FLOAT, expression1, "%", expression2, 5));
+                stack.push(new BinaryOperatorExpression(lineNumber, TYPE_FLOAT, expression1, "%", expression2,
+                        MUL_PRIORITY));
                 break;
-            case 115: // DREM
+            case DREM:
                 expression2 = stack.pop();
                 expression1 = stack.pop();
-                stack.push(new BinaryOperatorExpression(lineNumber, TYPE_DOUBLE, expression1, "%", expression2, 5));
+                stack.push(new BinaryOperatorExpression(lineNumber, TYPE_DOUBLE, expression1, "%", expression2,
+                        MUL_PRIORITY));
                 break;
-            case 116:
-            case 117:
-            case 118:
-            case 119: // INEG, LNEG, FNEG, DNEG
+            case INEG:
+            case LNEG:
+            case FNEG:
+            case DNEG:
                 stack.push(newPreArithmeticOperatorExpression(lineNumber, "-", stack.pop()));
                 break;
-            case 120: // ISHL
+            case ISHL:
                 expression2 = stack.pop();
                 expression1 = stack.pop();
-                stack.push(newIntegerBinaryOperatorExpression(lineNumber, expression1, "<<", expression2, 7));
+                stack.push(
+                        newIntegerBinaryOperatorExpression(lineNumber, expression1, "<<", expression2, SHL_PRIORITY));
                 break;
-            case 121: // LSHL
+            case LSHL:
                 expression2 = stack.pop();
                 expression1 = stack.pop();
-                stack.push(new BinaryOperatorExpression(lineNumber, TYPE_LONG, expression1, "<<", expression2, 7));
+                stack.push(new BinaryOperatorExpression(lineNumber, TYPE_LONG, expression1, "<<", expression2,
+                        SHL_PRIORITY));
                 break;
-            case 122: // ISHR
+            case ISHR:
                 expression2 = stack.pop();
                 expression1 = stack.pop();
-                stack.push(new BinaryOperatorExpression(lineNumber, TYPE_INT, expression1, ">>", expression2, 7));
+                stack.push(new BinaryOperatorExpression(lineNumber, TYPE_INT, expression1, ">>", expression2,
+                        SHL_PRIORITY));
                 break;
-            case 123: // LSHR
+            case LSHR:
                 expression2 = stack.pop();
                 expression1 = stack.pop();
-                stack.push(new BinaryOperatorExpression(lineNumber, TYPE_LONG, expression1, ">>", expression2, 7));
+                stack.push(new BinaryOperatorExpression(lineNumber, TYPE_LONG, expression1, ">>", expression2,
+                        SHL_PRIORITY));
                 break;
-            case 124: // IUSHR
+            case IUSHR:
                 expression2 = stack.pop();
                 expression1 = stack.pop();
-                stack.push(newIntegerBinaryOperatorExpression(lineNumber, expression1, ">>>", expression2, 7));
+                stack.push(
+                        newIntegerBinaryOperatorExpression(lineNumber, expression1, ">>>", expression2, SHL_PRIORITY));
                 break;
-            case 125: // LUSHR
+            case LUSHR:
                 expression2 = stack.pop();
                 expression1 = stack.pop();
-                stack.push(new BinaryOperatorExpression(lineNumber, TYPE_LONG, expression1, ">>>", expression2, 7));
+                stack.push(new BinaryOperatorExpression(lineNumber, TYPE_LONG, expression1, ">>>", expression2,
+                        SHL_PRIORITY));
                 break;
-            case 126: // IAND
+            case IAND:
                 expression2 = stack.pop();
                 expression1 = stack.pop();
-                stack.push(newIntegerOrBooleanBinaryOperatorExpression(lineNumber, expression1, "&", expression2, 10));
+                stack.push(newIntegerOrBooleanBinaryOperatorExpression(lineNumber, expression1, "&", expression2,
+                        AND_PRIORITY));
                 break;
-            case 127: // LAND
+            case LAND:
                 expression2 = stack.pop();
                 expression1 = stack.pop();
-                stack.push(new BinaryOperatorExpression(lineNumber, TYPE_LONG, expression1, "&", expression2, 10));
+                stack.push(new BinaryOperatorExpression(lineNumber, TYPE_LONG, expression1, "&", expression2,
+                        AND_PRIORITY));
                 break;
-            case 128: // IOR
+            case IOR:
                 expression2 = stack.pop();
                 expression1 = stack.pop();
-                stack.push(newIntegerOrBooleanBinaryOperatorExpression(lineNumber, expression1, "|", expression2, 12));
+                stack.push(newIntegerOrBooleanBinaryOperatorExpression(lineNumber, expression1, "|", expression2,
+                        PIPE_PRIORITY));
                 break;
-            case 129: // LOR
+            case LOR:
                 expression2 = stack.pop();
                 expression1 = stack.pop();
-                stack.push(new BinaryOperatorExpression(lineNumber, TYPE_LONG, expression1, "|", expression2, 12));
+                stack.push(new BinaryOperatorExpression(lineNumber, TYPE_LONG, expression1, "|", expression2,
+                        PIPE_PRIORITY));
                 break;
-            case 130: // IXOR
+            case IXOR:
                 expression2 = stack.pop();
                 expression1 = stack.pop();
-                stack.push(newIntegerOrBooleanBinaryOperatorExpression(lineNumber, expression1, "^", expression2, 11));
+                stack.push(newIntegerOrBooleanBinaryOperatorExpression(lineNumber, expression1, "^", expression2,
+                        CIRC_PRIORITY));
                 break;
-            case 131: // LXOR
+            case LXOR:
                 expression2 = stack.pop();
                 expression1 = stack.pop();
-                stack.push(new BinaryOperatorExpression(lineNumber, TYPE_LONG, expression1, "^", expression2, 11));
+                stack.push(new BinaryOperatorExpression(lineNumber, TYPE_LONG, expression1, "^", expression2,
+                        CIRC_PRIORITY));
                 break;
-            case 132: // IINC
+            case IINC:
                 localVariable = localVariableMaker.getLocalVariable(code[++offset] & MASK, offset);
                 parseIINC(statements, stack, lineNumber, offset, localVariable, (byte) (code[++offset] & MASK));
                 break;
-            case 133: // I2L
+            case I2L:
                 stack.push(new CastExpression(lineNumber, TYPE_LONG, stack.pop(), false));
                 break;
-            case 134: // I2F
+            case I2F:
                 stack.push(new CastExpression(lineNumber, TYPE_FLOAT, stack.pop(), false));
                 break;
-            case 135: // I2D
+            case I2D:
                 stack.push(new CastExpression(lineNumber, TYPE_DOUBLE, stack.pop(), false));
                 break;
-            case 136: // L2I
+            case L2I:
                 stack.push(new CastExpression(lineNumber, TYPE_INT, forceExplicitCastExpression(stack.pop())));
                 break;
-            case 137: // L2F
+            case L2F:
                 stack.push(new CastExpression(lineNumber, TYPE_FLOAT, forceExplicitCastExpression(stack.pop())));
                 break;
-            case 138: // L2D
+            case L2D:
                 stack.push(new CastExpression(lineNumber, TYPE_DOUBLE, stack.pop(), false));
                 break;
-            case 139: // F2I
+            case F2I:
                 stack.push(new CastExpression(lineNumber, TYPE_INT, forceExplicitCastExpression(stack.pop())));
                 break;
-            case 140: // F2L
+            case F2L:
                 stack.push(new CastExpression(lineNumber, TYPE_LONG, forceExplicitCastExpression(stack.pop())));
                 break;
-            case 141: // F2D
+            case F2D:
                 stack.push(new CastExpression(lineNumber, TYPE_DOUBLE, stack.pop(), false));
                 break;
-            case 142: // D2I
+            case D2I:
                 stack.push(new CastExpression(lineNumber, TYPE_INT, forceExplicitCastExpression(stack.pop())));
                 break;
-            case 143: // D2L
+            case D2L:
                 stack.push(new CastExpression(lineNumber, TYPE_LONG, forceExplicitCastExpression(stack.pop())));
                 break;
-            case 144: // D2F
+            case D2F:
                 stack.push(new CastExpression(lineNumber, TYPE_FLOAT, forceExplicitCastExpression(stack.pop())));
                 break;
-            case 145: // I2B
+            case I2B:
                 stack.push(new CastExpression(lineNumber, TYPE_BYTE, forceExplicitCastExpression(stack.pop())));
                 break;
-            case 146: // I2C
+            case I2C:
                 stack.push(new CastExpression(lineNumber, TYPE_CHAR, forceExplicitCastExpression(stack.pop())));
                 break;
-            case 147: // I2S
+            case I2S:
                 stack.push(new CastExpression(lineNumber, TYPE_SHORT, forceExplicitCastExpression(stack.pop())));
                 break;
-            case 148:
-            case 149:
-            case 150:
-            case 151:
-            case 152: // LCMP, FCMPL, FCMPG, DCMPL, DCMPG
+            case LCMP:
+            case FCMPL:
+            case FCMPG:
+            case DCMPL:
+            case DCMPG:
                 expression2 = stack.pop();
                 expression1 = stack.pop();
                 stack.push(new ClassFileCmpExpression(lineNumber, expression1, expression2));
                 break;
-            case 153: // IFEQ
-                parseIF(stack, lineNumber, basicBlock, "!=", "==", 8);
+            case IFEQ:
+                parseIF(stack, lineNumber, basicBlock, "!=", "==", EQ_EQ8_PRIORITY);
                 offset += 2; // Skip branch offset
                 break;
-            case 154: // IFNE
-                parseIF(stack, lineNumber, basicBlock, "==", "!=", 8);
+            case IFNE:
+                parseIF(stack, lineNumber, basicBlock, "==", "!=", EQ_EQ8_PRIORITY);
                 offset += 2; // Skip branch offset
                 break;
-            case 155: // IFLT
-                parseIF(stack, lineNumber, basicBlock, ">=", "<", 7);
+            case IFLT:
+                parseIF(stack, lineNumber, basicBlock, ">=", "<", LT7_PRIORITY);
                 offset += 2; // Skip branch offset
                 break;
-            case 156: // IFGE
-                parseIF(stack, lineNumber, basicBlock, "<", ">=", 7);
+            case IFGE:
+                parseIF(stack, lineNumber, basicBlock, "<", ">=", LT7_PRIORITY);
                 offset += 2; // Skip branch offset
                 break;
-            case 157: // IFGT
-                parseIF(stack, lineNumber, basicBlock, "<=", ">", 7);
+            case IFGT:
+                parseIF(stack, lineNumber, basicBlock, "<=", ">", LT7_PRIORITY);
                 offset += 2; // Skip branch offset
                 break;
-            case 158: // IFLE
-                parseIF(stack, lineNumber, basicBlock, ">", "<=", 7);
+            case IFLE:
+                parseIF(stack, lineNumber, basicBlock, ">", "<=", LT7_PRIORITY);
                 offset += 2; // Skip branch offset
                 break;
-            case 159: // IF_ICMPEQ
-            case 165: // IF_ACMPEQ
+            case IF_ICMPEQ:
+            case IF_ACMPEQ:
                 expression2 = stack.pop();
                 expression1 = stack.pop();
                 stack.push(newIntegerOrBooleanComparisonOperatorExpression(lineNumber, expression1,
-                        basicBlock.mustInverseCondition() ? "!=" : "==", expression2, 9));
+                        basicBlock.mustInverseCondition() ? "!=" : "==", expression2, EQ_EQ_PRIORITY));
                 offset += 2; // Skip branch offset
                 break;
-            case 160: // IF_ICMPNE
-            case 166: // IF_ACMPNE
+            case IF_ICMPNE:
+            case IF_ACMPNE:
                 expression2 = stack.pop();
                 expression1 = stack.pop();
                 stack.push(newIntegerOrBooleanComparisonOperatorExpression(lineNumber, expression1,
-                        basicBlock.mustInverseCondition() ? "==" : "!=", expression2, 9));
+                        basicBlock.mustInverseCondition() ? "==" : "!=", expression2, EQ_EQ_PRIORITY));
                 offset += 2; // Skip branch offset
                 break;
-            case 161: // IF_ICMPLT
+            case IF_ICMPLT:
                 expression2 = stack.pop();
                 expression1 = stack.pop();
                 stack.push(newIntegerComparisonOperatorExpression(lineNumber, expression1,
-                        basicBlock.mustInverseCondition() ? ">=" : "<", expression2, 8));
+                        basicBlock.mustInverseCondition() ? ">=" : "<", expression2, LT_PRIORITY));
                 offset += 2; // Skip branch offset
                 break;
             case 162: // IF_ICMPGE
                 expression2 = stack.pop();
                 expression1 = stack.pop();
                 stack.push(newIntegerComparisonOperatorExpression(lineNumber, expression1,
-                        basicBlock.mustInverseCondition() ? "<" : ">=", expression2, 8));
+                        basicBlock.mustInverseCondition() ? "<" : ">=", expression2, LT_PRIORITY));
                 offset += 2; // Skip branch offset
                 break;
-            case 163: // IF_ICMPGT
+            case IF_ICMPGT:
                 expression2 = stack.pop();
                 expression1 = stack.pop();
                 stack.push(newIntegerComparisonOperatorExpression(lineNumber, expression1,
-                        basicBlock.mustInverseCondition() ? "<=" : ">", expression2, 8));
+                        basicBlock.mustInverseCondition() ? "<=" : ">", expression2, LT_PRIORITY));
                 offset += 2; // Skip branch offset
                 break;
-            case 164: // IF_ICMPLE
+            case IF_ICMPLE:
                 expression2 = stack.pop();
                 expression1 = stack.pop();
                 stack.push(newIntegerComparisonOperatorExpression(lineNumber, expression1,
-                        basicBlock.mustInverseCondition() ? ">" : "<=", expression2, 8));
+                        basicBlock.mustInverseCondition() ? ">" : "<=", expression2, LT_PRIORITY));
                 offset += 2; // Skip branch offset
                 break;
-            case 168: // JSR
+            case JSR:
                 stack.push(JSR_RETURN_ADDRESS_EXPRESSION);
-            case 167: // GOTO
+            case GOTO:
                 offset += 2; // Skip branch offset
                 break;
-            case 169: // RET
+            case RET:
                 offset++; // Skip index
                 break;
-            case 170: // TABLESWITCH
+            case TABLESWITCH:
                 offset = (offset + 4) & 0xFFFC; // Skip padding
                 offset += 4; // Skip default offset
 
@@ -863,45 +901,45 @@ public class ByteCodeParser {
 
                 statements.add(new SwitchStatement(stack.pop(), new DefaultList<>(high - low + 2)));
                 break;
-            case 171: // LOOKUPSWITCH
+            case LOOKUPSWITCH:
                 offset = (offset + 4) & 0xFFFC; // Skip padding
                 offset += 4; // Skip default offset
 
-                count = ((code[offset++] & MASK) << 24) | ((code[offset++] & MASK) << 16) | ((code[offset++] & MASK) << 8)
-                        | (code[offset++] & MASK);
+                count = ((code[offset++] & MASK) << 24) | ((code[offset++] & MASK) << 16)
+                        | ((code[offset++] & MASK) << 8) | (code[offset++] & MASK);
 
                 offset += (8 * count) - 1;
 
                 statements.add(new SwitchStatement(stack.pop(), new DefaultList<>(count + 1)));
                 break;
-            case 172:
-            case 173:
-            case 174:
-            case 175:
-            case 176: // IRETURN, LRETURN, FRETURN, DRETURN, ARETURN
+            case IRETURN:
+            case LRETURN:
+            case FRETURN:
+            case DRETURN:
+            case ARETURN:
                 parseXRETURN(statements, stack, lineNumber);
                 break;
-            case 177: // RETURN
-                statements.add(RETURN);
+            case RETURN:
+                statements.add(S_RETURN);
                 break;
-            case 178: // GETSTATIC
+            case GETSTATIC:
                 parseGetStatic(stack, constants, lineNumber, ((code[++offset] & MASK) << 8) | (code[++offset] & MASK));
                 break;
-            case 179: // PUTSTATIC
+            case PUTSTATIC:
                 parsePutStatic(statements, stack, constants, lineNumber,
                         ((code[++offset] & MASK) << 8) | (code[++offset] & MASK));
                 break;
-            case 180: // GETFIELD
+            case GETFIELD:
                 parseGetField(stack, constants, lineNumber, ((code[++offset] & MASK) << 8) | (code[++offset] & MASK));
                 break;
-            case 181: // PUTFIELD
+            case PUTFIELD:
                 parsePutField(statements, stack, constants, lineNumber,
                         ((code[++offset] & MASK) << 8) | (code[++offset] & MASK));
                 break;
-            case 182:
-            case 183:
-            case 184:
-            case 185: // INVOKEVIRTUAL, INVOKESPECIAL, INVOKESTATIC, INVOKEINTERFACE
+            case INVOKEVIRTUAL:
+            case INVOKESPECIAL:
+            case INVOKESTATIC:
+            case INVOKEINTERFACE:
                 constantMemberRef = constants.getConstant(((code[++offset] & MASK) << 8) | (code[++offset] & MASK));
                 typeName = constants.getConstantTypeName(constantMemberRef.getClassIndex());
                 ot = typeMaker.makeFromDescriptorOrInternalTypeName(typeName);
@@ -911,7 +949,7 @@ public class ByteCodeParser {
                 TypeMaker.MethodTypes methodTypes = makeMethodTypes(ot.getInternalName(), name, descriptor);
                 BaseExpression parameters = extractParametersFromStack(statements, stack, methodTypes.parameterTypes);
 
-                if (opcode == 184) { // INVOKESTATIC
+                if (opcode == INVOKESTATIC) {
                     expression1 = typeParametersToTypeArgumentsBinder.newMethodInvocationExpression(lineNumber,
                             new ObjectTypeReferenceExpression(lineNumber, ot), ot, name, descriptor, methodTypes,
                             parameters);
@@ -928,12 +966,11 @@ public class ByteCodeParser {
                         ((ClassFileLocalVariableReferenceExpression) expression1).getLocalVariable()
                                 .typeOnLeft(typeBounds, ot);
                     }
-                    if (opcode == 185) { // INVOKEINTERFACE
+                    if (opcode == INVOKEINTERFACE) {
                         offset += 2; // Skip 'count' and one byte
                     }
                     if (TYPE_VOID.equals(methodTypes.returnedType)) {
-                        if ((opcode == 183) && // INVOKESPECIAL
-                                "<init>".equals(name)) {
+                        if ((opcode == INVOKESPECIAL) && "<init>".equals(name)) {
 
                             if (expression1.isNewExpression()) {
                                 typeParametersToTypeArgumentsBinder.updateNewExpression(
@@ -956,7 +993,7 @@ public class ByteCodeParser {
                             statements.add(new ExpressionStatement(expression1));
                         }
                     } else {
-                        if (opcode == 182) { // INVOKEVIRTUAL
+                        if (opcode == INVOKEVIRTUAL) {
                             if ("toString".equals(name) && "()Ljava/lang/String;".equals(descriptor)) {
                                 typeName = constants.getConstantTypeName(constantMemberRef.getClassIndex());
                                 if ("java/lang/StringBuilder".equals(typeName)
@@ -972,20 +1009,20 @@ public class ByteCodeParser {
                     }
                 }
                 break;
-            case 186: // INVOKEDYNAMIC
+            case INVOKEDYNAMIC:
                 parseInvokeDynamic(statements, stack, constants, lineNumber,
                         ((code[++offset] & MASK) << 8) | (code[++offset] & MASK));
                 offset += 2; // Skip 2 bytes
                 break;
-            case 187: // NEW
+            case NEW:
                 typeName = constants.getConstantTypeName(((code[++offset] & MASK) << 8) | (code[++offset] & MASK));
                 stack.push(newNewExpression(lineNumber, typeName));
                 break;
-            case 188: // NEWARRAY
+            case NEWARRAY:
                 type1 = PrimitiveTypeUtil.getPrimitiveTypeFromTag((code[++offset] & MASK)).createType(1);
                 stack.push(new NewArray(lineNumber, type1, stack.pop()));
                 break;
-            case 189: // ANEWARRAY
+            case ANEWARRAY:
                 typeName = constants.getConstantTypeName(((code[++offset] & MASK) << 8) | (code[++offset] & MASK));
                 if (typeName.charAt(0) == '[') {
                     type1 = typeMaker.makeFromDescriptor(typeName);
@@ -1001,13 +1038,13 @@ public class ByteCodeParser {
                 }
                 stack.push(new NewArray(lineNumber, type1, stack.pop()));
                 break;
-            case 190: // ARRAYLENGTH
+            case ARRAYLENGTH:
                 stack.push(new LengthExpression(lineNumber, stack.pop()));
                 break;
-            case 191: // ATHROW
+            case ATHROW:
                 statements.add(new ThrowStatement(stack.pop()));
                 break;
-            case 192: // CHECKCAST
+            case CHECKCAST:
                 typeName = constants.getConstantTypeName(((code[++offset] & MASK) << 8) | (code[++offset] & MASK));
                 type1 = typeMaker.makeFromDescriptorOrInternalTypeName(typeName);
                 expression1 = stack.peek();
@@ -1024,7 +1061,7 @@ public class ByteCodeParser {
                             forceExplicitCastExpression(stack.pop())));
                 }
                 break;
-            case 193: // INSTANCEOF
+            case INSTANCEOF:
                 typeName = constants.getConstantTypeName(((code[++offset] & MASK) << 8) | (code[++offset] & MASK));
                 type1 = typeMaker.makeFromDescriptorOrInternalTypeName(typeName);
                 if (type1 == null) {
@@ -1032,68 +1069,75 @@ public class ByteCodeParser {
                 }
                 stack.push(new InstanceOfExpression(lineNumber, stack.pop(), type1));
                 break;
-            case 194: // MONITORENTER
+            case MONITORENTER:
                 statements.add(new ClassFileMonitorEnterStatement(stack.pop()));
                 break;
-            case 195: // MONITOREXIT
+            case MONITOREXIT:
                 statements.add(new ClassFileMonitorExitStatement(stack.pop()));
                 break;
-            case 196: // WIDE
+            case WIDE:
                 opcode = code[++offset] & MASK;
                 i = ((code[++offset] & MASK) << 8) | (code[++offset] & MASK);
 
-                if (opcode == 132) { // IINC
+                if (opcode == IINC) {
                     count = (short) (((code[++offset] & MASK) << 8) | (code[++offset] & MASK));
                     parseIINC(statements, stack, lineNumber, offset, localVariableMaker.getLocalVariable(i, offset),
                             count);
                 } else {
                     switch (opcode) {
-                    case 21: // ILOAD
+                    case ILOAD:
                         localVariable = localVariableMaker.getLocalVariable(i, offset + 4);
                         parseILOAD(statements, stack, offset, lineNumber, localVariable);
                         break;
-                    case 22:
-                    case 23:
-                    case 24:
-                    case 25: // LLOAD, FLOAD, DLOAD, ALOAD
+                    case LLOAD:
+                    case FLOAD:
+                    case DLOAD:
+                    case ALOAD:
                         stack.push(new ClassFileLocalVariableReferenceExpression(lineNumber, offset,
                                 localVariableMaker.getLocalVariable(i, offset)));
                         break;
-                    case 54: // ISTORE
-                        localVariable = getLocalVariableInAssignment(i, offset + 4, valueRef = stack.pop());
+                    case ISTORE:
+                        valueRef = stack.pop();
+                        localVariable = getLocalVariableInAssignment(i, offset + 4, valueRef);
                         statements.add(new ExpressionStatement(new BinaryOperatorExpression(lineNumber,
                                 localVariable.getType(),
                                 new ClassFileLocalVariableReferenceExpression(lineNumber, offset, localVariable), "=",
-                                valueRef, 16)));
+                                valueRef, EQ_PRIORITY)));
                         break;
-                    case 55: // LSTORE
-                        localVariable = getLocalVariableInAssignment(i, offset + 4, valueRef = stack.pop());
+                    case LSTORE:
+                        valueRef = stack.pop();
+                        localVariable = getLocalVariableInAssignment(i, offset + 4, valueRef);
                         statements.add(new ExpressionStatement(new BinaryOperatorExpression(lineNumber, TYPE_LONG,
                                 new ClassFileLocalVariableReferenceExpression(lineNumber, offset, localVariable), "=",
-                                valueRef, 16)));
+                                valueRef, EQ_PRIORITY)));
                         break;
-                    case 56: // FSTORE
-                        localVariable = getLocalVariableInAssignment(i, offset + 4, valueRef = stack.pop());
+                    case FSTORE:
+                        valueRef = stack.pop();
+                        localVariable = getLocalVariableInAssignment(i, offset + 4, valueRef);
                         statements.add(new ExpressionStatement(new BinaryOperatorExpression(lineNumber, TYPE_FLOAT,
                                 new ClassFileLocalVariableReferenceExpression(lineNumber, offset, localVariable), "=",
-                                valueRef, 16)));
+                                valueRef, EQ_PRIORITY)));
                         break;
-                    case 57: // DSTORE
-                        localVariable = getLocalVariableInAssignment(i, offset + 4, valueRef = stack.pop());
+                    case DSTORE:
+                        valueRef = stack.pop();
+                        localVariable = getLocalVariableInAssignment(i, offset + 4, valueRef);
                         statements.add(new ExpressionStatement(new BinaryOperatorExpression(lineNumber, TYPE_DOUBLE,
                                 new ClassFileLocalVariableReferenceExpression(lineNumber, offset, localVariable), "=",
-                                valueRef, 16)));
+                                valueRef, EQ_PRIORITY)));
                         break;
-                    case 58: // ASTORE
-                        localVariable = getLocalVariableInAssignment(i, offset + 4, valueRef = stack.pop());
+                    case ASTORE:
+                        valueRef = stack.pop();
+                        localVariable = getLocalVariableInAssignment(i, offset + 4, valueRef);
                         parseASTORE(statements, stack, lineNumber, offset, localVariable, valueRef);
                         break;
-                    case 169: // RET
+                    case RET:
+                        break;
+                    default:
                         break;
                     }
                 }
                 break;
-            case 197: // MULTIANEWARRAY
+            case MULTIANEWARRAY:
                 typeName = constants.getConstantTypeName(((code[++offset] & MASK) << 8) | (code[++offset] & MASK));
                 type1 = typeMaker.makeFromDescriptor(typeName);
                 i = code[++offset] & MASK;
@@ -1107,27 +1151,27 @@ public class ByteCodeParser {
                 Collections.reverse(dimensions);
                 stack.push(new NewArray(lineNumber, type1, dimensions));
                 break;
-            case 198: // IFNULL
+            case IFNULL:
                 expression1 = stack.pop();
                 typeParametersToTypeArgumentsBinder.bindParameterTypesWithArgumentTypes(TYPE_OBJECT, expression1);
                 stack.push(new BinaryOperatorExpression(lineNumber, TYPE_BOOLEAN, expression1,
                         basicBlock.mustInverseCondition() ? "!=" : "==",
-                        new NullExpression(expression1.getLineNumber(), expression1.getType()), 9));
+                        new NullExpression(expression1.getLineNumber(), expression1.getType()), EQ_EQ_PRIORITY));
                 offset += 2; // Skip branch offset
                 checkStack(stack, code, offset);
                 break;
-            case 199: // IFNONNULL
+            case IFNONNULL:
                 expression1 = stack.pop();
                 typeParametersToTypeArgumentsBinder.bindParameterTypesWithArgumentTypes(TYPE_OBJECT, expression1);
                 stack.push(new BinaryOperatorExpression(lineNumber, TYPE_BOOLEAN, expression1,
                         basicBlock.mustInverseCondition() ? "==" : "!=",
-                        new NullExpression(expression1.getLineNumber(), expression1.getType()), 9));
+                        new NullExpression(expression1.getLineNumber(), expression1.getType()), EQ_EQ_PRIORITY));
                 offset += 2; // Skip branch offset
                 checkStack(stack, code, offset);
                 break;
-            case 201: // JSR_W
+            case JSR_W:
                 stack.push(JSR_RETURN_ADDRESS_EXPRESSION);
-            case 200: // GOTO_W
+            case GOTO_W:
                 offset += 4; // Skip branch offset
                 break;
             }
@@ -1748,7 +1792,7 @@ public class ByteCodeParser {
 
     private static Expression createAssignment(BinaryOperatorExpression boe, String operator) {
         boe.setOperator(operator);
-        boe.setPriority(16);
+        boe.setPriority(EQ_PRIORITY);
         return boe;
     }
 
@@ -1802,7 +1846,7 @@ public class ByteCodeParser {
             Expression leftExpression, Expression rightExpression) {
         if (!stack.isEmpty() && (stack.peek() == rightExpression)) {
             stack.push(new BinaryOperatorExpression(lineNumber, leftExpression.getType(), leftExpression, "=",
-                    stack.pop(), 16));
+                    stack.pop(), EQ_PRIORITY));
             return;
         }
 
@@ -1817,7 +1861,7 @@ public class ByteCodeParser {
                     if (getLastRightExpression(lastExpression) == rightExpression) {
                         // Multi assignment
                         lastES.setExpression(new BinaryOperatorExpression(lineNumber, leftExpression.getType(),
-                                leftExpression, "=", lastExpression, 16));
+                                leftExpression, "=", lastExpression, EQ_PRIORITY));
                         return;
                     }
 
@@ -1831,7 +1875,7 @@ public class ByteCodeParser {
                             if (lvr1.getLocalVariable() == lvr2.getLocalVariable()) {
                                 // Multi assignment
                                 lastES.setExpression(new BinaryOperatorExpression(lineNumber, leftExpression.getType(),
-                                        leftExpression, "=", lastExpression, 16));
+                                        leftExpression, "=", lastExpression, EQ_PRIORITY));
                                 return;
                             }
                         } else if (rightExpression.isFieldReferenceExpression()) {
@@ -1843,7 +1887,7 @@ public class ByteCodeParser {
                                     && fr1.getExpression().getType().equals(fr2.getExpression().getType())) {
                                 // Multi assignment
                                 lastES.setExpression(new BinaryOperatorExpression(lineNumber, leftExpression.getType(),
-                                        leftExpression, "=", lastExpression, 16));
+                                        leftExpression, "=", lastExpression, EQ_PRIORITY));
                                 return;
                             }
                         }
@@ -1963,28 +2007,28 @@ public class ByteCodeParser {
             case FLAG_FLOAT:
                 stack.push(new BinaryOperatorExpression(lineNumber, TYPE_BOOLEAN, expression,
                         (basicBlock.mustInverseCondition() ? operator1 : operator2),
-                        new FloatConstantExpression(lineNumber, 0), 9));
+                        new FloatConstantExpression(lineNumber, 0), EQ_EQ_PRIORITY));
                 break;
             case FLAG_DOUBLE:
                 stack.push(new BinaryOperatorExpression(lineNumber, TYPE_BOOLEAN, expression,
                         (basicBlock.mustInverseCondition() ? operator1 : operator2),
-                        new DoubleConstantExpression(lineNumber, 0), 9));
+                        new DoubleConstantExpression(lineNumber, 0), EQ_EQ_PRIORITY));
                 break;
             case FLAG_LONG:
                 stack.push(new BinaryOperatorExpression(lineNumber, TYPE_BOOLEAN, expression,
                         (basicBlock.mustInverseCondition() ? operator1 : operator2),
-                        new LongConstantExpression(lineNumber, 0), 9));
+                        new LongConstantExpression(lineNumber, 0), EQ_EQ_PRIORITY));
                 break;
             default:
                 stack.push(new BinaryOperatorExpression(lineNumber, TYPE_BOOLEAN, expression,
                         (basicBlock.mustInverseCondition() ? operator1 : operator2),
-                        new IntegerConstantExpression(lineNumber, pt, 0), 9));
+                        new IntegerConstantExpression(lineNumber, pt, 0), EQ_EQ_PRIORITY));
                 break;
             }
         } else {
             stack.push(new BinaryOperatorExpression(lineNumber, TYPE_BOOLEAN, expression,
                     (basicBlock.mustInverseCondition() ? operator1 : operator2),
-                    new NullExpression(lineNumber, expression.getType()), 9));
+                    new NullExpression(lineNumber, expression.getType()), EQ_EQ_PRIORITY));
         }
     }
 
@@ -2064,6 +2108,8 @@ public class ByteCodeParser {
             case "java/lang/Void":
                 stack.push(new TypeReferenceDotClassExpression(lineNumber, TYPE_VOID));
                 return;
+            default:
+                break;
             }
         }
 

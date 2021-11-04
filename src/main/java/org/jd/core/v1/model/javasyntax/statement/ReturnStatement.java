@@ -8,7 +8,7 @@
 package org.jd.core.v1.model.javasyntax.statement;
 
 public class ReturnStatement implements Statement {
-    public static final ReturnStatement RETURN = new ReturnStatement();
+    public static final ReturnStatement S_RETURN = new ReturnStatement();
 
     protected ReturnStatement() {
     }
