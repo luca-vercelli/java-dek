@@ -54,12 +54,12 @@ public class UpdateBridgeMethodTypeVisitor extends AbstractJavaSyntaxVisitor {
                 Method method = cfmd.getMethod();
                 byte[] code = method.<AttributeCode>getAttribute("Code").getCode();
                 int offset = 0;
-                int opcode = code[offset] & 255;
+                int opcode = code[offset] & MASK;
 
                 while (((ILOAD <= opcode) && (opcode <= ALOAD_3)) || // ILOAD, LLOAD, FLOAD, DLOAD, ..., ILOAD_0 ...
                         // ILOAD_3,..., ALOAD_1, ..., ALOAD_3
                         ((DUP <= opcode) && (opcode <= SWAP))) { // DUP, ..., DUP2_X2, SWAP
-                    opcode = code[++offset] & 255;
+                    opcode = code[++offset] & MASK;
                 }
 
                 switch (opcode) {
@@ -67,7 +67,7 @@ public class UpdateBridgeMethodTypeVisitor extends AbstractJavaSyntaxVisitor {
                 case PUTSTATIC:
                 case GETFIELD:
                 case PUTFIELD:
-                    int index = ((code[++offset] & 255) << 8) | (code[++offset] & 255);
+                    int index = ((code[++offset] & MASK) << 8) | (code[++offset] & MASK);
                     ConstantPool constants = method.getConstants();
                     ConstantMemberRef constantMemberRef = constants.getConstant(index);
                     String typeName = constants.getConstantTypeName(constantMemberRef.getClassIndex());
@@ -84,7 +84,7 @@ public class UpdateBridgeMethodTypeVisitor extends AbstractJavaSyntaxVisitor {
                 case INVOKESPECIAL:
                 case INVOKESTATIC:
                 case INVOKEINTERFACE:
-                    index = ((code[++offset] & 255) << 8) | (code[++offset] & 255);
+                    index = ((code[++offset] & MASK) << 8) | (code[++offset] & MASK);
                     constants = method.getConstants();
                     constantMemberRef = constants.getConstant(index);
                     typeName = constants.getConstantTypeName(constantMemberRef.getClassIndex());

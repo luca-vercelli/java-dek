@@ -646,7 +646,7 @@ public class TypeMaker {
             case 'T':
                 int index = reader.index;
 
-                if (reader.search(';') == false) {
+                if (!reader.search(';')) {
                     return null;
                 }
 
@@ -1093,11 +1093,11 @@ public class TypeMaker {
 
         try {
             if (loader.canLoad(internalTypeName)) {
-                internalTypeNameToTypeTypes.put(internalTypeName,
-                        typeTypes = makeTypeTypes(internalTypeName, loader.load(internalTypeName)));
+                typeTypes = makeTypeTypes(internalTypeName, loader.load(internalTypeName));
+                internalTypeNameToTypeTypes.put(internalTypeName, typeTypes);
             } else if (classPathLoader.canLoad(internalTypeName)) {
-                internalTypeNameToTypeTypes.put(internalTypeName,
-                        typeTypes = makeTypeTypes(internalTypeName, classPathLoader.load(internalTypeName)));
+                typeTypes = makeTypeTypes(internalTypeName, classPathLoader.load(internalTypeName));
+                internalTypeNameToTypeTypes.put(internalTypeName, typeTypes);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -1205,7 +1205,8 @@ public class TypeMaker {
 
         if (type == null) {
             String key = internalTypeName + ':' + fieldName;
-            internalTypeNameFieldNameToType.put(key, type = makeFromSignature(descriptor));
+            type = makeFromSignature(descriptor);
+            internalTypeNameFieldNameToType.put(key, type);
         }
 
         return type;

@@ -219,9 +219,10 @@ public class UpdateBridgeMethodVisitor extends AbstractUpdateExpressionVisitor {
             ClassFileMethodDeclaration ctx = context.peek();
             if (!ctx.getBodyDeclaration().getInternalTypeName()
                     .equals(bridgeMethodDeclaration.getBodyDeclaration().getInternalTypeName())) {
-                
+
                 ObjectType typeCtx = typeMaker.makeFromInternalTypeName(ctx.getBodyDeclaration().getInternalTypeName());
-                ObjectType typeBridge = typeMaker.makeFromInternalTypeName(bridgeMethodDeclaration.getBodyDeclaration().getInternalTypeName());
+                ObjectType typeBridge = typeMaker
+                        .makeFromInternalTypeName(bridgeMethodDeclaration.getBodyDeclaration().getInternalTypeName());
                 if (typeMaker.isAssignable(Collections.emptyMap(), typeBridge, typeCtx)) {
 
                     // I guess it's the supertype
@@ -280,7 +281,7 @@ public class UpdateBridgeMethodVisitor extends AbstractUpdateExpressionVisitor {
             List<ClassFileConstructorOrMethodDeclaration> methodDeclarations = bodyDeclaration.getMethodDeclarations();
 
             if ((methodDeclarations != null) && !methodDeclarations.isEmpty()) {
-                Map<String, ClassFileMethodDeclaration> backup = map;
+                final Map<String, ClassFileMethodDeclaration> backup = map;
 
                 map = new HashMap<>();
 

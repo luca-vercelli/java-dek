@@ -598,10 +598,11 @@ public class Java5TypeParametersToTypeArgumentsBinder extends AbstractTypeParame
                     }
 
                     Map<String, TypeArgument> bindings = new HashMap<>();
-                    boolean partialBinding = populateBindings(bindings, null, typeParameters, typeArguments, null, type,
-                            t, parameterTypes, parameters);
+                    final boolean partialBinding = populateBindings(bindings, null, typeParameters, typeArguments, null,
+                            type, t, parameterTypes, parameters);
 
-                    ne.setParameterTypes(parameterTypes = bind(bindings, parameterTypes));
+                    parameterTypes = bind(bindings, parameterTypes);
+                    ne.setParameterTypes(parameterTypes);
 
                     // Replace wildcards
                     for (Map.Entry<String, TypeArgument> entry : bindings.entrySet()) {
