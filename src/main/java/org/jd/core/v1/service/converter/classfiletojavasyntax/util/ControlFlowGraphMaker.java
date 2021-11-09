@@ -413,6 +413,8 @@ public class ControlFlowGraphMaker {
                     }
                     lastStatementOffset = offset;
                     break;
+                default:
+                    break;
                 }
             }
 

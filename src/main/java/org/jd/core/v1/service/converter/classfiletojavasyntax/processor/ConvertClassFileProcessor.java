@@ -148,7 +148,8 @@ public class ConvertClassFileProcessor implements Processor {
 
                 if (typeMaker == null) {
                     // Store the heavy weight object 'typeMaker' in 'configuration' to reuse it
-                    configuration.setTypeMaker(typeMaker = new TypeMaker(loader));
+                    typeMaker = new TypeMaker(loader);
+                    configuration.setTypeMaker(typeMaker);
                 }
             } catch (Exception e) {
                 if (typeMaker == null) {
@@ -246,8 +247,9 @@ public class ConvertClassFileProcessor implements Processor {
         }
 
         if (typeParameters != null) {
-            populateBindingsWithTypeParameterVisitor.init(bindings = new HashMap<>(bindings),
-                    typeBounds = new HashMap<>(typeBounds));
+            bindings = new HashMap<>(bindings);
+            typeBounds = new HashMap<>(typeBounds);
+            populateBindingsWithTypeParameterVisitor.init(bindings, typeBounds);
             typeParameters.accept(populateBindingsWithTypeParameterVisitor);
         }
 
@@ -294,7 +296,7 @@ public class ConvertClassFileProcessor implements Processor {
             DefaultList<ClassFileConstructorOrMethodDeclaration> list = new DefaultList<>(methods.length);
 
             for (Method method : methods) {
-                String name = method.getName();
+                final String name = method.getName();
                 BaseAnnotationReference annotationReferences = convertAnnotationReferences(converter, method);
                 AttributeAnnotationDefault annotationDefault = method.getAttribute("AnnotationDefault");
                 ElementValue defaultAnnotationValue = null;
@@ -316,8 +318,9 @@ public class ConvertClassFileProcessor implements Processor {
                 }
 
                 if (methodTypes.typeParameters != null) {
-                    populateBindingsWithTypeParameterVisitor.init(bindings = new HashMap<>(bindings),
-                            typeBounds = new HashMap<>(typeBounds));
+                    bindings = new HashMap<>(bindings);
+                    typeBounds = new HashMap<>(typeBounds);
+                    populateBindingsWithTypeParameterVisitor.init(bindings, typeBounds);
                     methodTypes.typeParameters.accept(populateBindingsWithTypeParameterVisitor);
                 }
 

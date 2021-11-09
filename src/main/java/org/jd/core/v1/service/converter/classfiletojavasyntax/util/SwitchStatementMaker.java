@@ -65,109 +65,106 @@ public class SwitchStatementMaker {
                                     expression = switchStatement.getCondition();
 
                                     if (expression.isLocalVariableReferenceExpression()) {
-                                        AbstractLocalVariable syntheticLV2 = ((ClassFileLocalVariableReferenceExpression) expression)
-                                                .getLocalVariable();
-
-                                        if (syntheticLV2.equals(
-                                                ((ClassFileLocalVariableReferenceExpression) boe2.getLeftExpression())
-                                                        .getLocalVariable())) {
-                                            MethodInvocationExpression mie = (MethodInvocationExpression) previousSwitchStatement
-                                                    .getCondition();
-
-                                            if (mie.getName().equals("hashCode") && mie.getDescriptor().equals("()I")) {
-                                                // Pattern found ==> Parse cases of the synthetic switch statement
-                                                // 'previousSwitchStatement'
-                                                HashMap<Integer, String> map = new HashMap<>();
-
-                                                // Create map<synthetic index -> string>
-                                                for (SwitchStatement.Block block : previousSwitchStatement
-                                                        .getBlocks()) {
-                                                    BaseStatement stmts = block.getStatements();
-
-                                                    assert (stmts != null) && stmts.isStatements()
-                                                            && (stmts.size() > 0);
-
-                                                    for (Statement stmt : stmts) {
-                                                        if (!stmt.isIfStatement()) {
-                                                            break;
-                                                        }
-
-                                                        expression = stmt.getCondition();
-
-                                                        if (!expression.isMethodInvocationExpression()) {
-                                                            break;
-                                                        }
-
-                                                        expression = expression.getParameters().getFirst();
-
-                                                        if (!expression.isStringConstantExpression()) {
-                                                            break;
-                                                        }
-
-                                                        String string = expression.getStringValue();
-
-                                                        expression = stmt.getStatements().getFirst().getExpression()
-                                                                .getRightExpression();
-
-                                                        if (!expression.isIntegerConstantExpression()) {
-                                                            break;
-                                                        }
-
-                                                        Integer index = expression.getIntegerValue();
-                                                        map.put(index, string);
-                                                    }
-                                                }
-
-                                                // Replace synthetic index by string
-                                                for (SwitchStatement.Block block : switchStatement.getBlocks()) {
-                                                    if (block.isSwitchStatementLabelBlock()) {
-                                                        SwitchStatement.LabelBlock lb = (SwitchStatement.LabelBlock) block;
-
-                                                        if (lb.getLabel() != SwitchStatement.DEFAULT_LABEL) {
-                                                            SwitchStatement.ExpressionLabel el = (SwitchStatement.ExpressionLabel) lb
-                                                                    .getLabel();
-                                                            IntegerConstantExpression nce = (IntegerConstantExpression) el
-                                                                    .getExpression();
-                                                            el.setExpression(
-                                                                    new StringConstantExpression(nce.getLineNumber(),
-                                                                            map.get(nce.getIntegerValue())));
-                                                        }
-                                                    } else if (block.isSwitchStatementMultiLabelsBlock()) {
-                                                        SwitchStatement.MultiLabelsBlock lmb = (SwitchStatement.MultiLabelsBlock) block;
-
-                                                        for (SwitchStatement.Label label : lmb.getLabels()) {
-                                                            if (label != SwitchStatement.DEFAULT_LABEL) {
-                                                                SwitchStatement.ExpressionLabel el = (SwitchStatement.ExpressionLabel) label;
-                                                                IntegerConstantExpression nce = (IntegerConstantExpression) el
-                                                                        .getExpression();
-                                                                el.setExpression(new StringConstantExpression(
-                                                                        nce.getLineNumber(),
-                                                                        map.get(nce.getIntegerValue())));
-                                                            }
-                                                        }
-                                                    }
-                                                }
-
-                                                // Replace synthetic key
-                                                expression = statements.get(size - 4).getExpression();
-
-                                                if (expression.isBinaryOperatorExpression()) {
-                                                    switchStatement.setCondition(expression.getRightExpression());
-
-                                                    // Remove next synthetic statements
-                                                    statements.subList(size - 4, size - 1).clear();
-
-                                                    // Remove synthetic local variables
-                                                    localVariableMaker.removeLocalVariable(syntheticLV1);
-                                                    localVariableMaker.removeLocalVariable(syntheticLV2);
-                                                }
-                                            }
-                                        }
+                                        makeSwitchString(localVariableMaker, statements, switchStatement, size,
+                                                previousSwitchStatement, expression, syntheticLV1, boe2);
                                     }
                                 }
                             }
                         }
                     }
+                }
+            }
+        }
+    }
+
+    private static void makeSwitchString(LocalVariableMaker localVariableMaker, Statements statements,
+            SwitchStatement switchStatement, int size, SwitchStatement previousSwitchStatement, Expression expression,
+            AbstractLocalVariable syntheticLV1, Expression boe2) {
+        AbstractLocalVariable syntheticLV2 = ((ClassFileLocalVariableReferenceExpression) expression)
+                .getLocalVariable();
+
+        if (syntheticLV2
+                .equals(((ClassFileLocalVariableReferenceExpression) boe2.getLeftExpression()).getLocalVariable())) {
+            MethodInvocationExpression mie = (MethodInvocationExpression) previousSwitchStatement.getCondition();
+
+            if (mie.getName().equals("hashCode") && mie.getDescriptor().equals("()I")) {
+                // Pattern found ==> Parse cases of the synthetic switch statement
+                // 'previousSwitchStatement'
+                HashMap<Integer, String> map = new HashMap<>();
+
+                // Create map<synthetic index -> string>
+                for (SwitchStatement.Block block : previousSwitchStatement.getBlocks()) {
+                    BaseStatement stmts = block.getStatements();
+
+                    assert (stmts != null) && stmts.isStatements() && (stmts.size() > 0);
+
+                    for (Statement stmt : stmts) {
+                        if (!stmt.isIfStatement()) {
+                            break;
+                        }
+
+                        expression = stmt.getCondition();
+
+                        if (!expression.isMethodInvocationExpression()) {
+                            break;
+                        }
+
+                        expression = expression.getParameters().getFirst();
+
+                        if (!expression.isStringConstantExpression()) {
+                            break;
+                        }
+
+                        String string = expression.getStringValue();
+
+                        expression = stmt.getStatements().getFirst().getExpression().getRightExpression();
+
+                        if (!expression.isIntegerConstantExpression()) {
+                            break;
+                        }
+
+                        Integer index = expression.getIntegerValue();
+                        map.put(index, string);
+                    }
+                }
+
+                // Replace synthetic index by string
+                for (SwitchStatement.Block block : switchStatement.getBlocks()) {
+                    if (block.isSwitchStatementLabelBlock()) {
+                        SwitchStatement.LabelBlock lb = (SwitchStatement.LabelBlock) block;
+
+                        if (lb.getLabel() != SwitchStatement.DEFAULT_LABEL) {
+                            SwitchStatement.ExpressionLabel el = (SwitchStatement.ExpressionLabel) lb.getLabel();
+                            IntegerConstantExpression nce = (IntegerConstantExpression) el.getExpression();
+                            el.setExpression(
+                                    new StringConstantExpression(nce.getLineNumber(), map.get(nce.getIntegerValue())));
+                        }
+                    } else if (block.isSwitchStatementMultiLabelsBlock()) {
+                        SwitchStatement.MultiLabelsBlock lmb = (SwitchStatement.MultiLabelsBlock) block;
+
+                        for (SwitchStatement.Label label : lmb.getLabels()) {
+                            if (label != SwitchStatement.DEFAULT_LABEL) {
+                                SwitchStatement.ExpressionLabel el = (SwitchStatement.ExpressionLabel) label;
+                                IntegerConstantExpression nce = (IntegerConstantExpression) el.getExpression();
+                                el.setExpression(new StringConstantExpression(nce.getLineNumber(),
+                                        map.get(nce.getIntegerValue())));
+                            }
+                        }
+                    }
+                }
+
+                // Replace synthetic key
+                expression = statements.get(size - 4).getExpression();
+
+                if (expression.isBinaryOperatorExpression()) {
+                    switchStatement.setCondition(expression.getRightExpression());
+
+                    // Remove next synthetic statements
+                    statements.subList(size - 4, size - 1).clear();
+
+                    // Remove synthetic local variables
+                    localVariableMaker.removeLocalVariable(syntheticLV1);
+                    localVariableMaker.removeLocalVariable(syntheticLV2);
                 }
             }
         }

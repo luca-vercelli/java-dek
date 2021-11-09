@@ -68,9 +68,9 @@ public class LocalVariableMaker {
     protected CreateLocalVariableVisitor createLocalVariableVisitor;
 
     public LocalVariableMaker(TypeMaker typeMaker, ClassFileConstructorOrMethodDeclaration comd, boolean constructor) {
-        ClassFile classFile = comd.getClassFile();
-        Method method = comd.getMethod();
-        BaseType parameterTypes = comd.getParameterTypes();
+        final ClassFile classFile = comd.getClassFile();
+        final Method method = comd.getMethod();
+        final BaseType parameterTypes = comd.getParameterTypes();
 
         this.typeMaker = typeMaker;
         this.typeBounds = comd.getTypeBounds();
